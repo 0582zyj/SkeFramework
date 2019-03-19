@@ -1,0 +1,8 @@
+F:\ZProject\ZYJUN\SkeFramework\SkeFramework.NetConnectionPool\bin\Debug\SkeFramework.NetConnectionPool.dll
+F:\ZProject\ZYJUN\SkeFramework\SkeFramework.NetConnectionPool\bin\Debug\SkeFramework.NetConnectionPool.pdb
+F:\ZProject\ZYJUN\SkeFramework\SkeFramework.NetConnectionPool\obj\Debug\SkeFramework.NetConnectionPool.dll
+F:\ZProject\ZYJUN\SkeFramework\SkeFramework.NetConnectionPool\obj\Debug\SkeFramework.NetConnectionPool.pdb
+F:\ZProject\Github\ws-skeframework\SkeFramework\SkeFramework.NetConnectionPool\bin\Debug\SkeFramework.NetConnectionPool.dll
+F:\ZProject\Github\ws-skeframework\SkeFramework\SkeFramework.NetConnectionPool\bin\Debug\SkeFramework.NetConnectionPool.pdb
+F:\ZProject\Github\ws-skeframework\SkeFramework\SkeFramework.NetConnectionPool\obj\Debug\SkeFramework.NetConnectionPool.dll
+F:\ZProject\Github\ws-skeframework\SkeFramework\SkeFramework.NetConnectionPool\obj\Debug\SkeFramework.NetConnectionPool.pdb

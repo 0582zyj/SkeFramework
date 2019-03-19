@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-CSharpTool", "02-CSharpTool", "{37CE5D0E-7666-409A-8342-7634CADC3570}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBuilder", "CodeBuilder\CodeBuilder.csproj", "{B401050D-E69B-4E66-BA5B-91FB5A946784}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-Src", "01-Src", "{3FDB3E18-D8E8-4B6C-9611-C7A47CE5E321}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.NetConnectionPool", "SkeFramework.NetConnectionPool\SkeFramework.NetConnectionPool.csproj", "{885028E7-B037-4408-9959-978639BBB00E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectionPool", "ConnectionPool\ConnectionPool.csproj", "{513A762A-1897-4714-B748-BCFC7992B4F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{56C21C60-765D-4C95-AC54-3A2BDC4DD1B5}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SocketNet", "SocketNet", "{CA3D86CB-C97F-4AD1-AAF1-C3A4E009019E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPBroadcast", "UDPBroadcast\UDPBroadcast.csproj", "{CE076574-C0C5-41D8-9A18-9BC80FD28066}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataBase", "DataBase", "{69A9CFD3-DABA-45D6-8EAD-9E829279B27D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.DataBase.Interfaces", "SkeFramework.DataBase.Interfaces\SkeFramework.DataBase.Interfaces.csproj", "{668B3C84-53BA-44BC-B3E5-59F0C4D248DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.DataBase.Common", "SkeFramework.DataBase.Common\SkeFramework.DataBase.Common.csproj", "{43DFA23C-87AE-49CD-868A-801EAD42BE74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.DataBase.DataAccess", "SkeFramework.DataBase.DataAccess\SkeFramework.DataBase.DataAccess.csproj", "{2811AF18-014F-4D3A-AA91-6AFB13F53A9A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-Business", "03-Business", "{FBA827F4-7E04-40C2-B8D1-2D7964D2D5EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B401050D-E69B-4E66-BA5B-91FB5A946784}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B401050D-E69B-4E66-BA5B-91FB5A946784}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B401050D-E69B-4E66-BA5B-91FB5A946784}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B401050D-E69B-4E66-BA5B-91FB5A946784}.Release|Any CPU.Build.0 = Release|Any CPU
+		{885028E7-B037-4408-9959-978639BBB00E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{885028E7-B037-4408-9959-978639BBB00E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{885028E7-B037-4408-9959-978639BBB00E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{885028E7-B037-4408-9959-978639BBB00E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{513A762A-1897-4714-B748-BCFC7992B4F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{513A762A-1897-4714-B748-BCFC7992B4F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{513A762A-1897-4714-B748-BCFC7992B4F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{513A762A-1897-4714-B748-BCFC7992B4F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE076574-C0C5-41D8-9A18-9BC80FD28066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE076574-C0C5-41D8-9A18-9BC80FD28066}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE076574-C0C5-41D8-9A18-9BC80FD28066}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE076574-C0C5-41D8-9A18-9BC80FD28066}.Release|Any CPU.Build.0 = Release|Any CPU
+		{668B3C84-53BA-44BC-B3E5-59F0C4D248DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{668B3C84-53BA-44BC-B3E5-59F0C4D248DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{668B3C84-53BA-44BC-B3E5-59F0C4D248DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{668B3C84-53BA-44BC-B3E5-59F0C4D248DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43DFA23C-87AE-49CD-868A-801EAD42BE74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43DFA23C-87AE-49CD-868A-801EAD42BE74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43DFA23C-87AE-49CD-868A-801EAD42BE74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43DFA23C-87AE-49CD-868A-801EAD42BE74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2811AF18-014F-4D3A-AA91-6AFB13F53A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2811AF18-014F-4D3A-AA91-6AFB13F53A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2811AF18-014F-4D3A-AA91-6AFB13F53A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2811AF18-014F-4D3A-AA91-6AFB13F53A9A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B401050D-E69B-4E66-BA5B-91FB5A946784} = {37CE5D0E-7666-409A-8342-7634CADC3570}
+		{513A762A-1897-4714-B748-BCFC7992B4F2} = {37CE5D0E-7666-409A-8342-7634CADC3570}
+		{CA3D86CB-C97F-4AD1-AAF1-C3A4E009019E} = {37CE5D0E-7666-409A-8342-7634CADC3570}
+		{885028E7-B037-4408-9959-978639BBB00E} = {3FDB3E18-D8E8-4B6C-9611-C7A47CE5E321}
+		{69A9CFD3-DABA-45D6-8EAD-9E829279B27D} = {3FDB3E18-D8E8-4B6C-9611-C7A47CE5E321}
+		{CE076574-C0C5-41D8-9A18-9BC80FD28066} = {CA3D86CB-C97F-4AD1-AAF1-C3A4E009019E}
+		{668B3C84-53BA-44BC-B3E5-59F0C4D248DD} = {69A9CFD3-DABA-45D6-8EAD-9E829279B27D}
+		{43DFA23C-87AE-49CD-868A-801EAD42BE74} = {69A9CFD3-DABA-45D6-8EAD-9E829279B27D}
+		{2811AF18-014F-4D3A-AA91-6AFB13F53A9A} = {69A9CFD3-DABA-45D6-8EAD-9E829279B27D}
+	EndGlobalSection
+EndGlobal

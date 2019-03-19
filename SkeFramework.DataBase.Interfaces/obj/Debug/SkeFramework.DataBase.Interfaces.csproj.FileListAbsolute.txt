@@ -1,0 +1,9 @@
+F:\ZProject\ZYJUN\SkeFramework\SkeFramework.DataBase.Interfaces\bin\Debug\SkeFramework.DataBase.Interfaces.dll
+F:\ZProject\ZYJUN\SkeFramework\SkeFramework.DataBase.Interfaces\bin\Debug\SkeFramework.DataBase.Interfaces.pdb
+F:\ZProject\ZYJUN\SkeFramework\SkeFramework.DataBase.Interfaces\obj\Debug\SkeFramework.DataBase.Interfaces.dll
+F:\ZProject\ZYJUN\SkeFramework\SkeFramework.DataBase.Interfaces\obj\Debug\SkeFramework.DataBase.Interfaces.pdb
+F:\ZProject\Github\ws-skeframework\SkeFramework\SkeFramework.DataBase.Interfaces\bin\Debug\SkeFramework.DataBase.Interfaces.dll
+F:\ZProject\Github\ws-skeframework\SkeFramework\SkeFramework.DataBase.Interfaces\bin\Debug\SkeFramework.DataBase.Interfaces.pdb
+F:\ZProject\Github\ws-skeframework\SkeFramework\SkeFramework.DataBase.Interfaces\obj\Debug\SkeFramework.DataBase.Interfaces.csprojResolveAssemblyReference.cache
+F:\ZProject\Github\ws-skeframework\SkeFramework\SkeFramework.DataBase.Interfaces\obj\Debug\SkeFramework.DataBase.Interfaces.dll
+F:\ZProject\Github\ws-skeframework\SkeFramework\SkeFramework.DataBase.Interfaces\obj\Debug\SkeFramework.DataBase.Interfaces.pdb
