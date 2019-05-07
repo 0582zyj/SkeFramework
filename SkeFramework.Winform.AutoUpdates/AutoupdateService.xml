@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Config>
+  <Enabled>true</Enabled>
+  <ServerUrl>http://localhost/Publish/AutoUpgrade/AutoupdateService.xml</ServerUrl>
+  <UpdateFileList>
+   <file path="KnightsWarrior.exe" url="http://localhost/Publish/AutoUpgrade//KnightsWarrior.exe" lastver="1.0.0.0" size="9216" needRestart="false" version="085b9752-215f-408f-97e2-e2583b2d1484" />
+   </UpdateFileList>
+</Config>
