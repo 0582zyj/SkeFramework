@@ -14,7 +14,7 @@ namespace SkeFramework.Winform.AutoUpdates.DAL.Interfaces
         /// <summary>
         /// 检查更新
         /// </summary>
-        bool Update();
+        int Update();
         /// <summary>
         /// 回滚操作
         /// </summary>

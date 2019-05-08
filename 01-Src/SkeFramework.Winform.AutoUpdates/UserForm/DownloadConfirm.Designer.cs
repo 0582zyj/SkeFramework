@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DownloadConfirm));
             this.btnOk = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.labelProgramName = new System.Windows.Forms.Label();
+            this.labelServerUrl = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -59,23 +59,23 @@
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // label3
+            // labelProgramName
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(21, 13);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(131, 12);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Name:  KnightsWarrior";
+            this.labelProgramName.AutoSize = true;
+            this.labelProgramName.Location = new System.Drawing.Point(21, 13);
+            this.labelProgramName.Name = "labelProgramName";
+            this.labelProgramName.Size = new System.Drawing.Size(47, 12);
+            this.labelProgramName.TabIndex = 0;
+            this.labelProgramName.Text = "Name:  ";
             // 
-            // label4
+            // labelServerUrl
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(21, 34);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(125, 12);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "From:  Remote server";
+            this.labelServerUrl.AutoSize = true;
+            this.labelServerUrl.Location = new System.Drawing.Point(21, 34);
+            this.labelServerUrl.Name = "labelServerUrl";
+            this.labelServerUrl.Size = new System.Drawing.Size(47, 12);
+            this.labelServerUrl.TabIndex = 0;
+            this.labelServerUrl.Text = "From:  ";
             // 
             // btnCancel
             // 
@@ -170,8 +170,8 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.labelProgramName);
+            this.panel2.Controls.Add(this.labelServerUrl);
             this.panel2.Location = new System.Drawing.Point(0, 78);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(498, 67);
@@ -204,8 +204,8 @@
         #endregion
 
         private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelProgramName;
+        private System.Windows.Forms.Label labelServerUrl;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label2;

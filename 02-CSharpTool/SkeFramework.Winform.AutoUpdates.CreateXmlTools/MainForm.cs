@@ -15,46 +15,80 @@ namespace SkeFramework.Winform.AutoUpdates.CreateXmlTools
 {
     public partial class MainForm : Form
     {
+
+        /// <summary>
+        /// 获取当前目录
+        /// </summary>
+        private string currentDirectory = System.Environment.CurrentDirectory;
+        /// <summary>
+        /// 服务端xml文件名称
+        /// </summary>
+        private string serverXmlName = "AutoupdateService.xml";
+        /// <summary>
+        /// 更新文件URL前缀
+        /// </summary>
+        private string url { get { return this.txtWebUrl.Text; } }
+        /// <summary>
+        /// 文件全名
+        /// </summary>
+        private string FullName { get { return this.url + this.serverXmlName; } }
+
         public MainForm()
         {
             InitializeComponent();
-            txtWebUrl.Text = "http://localhost/Publish/AutoUpgrade/";
-            txtWebUrl.ForeColor = Color.Gray;
-            this.textDirectory.Text = currentDirectory;
+           
         }
 
-        //获取当前目录
-        //string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        string currentDirectory = System.Environment.CurrentDirectory;
-        //服务端xml文件名称
-        string serverXmlName = "AutoupdateService.xml";
-        //更新文件URL前缀
-        string url { get { return this.txtWebUrl.Text; } }
-
-        private string FullName { get { return this.url + this.serverXmlName; } }
-
+        
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
+            txtWebUrl.Text = "http://localhost/Publish/AutoUpgrade/";
+            txtWebUrl.ForeColor = Color.Gray;
+            this.textDirectory.Text = currentDirectory;
+            DirectoryInfo dicInfo = new DirectoryInfo(this.textDirectory.Text);
+            if (dicInfo.GetFiles().Length > 0)
+            {
+                foreach (FileInfo f in dicInfo.GetFiles())
+                {
+                    if (f.Extension.ToLower().Contains("exe") && !f.Name.Contains("SkeFramework.Winform.AutoUpdates.CreateXmlTools.exe"))
+                    {
+                        this.textProgramName.Text = f.Name;
+                        break;
+                    }
+                }
+            }
         }
 
         #region 按钮事件
+        /// <summary>
+        /// 生成XML
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCreate_Click(object sender, EventArgs e)
         {
             this.CreateXml();
             this.ReadXml();
         }
-
+        /// <summary>
+        /// 选择程序目录
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnChooseFolder_Click(object sender, EventArgs e)
         {
-          string name= FileManager.ChoosePathFileDialogRet();
-          if (!String.IsNullOrEmpty(name))
-          {
-              this.textDirectory.Text = name;
-          }
+            string name = FileManager.ChoosePathFileDialogRet();
+            if (!String.IsNullOrEmpty(name))
+            {
+                this.textDirectory.Text = name;
+            }
         }
-
+        /// <summary>
+        /// 选择程序名
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnChooseProgram_Click(object sender, EventArgs e)
         {
             string name = FileManager.OpenFileDialogRet();
@@ -63,8 +97,20 @@ namespace SkeFramework.Winform.AutoUpdates.CreateXmlTools
                 this.textProgramName.Text = name;
             }
         }
-        #endregion
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
+        #endregion
+        /// <summary>
+        /// 生成XML
+        /// </summary>
         void CreateXml()
         {
             //创建文档对象
@@ -101,8 +147,12 @@ namespace SkeFramework.Winform.AutoUpdates.CreateXmlTools
             //保存文档
             doc.Save(serverXmlName);
         }
-
-        //递归组装xml文件方法
+        /// <summary>
+        /// 递归组装xml文件方法
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="root"></param>
+        /// <param name="dicInfo"></param>
         private void PopuAllDirectory(XmlDocument doc, XmlElement root, DirectoryInfo dicInfo)
         {
             foreach (FileInfo f in dicInfo.GetFiles())
@@ -130,7 +180,9 @@ namespace SkeFramework.Winform.AutoUpdates.CreateXmlTools
             foreach (DirectoryInfo di in dicInfo.GetDirectories())
                 PopuAllDirectory(doc, root, di);
         }
-
+        /// <summary>
+        /// 读取XML
+        /// </summary>
         private void ReadXml()
         {
             string path = "AutoupdateService.xml";
@@ -139,11 +191,6 @@ namespace SkeFramework.Winform.AutoUpdates.CreateXmlTools
             {
                 rtbXml.Text = File.ReadAllText(path);
             }
-        }
-
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
     }

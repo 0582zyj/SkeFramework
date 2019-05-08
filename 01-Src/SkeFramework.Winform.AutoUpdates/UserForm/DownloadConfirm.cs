@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SkeFramework.Winform.AutoUpdates.Entities.Common;
+using SkeFramework.Winform.AutoUpdates.Helpers;
 
 namespace SkeFramework.Winform.AutoUpdates.UserForm
 {
@@ -21,6 +22,8 @@ namespace SkeFramework.Winform.AutoUpdates.UserForm
             InitializeComponent();
 
             downloadFileList = downloadfileList;
+            this.labelProgramName.Text += CommonUnitity.GlobalConfig.ProgramName;
+            this.labelServerUrl.Text += CommonUnitity.GlobalConfig.ServerUrl;
         }
 
 

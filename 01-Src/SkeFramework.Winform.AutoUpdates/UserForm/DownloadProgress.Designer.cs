@@ -42,8 +42,8 @@
             this.progressBarCurrent = new System.Windows.Forms.ProgressBar();
             this.label1 = new System.Windows.Forms.Label();
             this.labelCurrent = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.labelServerUrl = new System.Windows.Forms.Label();
+            this.labelProgramName = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.labelCurrentItem = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -176,23 +176,23 @@
             this.labelCurrent.TabIndex = 3;
             this.labelCurrent.Text = "Downloading:";
             // 
-            // label5
+            // labelServerUrl
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(245, 9);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(137, 12);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "From:    Remote Server";
+            this.labelServerUrl.AutoSize = true;
+            this.labelServerUrl.Location = new System.Drawing.Point(245, 9);
+            this.labelServerUrl.Name = "labelServerUrl";
+            this.labelServerUrl.Size = new System.Drawing.Size(59, 12);
+            this.labelServerUrl.TabIndex = 0;
+            this.labelServerUrl.Text = "From:    ";
             // 
-            // label7
+            // labelProgramName
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(32, 9);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(155, 12);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Name:  KnightsWarrior.exe";
+            this.labelProgramName.AutoSize = true;
+            this.labelProgramName.Location = new System.Drawing.Point(32, 9);
+            this.labelProgramName.Name = "labelProgramName";
+            this.labelProgramName.Size = new System.Drawing.Size(47, 12);
+            this.labelProgramName.TabIndex = 0;
+            this.labelProgramName.Text = "Name:  ";
             // 
             // label6
             // 
@@ -217,8 +217,8 @@
             this.panel2.Controls.Add(this.progressBarCurrent);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.labelCurrent);
-            this.panel2.Controls.Add(this.label5);
-            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.labelServerUrl);
+            this.panel2.Controls.Add(this.labelProgramName);
             this.panel2.Controls.Add(this.label6);
             this.panel2.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.panel2.Location = new System.Drawing.Point(-2, 66);
@@ -267,8 +267,8 @@
         private System.Windows.Forms.ProgressBar progressBarCurrent;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelCurrent;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label labelServerUrl;
+        private System.Windows.Forms.Label labelProgramName;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label labelCurrentItem;
         private System.Windows.Forms.Panel panel2;

@@ -35,9 +35,7 @@ namespace SkeFramework.Winform.AutoUpdates.UserForm
         {
             get
             {
-                string path = Path.Combine(CommonUnitity.SystemBinUrl, ConstFile.TEMPFOLDERNAME);
-
-                return path;
+                return Path.Combine(CommonUnitity.SystemBinUrl, ConstFile.TEMPFOLDERNAME);
             }
         }
         /// <summary>
@@ -61,6 +59,8 @@ namespace SkeFramework.Winform.AutoUpdates.UserForm
         public DownloadProgress(List<DownloadFileInfo> downloadFileListTemp)
         {
             InitializeComponent();
+            this.labelProgramName.Text += CommonUnitity.GlobalConfig.ProgramName;
+            this.labelServerUrl.Text += CommonUnitity.GlobalConfig.ServerUrl;
 
             this.downloadFileList = downloadFileListTemp;
             allFileList = new List<DownloadFileInfo>();
@@ -299,9 +299,9 @@ namespace SkeFramework.Winform.AutoUpdates.UserForm
         {
             try
             {
-                Config config = Config.LoadConfig(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConstFile.FILENAME));
+                //Config config = Config.LoadConfig(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConstFile.FILENAME));
                 WebClient client = new WebClient();
-                client.DownloadString(config.ServerUrl);
+                client.DownloadString(CommonUnitity.GlobalConfig.ServerUrl);
             }
             catch (Exception)
             {

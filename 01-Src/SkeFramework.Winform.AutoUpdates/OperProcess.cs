@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.Winform.AutoUpdates.Helpers;
 
 namespace SkeFramework.Winform.AutoUpdates
 {
@@ -26,11 +27,11 @@ namespace SkeFramework.Winform.AutoUpdates
         public void StartProcess()
         {
             string path = System.Environment.CurrentDirectory;
-            if (!IfExist("MainProgram"))
+            if (!IfExist(CommonUnitity.GlobalConfig.ProgramName))
             {
-                StartExe(path, "MainProgram.exe");
+                StartExe(path, CommonUnitity.GlobalConfig.ProgramName);
             }
-            CloseExe("KnightsWarrior");
+            CloseExe(CommonUnitity.GlobalConfig.ProgramName);
         }
 
         #endregion

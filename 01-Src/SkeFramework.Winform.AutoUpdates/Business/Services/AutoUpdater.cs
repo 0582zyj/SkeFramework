@@ -21,10 +21,10 @@ namespace SkeFramework.Winform.AutoUpdates.DAL.Services
     public class AutoUpdater : IAutoUpdater
     {
         #region 私有字段
-        /// <summary>
-        /// 更新XML类
-        /// </summary>
-        private Config config = null;
+        ///// <summary>
+        ///// 更新XML类
+        ///// </summary>
+        //private Config config = null;
         /// <summary>
         /// 是否需要重启
         /// </summary>
@@ -46,25 +46,25 @@ namespace SkeFramework.Winform.AutoUpdates.DAL.Services
         #region 构造函数
         public AutoUpdater()
         {
-            config = Config.LoadConfig(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConstFile.FILENAME));
+            //config = Config.LoadConfig(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConstFile.FILENAME));
         }
         #endregion
 
         #region 公共方法
-        public bool Update()
+        public int Update()
         {
-            if (!config.Enabled)
-                return false;
+            if (!CommonUnitity.GlobalConfig.Enabled)
+                return 0;
             List<DownloadFileInfo> downloadList = new List<DownloadFileInfo>();
-            Dictionary<string, RemoteFile> RemotFileList = ParseRemoteXml(config.ServerUrl);
-            foreach (LocalFile file in config.UpdateFileList)//本地与服务器文件比较
+            Dictionary<string, RemoteFile> RemotFileList = ParseRemoteXml(CommonUnitity.GlobalConfig.ServerUrl);
+            foreach (LocalFile file in CommonUnitity.GlobalConfig.UpdateFileList)//本地与服务器文件比较
             {
                 if (RemotFileList.ContainsKey(file.Path))
                 {
                     RemoteFile rf = RemotFileList[file.Path];
                     string v1 = rf.Version;
                     string v2 = file.Version;
-                    //if (v1 != v2)
+                    if (v1 != v2)
                     {
                         downloadList.Add(new DownloadFileInfo(rf.Url, rf.Path, rf.LastVer, rf.Size, rf.Version));
                         file.Path = rf.Path;
@@ -84,7 +84,7 @@ namespace SkeFramework.Winform.AutoUpdates.DAL.Services
             {
                 downloadList.Add(new DownloadFileInfo(file.Url, file.Path, file.LastVer, file.Size, file.Version));
                 bDownload = true;
-                config.UpdateFileList.Add(new LocalFile(file.Path, file.LastVer, file.Size, file.Version));
+                CommonUnitity.GlobalConfig.UpdateFileList.Add(new LocalFile(file.Path, file.LastVer, file.Size, file.Version));
                 if (file.NeedRestart)
                     bNeedRestart = true;
             }
@@ -101,8 +101,9 @@ namespace SkeFramework.Winform.AutoUpdates.DAL.Services
                         this.OnShow();
                     StartDownload(downloadList);
                 }
+                return 1;
             }
-            return true;
+            return -1;
         }
         /// <summary>
         /// 回滚操作
@@ -159,7 +160,7 @@ namespace SkeFramework.Winform.AutoUpdates.DAL.Services
                     return;
                 }
                 //Update successfully
-                config.SaveConfig(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConstFile.FILENAME));
+                CommonUnitity.GlobalConfig.SaveConfig(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConstFile.FILENAME));
 
                 if (bNeedRestart)
                 {

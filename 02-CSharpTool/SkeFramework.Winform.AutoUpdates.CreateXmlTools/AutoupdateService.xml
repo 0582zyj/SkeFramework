@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Config>
+  <Enabled>true</Enabled>
+  <ServerUrl>http://localhost/Publish/AutoUpgrade/AutoupdateService.xml</ServerUrl>
+  <ProgramName>SkeFramework.Winform.AutoUpdates.CreateXmlTools.exe</ProgramName>
+  <UpdateFileList>
+    <file path="SkeFramework.Winform.AutoUpdates.CreateXmlTools.exe" url="http://localhost/Publish/AutoUpgrade//SkeFramework.Winform.AutoUpdates.CreateXmlTools.exe" lastver="1.0.0.0" size="54272" needRestart="false" version="80c675c6-a632-4852-ae43-af9b59809c03" />
+    <file path="SkeFramework.Winform.AutoUpdates.CreateXmlTools.exe.config" url="http://localhost/Publish/AutoUpgrade//SkeFramework.Winform.AutoUpdates.CreateXmlTools.exe.config" lastver="" size="187" needRestart="false" version="e5cedfe1-23c4-410e-b76c-6ce101af4ece" />
+    <file path="SkeFramework.Winform.AutoUpdates.CreateXmlTools.pdb" url="http://localhost/Publish/AutoUpgrade//SkeFramework.Winform.AutoUpdates.CreateXmlTools.pdb" lastver="" size="34304" needRestart="false" version="3eb69807-d608-40b1-ba5f-1496c0319ed1" />
+    <file path="SkeFramework.Winform.AutoUpdates.CreateXmlTools.vshost.exe" url="http://localhost/Publish/AutoUpgrade//SkeFramework.Winform.AutoUpdates.CreateXmlTools.vshost.exe" lastver="12.0.21005.1" size="24224" needRestart="false" version="8b5c54b6-fba7-4546-8c76-ac9fc4da2e6b" />
+    <file path="SkeFramework.Winform.AutoUpdates.CreateXmlTools.vshost.exe.config" url="http://localhost/Publish/AutoUpgrade//SkeFramework.Winform.AutoUpdates.CreateXmlTools.vshost.exe.config" lastver="" size="187" needRestart="false" version="0dbc06e4-51f3-40c4-a80b-622a0ff96b8c" />
+  </UpdateFileList>
+</Config>

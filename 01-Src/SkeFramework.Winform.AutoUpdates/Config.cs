@@ -9,25 +9,47 @@ using SkeFramework.Winform.AutoUpdates.Entities.Extends;
 
 namespace SkeFramework.Winform.AutoUpdates
 {
+    /// <summary>
+    /// XML配置类
+    /// </summary>
     public class Config
     {
+
         #region The private fields
         private bool enabled = true;
         private string serverUrl = string.Empty;
+        private string programName = string.Empty;
         private UpdateFileList updateFileList = new UpdateFileList();
         #endregion
 
         #region The public property
+        /// <summary>
+        /// 是否启用更新
+        /// </summary>
         public bool Enabled
         {
             get { return enabled; }
             set { enabled = value; }
         }
+        /// <summary>
+        /// 服务器URL
+        /// </summary>
         public string ServerUrl
         {
             get { return serverUrl; }
             set { serverUrl = value; }
         }
+        /// <summary>
+        /// 程序名称
+        /// </summary>
+        public string ProgramName
+        {
+            get { return programName; }
+            set { programName = value; }
+        }
+        /// <summary>
+        /// 更新文件列表
+        /// </summary>
         public UpdateFileList UpdateFileList
         {
             get { return updateFileList; }

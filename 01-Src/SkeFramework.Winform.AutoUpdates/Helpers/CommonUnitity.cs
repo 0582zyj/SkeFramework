@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SkeFramework.Winform.AutoUpdates.ConstData;
 using SkeFramework.Winform.AutoUpdates.Entities.Common;
 
 namespace SkeFramework.Winform.AutoUpdates.Helpers
@@ -40,6 +42,23 @@ namespace SkeFramework.Winform.AutoUpdates.Helpers
             //    }
             //}
             //return folderPathUrl;
+        }
+
+
+        private static Config LocalConfig = null;
+        /// <summary>
+        /// 配置文件
+        /// </summary>
+        public static Config GlobalConfig
+        {
+            get
+            {
+                if (LocalConfig == null)
+                {
+                   LocalConfig= Config.LoadConfig(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConstFile.FILENAME));
+                }
+                return LocalConfig;
+            }
         }
     }
 }
