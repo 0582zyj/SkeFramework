@@ -17,3 +17,5 @@
  - ----------------ConnectionPool：数据库链接应用池DEMO；
  - ----------------CreateXmlTools:检查更新库自动生成版本工具；
  - ---04-Test：框架对应测试DEMO
+##  版本更新说明
+ - 2019-05-14：新增Redis缓存的操作》集成ServiceStack.Redis类库
