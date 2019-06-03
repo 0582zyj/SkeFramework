@@ -10,6 +10,8 @@
  - ----------AutoUpdates：Winform》检查更新库
  - ---Cache：.NET常用缓存插件的封装
  - ----------SkeFramework.Cache.Redis》集成ServiceStack.Redis类库实现redis对String、List、HashTable的操作
+ - ---Core：.NET常用类库的封装
+ - ----------SkeFramework.Core.SnowFlake》集成获取分布式自增ID的操作
  - ---Tool：工具库
  - -------NetConnectionPool：.Net数据库链接应用池的实现
  - ---02-CSharpTool:框架集成工具
