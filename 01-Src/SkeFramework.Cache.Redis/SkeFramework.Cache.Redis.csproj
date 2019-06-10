@@ -59,6 +59,7 @@
     <Compile Include="DataAccess\Bases\RedisBase.cs" />
     <Compile Include="DataAccess\RedisHash.cs" />
     <Compile Include="DataAccess\RedisList.cs" />
+    <Compile Include="DataAccess\RedisPublish.cs" />
     <Compile Include="DataAccess\RedisSet.cs" />
     <Compile Include="DataAccess\RedisString.cs" />
     <Compile Include="Entities\RedisConfig.cs" />
