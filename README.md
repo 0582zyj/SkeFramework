@@ -22,4 +22,5 @@
  - ----------------CreateXmlTools:检查更新库自动生成版本工具；
  - ---04-Test：框架对应测试DEMO
 ##  版本更新说明
- - 2019-05-14：新增Redis缓存的操作》集成ServiceStack.Redis类库
+- 2019-06-11：新增流文件类库,完成ByteBuffer操作帮助类
+- 2019-05-14：新增Redis缓存的操作》集成ServiceStack.Redis类库
