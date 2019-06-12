@@ -52,7 +52,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Cache.Redis", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{74CF6593-2629-4303-A881-03D61B249176}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.IO", "SkeFramework.Core.IO\SkeFramework.Core.IO.csproj", "{AFA3B34A-0A72-4049-BAFA-B784FB722839}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.IO", "01-Src\SkeFramework.Core.IO\SkeFramework.Core.IO.csproj", "{AFA3B34A-0A72-4049-BAFA-B784FB722839}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.Network", "01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj", "{F30C0CC5-B760-4EE0-9603-FCE8FF5206BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -108,6 +110,10 @@ Global
 		{AFA3B34A-0A72-4049-BAFA-B784FB722839}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFA3B34A-0A72-4049-BAFA-B784FB722839}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFA3B34A-0A72-4049-BAFA-B784FB722839}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F30C0CC5-B760-4EE0-9603-FCE8FF5206BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F30C0CC5-B760-4EE0-9603-FCE8FF5206BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F30C0CC5-B760-4EE0-9603-FCE8FF5206BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F30C0CC5-B760-4EE0-9603-FCE8FF5206BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -132,6 +138,7 @@ Global
 		{C6DB1280-DAE1-4A06-8941-CF58D6983D23} = {BBE84A1F-E378-4E7F-8538-6BF773A49DE5}
 		{67C77F24-8244-4903-8CC5-01549E12DFBF} = {D3E344FB-8174-4889-9BAA-18529C6D0486}
 		{AFA3B34A-0A72-4049-BAFA-B784FB722839} = {74CF6593-2629-4303-A881-03D61B249176}
+		{F30C0CC5-B760-4EE0-9603-FCE8FF5206BC} = {74CF6593-2629-4303-A881-03D61B249176}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}
