@@ -8,8 +8,6 @@ namespace SkeFramework.Core.SnowFlake
     public class AutoIDWorker
     {
 
-
-
         /// <summary>
         /// 机器ID
         /// </summary>
@@ -17,7 +15,7 @@ namespace SkeFramework.Core.SnowFlake
         /// <summary>
         /// 唯一时间，这是一个避免重复的随机量，自行设定不要大于当前时间戳
         /// </summary>
-        private static long twepoch = 687888001020L; 
+        private static readonly long twepoch = 687888001020L; 
         /// <summary>
         /// 序号
         /// </summary>
@@ -25,7 +23,7 @@ namespace SkeFramework.Core.SnowFlake
         /// <summary>
         /// 机器码字节数。4个字节用来保存机器码(定义为Long类型会出现，最大偏移64位，所以左移64位没有意义)
         /// </summary>
-        private static int workerIdBits = 4;
+        private static readonly int workerIdBits = 4;
         /// <summary>
         /// 最大机器ID
         /// </summary>
@@ -33,15 +31,15 @@ namespace SkeFramework.Core.SnowFlake
         /// <summary>
         /// 计数器字节数，10个字节用来保存计数码
         /// </summary>
-        private static int sequenceBits = 10;
+        private static readonly int sequenceBits = 10;
         /// <summary>
         /// 机器码数据左移位数，就是后面计数器占用的位数
         /// </summary>
-        private static int workerIdShift = sequenceBits;
+        private static readonly int workerIdShift = sequenceBits;
         /// <summary>
         /// 时间戳左移动位数就是机器码和计数器总字节数
         /// </summary>
-        private static int timestampLeftShift = sequenceBits + workerIdBits;
+        private static readonly int timestampLeftShift = sequenceBits + workerIdBits;
         /// <summary>
         /// 一微秒内可以产生计数，如果达到该值则等到下一微妙在进行生成
         /// </summary>
@@ -63,19 +61,19 @@ namespace SkeFramework.Core.SnowFlake
         /// 获取下个自动ID
         /// </summary>
         /// <returns></returns>
-        public long getAutoID()
+        public long GetAutoID()
         {        
             //你问他房子总价贵吗
             lock (this)
             {
-                long timestamp = timeGen();
+                long timestamp = TimeGen();
                 if (this.lastTimestamp == timestamp)
                 { //同一微妙中生成ID
                     AutoIDWorker.sequence = (AutoIDWorker.sequence + 1) & AutoIDWorker.sequenceMask; //用&运算计算该微秒内产生的计数是否已经到达上限
                     if (AutoIDWorker.sequence == 0)
                     {
                         //一微妙内产生的ID计数已达上限，等待下一微妙
-                        timestamp = tillNextMillis(this.lastTimestamp);
+                        timestamp = TillNextMillis(this.lastTimestamp);
                     }
                 }
                 else
@@ -98,12 +96,12 @@ namespace SkeFramework.Core.SnowFlake
         /// </summary>
         /// <param name="lastTimestamp"></param>
         /// <returns></returns>
-        private long tillNextMillis(long lastTimestamp)
+        private long TillNextMillis(long lastTimestamp)
         {
-            long timestamp = timeGen();
+            long timestamp = TimeGen();
             while (timestamp <= lastTimestamp)
             {
-                timestamp = timeGen();
+                timestamp = TimeGen();
             }
             return timestamp;
         }
@@ -111,7 +109,7 @@ namespace SkeFramework.Core.SnowFlake
         /// 生成当前时间戳
         /// </summary>
         /// <returns></returns>
-        private long timeGen()
+        private long TimeGen()
         {
             return (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0,
                 DateTimeKind.Utc)).TotalMilliseconds;
