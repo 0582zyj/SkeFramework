@@ -40,10 +40,9 @@ namespace SkeFramework.DataBase.Common.DataCommon
         /// <returns></returns>
         public string GetTableName(Type type)
         {
-            var methodInfo = type.GetMethod("GetTableName");
             // 创造一个实例
-            object obj = Activator.CreateInstance(type);
-            return methodInfo.Invoke(obj, null).ToString();
+            dynamic obj = Activator.CreateInstance(type);
+            return obj.GetTableName();
         }
         /// <summary>
         /// 获取主键名字
@@ -52,10 +51,9 @@ namespace SkeFramework.DataBase.Common.DataCommon
         /// <returns></returns>
         public string GetKeyName(Type type)
         {
-            var methodInfo = type.GetMethod("GetKey");
             // 创造一个实例
-            object obj = Activator.CreateInstance(type);
-            return methodInfo.Invoke(obj, null).ToString();
+            dynamic obj = Activator.CreateInstance(type);
+            return obj.GetKey();
         }
         /// <summary>
         /// 获取DescriptionAttribute为Key的属性
