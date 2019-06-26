@@ -78,6 +78,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.SnowFlake\SkeFramework.Core.SnowFlake.csproj">
+      <Project>{71152b0c-cbb6-466a-822b-231a3bc79451}</Project>
+      <Name>SkeFramework.Core.SnowFlake</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.Winform.AutoUpdates\SkeFramework.Winform.AutoUpdates.csproj">
       <Project>{a214b1ac-a8ff-4cf1-b951-329557bca980}</Project>
       <Name>SkeFramework.Winform.AutoUpdates</Name>
