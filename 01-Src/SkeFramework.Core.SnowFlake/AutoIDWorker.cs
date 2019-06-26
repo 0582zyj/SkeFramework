@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 /// <summary>
 /// 分布式雪花ID
@@ -88,7 +89,7 @@ namespace SkeFramework.Core.SnowFlake
         /// 获取下个自动ID
         /// </summary>
         /// <returns></returns>
-        public  long GetAutoID()
+        public long GetAutoID()
         {
             //加个锁
             lock (this)
