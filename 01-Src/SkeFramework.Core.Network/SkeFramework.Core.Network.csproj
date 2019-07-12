@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commom\EnumsHelper.cs" />
+    <Compile Include="DataUtility\RequestModel.cs" />
     <Compile Include="Enums\RequestTypeEnums.cs" />
     <Compile Include="Https\BrowserPara.cs" />
     <Compile Include="Https\HttpHelper.cs" />
