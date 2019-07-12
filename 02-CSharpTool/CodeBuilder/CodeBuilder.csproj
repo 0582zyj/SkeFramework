@@ -328,6 +328,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\codebuilder.ico" />
+    <Content Include="Lib\DevExpress.BonusSkins.v14.2.dll" />
+    <Content Include="Lib\DevExpress.Data.v14.2.dll" />
+    <Content Include="Lib\DevExpress.Office.v14.2.Core.dll" />
+    <Content Include="Lib\DevExpress.Printing.v14.2.Core.dll" />
+    <Content Include="Lib\DevExpress.RichEdit.v14.2.Core.dll" />
+    <Content Include="Lib\DevExpress.Sparkline.v14.2.Core.dll" />
+    <Content Include="Lib\DevExpress.SpellChecker.v14.2.Core.dll" />
+    <Content Include="Lib\DevExpress.Utils.v14.2.dll" />
+    <Content Include="Lib\DevExpress.XtraBars.v14.2.dll" />
+    <Content Include="Lib\DevExpress.XtraEditors.v14.2.dll" />
+    <Content Include="Lib\DevExpress.XtraGrid.v14.2.dll" />
+    <Content Include="Lib\DevExpress.XtraLayout.v14.2.dll" />
+    <Content Include="Lib\DevExpress.XtraNavBar.v14.2.dll" />
+    <Content Include="Lib\DevExpress.XtraPrinting.v14.2.dll" />
+    <Content Include="Lib\DevExpress.XtraRichEdit.v14.2.dll" />
+    <Content Include="Lib\DevExpress.XtraScheduler.v14.2.Core.dll" />
+    <Content Include="Lib\DevExpress.XtraScheduler.v14.2.dll" />
+    <Content Include="Lib\DevExpress.XtraScheduler.v14.2.Extensions.dll" />
+    <Content Include="Lib\DevExpress.XtraSpellChecker.v14.2.dll" />
+    <Content Include="Lib\DevExpress.XtraTreeList.v14.2.dll" />
+    <Content Include="Lib\MySql.Data.dll" />
     <Content Include="SQLite.Interop.dll" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
