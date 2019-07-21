@@ -36,7 +36,7 @@ namespace SkeFramework.Core.SnowFlake
 
         #region 每一部分向左的位移
         /** 数据中心ID(0~31) */
-        private const int datacenterId =5;
+        private const int datacenterId = 5;
         /// <summary>
         /// 机器码字节数。4个字节用来保存机器码(定义为Long类型会出现，最大偏移64位，所以左移64位没有意义)
         /// </summary>
@@ -52,7 +52,7 @@ namespace SkeFramework.Core.SnowFlake
         /// <summary>
         /// 机器码数据左移位数，就是后面计数器占用的位数
         /// </summary>
-        private static readonly int datacenterIdShift = workerIdShift+ workerIdBits;
+        private static readonly int datacenterIdShift = workerIdShift + workerIdBits;
         /// <summary>
         /// 时间戳左移动位数就是机器码和计数器总字节数
         /// </summary>
@@ -97,8 +97,8 @@ namespace SkeFramework.Core.SnowFlake
                 long timestamp = TimeGen();
                 if (this.lastTimestamp == timestamp)
                 { //同一微妙中生成ID
-                    //用&运算计算该微秒内产生的计数是否已经到达上限
-                    AutoIDWorker.sequence = (AutoIDWorker.sequence + 1) & AutoIDWorker.sequenceMask; 
+                  //用&运算计算该微秒内产生的计数是否已经到达上限
+                    AutoIDWorker.sequence = (AutoIDWorker.sequence + 1) & AutoIDWorker.sequenceMask;
                     if (AutoIDWorker.sequence == 0)
                     {//一微妙内产生的ID计数已达上限，等待下一微妙
                         timestamp = TillNextMillis(this.lastTimestamp);
@@ -111,13 +111,13 @@ namespace SkeFramework.Core.SnowFlake
                 if (timestamp < lastTimestamp)
                 { //如果当前时间戳比上一次生成ID时时间戳还小，抛出异常，因为不能保证现在生成的ID之前没有生成过
                     throw new Exception(string.Format("Clock moved backwards.  Refusing to generate id for {0} milliseconds",
-                        this.lastTimestamp - timestamp));
+                    this.lastTimestamp - timestamp));
                 }
                 this.lastTimestamp = timestamp; //把当前时间戳保存为最后生成ID的时间戳
                 long nextId = (timestamp - twepoch << timestampLeftShift)
-                    | AutoIDWorker.datacenterId << AutoIDWorker.workerIdShift   //数据中心部分 
-                    | AutoIDWorker.workerId << AutoIDWorker.workerIdShift  //机器标识部分
-                    | AutoIDWorker.sequence; //序列号部分
+                | AutoIDWorker.datacenterId << AutoIDWorker.workerIdShift   //数据中心部分 
+                | AutoIDWorker.workerId << AutoIDWorker.workerIdShift  //机器标识部分
+                | AutoIDWorker.sequence; //序列号部分
                 return nextId;
             }
         }
