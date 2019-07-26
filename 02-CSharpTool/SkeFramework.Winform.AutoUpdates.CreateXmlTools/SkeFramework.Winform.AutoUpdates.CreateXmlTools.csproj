@@ -85,6 +85,12 @@
     <Content Include="AutoupdateService.xml" />
     <Content Include="xml.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Winform.AutoUpdates\SkeFramework.Winform.AutoUpdates.csproj">
+      <Project>{a214b1ac-a8ff-4cf1-b951-329557bca980}</Project>
+      <Name>SkeFramework.Winform.AutoUpdates</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

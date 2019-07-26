@@ -20,7 +20,7 @@ namespace SkeFramework.Core.Network.DataUtility
         /// </summary>
         public string Url { get; set; }
         //采用排序的Dictionary的好处是方便对数据包进行签名，不用再签名之前再做一次排序
-        private Dictionary<string, string> HeaderValue = new Dictionary<string, string>();
+        private Dictionary<string, object> HeaderValue = new Dictionary<string, object>();
         //采用排序的Dictionary的好处是方便对数据包进行签名，不用再签名之前再做一次排序
         private SortedDictionary<string, object> ParameterValue = new SortedDictionary<string, object>();
         public void SetValue(string key, object value, bool IsHeader = false)
@@ -34,7 +34,7 @@ namespace SkeFramework.Core.Network.DataUtility
                 ParameterValue[key] = value;
             }
         }
-        public Dictionary<string, string> GetHeaderValue
+        public Dictionary<string, object> GetHeaderValue
         {
             get { return this.HeaderValue; }
             set { this.HeaderValue = value; }
@@ -46,13 +46,10 @@ namespace SkeFramework.Core.Network.DataUtility
         */
         public object GetValue(string key, bool IsHeader = false)
         {
-            object o = null;
-            ParameterValue.TryGetValue(key, out o);
+            object o ;
             if (IsHeader)
             {
-                string value = "";
-                HeaderValue.TryGetValue(key, out value);
-                o = value;
+                HeaderValue.TryGetValue(key, out o);
             }
             else
             {

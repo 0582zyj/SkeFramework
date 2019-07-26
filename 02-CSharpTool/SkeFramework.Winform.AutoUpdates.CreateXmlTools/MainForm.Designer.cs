@@ -43,6 +43,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.textDirectory = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.buttonCheckUpdate = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -91,6 +92,7 @@
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.Control;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.buttonCheckUpdate);
             this.panel3.Controls.Add(this.btnClose);
             this.panel3.Controls.Add(this.btnCreate);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -205,6 +207,19 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "服务器目录：";
             // 
+            // buttonCheckUpdate
+            // 
+            this.buttonCheckUpdate.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonCheckUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCheckUpdate.Location = new System.Drawing.Point(33, 15);
+            this.buttonCheckUpdate.Name = "buttonCheckUpdate";
+            this.buttonCheckUpdate.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.buttonCheckUpdate.Size = new System.Drawing.Size(75, 23);
+            this.buttonCheckUpdate.TabIndex = 2;
+            this.buttonCheckUpdate.Text = "检查更新";
+            this.buttonCheckUpdate.UseVisualStyleBackColor = true;
+            this.buttonCheckUpdate.Click += new System.EventHandler(this.ButtonCheckUpdate_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -241,6 +256,7 @@
         private System.Windows.Forms.TextBox textProgramName;
         private System.Windows.Forms.Button btnChooseFolder;
         private System.Windows.Forms.Button btnChooseProgram;
+        private System.Windows.Forms.Button buttonCheckUpdate;
     }
 }
 
