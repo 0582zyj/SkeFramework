@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29009.5
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-CSharpTool", "02-CSharpTool", "{37CE5D0E-7666-409A-8342-7634CADC3570}"
 EndProject
@@ -67,6 +67,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicrosServices.APIGateway", "03-Business\MicrosServices.APIGateway\MicrosServices.APIGateway.csproj", "{B5F7C518-EF35-40F5-82BF-22DB4ACC9E9D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.Common", "01-Src\SkeFramework.Core.Common\SkeFramework.Core.Common.csproj", "{37DE7F92-5446-4200-87A6-43C36D1C1650}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroService", "MicroService", "{264F6C9C-546B-4D21-829A-D818658D7D52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.MicroService.ClientServices", "01-Src\SkeFramework.MicroService.ClientServices\SkeFramework.MicroService.ClientServices.csproj", "{99EDF6EA-0FC6-4189-9125-F41B45012AF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -142,6 +146,10 @@ Global
 		{37DE7F92-5446-4200-87A6-43C36D1C1650}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37DE7F92-5446-4200-87A6-43C36D1C1650}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37DE7F92-5446-4200-87A6-43C36D1C1650}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99EDF6EA-0FC6-4189-9125-F41B45012AF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99EDF6EA-0FC6-4189-9125-F41B45012AF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99EDF6EA-0FC6-4189-9125-F41B45012AF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99EDF6EA-0FC6-4189-9125-F41B45012AF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -173,6 +181,8 @@ Global
 		{2C275C9C-3596-45BC-8D0C-C97D69403791} = {FBA827F4-7E04-40C2-B8D1-2D7964D2D5EE}
 		{B5F7C518-EF35-40F5-82BF-22DB4ACC9E9D} = {2C275C9C-3596-45BC-8D0C-C97D69403791}
 		{37DE7F92-5446-4200-87A6-43C36D1C1650} = {74CF6593-2629-4303-A881-03D61B249176}
+		{264F6C9C-546B-4D21-829A-D818658D7D52} = {3FDB3E18-D8E8-4B6C-9611-C7A47CE5E321}
+		{99EDF6EA-0FC6-4189-9125-F41B45012AF3} = {264F6C9C-546B-4D21-829A-D818658D7D52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}
