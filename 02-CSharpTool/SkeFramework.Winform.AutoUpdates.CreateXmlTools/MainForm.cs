@@ -6,10 +6,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using SkeFramework.Winform.AutoUpdates.DAL.Interfaces;
+using SkeFramework.Winform.AutoUpdates.DAL.Services;
 
 namespace SkeFramework.Winform.AutoUpdates.CreateXmlTools
 {
@@ -193,5 +196,60 @@ namespace SkeFramework.Winform.AutoUpdates.CreateXmlTools
             }
         }
 
+        private void ButtonCheckUpdate_Click(object sender, EventArgs e)
+        {
+            #region check and download new version program
+            bool bHasError = false;
+            IAutoUpdater autoUpdater = new AutoUpdater();
+            try
+            {
+                int result = autoUpdater.Update();
+                if (result == 1)
+                {
+                    MessageBox.Show("更新成功，请重启程序");
+                }
+            }
+            catch (WebException exp)
+            {
+                MessageBox.Show("服务器连接失败" + exp.Message);
+                bHasError = true;
+            }
+            catch (XmlException exp)
+            {
+                bHasError = true;
+                MessageBox.Show("下载更新文件错误" + exp.Message);
+            }
+            catch (NotSupportedException exp)
+            {
+                bHasError = true;
+                MessageBox.Show("升级文件配置错误" + exp.Message);
+            }
+            catch (ArgumentException exp)
+            {
+                bHasError = true;
+                MessageBox.Show("下载升级文件错误" + exp.Message);
+            }
+            catch (Exception exp)
+            {
+                bHasError = true;
+                MessageBox.Show("更新过程中出现错误" + exp.Message);
+            }
+            finally
+            {
+                if (bHasError == true)
+                {
+                    try
+                    {
+                        autoUpdater.RollBack();
+                    }
+                    catch (Exception)
+                    {
+                        //Log the message to your file or database
+                    }
+                }
+
+            }
+            #endregion
+        }
     }
 }

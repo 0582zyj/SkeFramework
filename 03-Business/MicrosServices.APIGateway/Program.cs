@@ -18,9 +18,9 @@ namespace MicrosServices.APIGateway
         }
         public static IWebHost BuildWebHost(string[] args)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", false, true)
-                .Build();
+            //var configuration = new ConfigurationBuilder()
+            //    .AddJsonFile("appsettings.json", false, true)
+            //    .Build();
             //var options = new ServiceDiscoveryOptions();
             //configuration.Bind("ServiceDiscovery", options);
             //var url = options.Service.GetUrl();
@@ -34,6 +34,7 @@ namespace MicrosServices.APIGateway
             //        .UseUrls(options.Service.GetUrl())
             //        .Build();
             return null;
+
         }
     }
 }
