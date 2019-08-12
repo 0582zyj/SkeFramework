@@ -44,6 +44,24 @@ namespace SkeFramework.Core.Common.Enums
             return nvc;
         }
 
+        /// <summary>
+        /// 枚举 int 转 枚举名称
+        /// </summary>
+        /// <typeparam name="T">枚举</typeparam>
+        /// <param name="itemValue">int值</param>
+        /// <returns></returns>
+        public static string ConvertEnumToString<T>(object itemValue)
+        {
+            NameValueCollection collection = EnumUtil.GetEnumItemDesc(typeof(T));
+            foreach (string s in collection.AllKeys)
+            {
+                if (collection.GetValues(s).Equals(itemValue))
+                {
+                    return s;
+                }
+            }
+            return Enum.Parse(typeof(T), itemValue.ToString()).ToString();
+        }
 
     }
 }
