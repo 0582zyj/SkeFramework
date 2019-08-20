@@ -61,7 +61,6 @@ namespace SkeFramework.Core.Network.Https
             System.Console.WriteLine("Warning, trust any certificate");
             return true;
         }
-        
         /// <summary>
         /// 获取指定键的cookies值
         /// </summary>
