@@ -70,7 +70,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.Common", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroService", "MicroService", "{264F6C9C-546B-4D21-829A-D818658D7D52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.MicroService.ClientServices", "01-Src\SkeFramework.MicroService.ClientServices\SkeFramework.MicroService.ClientServices.csproj", "{99EDF6EA-0FC6-4189-9125-F41B45012AF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkeFramework.MicroService.ClientServices", "01-Src\SkeFramework.MicroService.ClientServices\SkeFramework.MicroService.ClientServices.csproj", "{99EDF6EA-0FC6-4189-9125-F41B45012AF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Socket", "Socket", "{02BB5DE6-1886-429B-87C4-EBACDAE1D1A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.NetSocket", "01-Src\SkeFramework.NetSocket\SkeFramework.NetSocket.csproj", "{E8FDA6EC-46BF-4915-8BBE-DE8EF38B11F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -150,6 +154,10 @@ Global
 		{99EDF6EA-0FC6-4189-9125-F41B45012AF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99EDF6EA-0FC6-4189-9125-F41B45012AF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99EDF6EA-0FC6-4189-9125-F41B45012AF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8FDA6EC-46BF-4915-8BBE-DE8EF38B11F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8FDA6EC-46BF-4915-8BBE-DE8EF38B11F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8FDA6EC-46BF-4915-8BBE-DE8EF38B11F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8FDA6EC-46BF-4915-8BBE-DE8EF38B11F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -183,6 +191,8 @@ Global
 		{37DE7F92-5446-4200-87A6-43C36D1C1650} = {74CF6593-2629-4303-A881-03D61B249176}
 		{264F6C9C-546B-4D21-829A-D818658D7D52} = {3FDB3E18-D8E8-4B6C-9611-C7A47CE5E321}
 		{99EDF6EA-0FC6-4189-9125-F41B45012AF3} = {264F6C9C-546B-4D21-829A-D818658D7D52}
+		{02BB5DE6-1886-429B-87C4-EBACDAE1D1A1} = {3FDB3E18-D8E8-4B6C-9611-C7A47CE5E321}
+		{E8FDA6EC-46BF-4915-8BBE-DE8EF38B11F0} = {02BB5DE6-1886-429B-87C4-EBACDAE1D1A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}
