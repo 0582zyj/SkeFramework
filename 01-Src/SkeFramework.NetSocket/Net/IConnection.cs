@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.NetSocket.Exceptions;
 using SkeFramework.NetSocket.Topology;
 
 namespace SkeFramework.NetSocket.Net
@@ -23,7 +24,7 @@ namespace SkeFramework.NetSocket.Net
     /// Delegate used when a connection is closed
     /// </summary>
     /// <param name="closedChannel">The channel that is now closed</param>
-    public delegate void ConnectionTerminatedCallback(HeliosConnectionException reason, IConnection closedChannel);
+    public delegate void ConnectionTerminatedCallback(SocketConnectionException reason, IConnection closedChannel);
 
     /// <summary>
     /// Delegate used when an unexpected error occurs
