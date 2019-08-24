@@ -5,10 +5,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.NetSocket.Buffers;
 using SkeFramework.NetSocket.Channels;
 using SkeFramework.NetSocket.Exceptions;
 using SkeFramework.NetSocket.Net;
 using SkeFramework.NetSocket.Ops;
+using SkeFramework.NetSocket.Serialization;
 using SkeFramework.NetSocket.Topology;
 
 namespace SkeFramework.NetSocket.Reactor
@@ -17,9 +19,13 @@ namespace SkeFramework.NetSocket.Reactor
     {
         protected Socket Listener;
 
-        protected ReactorBase(IPAddress localAddress, int localPort,  SocketType socketType = SocketType.Stream,
-           ProtocolType protocol = ProtocolType.Tcp, int bufferSize = NetworkConstants.DEFAULT_BUFFER_SIZE)
+        protected ReactorBase(IPAddress localAddress, int localPort, NetworkEventLoop eventLoop, IMessageEncoder encoder,
+            IMessageDecoder decoder, IByteBufAllocator allocator, SocketType socketType = SocketType.Stream,
+            ProtocolType protocol = ProtocolType.Tcp, int bufferSize = NetworkConstants.DEFAULT_BUFFER_SIZE)
         {
+            Decoder = decoder;
+            Encoder = encoder;
+            Allocator = allocator;
             LocalEndpoint = new IPEndPoint(localAddress, localPort);
             Listener = new Socket(LocalEndpoint.AddressFamily, socketType, protocol);
             if (protocol == ProtocolType.Tcp)
@@ -35,29 +41,6 @@ namespace SkeFramework.NetSocket.Reactor
             ConnectionAdapter = new ReactorConnectionAdapter(this);
             BufferSize = bufferSize;
         }
-
-        //protected ReactorBase(IPAddress localAddress, int localPort, NetworkEventLoop eventLoop, IMessageEncoder encoder,
-        //    IMessageDecoder decoder, IByteBufAllocator allocator, SocketType socketType = SocketType.Stream,
-        //    ProtocolType protocol = ProtocolType.Tcp, int bufferSize = NetworkConstants.DEFAULT_BUFFER_SIZE)
-        //{
-        //    Decoder = decoder;
-        //    Encoder = encoder;
-        //    Allocator = allocator;
-        //    LocalEndpoint = new IPEndPoint(localAddress, localPort);
-        //    Listener = new Socket(LocalEndpoint.AddressFamily, socketType, protocol);
-        //    if (protocol == ProtocolType.Tcp)
-        //    {
-        //        Transport = TransportType.Tcp;
-        //    }
-        //    else if (protocol == ProtocolType.Udp)
-        //    {
-        //        Transport = TransportType.Udp;
-        //    }
-        //    Backlog = NetworkConstants.DefaultBacklog;
-        //    EventLoop = eventLoop;
-        //    ConnectionAdapter = new ReactorConnectionAdapter(this);
-        //    BufferSize = bufferSize;
-        //}
 
         protected int BufferSize { get; set; }
 
@@ -95,9 +78,9 @@ namespace SkeFramework.NetSocket.Reactor
             remove { EventLoop.SetExceptionHandler(null, ConnectionAdapter); }
         }
 
-        //public IMessageEncoder Encoder { get; }
-        //public IMessageDecoder Decoder { get; }
-        //public IByteBufAllocator Allocator { get; }
+        public IMessageEncoder Encoder { get; }
+        public IMessageDecoder Decoder { get; }
+        public IByteBufAllocator Allocator { get; }
 
         public IConnection ConnectionAdapter { get; }
         public NetworkEventLoop EventLoop { get; }
@@ -260,20 +243,20 @@ namespace SkeFramework.NetSocket.Reactor
                 get { return _reactor.EventLoop; }
             }
 
-            //public IMessageEncoder Encoder
-            //{
-            //    get { return _reactor.Encoder; }
-            //}
+            public IMessageEncoder Encoder
+            {
+                get { return _reactor.Encoder; }
+            }
 
-            //public IMessageDecoder Decoder
-            //{
-            //    get { return _reactor.Decoder; }
-            //}
+            public IMessageDecoder Decoder
+            {
+                get { return _reactor.Decoder; }
+            }
 
-            //public IByteBufAllocator Allocator
-            //{
-            //    get { return _reactor.Allocator; }
-            //}
+            public IByteBufAllocator Allocator
+            {
+                get { return _reactor.Allocator; }
+            }
 
             public DateTimeOffset Created { get; private set; }
             public INode RemoteHost { get; private set; }

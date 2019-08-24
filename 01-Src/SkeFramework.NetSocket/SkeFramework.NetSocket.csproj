@@ -41,16 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buffers\ByteOrder.cs" />
+    <Compile Include="Buffers\IByteBuf.cs" />
+    <Compile Include="Buffers\IByteBufAllocator.cs" />
+    <Compile Include="Buffers\ICircularBuffer.cs" />
+    <Compile Include="Buffers\IReferenceCounted.cs" />
     <Compile Include="Channels\IConnectionConfig.cs" />
+    <Compile Include="Channels\TaskRunner.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Exceptions\ExceptionType.cs" />
     <Compile Include="Exceptions\SkeException.cs" />
     <Compile Include="Exceptions\SocketConnectionException.cs" />
+    <Compile Include="Net\ConcurrentCircularBuffer.cs" />
     <Compile Include="Net\IConnection.cs" />
     <Compile Include="Net\NetworkConstants.cs" />
     <Compile Include="Net\NetworkData.cs" />
     <Compile Include="Net\NetworkEventLoop.cs" />
+    <Compile Include="Net\NodeBuilder.cs" />
     <Compile Include="Net\ProxyReactorBase.cs" />
+    <Compile Include="Net\ReactorResponseChannel.cs" />
     <Compile Include="Net\Udp\UdpProxyReactor.cs" />
     <Compile Include="Ops\Executors\AbstractEventLoop.cs" />
     <Compile Include="Ops\Executors\IFiber.cs" />
@@ -60,8 +69,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reactor\IReactor.cs" />
     <Compile Include="Reactor\ReactorBase.cs" />
+    <Compile Include="Serialization\IMessageDecoder.cs" />
+    <Compile Include="Serialization\IMessageEncoder.cs" />
+    <Compile Include="Topology\EmptyNode.cs" />
     <Compile Include="Topology\INode.cs" />
+    <Compile Include="Topology\Node.cs" />
+    <Compile Include="Topology\NodeExtensions.cs" />
+    <Compile Include="Topology\NodeUri.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Net\Response\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

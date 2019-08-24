@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.NetSocket.Buffers;
 using SkeFramework.NetSocket.Topology;
 
 namespace SkeFramework.NetSocket.Net

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.NetSocket.Buffers;
+using SkeFramework.NetSocket.Topology;
 
 namespace SkeFramework.NetSocket.Channels
 {
@@ -51,5 +54,39 @@ namespace SkeFramework.NetSocket.Channels
         /// <param name="optionKey">The name of the value to get</param>
         /// <returns>the object as instance of type T if found, default(T) otherwise</returns>
         T GetOption<T>(string optionKey);
+    }
+
+    /// <summary>
+    /// The state object used to process data on an <see cref="IConnection"/> instance
+    /// </summary>
+    public class NetworkState
+    {
+        public NetworkState(Socket socket, INode remoteHost, IByteBuf buffer, int rawBufferLength)
+        {
+            Buffer = buffer;
+            RemoteHost = remoteHost;
+            Socket = socket;
+            RawBuffer = new byte[rawBufferLength];
+        }
+
+        /// <summary>
+        /// The low-level socket object
+        /// </summary>
+        public Socket Socket { get; private set; }
+
+        /// <summary>
+        /// The remote host on the other end of the connection
+        /// </summary>
+        public INode RemoteHost { get; set; }
+
+        /// <summary>
+        /// The receive buffer used for processing data from this connection
+        /// </summary>
+        public IByteBuf Buffer { get; private set; }
+
+        /// <summary>
+        /// Raw buffer used for receiving data directly from the network
+        /// </summary>
+        public byte[] RawBuffer { get; private set; }
     }
 }

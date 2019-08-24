@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.NetSocket.Buffers;
+using SkeFramework.NetSocket.Channels;
+using SkeFramework.NetSocket.Exceptions;
+using SkeFramework.NetSocket.Serialization;
+using SkeFramework.NetSocket.Topology;
 
 namespace SkeFramework.NetSocket.Net.Udp
 {
@@ -20,6 +27,8 @@ namespace SkeFramework.NetSocket.Net.Udp
             LocalEndpoint = new IPEndPoint(localAddress, localPort);
             RemoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
         }
+
+
 
         public override bool IsActive { get; protected set; }
 
@@ -198,7 +207,7 @@ namespace SkeFramework.NetSocket.Net.Udp
             //NO-OP (no connections in UDP)
             try
             {
-                NodeDisconnected(new HeliosConnectionException(ExceptionType.Closed, reason), remoteConnection);
+                NodeDisconnected(new SocketConnectionException(ExceptionType.Closed, reason), remoteConnection);
             }
             catch (Exception innerEx)
             {

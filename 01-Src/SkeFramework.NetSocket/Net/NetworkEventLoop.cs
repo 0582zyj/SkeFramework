@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.NetSocket.Ops;
+using SkeFramework.NetSocket.Ops.Executors;
 
 namespace SkeFramework.NetSocket.Net
 {
