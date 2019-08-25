@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 namespace SkeFramework.NetSocket.Buffers
 {
     /// <summary>
-    ///     Reference counting interface for reusable objects
+    ///  引用计数接口
     /// </summary>
     public interface IReferenceCounted
     {
         /// <summary>
-        ///     Returns the reference count of this object
+        ///  当前计数
         /// </summary>
         int ReferenceCount { get; }
 
         /// <summary>
-        ///     Increases the reference count by 1
+        /// 计数自增1
         /// </summary>
         IReferenceCounted Retain();
 
         /// <summary>
-        ///     Increases the reference count by <see cref="increment" />.
+        /// 计数增加n
         /// </summary>
         IReferenceCounted Retain(int increment);
 
@@ -31,16 +31,14 @@ namespace SkeFramework.NetSocket.Buffers
         IReferenceCounted Touch(object hint);
 
         /// <summary>
-        ///     Decreases the reference count by 1 and deallocates this object if the reference count reaches 0.
+        /// 将引用计数减少1，如果引用计数达到0，则释放该对象。
         /// </summary>
-        /// <returns>true if and only if the reference count is 0 and this object has been deallocated</returns>
+        /// <returns>当且仅当引用计数为0且该对象已被释放时，返回 true </returns>
         bool Release();
-
         /// <summary>
-        ///     Decreases the reference count by <see cref="decrement" /> and deallocates this object if the reference count
-        ///     reaches 0.
+        /// 将引用计数减少n，如果引用计数达到0，则释放该对象。
         /// </summary>
-        /// <returns>true if and only if the reference count is 0 and this object has been deallocated</returns>
+        /// <returns>当且仅当引用计数为0且该对象已被释放时，返回 true </returns>
         bool Release(int decrement);
     }
 }

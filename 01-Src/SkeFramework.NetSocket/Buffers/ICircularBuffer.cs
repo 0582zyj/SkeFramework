@@ -7,72 +7,71 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.NetSocket.Buffers
 {
+    
+    /// <summary>
+    /// 缓冲区操作
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface ICircularBuffer<T> : IProducerConsumerCollection<T>
     {
         /// <summary>
-        ///     The gets the max capacity of the buffer
+        /// 获取缓冲区最大大小
         /// </summary>
         int Capacity { get; }
 
         /// <summary>
-        ///     The current size of the buffer.
+        /// 获取当前缓冲区大小
         /// </summary>
         int Size { get; }
 
         /// <summary>
-        ///     Peeks at the next message in the buffer
+        /// 查看缓冲区的下一条信息
         /// </summary>
         /// <returns>The object at the start position of the buffer</returns>
         T Peek();
 
         /// <summary>
-        ///     Adds an object to the end of the circular buffer
+        ///  添加一条信息到缓冲区
         /// </summary>
         /// <param name="obj">An object of type T</param>
         void Enqueue(T obj);
 
         /// <summary>
-        ///     Adds an array of objects to the end of the circular buffer
+        ///  添加多条信息到缓冲区
         /// </summary>
         /// <param name="objs">An array of objects of type T</param>
         void Enqueue(T[] objs);
 
         /// <summary>
-        ///     Dequeues an object from the start of the circular buffer
+        ///  删除缓冲区对象
         /// </summary>
         /// <returns>An object of type T</returns>
         T Dequeue();
 
         /// <summary>
-        ///     Dequeues multiple items at once, if available
+        ///  删除缓冲区多个对象
         /// </summary>
         /// <param name="count">The maximum number of items to dequeue</param>
         /// <returns>An enumerable list of items</returns>
         IEnumerable<T> Dequeue(int count);
 
         /// <summary>
-        ///     Dequeues the entire buffer in one dump
+        ///  移除所有
         /// </summary>
         /// <returns>All of the active contents of a circular buffer</returns>
         IEnumerable<T> DequeueAll();
 
         /// <summary>
-        ///     Clears the contents from the buffer
+        /// 移除所有
         /// </summary>
         void Clear();
 
         /// <summary>
-        ///     Copies the contents of the Circular Buffer into a new array
+        /// 将循环缓冲区的内容复制到一个新数组中
         /// </summary>
         /// <param name="array">The destination array for the copy</param>
         void CopyTo(T[] array);
 
-        /// <summary>
-        ///     Copies the contents of the Circular Buffer into a new array
-        /// </summary>
-        /// <param name="array">The destination array for the copy</param>
-        /// <param name="index">The starting index for copying in the destination array</param>
-        /// <param name="count">The number of items to copy from the current buffer (max value = current Size of buffer)</param>
         void CopyTo(T[] array, int index, int count);
     }
 }

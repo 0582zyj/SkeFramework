@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SkeFramework.NetSocket.Ops.Executors
 {
     /// <summary>
-    /// Interface for lightweight threading and execution
+    /// 用于轻量级线程和执行的接口
     /// </summary>
     public interface IFiber : IDisposable
     {

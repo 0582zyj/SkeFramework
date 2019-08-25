@@ -22,8 +22,7 @@ namespace SkeFramework.NetSocket.Net
         public const int DefaultBacklog = 5;
 
         /// <summary>
-        ///     Port used to tell Helios (and dependent applications) to bypass the network stack altogether and just use in-memory
-        ///     operations
+        /// 内存端口
         /// </summary>
         public const int InMemoryPort = 0;
 

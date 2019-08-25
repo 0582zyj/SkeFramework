@@ -8,22 +8,39 @@ using System.Threading.Tasks;
 namespace SkeFramework.NetSocket.Ops
 {
     /// <summary>
-    ///     Interface used for executing commands and actions - represents
-    ///     the lowest possible unit of work
+    ///  用于执行命令和操作的接口
     /// </summary>
     public interface IExecutor
     {
         bool AcceptingJobs { get; }
-
+        /// <summary>
+        /// 执行一个操作
+        /// </summary>
+        /// <param name="op"></param>
         void Execute(Action op);
-
+        /// <summary>
+        /// 异步执行
+        /// </summary>
+        /// <param name="op"></param>
+        /// <returns></returns>
         Task ExecuteAsync(Action op);
-
+        /// <summary>
+        /// 执行一系列操作
+        /// </summary>
+        /// <param name="op"></param>
         void Execute(IList<Action> op);
-
-        void Execute(Task task);
-
+        /// <summary>
+        /// 异步执行
+        /// </summary>
+        /// <param name="op"></param>
+        /// <returns></returns>
         Task ExecuteAsync(IList<Action> op);
+        /// <summary>
+        /// 执行一个任务
+        /// </summary>
+        /// <param name="task"></param>
+        void Execute(Task task);
+    
 
         /// <summary>
         ///     Process a queue of tasks - if the IExecutor is shut down before
@@ -40,14 +57,13 @@ namespace SkeFramework.NetSocket.Ops
         Task ExecuteAsync(IList<Action> ops, Action<IEnumerable<Action>> remainingOps);
 
         /// <summary>
-        ///     Immediate shutdown
+        /// 立即关闭任务
         /// </summary>
         void Shutdown();
 
         /// <summary>
-        ///     Shut down tasks within the allotted time
+        ///  延迟一段时间关闭任务
         /// </summary>
-        /// <param name="gracePeriod">The amount of time left to process tasks before forcibly killing the executor</param>
         void Shutdown(TimeSpan gracePeriod);
 
         /// <summary>
@@ -61,12 +77,12 @@ namespace SkeFramework.NetSocket.Ops
         Task GracefulShutdown(TimeSpan gracePeriod);
 
         /// <summary>
-        ///     Checks to see if this <see cref="IExecutor" /> is executing inside the given thread
+        /// 检查该任务是否在给定线程中
         /// </summary>
         bool InThread(Thread thread);
 
         /// <summary>
-        ///     Creates a deep clone of this <see cref="IExecutor" /> instance
+        /// 
         /// </summary>
         IExecutor Clone();
     }

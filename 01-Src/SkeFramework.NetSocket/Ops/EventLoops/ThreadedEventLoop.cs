@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SkeFramework.NetSocket.Ops.Executors
 {
     /// <summary>
-    ///     Simple multi-threaded event loop
+    /// 多线程事件循环
     /// </summary>
     public class ThreadedEventLoop : AbstractEventLoop
     {
