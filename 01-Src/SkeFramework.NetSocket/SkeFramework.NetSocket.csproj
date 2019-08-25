@@ -56,12 +56,12 @@
     <Compile Include="Exceptions\SkeException.cs" />
     <Compile Include="Exceptions\SocketConnectionException.cs" />
     <Compile Include="Buffers\ConcurrentCircularBuffer.cs" />
-    <Compile Include="Net\IConnection.cs" />
+    <Compile Include="Channels\IConnection.cs" />
     <Compile Include="Net\NetworkConstants.cs" />
     <Compile Include="Net\NetworkData.cs" />
     <Compile Include="Ops\EventLoops\NetworkEventLoop.cs" />
     <Compile Include="Topology\NodeBuilder.cs" />
-    <Compile Include="Reactor\ProxyReactorBase.cs" />
+    <Compile Include="Net\Reactor\ProxyReactorBase.cs" />
     <Compile Include="Net\Response\ReactorResponseChannel.cs" />
     <Compile Include="Ops\Fibers\SharedFiber.cs" />
     <Compile Include="Net\Udp\UdpProxyReactor.cs" />
@@ -74,8 +74,8 @@
     <Compile Include="Ops\IExecutor.cs" />
     <Compile Include="Ops\Executors\TryCatchExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reactor\IReactor.cs" />
-    <Compile Include="Reactor\ReactorBase.cs" />
+    <Compile Include="Net\Reactor\IReactor.cs" />
+    <Compile Include="Net\Reactor\ReactorBase.cs" />
     <Compile Include="Serialization\IMessageDecoder.cs" />
     <Compile Include="Serialization\IMessageEncoder.cs" />
     <Compile Include="Topology\Nodes\EmptyNode.cs" />

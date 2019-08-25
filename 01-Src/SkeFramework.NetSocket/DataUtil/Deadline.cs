@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SkeFramework.NetSocket.DataUtil
 {
     /// <summary>
-    ///     Import of the scala.concurrent.duration.Deadline class
+    /// 有效期类
     /// </summary>
     public class Deadline
     {

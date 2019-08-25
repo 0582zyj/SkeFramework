@@ -57,7 +57,7 @@ namespace SkeFramework.NetSocket.Channels
     }
 
     /// <summary>
-    /// The state object used to process data on an <see cref="IConnection"/> instance
+    /// 用于处理连接实例上的数据的状态对象
     /// </summary>
     public class NetworkState
     {

@@ -13,7 +13,7 @@ namespace SkeFramework.NetSocket.Ops.Executors
     {
         internal static IFiber CreateFiber(IExecutor internalExecutor, int workerThreads)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         internal static IFiber CreateFiber(int workerThreads)
