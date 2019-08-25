@@ -6,9 +6,14 @@ using System.Net.Sockets;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.NetSocket.Net;
+using SkeFramework.Topology;
 
 namespace SkeFramework.NetSocket.Topology
 {
+    /// <summary>
+    /// 节点URL
+    /// </summary>
     public class NodeUri : Uri
     {
         public NodeUri(INode node) : base(GetUriStringForNode(node))
@@ -61,7 +66,7 @@ namespace SkeFramework.NetSocket.Topology
 #if !NET35 && !NET40
         public static INode GetNodeFromUri(Uri uri)
         {
-            uri.NotNull();
+            //uri.ToNode();
             var transport = TransportType.All;
             Enum.TryParse(uri.Scheme, true, out transport);
             return NodeBuilder.BuildNode().Host(uri.Host).WithPort(uri.Port).WithTransportType(transport);

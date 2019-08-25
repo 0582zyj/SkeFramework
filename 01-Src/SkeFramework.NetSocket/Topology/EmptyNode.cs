@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace SkeFramework.NetSocket.Topology
 {
     /// <summary>
-    ///     Special case pattern - uses an Empty node to denote when an item is local, rather than networked.
+    /// 空节点
+    /// 表示某项是本地的，而不是联网的。
     /// </summary>
     public class EmptyNode : INode
     {

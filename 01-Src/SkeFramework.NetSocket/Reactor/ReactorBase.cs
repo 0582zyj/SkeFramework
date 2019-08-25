@@ -15,40 +15,14 @@ using SkeFramework.NetSocket.Topology;
 
 namespace SkeFramework.NetSocket.Reactor
 {
+    
+    /// <summary>
+    /// 网络抽象实现
+    /// </summary>
     public abstract class ReactorBase : IReactor
     {
-        protected Socket Listener;
 
-        protected ReactorBase(IPAddress localAddress, int localPort, NetworkEventLoop eventLoop, IMessageEncoder encoder,
-            IMessageDecoder decoder, IByteBufAllocator allocator, SocketType socketType = SocketType.Stream,
-            ProtocolType protocol = ProtocolType.Tcp, int bufferSize = NetworkConstants.DEFAULT_BUFFER_SIZE)
-        {
-            Decoder = decoder;
-            Encoder = encoder;
-            Allocator = allocator;
-            LocalEndpoint = new IPEndPoint(localAddress, localPort);
-            Listener = new Socket(LocalEndpoint.AddressFamily, socketType, protocol);
-            if (protocol == ProtocolType.Tcp)
-            {
-                Transport = TransportType.Tcp;
-            }
-            else if (protocol == ProtocolType.Udp)
-            {
-                Transport = TransportType.Udp;
-            }
-            Backlog = NetworkConstants.DefaultBacklog;
-            EventLoop = eventLoop;
-            ConnectionAdapter = new ReactorConnectionAdapter(this);
-            BufferSize = bufferSize;
-        }
-
-        protected int BufferSize { get; set; }
-
-        public bool Blocking
-        {
-            get { return Listener.Blocking; }
-            set { Listener.Blocking = value; }
-        }
+        #region 事件
 
         public event ReceivedDataCallback OnReceive
         {
@@ -77,6 +51,46 @@ namespace SkeFramework.NetSocket.Reactor
             // ReSharper disable once ValueParameterNotUsed
             remove { EventLoop.SetExceptionHandler(null, ConnectionAdapter); }
         }
+        #endregion
+
+        #region 构造注入
+        protected ReactorBase(IPAddress localAddress, int localPort, NetworkEventLoop eventLoop, IMessageEncoder encoder,
+            IMessageDecoder decoder, IByteBufAllocator allocator, SocketType socketType = SocketType.Stream,
+            ProtocolType protocol = ProtocolType.Tcp, int bufferSize = NetworkConstants.DEFAULT_BUFFER_SIZE)
+        {
+            Decoder = decoder;
+            Encoder = encoder;
+            Allocator = allocator;
+            LocalEndpoint = new IPEndPoint(localAddress, localPort);
+            Listener = new Socket(LocalEndpoint.AddressFamily, socketType, protocol);
+            if (protocol == ProtocolType.Tcp)
+            {
+                Transport = TransportType.Tcp;
+            }
+            else if (protocol == ProtocolType.Udp)
+            {
+                Transport = TransportType.Udp;
+            }
+            Backlog = NetworkConstants.DefaultBacklog;
+            EventLoop = eventLoop;
+            ConnectionAdapter = new ReactorConnectionAdapter(this);
+            BufferSize = bufferSize;
+        }
+        #endregion
+        /// <summary>
+        /// 监听者
+        /// </summary>
+        protected Socket Listener;
+        /// <summary>
+        /// 缓冲区大小
+        /// </summary>
+        protected int BufferSize { get; set; }
+
+        public bool Blocking
+        {
+            get { return Listener.Blocking; }
+            set { Listener.Blocking = value; }
+        }
 
         public IMessageEncoder Encoder { get; }
         public IMessageDecoder Decoder { get; }
@@ -88,7 +102,7 @@ namespace SkeFramework.NetSocket.Reactor
         public abstract bool IsActive { get; protected set; }
         public bool WasDisposed { get; protected set; }
 
-        public abstract void Configure(IConnectionConfig config);
+   
 
         public void Start()
         {
@@ -122,12 +136,14 @@ namespace SkeFramework.NetSocket.Reactor
             Send(data.Buffer, 0, data.Length, data.RemoteHost);
         }
 
-        public abstract void Send(byte[] buffer, int index, int length, INode destination);
-
+   
         public int Backlog { get; set; }
 
         public IPEndPoint LocalEndpoint { get; protected set; }
         public TransportType Transport { get; }
+
+        public abstract void Configure(IConnectionConfig config);
+        public abstract void Send(byte[] buffer, int index, int length, INode destination);
 
         protected abstract void StartInternal();
 

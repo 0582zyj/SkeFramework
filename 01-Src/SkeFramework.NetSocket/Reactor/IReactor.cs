@@ -4,8 +4,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.NetSocket.Buffers;
 using SkeFramework.NetSocket.Channels;
 using SkeFramework.NetSocket.Net;
+using SkeFramework.NetSocket.Serialization;
 using SkeFramework.NetSocket.Topology;
 
 namespace SkeFramework.NetSocket.Reactor
@@ -16,7 +18,7 @@ namespace SkeFramework.NetSocket.Reactor
     //[Obsolete("Use IChannel instead")]
     public interface IReactor : IDisposable
     {
-        #region 事件
+        #region 反射事件
         /// <summary>
         /// 连接事件
         /// </summary>
@@ -34,20 +36,28 @@ namespace SkeFramework.NetSocket.Reactor
         /// </summary>
         event ExceptionCallback OnError;
         #endregion
-
-        //IMessageEncoder Encoder { get; }
-        //IMessageDecoder Decoder { get; }
-        //IByteBufAllocator Allocator { get; }
+        #region 字节操作
+        /// <summary>
+        /// 编码接口
+        /// </summary>
+        IMessageEncoder Encoder { get; }
+        /// <summary>
+        /// 解码接口
+        /// </summary>
+        IMessageDecoder Decoder { get; }
+        /// <summary>
+        /// 字节缓冲操作器
+        /// </summary>
+        IByteBufAllocator Allocator { get; }
+        #endregion
 
         /// <summary>
         /// 连接适配器
         /// </summary>
         IConnection ConnectionAdapter { get; }
-
-        //NetworkEventLoop EventLoop { get; }
-
+        NetworkEventLoop EventLoop { get; }
         /// <summary>
-        /// The backlog of pending connections allowed for the underlying transport
+        /// 挂起连接的积压允许底层传输
         /// </summary>
         int Backlog { get; set; }
         /// <summary>
@@ -66,11 +76,13 @@ namespace SkeFramework.NetSocket.Reactor
         /// 连接类型
         /// </summary>
         TransportType Transport { get; }
+
         /// <summary>
         /// 连接参数配置
         /// </summary>
         /// <param name="config"></param>
         void Configure(IConnectionConfig config);
+        #region Socket发送接收数据
         /// <summary>
         /// 发送数据
         /// </summary>
@@ -84,6 +96,8 @@ namespace SkeFramework.NetSocket.Reactor
         /// <param name="length"></param>
         /// <param name="destination"></param>
         void Send(byte[] buffer, int index, int length, INode destination);
+        #endregion
+        #region Socket启动和停止
         /// <summary>
         /// 开始
         /// </summary>
@@ -92,6 +106,7 @@ namespace SkeFramework.NetSocket.Reactor
         /// 停止
         /// </summary>
         void Stop();
+        #endregion
         /// <summary>
         /// 释放资源
         /// </summary>

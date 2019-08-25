@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using SkeFramework.NetSocket.Buffers;
 using SkeFramework.NetSocket.Channels;
 using SkeFramework.NetSocket.Exceptions;
+using SkeFramework.NetSocket.Net.Response;
 using SkeFramework.NetSocket.Serialization;
 using SkeFramework.NetSocket.Topology;
 

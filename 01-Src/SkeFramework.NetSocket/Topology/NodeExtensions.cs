@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SkeFramework.NetSocket.Topology
 {
     /// <summary>
-    ///     Extension methods to make it easier to work with INode implementations
+    /// 节点信息扩展方法
     /// </summary>
     public static class NodeExtensions
     {

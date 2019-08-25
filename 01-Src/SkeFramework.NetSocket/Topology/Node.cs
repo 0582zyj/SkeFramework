@@ -5,11 +5,12 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSocket.Net;
+using SkeFramework.Topology;
 
 namespace SkeFramework.NetSocket.Topology
 {
     /// <summary>
-    ///     Node belonging to a service
+    /// 服务节点信息
     /// </summary>
     public class Node : INode
     {
@@ -21,30 +22,35 @@ namespace SkeFramework.NetSocket.Topology
         }
 
         /// <summary>
-        ///     A DateTime.Ticks representation of when we last heard from this node
+        /// 节点上次访问的时间戳
         /// </summary>
         public long LastPulse { get; set; }
 
         /// <summary>
-        ///     The IP address of this seed
+        /// IP地址
         /// </summary>
         public IPAddress Host { get; set; }
 
         /// <summary>
-        ///     The name of this machine
+        /// 机器名
         /// </summary>
         public string MachineName { get; set; }
-
+        /// <summary>
+        /// 系统
+        /// </summary>
         public string OS { get; set; }
+        /// <summary>
+        /// 版本号
+        /// </summary>
         public string ServiceVersion { get; set; }
 
         /// <summary>
-        ///     A JSON blob representing arbitrary data about this node
+        /// Json字节
         /// </summary>
         public string CustomData { get; set; }
 
         /// <summary>
-        ///     The port number of this node
+        /// 节点端口
         /// </summary>
         public int Port { get; set; }
 
@@ -60,9 +66,9 @@ namespace SkeFramework.NetSocket.Topology
         {
             return new Node
             {
-                CustomData = CustomData.NotNull(s => (string)s.Clone()),
+                CustomData = CustomData,
                 Host = new IPAddress(Host.GetAddressBytes()),
-                MachineName = MachineName.NotNull(s => (string)s.Clone()),
+                MachineName = MachineName,
                 Port = Port,
                 TransportType = TransportType
             };
@@ -108,14 +114,6 @@ namespace SkeFramework.NetSocket.Topology
         {
             return NodeBuilder.BuildNode().Host(IPAddress.Any).WithPort(port);
         }
-
-#if !NET35 && !NET40
-        public static INode FromString(string nodeUri)
-        {
-            var uri = new Uri(nodeUri);
-            return uri.ToNode();
-        }
-#endif
 
         #endregion
     }

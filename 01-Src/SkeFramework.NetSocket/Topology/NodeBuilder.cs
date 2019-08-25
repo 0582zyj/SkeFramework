@@ -7,15 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSocket.Topology;
 
-namespace SkeFramework.NetSocket.Net
+namespace SkeFramework.Topology
 {
     /// <summary>
-    ///     Static builder class for creating INode instances
+    /// 节点构建器类
     /// </summary>
     public static class NodeBuilder
     {
         /// <summary>
-        ///     Creates a new INode instance
+        /// 创建一个节点
         /// </summary>
         /// <returns>A new INode instance</returns>
         public static INode BuildNode()
@@ -25,11 +25,10 @@ namespace SkeFramework.NetSocket.Net
         }
 
         /// <summary>
-        ///     Add a host to an INode instance
+        /// 注入IP地址
         /// </summary>
-        /// <param name="n">A valid INode instance</param>
-        /// <param name="host">A System.Net IpAddress object representing a valid host for a given service</param>
-        /// <returns>A valid INode instance with the host set</returns>
+        /// <param name="n">节点对象</param>
+        /// <param name="host">IP地址</param>
         public static INode Host(this INode n, IPAddress host)
         {
             n.Host = host;
@@ -37,11 +36,10 @@ namespace SkeFramework.NetSocket.Net
         }
 
         /// <summary>
-        ///     Add a host to an INode instance
+        /// 注入IP地址
         /// </summary>
-        /// <param name="n">A valid INode instance</param>
-        /// <param name="host">A string representation of an IP address</param>
-        /// <returns>A valid INode instance with the host set</returns>
+        /// <param name="n">节点名</param>
+        /// <param name="host">IP地址 String格式</param>
         public static INode Host(this INode n, string host)
         {
             IPAddress parseIp;
@@ -61,11 +59,10 @@ namespace SkeFramework.NetSocket.Net
         }
 
         /// <summary>
-        ///     Add a machine name to an INode instance
+        ///  注入机器名
         /// </summary>
-        /// <param name="n">A valid INode instance</param>
-        /// <param name="machineName">the name of this machine</param>
-        /// <returns>A valid INode instance with the machine name set</returns>
+        /// <param name="n">节点名</param>
+        /// <param name="machineName">机器名称</param>
         public static INode MachineName(this INode n, string machineName)
         {
             n.MachineName = machineName;
@@ -73,11 +70,10 @@ namespace SkeFramework.NetSocket.Net
         }
 
         /// <summary>
-        ///     Add an OS name and version to an INode instance
+        /// 注入系统名称
         /// </summary>
-        /// <param name="n">A valid INode instance</param>
-        /// <param name="osName">The name and version of the host operating system</param>
-        /// <returns>A valid INode instance with the OS name and version set</returns>
+        /// <param name="n">节点名</param>
+        /// <param name="osName">系统名称</param>
         public static INode OperatingSystem(this INode n, string osName)
         {
             n.OS = osName;
@@ -85,11 +81,10 @@ namespace SkeFramework.NetSocket.Net
         }
 
         /// <summary>
-        ///     Add the version # of the service being used to an INode instance
+        /// 注入版本号
         /// </summary>
-        /// <param name="n">A valid INode instance</param>
-        /// <param name="serviceVersion">The version # of the service this node belongs to</param>
-        /// <returns>A valid INode instance with the service version # set</returns>
+        /// <param name="n">节点</param>
+        /// <param name="serviceVersion">节点版本号</param>
         public static INode WithVersion(this INode n, string serviceVersion)
         {
             n.ServiceVersion = serviceVersion;
@@ -97,11 +92,8 @@ namespace SkeFramework.NetSocket.Net
         }
 
         /// <summary>
-        ///     Adds a capability to a given INode instance
+        ///  注入端口
         /// </summary>
-        /// <param name="n">A valid INode instance</param>
-        /// <param name="portNum">the port number for this node</param>
-        /// <returns>A valid node</returns>
         public static INode WithPort(this INode n, int portNum)
         {
             n.Port = portNum;
@@ -109,11 +101,8 @@ namespace SkeFramework.NetSocket.Net
         }
 
         /// <summary>
-        ///     Adds a capability to a given INode instance
+        /// 注入传输类型
         /// </summary>
-        /// <param name="n">A valid INode instance</param>
-        /// <param name="transportType">the type of network connection used by this node</param>
-        /// <returns>A valid node</returns>
         public static INode WithTransportType(this INode n, TransportType transportType)
         {
             n.TransportType = transportType;
@@ -121,11 +110,8 @@ namespace SkeFramework.NetSocket.Net
         }
 
         /// <summary>
-        ///     Add a JSON blob to a node's metadata
+        ///  注入传输数据
         /// </summary>
-        /// <param name="n">A valid INode instance</param>
-        /// <param name="customData">A JSON-string representing a blob of custom data about this node</param>
-        /// <returns>A valid node</returns>
         public static INode WithCustomData(this INode n, string customData)
         {
             n.CustomData = customData;
@@ -133,10 +119,8 @@ namespace SkeFramework.NetSocket.Net
         }
 
         /// <summary>
-        ///     Creates an INode instance from an IP endpoint
+        /// 根据Socket监听返回节点信息
         /// </summary>
-        /// <param name="endPoint">A System.NET.IPEndpoint argument, usually from an incoming socket connection</param>
-        /// <returns>An active INode instance</returns>
         public static INode FromEndpoint(IPEndPoint endPoint)
         {
             var n = new Node { Host = endPoint.Address, Port = endPoint.Port };

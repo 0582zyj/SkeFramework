@@ -13,17 +13,16 @@ namespace SkeFramework.NetSocket.Topology
     public interface INode : ICloneable
     {
         /// <summary>
-        ///     The IP address of this seed
+        /// IP地址
         /// </summary>
         IPAddress Host { get; set; }
-
         /// <summary>
-        ///     The port number of this node's capability
+        /// 节点端口号
         /// </summary>
         int Port { get; set; }
 
         /// <summary>
-        ///     The connection type used by this node
+        /// 链接类型
         /// </summary>
         TransportType TransportType { get; set; }
 
@@ -33,22 +32,22 @@ namespace SkeFramework.NetSocket.Topology
         string MachineName { get; set; }
 
         /// <summary>
-        ///     OS name and version of this machine
+        /// 操作熊
         /// </summary>
         string OS { get; set; }
 
         /// <summary>
-        ///     version of the service running on this node
+        /// 服务运行版本
         /// </summary>
         string ServiceVersion { get; set; }
 
         /// <summary>
-        ///     A JSON blob representing arbitrary data about this node
+        /// Json字节数据
         /// </summary>
         string CustomData { get; set; }
 
         /// <summary>
-        ///     Converts the node to an <see cref="IPEndPoint" />
+        /// 将节点信息转为Socket监听点
         /// </summary>
         IPEndPoint ToEndPoint();
     }
