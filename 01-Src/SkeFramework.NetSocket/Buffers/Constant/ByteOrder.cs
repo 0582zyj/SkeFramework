@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Buffers
+namespace SkeFramework.NetSocket.Buffers.Constant
 {
     /// <summary>
     /// 字节大小端排序

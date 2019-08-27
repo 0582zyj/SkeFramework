@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SkeFramework.NetSocket.Buffers;
 using SkeFramework.NetSocket.Net;
+using SkeFramework.NetSocket.Net.Bootstrap.Server;
 using SkeFramework.NetSocket.Net.Udp;
 using SkeFramework.NetSocket.Ops;
 using SkeFramework.NetSocket.Serialization;
@@ -32,19 +33,12 @@ namespace SkeFramework.Winform.AutoUpdates.Test
 
             Console.WriteLine("Starting echo server...");
             Console.WriteLine("Will begin listening for requests on {0}:{1}", ip, Port);
-            //var bootstrapper =
-            //    new ServerBootstrap()
-            //        .WorkerThreads(2)
-            //        .SetTransport(TransportType.Udp)
-            //        .Build();
-            INode listentNode = NodeBuilder.BuildNode().Host(ip).WithPort(Port);
-            IExecutor InternalExecutor = new BasicExecutor();
-            NetworkEventLoop EventLoop = new NetworkEventLoop(InternalExecutor, 2);
-            IMessageEncoder Encoder = new NoOpEncoder();
-            IMessageDecoder Decoder = new NoOpDecoder();
-            IByteBufAllocator Allocator = null;
-            var reactor = new UdpProxyReactor(listentNode.Host, listentNode.Port, EventLoop, Encoder, Decoder, Allocator,
-                1024);
+            var bootstrapper =
+                new ServerBootstrap()
+                    .WorkerThreads(2)
+                    .SetTransport(TransportType.Udp)
+                    .Build();
+            var reactor = bootstrapper.NewReactor(NodeBuilder.BuildNode().Host(ip).WithPort(Port));
             reactor.OnConnection += (node, connection) =>
             {
                 ServerPrint(node,

@@ -41,14 +41,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buffers\ByteOrder.cs" />
+    <Compile Include="Buffers\AbstractByteBufAllocator.cs" />
+    <Compile Include="Buffers\AbstractReferenceCountedByteBuf.cs" />
+    <Compile Include="Buffers\AbstractByteBuf.cs" />
+    <Compile Include="Buffers\Constant\ByteOrder.cs" />
+    <Compile Include="Buffers\EmptyByteBuf.cs" />
     <Compile Include="Buffers\IByteBuf.cs" />
     <Compile Include="Buffers\IByteBufAllocator.cs" />
     <Compile Include="Buffers\ICircularBuffer.cs" />
     <Compile Include="Buffers\IReferenceCounted.cs" />
-    <Compile Include="Channels\IConnectionConfig.cs" />
+    <Compile Include="Buffers\UnpooledByteBufAllocator.cs" />
+    <Compile Include="Buffers\UnpooledDirectByteBuf.cs" />
+    <Compile Include="Channels\Connections\Achieves\DefaultConnectionConfig.cs" />
+    <Compile Include="Channels\Connections\IConnectionConfig.cs" />
     <Compile Include="Channels\TaskRunner.cs" />
+    <Compile Include="Exceptions\IllegalReferenceCountException.cs" />
+    <Compile Include="Net\Bootstrap\AbstractBootstrap.cs" />
+    <Compile Include="Channels\IConnectionFactory.cs" />
+    <Compile Include="Net\Bootstrap\Server\ServerBootstrap.cs" />
+    <Compile Include="Net\Factory\IServerFactory.cs" />
     <Compile Include="Net\Response\ReactorProxyResponseChannel.cs" />
+    <Compile Include="Net\Factory\ServerFactoryBase.cs" />
+    <Compile Include="Net\Factory\Achieves\UdpServerFactory.cs" />
+    <Compile Include="Ops\EventLoops\EventLoopFactory.cs" />
+    <Compile Include="Serialization\Encoders.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="DataUtil\Deadline.cs" />
     <Compile Include="DataUtil\ScheduledValue.cs" />
@@ -56,10 +72,10 @@
     <Compile Include="Exceptions\SkeException.cs" />
     <Compile Include="Exceptions\SocketConnectionException.cs" />
     <Compile Include="Buffers\ConcurrentCircularBuffer.cs" />
-    <Compile Include="Channels\IConnection.cs" />
+    <Compile Include="Channels\Connections\IConnection.cs" />
     <Compile Include="Net\NetworkConstants.cs" />
     <Compile Include="Net\NetworkData.cs" />
-    <Compile Include="Ops\EventLoops\NetworkEventLoop.cs" />
+    <Compile Include="Ops\EventLoops\Achieves\NetworkEventLoop.cs" />
     <Compile Include="Topology\NodeBuilder.cs" />
     <Compile Include="Net\Reactor\ProxyReactorBase.cs" />
     <Compile Include="Net\Response\ReactorResponseChannel.cs" />
@@ -69,7 +85,7 @@
     <Compile Include="Ops\EventLoops\AbstractEventLoop.cs" />
     <Compile Include="Ops\FiberFactory.cs" />
     <Compile Include="Ops\IFiber.cs" />
-    <Compile Include="Ops\EventLoops\ThreadedEventLoop.cs" />
+    <Compile Include="Ops\EventLoops\Achieves\ThreadedEventLoop.cs" />
     <Compile Include="Ops\IEventLoop.cs" />
     <Compile Include="Ops\IExecutor.cs" />
     <Compile Include="Ops\Executors\TryCatchExecutor.cs" />
