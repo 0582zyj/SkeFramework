@@ -70,22 +70,22 @@ namespace SkeFramework.NetSocket.Channels
         }
 
         /// <summary>
-        /// The low-level socket object
+        /// Socket对象
         /// </summary>
         public Socket Socket { get; private set; }
 
         /// <summary>
-        /// The remote host on the other end of the connection
+        /// 远程主机节点
         /// </summary>
         public INode RemoteHost { get; set; }
 
         /// <summary>
-        /// The receive buffer used for processing data from this connection
+        /// 接收缓冲区
         /// </summary>
         public IByteBuf Buffer { get; private set; }
 
         /// <summary>
-        /// Raw buffer used for receiving data directly from the network
+        /// 原始缓冲区
         /// </summary>
         public byte[] RawBuffer { get; private set; }
     }

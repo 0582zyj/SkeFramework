@@ -199,7 +199,8 @@ namespace SkeFramework.NetSocket.Reactor
 
         protected NetworkState CreateNetworkState(Socket socket, INode remotehost)
         {
-            return CreateNetworkState(socket, remotehost, Allocator.Buffer(), BufferSize);
+            IByteBuf byteBuf=  Allocator == null ? null : Allocator.Buffer();
+            return CreateNetworkState(socket, remotehost, byteBuf, BufferSize);
         }
 
         protected NetworkState CreateNetworkState(Socket socket, INode remotehost, IByteBuf buffer, int bufferSize)
@@ -208,7 +209,7 @@ namespace SkeFramework.NetSocket.Reactor
         }
 
         /// <summary>
-        ///     Closes a connection to a remote host (without shutting down the server.)
+        /// 关闭到远程主机的连接(不关闭服务器)
         /// </summary>
         /// <param name="remoteHost">The remote host to terminate</param>
         internal abstract void CloseConnection(IConnection remoteHost);

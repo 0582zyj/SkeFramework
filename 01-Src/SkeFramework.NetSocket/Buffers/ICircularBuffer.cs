@@ -9,7 +9,7 @@ namespace SkeFramework.NetSocket.Buffers
 {
     
     /// <summary>
-    /// 缓冲区操作
+    /// 缓冲区操作接口
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface ICircularBuffer<T> : IProducerConsumerCollection<T>

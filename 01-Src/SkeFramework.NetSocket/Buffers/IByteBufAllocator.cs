@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SkeFramework.NetSocket.Buffers
 {
     /// <summary>
-    ///     Thread-safe interface for allocating <see cref="IByteBuf" /> instances for use inside Helios reactive I/O
+    /// 字节缓冲区分配程序接口
     /// </summary>
     public interface IByteBufAllocator
     {

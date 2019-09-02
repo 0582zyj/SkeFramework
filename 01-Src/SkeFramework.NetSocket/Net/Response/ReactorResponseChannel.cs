@@ -17,7 +17,7 @@ using SkeFramework.Topology;
 namespace SkeFramework.NetSocket.Net
 {
     /// <summary>
-    ///     Wraps a remote endpoint which connected <see cref="IReactor" /> instance inside a <see cref="IConnection" /> object
+    /// 远程实例连接
     /// </summary>
     public abstract class ReactorResponseChannel : IConnection
     {

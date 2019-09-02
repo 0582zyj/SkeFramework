@@ -36,6 +36,7 @@ namespace SkeFramework.NetSocket.Reactor
         /// </summary>
         event ExceptionCallback OnError;
         #endregion
+
         #region 字节操作
         /// <summary>
         /// 编码接口
