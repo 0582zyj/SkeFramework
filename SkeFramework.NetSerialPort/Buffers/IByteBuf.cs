@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.NetSerialPort.Buffers.Allocators;
 using SkeFramework.NetSerialPort.Buffers.Constants;
 
 namespace SkeFramework.NetSerialPort.Buffers
@@ -36,5 +37,7 @@ namespace SkeFramework.NetSerialPort.Buffers
         ///     Flag that indicates if this <see cref="IByteBuf" /> is backed by a byte array or not
         /// </summary>
         bool HasArray { get; }
+
+        byte[] ToArray();
     }
 }

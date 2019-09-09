@@ -47,16 +47,20 @@
     <Compile Include="Buffers\Serialization\IMessageDecoder.cs" />
     <Compile Include="Buffers\Serialization\IMessageEncoder.cs" />
     <Compile Include="Buffers\IReferenceCounted.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="Net\Reactor\ReactorBase.cs" />
+    <Compile Include="ProjectVersion.cs" />
     <Compile Include="Net\Reactor\IReactor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocols\Configs\IConnectionConfig.cs" />
+    <Compile Include="Protocols\Connections\ReactorConnectionAdapter.cs" />
+    <Compile Include="Protocols\Constants\NetworkConstants.cs" />
+    <Compile Include="Protocols\Constants\NetworkData.cs" />
     <Compile Include="Protocols\Constants\NetworkState.cs" />
     <Compile Include="Protocols\IConnection.cs" />
+    <Compile Include="Protocols\Response\ReactorResponseChannel.cs" />
     <Compile Include="Topology\INode.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Protocols\Connections\" />
     <Folder Include="Topology\Nodes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

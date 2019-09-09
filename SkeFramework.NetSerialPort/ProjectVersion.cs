@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.NetSerialPort
 {
-    public class Class1
+    public class ProjectVersion
     {
     }
 }

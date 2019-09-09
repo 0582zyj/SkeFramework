@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
 using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Topology;
 
 namespace SkeFramework.NetSerialPort.Protocols
@@ -19,7 +20,7 @@ namespace SkeFramework.NetSerialPort.Protocols
 
     public interface IConnection : IDisposable
     {
-        //event ReceivedDataCallback Receive;
+        event ReceivedDataCallback Receive;
 
         //event ConnectionEstablishedCallback OnConnection;
 
@@ -69,7 +70,7 @@ namespace SkeFramework.NetSerialPort.Protocols
         /// </summary>
         int MessagesInSendQueue { get; }
 
-        Task<bool> OpenAsync();
+      
 
         /// <summary>
         /// Configures this transport using the provided option
