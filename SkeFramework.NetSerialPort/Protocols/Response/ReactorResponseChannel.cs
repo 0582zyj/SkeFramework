@@ -36,8 +36,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
             Decoder = _reactor.Decoder.Clone();
             Encoder = _reactor.Encoder.Clone();
             Allocator = _reactor.Allocator;
-            Local = reactor.LocalEndpoint.ToNode(reactor.Transport);
-            RemoteHost = NodeBuilder.FromEndpoint(endPoint);
+            //Local = reactor.LocalEndpoint.ToNode(reactor.Transport);
+            //RemoteHost = NodeBuilder.FromEndpoint(endPoint);
         }
 
 

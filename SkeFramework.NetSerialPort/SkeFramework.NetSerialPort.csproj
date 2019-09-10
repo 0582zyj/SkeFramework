@@ -47,6 +47,7 @@
     <Compile Include="Buffers\Serialization\IMessageDecoder.cs" />
     <Compile Include="Buffers\Serialization\IMessageEncoder.cs" />
     <Compile Include="Buffers\IReferenceCounted.cs" />
+    <Compile Include="Net\Reactor\ProxyReactorBase.cs" />
     <Compile Include="Net\Reactor\ReactorBase.cs" />
     <Compile Include="ProjectVersion.cs" />
     <Compile Include="Net\Reactor\IReactor.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Topology\INode.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Net\Udp\" />
     <Folder Include="Topology\Nodes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

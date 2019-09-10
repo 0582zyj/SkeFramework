@@ -349,9 +349,7 @@
     <None Include="Lib\DevExpress.XtraTreeList.v14.2.dll" />
     <None Include="Lib\MySql.Data.dll" />
     <Content Include="SQLite.Interop.dll" />
-    <None Include="x64\SQLite.Interop.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="x64\SQLite.Interop.dll" />
     <None Include="x86\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

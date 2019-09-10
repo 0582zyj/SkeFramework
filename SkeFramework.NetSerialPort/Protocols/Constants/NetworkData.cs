@@ -30,7 +30,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Constants
         /// </summary>
         public int Length { get; set; }
 
-        public static NetworkData Empty = new NetworkData() { Length = 0, RemoteHost = Node.Empty() };
+        public static NetworkData Empty = new NetworkData() { Length = 0, RemoteHost =null };
 
         #region 生成一个远程数据对象
         public static NetworkData Create(INode node, byte[] data, int bytes)
