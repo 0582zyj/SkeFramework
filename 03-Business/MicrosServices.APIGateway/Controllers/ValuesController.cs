@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Nacos;
 
 namespace MicrosServices.APIGateway.Controllers
 {
@@ -40,6 +41,25 @@ namespace MicrosServices.APIGateway.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+
+        private readonly INacosConfigClient _configClient;
+        public ValuesController(INacosConfigClient configClient)
+        {
+            _configClient = configClient;
+        }
+        // GET api/config?key=demo1
+        [HttpGet("")]
+        public async Task<string> Get([FromQuery]string key)
+        {
+            var res = await _configClient.GetConfigAsync(new GetConfigRequest
+            {
+                DataId = key,
+                Group = "DEFAULT_GROUP",
+                //Tenant = "tenant"
+            });
+            return string.IsNullOrWhiteSpace(res) ? "Not Found" : res;
         }
     }
 }
