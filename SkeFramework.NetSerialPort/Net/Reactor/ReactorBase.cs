@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -34,48 +35,43 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         #endregion
 
         #region 构造注入
-        protected ReactorBase(IPAddress localAddress, int localPort, IMessageEncoder encoder,
-            IMessageDecoder decoder, IByteBufAllocator allocator, SocketType socketType = SocketType.Stream,
-            ProtocolType protocol = ProtocolType.Tcp, int bufferSize = NetworkConstants.DEFAULT_BUFFER_SIZE)
+        protected ReactorBase(NodeConfig nodeConfig, IMessageEncoder encoder,
+            IMessageDecoder decoder, IByteBufAllocator allocator, int bufferSize = NetworkConstants.DEFAULT_BUFFER_SIZE)
         {
             Decoder = decoder;
             Encoder = encoder;
             Allocator = allocator;
-            LocalEndpoint = new IPEndPoint(localAddress, localPort);
-            Listener = new Socket(LocalEndpoint.AddressFamily, socketType, protocol);
-            if (protocol == ProtocolType.Tcp)
-            {
-                Transport = TransportType.Tcp;
-            }
-            else if (protocol == ProtocolType.Udp)
-            {
-                Transport = TransportType.Udp;
-            }
+
+            Listener = new SerialPort();
+            Listener.PortName = nodeConfig.PortName;
+            Listener.BaudRate = nodeConfig.BaudRate;
+            Listener.DataBits = nodeConfig.DataBits;
+            Listener.StopBits = nodeConfig.StopBits;
+            Listener.Parity = nodeConfig.Parity;
+            Listener.ReceivedBytesThreshold = 1;
+          
+
+            //LocalEndpoint = new IPEndPoint(localAddress, localPort);      
             Backlog = NetworkConstants.DefaultBacklog;
             ConnectionAdapter = new ReactorConnectionAdapter(this);
             BufferSize = bufferSize;
         }
         #endregion
+
+        protected NodeConfig nodeConfig;
         /// <summary>
         /// 监听者
         /// </summary>
-        protected Socket Listener;
+        protected SerialPort Listener;
         /// <summary>
         /// 缓冲区大小
         /// </summary>
         protected int BufferSize { get; set; }
 
-        public bool Blocking
-        {
-            get { return Listener.Blocking; }
-            set { Listener.Blocking = value; }
-        }
-
-        public IMessageEncoder Encoder { get; }
-        public IMessageDecoder Decoder { get; }
-        public IByteBufAllocator Allocator { get; }
-
-        public IConnection ConnectionAdapter { get; }
+        public IMessageEncoder Encoder { get; set; }
+        public IMessageDecoder Decoder { get; set; }
+        public IByteBufAllocator Allocator { get; set; }
+        public IConnection ConnectionAdapter { get; set; }
 
         public abstract bool IsActive { get; protected set; }
         public bool WasDisposed { get; protected set; }
@@ -86,20 +82,18 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         {
             //Don't restart
             if (IsActive) return;
-
             CheckWasDisposed();
             IsActive = true;
-            Listener.Bind(LocalEndpoint);
-            LocalEndpoint = (IPEndPoint)Listener.LocalEndPoint;
             StartInternal();
         }
+       
 
         public void Stop()
         {
             CheckWasDisposed();
             try
             {
-                Listener.Shutdown(SocketShutdown.Both);
+                Listener.Close();
             }
             catch
             {
@@ -113,23 +107,19 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             Send(data.Buffer, 0, data.Length, data.RemoteHost);
         }
 
-
         public int Backlog { get; set; }
 
-        public IPEndPoint LocalEndpoint { get; protected set; }
-        public TransportType Transport { get; }
+        public SerialPort LocalEndpoint { get; protected set; }
 
         public abstract void Configure(IConnectionConfig config);
         public abstract void Send(byte[] buffer, int index, int length, INode destination);
-
         protected abstract void StartInternal();
-
         protected abstract void StopInternal();
 
 
         /// <summary>
-        ///     Abstract method to be filled in by a child class - data received from the
-        ///     network is injected into this method via the <see cref="NetworkData" /> data type.
+        /// Abstract method to be filled in by a child class - data received from the
+        /// network is injected into this method via the <see cref="NetworkData" /> data type.
         /// </summary>
         /// <param name="availableData">Data available from the network, including a response address</param>
         /// <param name="responseChannel">Available channel for handling network response</param>
@@ -142,13 +132,14 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         }
 
 
-        protected NetworkState CreateNetworkState(Socket socket, INode remotehost)
+        #region ReactorConnectionAdapter
+        protected NetworkState CreateNetworkState(SerialPort socket, INode remotehost)
         {
             IByteBuf byteBuf = Allocator == null ? null : Allocator.Buffer();
             return CreateNetworkState(socket, remotehost, byteBuf, BufferSize);
         }
 
-        protected NetworkState CreateNetworkState(Socket socket, INode remotehost, IByteBuf buffer, int bufferSize)
+        protected NetworkState CreateNetworkState(SerialPort socket, INode remotehost, IByteBuf buffer, int bufferSize)
         {
             return new NetworkState(socket, remotehost, buffer, bufferSize);
         }
@@ -160,10 +151,6 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         internal abstract void CloseConnection(IConnection remoteHost);
 
         internal abstract void CloseConnection(Exception reason, IConnection remoteHost);
-
-        #region ReactorConnectionAdapter
-
-      
         #endregion
 
         #region IDisposable Members

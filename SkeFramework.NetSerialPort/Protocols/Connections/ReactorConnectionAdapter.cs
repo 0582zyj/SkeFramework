@@ -32,29 +32,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             remove { _reactor.OnReceive -= value; }
         }
 
-        //public event ConnectionEstablishedCallback OnConnection
-        //{
-        //    add { _reactor.OnConnection += value; }
-        //    remove { _reactor.OnConnection -= value; }
-        //}
-
-        //public event ConnectionTerminatedCallback OnDisconnection
-        //{
-        //    add { _reactor.OnDisconnection += value; }
-        //    remove { _reactor.OnDisconnection -= value; }
-        //}
-
-        //public event ExceptionCallback OnError
-        //{
-        //    add { _reactor.OnError += value; }
-        //    remove { _reactor.OnError -= value; }
-        //}
-
-        //public IEventLoop EventLoop
-        //{
-        //    get { return _reactor.EventLoop; }
-        //}
-
         public IMessageEncoder Encoder
         {
             get { return _reactor.Encoder; }
@@ -80,16 +57,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
 
         public TimeSpan Timeout { get; private set; }
 
-        public TransportType Transport
-        {
-            get { return _reactor.Transport; }
-        }
-
-        public bool Blocking
-        {
-            get { return _reactor.Blocking; }
-            set { _reactor.Blocking = value; }
-        }
 
         public bool WasDisposed { get; private set; }
 

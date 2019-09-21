@@ -21,14 +21,7 @@ namespace SkeFramework.NetSerialPort.Protocols
     public interface IConnection : IDisposable
     {
         event ReceivedDataCallback Receive;
-
-        //event ConnectionEstablishedCallback OnConnection;
-
-        //event ConnectionTerminatedCallback OnDisconnection;
-
-        //event ExceptionCallback OnError;
-
-        //IEventLoop EventLoop { get; }
+   
 
         IMessageEncoder Encoder { get; }
         IMessageDecoder Decoder { get; }
@@ -45,13 +38,6 @@ namespace SkeFramework.NetSerialPort.Protocols
         INode Local { get; }
 
         TimeSpan Timeout { get; }
-
-        TransportType Transport { get; }
-
-        /// <summary>
-        /// Determines if the underlying connection uses a blocking transport or not
-        /// </summary>
-        bool Blocking { get; set; }
 
         bool WasDisposed { get; }
 
@@ -70,10 +56,8 @@ namespace SkeFramework.NetSerialPort.Protocols
         /// </summary>
         int MessagesInSendQueue { get; }
 
-      
-
         /// <summary>
-        /// Configures this transport using the provided option
+        /// 选项配置此传输
         /// </summary>
         /// <param name="config">a <see cref="IConnectionConfig"/> instance with the appropriate configuration options</param>
         void Configure(IConnectionConfig config);
@@ -81,48 +65,32 @@ namespace SkeFramework.NetSerialPort.Protocols
         void Open();
 
         /// <summary>
-        /// Call this method to begin receiving data on this connection.
-        /// 
+        /// 开始接收此连接上的数据
         /// Assumes that <see cref="Receive"/> has already been set.
         /// </summary>
         void BeginReceive();
 
         /// <summary>
-        /// Call this method to begin receiving data on this connection
+        /// 开始接收此连接上的数据
         /// </summary>
         /// <param name="callback">A callback for when data is received</param>
         void BeginReceive(ReceivedDataCallback callback);
 
         /// <summary>
-        /// Stop receiving messages, but keep the connection open
+        /// 停止接收消息，但保持连接打开
         /// </summary>
         void StopReceive();
-
-        void Close();
-
-        ///// <summary>
-        ///// Send data to a remote host
-        ///// </summary>
-        ///// <param name="data">A NetworkData data</param>
-        //void Send(NetworkData data);
-
         /// <summary>
-        /// Send a data of data from the specified byte array to the 
-        /// <see cref="INode"/> specified. 
-        /// 
-        /// <see cref="destination"/> is not used for TCP and other connection-oriented 
-        /// protocols, where the recipient is well-known. It is
-        /// 
-        /// <see cref="destination"/> is REQUIRED, however, for connectionless protocols like UDP.
-        /// 
-        /// Not sure what type of connection you're using? Include <see cref="destination"/> by default.
-        /// 
-        /// All sends are done asynchronously by default.
+        /// 关闭
         /// </summary>
-        /// <param name="buffer">The byte array to send over the network</param>
-        /// <param name="index">Send bytes starting at this index in the array</param>
-        /// <param name="length">Send this many bytes from the array starting at <see cref="index"/>.</param>
-        /// <param name="destination">The network address where this information will be sent.</param>
+        void Close();
+        /// <summary>
+        /// 发送方法
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="index"></param>
+        /// <param name="length"></param>
+        /// <param name="destination"></param>
         void Send(byte[] buffer, int index, int length, INode destination);
     }
 }

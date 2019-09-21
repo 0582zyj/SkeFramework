@@ -49,30 +49,18 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
             remove {  }
         }
 
-       
-        public IMessageEncoder Encoder { get; }
-        public IMessageDecoder Decoder { get; }
-        public IByteBufAllocator Allocator { get; }
+
+        public IMessageEncoder Encoder { get; set; }
+        public IMessageDecoder Decoder { get; set; }
+        public IByteBufAllocator Allocator { get; set; }
 
         public DateTimeOffset Created { get; private set; }
-        public INode RemoteHost { get; }
-        public INode Local { get; }
+        public INode RemoteHost { get; set; }
+        public INode Local { get; set; }
 
         public TimeSpan Timeout
         {
             get { return TimeSpan.FromSeconds(Socket.ReceiveTimeout); }
-        }
-
-        public TransportType Transport
-        {
-            get
-            {
-                if (Socket.ProtocolType == ProtocolType.Tcp)
-                {
-                    return TransportType.Tcp;
-                }
-                return TransportType.Udp;
-            }
         }
 
         public bool Blocking
@@ -123,7 +111,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
             //{
             //    NetworkEventLoop.Receive(msg, this);
             //}
-
             BeginReceiveInternal();
         }
 

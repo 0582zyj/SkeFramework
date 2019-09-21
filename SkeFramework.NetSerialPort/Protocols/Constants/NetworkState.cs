@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -14,7 +15,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Constants
     /// </summary>
     public class NetworkState
     {
-        public NetworkState(Socket socket, INode remoteHost, IByteBuf buffer, int rawBufferLength)
+        public NetworkState(SerialPort socket, INode remoteHost, IByteBuf buffer, int rawBufferLength)
         {
             Buffer = buffer;
             RemoteHost = remoteHost;
@@ -25,7 +26,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Constants
         /// <summary>
         /// Socket对象
         /// </summary>
-        public Socket Socket { get; private set; }
+        public SerialPort Socket { get; private set; }
 
         /// <summary>
         /// 远程主机节点

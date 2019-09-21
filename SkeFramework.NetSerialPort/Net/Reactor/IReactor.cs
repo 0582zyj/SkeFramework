@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Protocols;
 using SkeFramework.NetSerialPort.Protocols.Configs;
 using SkeFramework.NetSerialPort.Topology;
 
@@ -51,15 +53,10 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         IByteBufAllocator Allocator { get; }
         #endregion
 
-        ///// <summary>
-        ///// 连接适配器
-        ///// </summary>
-        //IConnection ConnectionAdapter { get; }
-        //NetworkEventLoop EventLoop { get; }
         /// <summary>
-        /// 挂起连接的积压允许底层传输
+        /// 连接适配器
         /// </summary>
-        int Backlog { get; set; }
+        IConnection ConnectionAdapter { get; }
         /// <summary>
         /// 连接是否活跃
         /// </summary>
@@ -71,17 +68,13 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         /// <summary>
         /// 本地连接
         /// </summary>
-        IPEndPoint LocalEndpoint { get; }
-        /// <summary>
-        /// 连接类型
-        /// </summary>
-        TransportType Transport { get; }
-
+        SerialPort LocalEndpoint { get; }
         /// <summary>
         /// 连接参数配置
         /// </summary>
         /// <param name="config"></param>
         void Configure(IConnectionConfig config);
+
         #region Socket发送接收数据
         ///// <summary>
         ///// 发送数据

@@ -17,20 +17,17 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
     {
         protected Dictionary<INode, ReactorResponseChannel> SocketMap = new Dictionary<INode, ReactorResponseChannel>();
 
-        protected ProxyReactorBase(IPAddress localAddress, int localPort, 
+        protected ProxyReactorBase(NodeConfig nodeConfig, 
             IMessageEncoder encoder, IMessageDecoder decoder, IByteBufAllocator allocator,
-            SocketType socketType = SocketType.Stream, ProtocolType protocol = ProtocolType.Tcp,
             int bufferSize = NetworkConstants.DEFAULT_BUFFER_SIZE)
-            : base(localAddress, localPort, encoder, decoder, allocator, socketType, protocol, bufferSize)
+            : base(nodeConfig, encoder, decoder, allocator,  bufferSize)
         {
             BufferSize = bufferSize;
         }
 
-
-
         /// <summary>
-        ///     If true, proxies created for each inbound connection share the parent's thread-pool. If false, each proxy is
-        ///     allocated
+        ///  If true, proxies created for each inbound connection share the parent's thread-pool. If false, each proxy is
+        ///  allocated
         ///     its own thread pool.
         ///     Defaults to true.
         /// </summary>

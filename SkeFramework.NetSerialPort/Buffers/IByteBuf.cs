@@ -39,5 +39,7 @@ namespace SkeFramework.NetSerialPort.Buffers
         bool HasArray { get; }
 
         byte[] ToArray();
+
+        IByteBuf ReadBytes(IByteBuf destination);
     }
 }
