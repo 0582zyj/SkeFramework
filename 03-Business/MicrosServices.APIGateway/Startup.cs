@@ -48,7 +48,7 @@ namespace MicrosServices.APIGateway
             }
 
             app.UseMvc();
-            app.UseNacosAspNetCore();
+            //app.UseNacosAspNetCore();
 
         }
     }

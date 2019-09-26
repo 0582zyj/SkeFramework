@@ -88,7 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.SnowFlake\SkeFramework.Core.SnowFlake.csproj">
-      <Project>{71152b0c-cbb6-466a-822b-231a3bc79451}</Project>
+      <Project>{59B48553-2829-4BB0-83AA-860C8EDC9F68}</Project>
       <Name>SkeFramework.Core.SnowFlake</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.NetSocket\SkeFramework.NetSocket.csproj">
