@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{71152B0C-CBB6-466A-822B-231A3BC79451}</ProjectGuid>
+    <ProjectGuid>{59B48553-2829-4BB0-83AA-860C8EDC9F68}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SkeFramework.Core.SnowFlake</RootNamespace>
