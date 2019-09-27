@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Nacos;
+using Nacos.AspNetCore;
 
 namespace MicrosServices.APIGateway
 {
@@ -20,26 +21,13 @@ namespace MicrosServices.APIGateway
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddNacos(configure =>
-            {
-                // default timeout
-                configure.DefaultTimeOut = 8;
-                // nacos's endpoint
-                configure.ServerAddresses = new System.Collections.Generic.List<string> { "localhost:8848" };
-                // namespace
-                configure.Namespace = "";
-                // listen interval
-                configure.ListenInterval = 1000;
-            });
+            // important step
+            services.AddNacosAspNetCore(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
-
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -48,7 +36,8 @@ namespace MicrosServices.APIGateway
             }
 
             app.UseMvc();
-            //app.UseNacosAspNetCore();
+
+            app.UseNacosAspNetCore();
 
         }
     }
