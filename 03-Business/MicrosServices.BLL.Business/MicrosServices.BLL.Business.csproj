@@ -4,25 +4,23 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{59B48553-2829-4BB0-83AA-860C8EDC9F68}</ProjectGuid>
+    <ProjectGuid>{00BAAA1A-D082-4822-981C-D8AD6E8EEB59}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SkeFramework.Core.SnowFlake</RootNamespace>
-    <AssemblyName>SkeFramework.Core.SnowFlake</AssemblyName>
+    <RootNamespace>MicrosServices.BLL.Business</RootNamespace>
+    <AssemblyName>MicrosServices.BLL.Business</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,9 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -46,8 +41,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoIDWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UsersHandles\IUsersHandle.cs" />
+    <Compile Include="UsersHandles\UsersHandle.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.DataAccess\SkeFramework.DataBase.DataAccess.csproj">
+      <Project>{2811AF18-014F-4D3A-AA91-6AFB13F53A9A}</Project>
+      <Name>SkeFramework.DataBase.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.Interfaces\SkeFramework.DataBase.Interfaces.csproj">
+      <Project>{668b3c84-53ba-44bc-b3e5-59f0c4d248dd}</Project>
+      <Name>SkeFramework.DataBase.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.DAL.DataAccess\MicrosServices.DAL.DataAccess.csproj">
+      <Project>{385c7f8e-7318-4cb8-9df6-b61d49805c4e}</Project>
+      <Name>MicrosServices.DAL.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj">
+      <Project>{f26359e9-2013-44d7-8569-e5533dec9ba4}</Project>
+      <Name>MicrosServices.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

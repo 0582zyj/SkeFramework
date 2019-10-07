@@ -4,25 +4,23 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{59B48553-2829-4BB0-83AA-860C8EDC9F68}</ProjectGuid>
+    <ProjectGuid>{F26359E9-2013-44D7-8569-E5533DEC9BA4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SkeFramework.Core.SnowFlake</RootNamespace>
-    <AssemblyName>SkeFramework.Core.SnowFlake</AssemblyName>
+    <RootNamespace>MicrosServices.Entities</RootNamespace>
+    <AssemblyName>MicrosServices.Entities</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,9 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -46,8 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoIDWorker.cs" />
+    <Compile Include="Common\AuthorizeBlackip.cs" />
+    <Compile Include="Common\LogLogin.cs" />
+    <Compile Include="Common\Management.cs" />
+    <Compile Include="Common\ManagementRoles.cs" />
+    <Compile Include="Common\Manager.cs" />
+    <Compile Include="Common\Menu.cs" />
+    <Compile Include="Common\MenuRoles.cs" />
+    <Compile Include="Common\Organization.cs" />
+    <Compile Include="Common\Users.cs" />
+    <Compile Include="Common\UsersSetting.cs" />
+    <Compile Include="IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.Common\SkeFramework.DataBase.Common.csproj">
+      <Project>{43dfa23c-87ae-49cd-868a-801ead42be74}</Project>
+      <Name>SkeFramework.DataBase.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
