@@ -43,12 +43,16 @@
   <ItemGroup>
     <Compile Include="Common\AuthorizeBlackip.cs" />
     <Compile Include="Common\LogLogin.cs" />
-    <Compile Include="Common\Management.cs" />
-    <Compile Include="Common\ManagementRoles.cs" />
-    <Compile Include="Common\Manager.cs" />
-    <Compile Include="Common\Menu.cs" />
-    <Compile Include="Common\MenuRoles.cs" />
-    <Compile Include="Common\Organization.cs" />
+    <Compile Include="Common\PermissionSystem\PsManagement.cs" />
+    <Compile Include="Common\PermissionSystem\PsManagementRoles.cs" />
+    <Compile Include="Common\PermissionSystem\PsMenu.cs" />
+    <Compile Include="Common\PermissionSystem\PsMenuRoles.cs" />
+    <Compile Include="Common\PermissionSystem\PsOrganization.cs" />
+    <Compile Include="Common\PermissionSystem\PsOrgRoles.cs" />
+    <Compile Include="Common\PermissionSystem\PsPlatform.cs" />
+    <Compile Include="Common\PermissionSystem\PsRoles.cs" />
+    <Compile Include="Common\PermissionSystem\PsUserOrg.cs" />
+    <Compile Include="Common\PermissionSystem\PsUserRoles.cs" />
     <Compile Include="Common\Users.cs" />
     <Compile Include="Common\UsersSetting.cs" />
     <Compile Include="IEntity.cs" />

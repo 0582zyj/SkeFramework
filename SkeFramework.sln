@@ -92,6 +92,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.DAL.DataAcce
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.BLL.Business", "03-Business\MicrosServices.BLL.Business\MicrosServices.BLL.Business.csproj", "{00BAAA1A-D082-4822-981C-D8AD6E8EEB59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.API.PermissionSystem", "03-Business\MicrosServices.API.PermissionSystem\MicrosServices.API.PermissionSystem.csproj", "{3606B8D8-0FBA-43F4-9227-01E60D2F6747}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -190,6 +192,10 @@ Global
 		{00BAAA1A-D082-4822-981C-D8AD6E8EEB59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00BAAA1A-D082-4822-981C-D8AD6E8EEB59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00BAAA1A-D082-4822-981C-D8AD6E8EEB59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3606B8D8-0FBA-43F4-9227-01E60D2F6747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3606B8D8-0FBA-43F4-9227-01E60D2F6747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3606B8D8-0FBA-43F4-9227-01E60D2F6747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3606B8D8-0FBA-43F4-9227-01E60D2F6747}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -233,6 +239,7 @@ Global
 		{F26359E9-2013-44D7-8569-E5533DEC9BA4} = {B4016C34-1643-46EE-A87F-ABF084303EAF}
 		{385C7F8E-7318-4CB8-9DF6-B61D49805C4E} = {8671DE05-A89C-44CF-B606-5B319430F0E8}
 		{00BAAA1A-D082-4822-981C-D8AD6E8EEB59} = {FCE1C130-82BB-4D49-9EAB-516B2FC5497D}
+		{3606B8D8-0FBA-43F4-9227-01E60D2F6747} = {2C275C9C-3596-45BC-8D0C-C97D69403791}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}

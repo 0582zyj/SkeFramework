@@ -10,11 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using MicrosServices.APIGateway.Global;
-using Nacos;
-using Nacos.AspNetCore;
 
-namespace MicrosServices.APIGateway
+namespace MicrosServices.API.PermissionSystem
 {
     public class Startup
     {
@@ -22,33 +19,30 @@ namespace MicrosServices.APIGateway
         {
             Configuration = configuration;
         }
+
         public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // important step
-            services.AddNacosAspNetCore(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-   
-
-            services.AddIdentityServer()//Ids4服务
-                .AddDeveloperSigningCredential()
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryClients(Config.GetClients());//把配置文件的Client配置资源放到内存
         }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
 
+            app.UseHttpsRedirection();
             app.UseMvc();
-
-            app.UseNacosAspNetCore();
-            //
-            app.UseIdentityServer();
-
         }
     }
 }

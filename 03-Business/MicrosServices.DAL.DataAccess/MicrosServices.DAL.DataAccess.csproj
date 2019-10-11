@@ -43,6 +43,26 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\PermissionSystem\ManagementHandles\IPsManagementHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\ManagementHandles\PsManagementHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\ManagementRolesHandles\IPsManagementRolesHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\ManagementRolesHandles\PsManagementRolesHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\MenuHandles\IPsMenuHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\MenuHandles\PsMenuHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\MenuRolesHandles\IPsMenuRolesHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\MenuRolesHandles\PsMenuRolesHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\OrganizationHandles\IPsOrganizationHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\OrganizationHandles\PsOrganizationHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\OrgRolesHandles\IPsOrgRolesHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\OrgRolesHandles\PsOrgRolesHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\PlatformHandles\IPsPlatformHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\PlatformHandles\PsPlatformHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\RolesHandles\IPsRolesHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\RolesHandles\PsRolesHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\UserOrgHandles\IPsUserOrgHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\UserOrgHandles\PsUserOrgHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\UserRolesHandles\IPsUserRolesHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\UserRolesHandles\PsUserRolesHandleCommon.cs" />
     <Compile Include="Repository\UsersHandles\IUsersHandleCommon.cs" />
     <Compile Include="Repository\UsersHandles\UsersHandleCommon.cs" />
   </ItemGroup>
@@ -64,5 +84,6 @@
       <Name>MicrosServices.Entities</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
