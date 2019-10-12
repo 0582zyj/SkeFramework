@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Achieve\DALDataHandleFactory.cs" />
+    <Compile Include="DataHandleManager.cs" />
     <Compile Include="PermissionSystem\ManagementHandles\IPsManagementHandle.cs" />
     <Compile Include="PermissionSystem\ManagementHandles\PsManagementHandle.cs" />
     <Compile Include="PermissionSystem\ManagementRolesHandles\IPsManagementRolesHandle.cs" />
