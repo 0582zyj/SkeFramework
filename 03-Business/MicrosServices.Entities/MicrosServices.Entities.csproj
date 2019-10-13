@@ -58,6 +58,7 @@
     <Compile Include="IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Responses\JsonResponses.cs" />
+    <Compile Include="Responses\PageModel.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

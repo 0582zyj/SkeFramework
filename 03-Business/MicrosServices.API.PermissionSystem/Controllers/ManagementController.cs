@@ -25,26 +25,23 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<PsManagement>> GetManagementPageList(int pageIndex , int pageSize = 10, string keywords = "")
+        public ActionResult<JsonResponses> GetManagementPageList(int pageIndex , int pageSize = 10, string keywords = "")
         {
-            return null;
-            //Expression<Func<PsManagement, bool>> where = null;
-            //if (!String.IsNullOrEmpty(keywords))
-            //{
-            //    where  = (o => o.id == Id);
-            //}
-            //List<PsManagement> managements = DataHandleManager.Instance().PsManagementHandle
-            //    .GetDefaultPagedList(pageIndex, pageSize).ToList();
-
-            //var total = DataHandleManager.Instance().PsManagementHandle.Count();//取记录数
-            //var pages = new PageDTO(curPage, Convert.ToInt32(total));//初始化分页类
-            //if (curPage == 0)
-            //{
-            //    pages.pagesize = Convert.ToInt32(total);
-            //}
-            //List<PsManagement> list = DataHandleManager.Instance().PsManagementHandle.GetDefaultPagedList(curPage, pages.pagesize).ToList();
-            //var obj = new { pages = pages, dataList = list };//构造对象
-            //return Json(obj, JsonRequestBehavior.AllowGet);
+            Expression<Func<PsManagement, bool>> where = null;
+            if (!String.IsNullOrEmpty(keywords))
+            {
+                where = (o => o.Name.Contains( keywords));
+            }
+            int total = Convert.ToInt32(DataHandleManager.Instance().PsManagementHandle.Count(where));//取记录数
+            if (pageIndex == 0)
+            {
+                pageSize = total> pageSize ? total: pageSize;
+            }
+            PageModel page = new PageModel(pageIndex, pageSize, total);
+            List<PsManagement> managements = DataHandleManager.Instance().PsManagementHandle
+                .GetDefaultPagedList(pageIndex, pageSize,where).ToList();
+            var obj = new { pages = page, dataList = managements };
+            return new JsonResponses(obj);
 
         }
 
