@@ -16,6 +16,23 @@ namespace SkeFramework.Core.SnowFlake
     /// </summary>
     public class AutoIDWorker
     {
+        #region 单例
+        /// <summary>
+        /// 静态实例
+        /// </summary>
+        private static AutoIDWorker instance;
+        public static AutoIDWorker Example
+        {
+            get
+            {
+                if (AutoIDWorker.instance == null)
+                {
+                    AutoIDWorker.instance = new AutoIDWorker(100);
+                }
+                return instance;
+            }
+        }
+        #endregion
         /// <summary>
         /// 机器ID
         /// </summary>
