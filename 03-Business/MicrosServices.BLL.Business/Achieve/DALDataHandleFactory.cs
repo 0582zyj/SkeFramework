@@ -16,17 +16,6 @@ using MicrosServices.BLL.SHBusiness.PsUserRolesHandles;
 using MicrosServices.Entities.Common;
 using SkeFramework.DataBase.DataAccess.DataHandle.Achieve;
 using SkeFramework.DataBase.Interfaces;
-using ULCloudLockTool.BLL.SHBusiness.PowerBatteryHandles;
-using ULCloudLockTool.BLL.SHBusiness.ProjectDeviceHandles;
-using ULCloudLockTool.BLL.SHBusiness.ProjectLockHandles;
-using ULCloudLockTool.BLL.SHBusiness.SystemLockCoreHandles;
-using ULCloudLockTool.BLL.SHBusiness.SystemLockFinalHandles;
-using ULCloudLockTool.BLL.SHBusiness.SystemLockKeyHandles;
-using ULCloudLockTool.BLL.SHBusiness.SystemProductTypeHandles;
-using ULCloudLockTool.BLL.SHBusiness.SystemVendorHandles;
-using ULCloudLockTool.Entities.Common;
-using ULCSharp.DAL.DataAccess.DataHandle.Achieve;
-using ULCSharp.DAL.Interfaces;
 
 namespace ULCloudLockTool.BLL.Business.Achieve
 {
@@ -99,10 +88,27 @@ namespace ULCloudLockTool.BLL.Business.Achieve
         {
             switch (tableName)
             {
-                //工程配置
-                case PowerBattery.TableName:
-                    return new DBRepository<PowerBattery, PowerBattery>() as IRepository<TData>;
-
+                //权限配置
+                case PsManagement.TableName:
+                    return new DBRepository<PsManagement, PsManagement>() as IRepository<TData>;
+                case PsManagementRoles.TableName:
+                    return new DBRepository<PsManagementRoles, PsManagementRoles>() as IRepository<TData>;
+                case PsMenu.TableName:
+                    return new DBRepository<PsMenu, PsMenu>() as IRepository<TData>;
+                case PsMenuRoles.TableName:
+                    return new DBRepository<PsMenuRoles, PsMenuRoles>() as IRepository<TData>;
+                case PsOrganization.TableName:
+                    return new DBRepository<PsOrganization, PsOrganization>() as IRepository<TData>;
+                case PsOrgRoles.TableName:
+                    return new DBRepository<PsOrgRoles, PsOrgRoles>() as IRepository<TData>;
+                case PsPlatform.TableName:
+                    return new DBRepository<PsPlatform, PsPlatform>() as IRepository<TData>;
+                case PsRoles.TableName:
+                    return new DBRepository<PsRoles, PsRoles>() as IRepository<TData>;
+                case PsUserOrg.TableName:
+                    return new DBRepository<PsUserOrg, PsUserOrg>() as IRepository<TData>;
+                case PsUserRoles.TableName:
+                    return new DBRepository<PsUserRoles, PsUserRoles>() as IRepository<TData>;
             }
             return null;
         }

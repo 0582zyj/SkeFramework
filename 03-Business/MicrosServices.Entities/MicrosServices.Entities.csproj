@@ -57,6 +57,7 @@
     <Compile Include="Common\UsersSetting.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responses\JsonResponses.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
