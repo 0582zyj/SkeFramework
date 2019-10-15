@@ -67,18 +67,28 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> PsManagementAdd(PsManagement model)
+        public ActionResult<JsonResponses> Create([FromForm]PsManagement model)
         {
             var ResultCode = -1;
             ResultCode = DataHandleManager.Instance().PsManagementHandle.ManagementInser(model);
             return (ResultCode > 0 ?JsonResponses.Success:JsonResponses.Failed);
         }
         /// <summary>
+        /// 新增提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> Create1([FromForm]string name)
+        {
+            var ResultCode = -1;
+            return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
+        }
+        /// <summary>
         /// 更新提交方法
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> ManagementUpdate(PsManagement model)
+        public ActionResult<JsonResponses> Update(PsManagement model)
         {
             var ResultCode = -1;
             ResultCode = DataHandleManager.Instance().PsManagementHandle.Update(model);
@@ -89,11 +99,21 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> ManagementDelete(int id)
+        public ActionResult<JsonResponses> Delete(int id)
         {
             var ResultCode = -1;
             ResultCode = DataHandleManager.Instance().PsManagementHandle.Delete(id);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
+        }
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="ManagementNos"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> BatchDelete(long[] ManagementNos)
+        {
+            return null;
         }
         #endregion
 
