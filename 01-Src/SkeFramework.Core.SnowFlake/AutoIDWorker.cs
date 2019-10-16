@@ -27,7 +27,7 @@ namespace SkeFramework.Core.SnowFlake
             {
                 if (AutoIDWorker.instance == null)
                 {
-                    AutoIDWorker.instance = new AutoIDWorker(100);
+                    AutoIDWorker.instance = new AutoIDWorker(1);
                 }
                 return instance;
             }
@@ -99,7 +99,7 @@ namespace SkeFramework.Core.SnowFlake
             Console.WriteLine(@"+------+----------------------+----------------+-----------+");
             Console.WriteLine(@"  1bit          41bits              10bits         10bits");
             if (workerId > maxWorkerId || workerId < 0)
-                throw new Exception(string.Format("worker Id can't be greater than {0} or less than 0 ", workerId));
+                throw new Exception(string.Format("worker Id {0} can't be greater than {1} or less than 0 ", workerId, maxWorkerId));
             AutoIDWorker.workerId = workerId;
         }
         /// <summary>
