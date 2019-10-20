@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Responses;
+using SkeFramework.Core.ApiCommons.Responses;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -35,12 +36,12 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name="keywords">权限名称</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetManagementPageList(int pageIndex , int pageSize = PageModel.DefaultPageSize, string keywords = "")
+        public ActionResult<JsonResponses> GetManagementPageList(int pageIndex, int pageSize = PageModel.DefaultPageSize, string keywords = "")
         {
             Expression<Func<PsManagement, bool>> where = null;
             if (!String.IsNullOrEmpty(keywords))
             {
-                where = (o => o.Name.Contains( keywords));
+                where = (o => o.Name.Contains(keywords));
             }
             int total = Convert.ToInt32(DataHandleManager.Instance().PsManagementHandle.Count(where));//取记录数
             PageModel page = new PageModel(pageIndex, pageSize, total);
@@ -71,17 +72,9 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         {
             var ResultCode = -1;
             ResultCode = DataHandleManager.Instance().PsManagementHandle.ManagementInser(model);
-            return (ResultCode > 0 ?JsonResponses.Success:JsonResponses.Failed);
-        }
-        /// <summary>
-        /// 新增提交方法
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult<JsonResponses> Create1([FromForm]string name)
-        {
-            var ResultCode = -1;
+            if (ResultCode > 0) throw new Exception("ResultCode");
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
+
         }
         /// <summary>
         /// 更新提交方法
