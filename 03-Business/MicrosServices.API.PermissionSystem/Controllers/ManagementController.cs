@@ -71,8 +71,9 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         public ActionResult<JsonResponses> Create([FromForm]PsManagement model)
         {
             var ResultCode = -1;
+            DataHandleManager.Instance().PsManagementHandle.CheckManagementNameIsExist(model.Name);
+            DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.ParentNo);
             ResultCode = DataHandleManager.Instance().PsManagementHandle.ManagementInser(model);
-            if (ResultCode > 0) throw new Exception("ResultCode");
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
 
         }
@@ -81,17 +82,19 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> Update(PsManagement model)
+        public ActionResult<JsonResponses> Update([FromForm]PsManagement model)
         {
             var ResultCode = -1;
-            ResultCode = DataHandleManager.Instance().PsManagementHandle.Update(model);
+            DataHandleManager.Instance().PsManagementHandle.CheckManagementNameIsExist(model.Name, model.ManagementNo);
+            DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.ManagementNo);
+            ResultCode = DataHandleManager.Instance().PsManagementHandle.ManagementUpdate(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
         }
         /// <summary>
         /// 删除提交方法
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         public ActionResult<JsonResponses> Delete(int id)
         {
             var ResultCode = -1;
@@ -104,9 +107,11 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name="ManagementNos"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> BatchDelete(long[] ManagementNos)
+        public ActionResult<JsonResponses> BatchDelete([FromBody]long[] ManagementNos)
         {
-            return null;
+            var ResultCode = -1;
+            ResultCode = DataHandleManager.Instance().PsManagementHandle.BatchDelete(ManagementNos);
+            return (ResultCode == ManagementNos.Length ? JsonResponses.Success : JsonResponses.Failed);
         }
         #endregion
 

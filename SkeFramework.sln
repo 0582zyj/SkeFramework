@@ -96,6 +96,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.NetSerialPort"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.ApiCommons", "01-Src\SkeFramework.Core.ApiCommons\SkeFramework.Core.ApiCommons.csproj", "{1BB3FD10-9F42-4F1D-889A-79FB82F5FDBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.Helper.Core", "03-Business\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj", "{2AC71E45-3249-48C3-AE3B-F303EB899675}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -202,6 +204,10 @@ Global
 		{1BB3FD10-9F42-4F1D-889A-79FB82F5FDBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BB3FD10-9F42-4F1D-889A-79FB82F5FDBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BB3FD10-9F42-4F1D-889A-79FB82F5FDBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AC71E45-3249-48C3-AE3B-F303EB899675}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AC71E45-3249-48C3-AE3B-F303EB899675}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AC71E45-3249-48C3-AE3B-F303EB899675}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AC71E45-3249-48C3-AE3B-F303EB899675}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -247,6 +253,7 @@ Global
 		{3606B8D8-0FBA-43F4-9227-01E60D2F6747} = {2C275C9C-3596-45BC-8D0C-C97D69403791}
 		{86B650E5-6D4C-4B35-8687-4C4C268BE55C} = {02BB5DE6-1886-429B-87C4-EBACDAE1D1A1}
 		{1BB3FD10-9F42-4F1D-889A-79FB82F5FDBB} = {74CF6593-2629-4303-A881-03D61B249176}
+		{2AC71E45-3249-48C3-AE3B-F303EB899675} = {4F701287-4B9A-4720-B577-29ECBFFB3E8A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}
