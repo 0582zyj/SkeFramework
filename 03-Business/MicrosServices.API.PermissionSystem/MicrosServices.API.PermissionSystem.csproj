@@ -33,6 +33,7 @@
     <ProjectReference Include="..\MicrosServices.BLL.Business\MicrosServices.BLL.Business.csproj" />
     <ProjectReference Include="..\MicrosServices.DAL.DataAccess\MicrosServices.DAL.DataAccess.csproj" />
     <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj" />
+    <ProjectReference Include="..\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Responses;
+using MicrosServices.Helper.Core.Form;
 using SkeFramework.Core.ApiCommons.Responses;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -115,5 +116,23 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
         #endregion
 
+        #region 角色权限
+        /// <summary>
+        /// 角色授权
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> CreateManagementRoles([FromBody]ManagementRolesForm model)
+        {
+            var ResultCode = -1;
+            DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(model.RolesNo);
+            foreach(var nos in model.ManagementNos)
+            {
+                DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(nos);
+            }
+            ResultCode = DataHandleManager.Instance().PsManagementRolesHandle.ManagementRolesInsert(model);
+            return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
+        }
+        #endregion
     }
 }

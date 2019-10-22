@@ -88,6 +88,10 @@
       <Project>{f26359e9-2013-44d7-8569-e5533dec9ba4}</Project>
       <Name>MicrosServices.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj">
+      <Project>{2AC71E45-3249-48C3-AE3B-F303EB899675}</Project>
+      <Name>MicrosServices.Helper.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
