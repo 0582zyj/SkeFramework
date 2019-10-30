@@ -1,0 +1,167 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+}
+<link rel="stylesheet" href="@Url.Content("~/Content/login.min.css")">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="https://www.adminiot.com.cn/index2.html"><b>UL-</b>IOT</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">登入账号进入后台</p>
+
+        <form action="@Url.Action("Index","Home")" method="post" onsubmit="return doSumit()" data-parsley-validate="" novalidate="">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group has-feedback">
+                        <input id="UserName" name="UserName" type="text" class="form-control parsley-success" required="" value="zengyingjun@ut.cn"  data-parsley-trigger="blur" placeholder="手机号码/邮箱" data-parsley-id="5">
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group has-feedback">
+                        <input name="Password" type="Password" id="Password" class="form-control" required="" value="123"  data-parsley-trigger="blur" placeholder="密码">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group has-feedback">
+                        <img id="captcha_img" src="@Url.Content("~/Content/themes/captcha.html")" alt="验证码" onclick="        refreshCaptcha()">
+                        <a href="javascript:refreshCaptcha()" style="margin-left: 10px">点击刷新</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group has-feedback">
+                        <input type="text" name="Captcha" id="Captcha" class="form-control" required="" value="hjw3" data-parsley-trigger="blur" placeholder="验证码">
+                        <span class="glyphicon glyphicon-random form-control-feedback"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="form-group ">
+                        <div class="checkbox">
+                            <label id="remember_me">
+                                <input id="remember_checkbox" type="checkbox" data-parsley-multiple="remember_checkbox"> 记住我
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group " style="text-align: right">
+                        <input placeholder="记住密码" hidden="" name="is_remember" id="is_remember" value="0">
+                        <input type="hidden" name="__token__" value="70f39cfae13b48cc3dbd1e650091958a">                        <a href="https://www.adminiot.com.cn/passport/find" class="forget-pwd" target="_blank">忘记密码</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group has-feedback">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat" id="login_button">登&nbsp;&nbsp;&nbsp;录</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- /.login-box -->
+<script>
+    var captchaUrl = "@Url.Content("~/Content/themes/captcha.html")";
+    var LoginUrl= "@Url.Content("~/Login/Login")";
+    Parsley.addMessages('zh-cn', {
+        defaultMessage: "不正确的值",
+        type: {
+            email: "请输入一个有效的电子邮箱地址",
+            url: "请输入一个有效的链接",
+            number: "请输入正确的数字",
+            integer: "请输入正确的整数",
+            digits: "请输入正确的号码",
+            alphanum: "请输入字母或数字"
+        },
+        notblank: "请输入值",
+        required: "必填项",
+        pattern: "格式不正确",
+        min: "输入值请大于或等于 %s",
+        max: "输入值请小于或等于 %s",
+        range: "输入值应该在 %s 到 %s 之间",
+        minlength: "请输入至少 %s 个字符",
+        maxlength: "请输入至多 %s 个字符",
+        length: "字符长度应该在 %s 到 %s 之间",
+        mincheck: "请至少选择 %s 个选项",
+        maxcheck: "请选择不超过 %s 个选项",
+        check: "请选择 %s 到 %s 个选项",
+        equalto: "输入值不同"
+    });
+
+    Parsley.setLocale('zh-cn');
+
+    function doSumit() {
+        var result = true;
+        if ($('#remember_checkbox').prop('checked')) {
+            $('#is_remember').val(1);
+        } else {
+            $('#is_remember').val(0);
+        }
+        var UserName = $("#UserName").val();
+        var Password = $("#Password").val();
+        var Captcha = $("#Captcha").val();
+        $.ajax({
+            url: LoginUrl,
+            data: { "UserName": UserName, "Password": Password, "Captcha": Captcha },
+            async: false,
+            type: "POST",
+            dataType: "json",
+            success: function (rdata) {
+                if (rdata == 100) {
+                    //加载层-风格4
+                }
+                else {
+                    var msg = getLoginResult(rdata);
+                    alert(msg);
+                    result= false;
+                }
+            }
+        });
+        return result;
+    }
+
+    function refreshCaptcha() {
+        var ts = Date.parse(new Date()) / 1000;
+        $("#captcha_img").attr('src', captchaUrl + "?id=" + ts);
+    }
+
+    function getLoginResult(data) {
+        var Msg = "登录成功,准备跳转到主页";
+        switch (data) {
+            case 910:
+                Msg = "账号或者密码为空";
+                break;
+            case 911:
+                Msg = "登录账号不存在";
+                break;
+            case 912:
+                Msg = "账号停用";
+                break;
+            case 913:
+                Msg = "密码输入错误次数超过三次";
+                break;
+            case 914:
+                Msg = "密码错误";
+                break;
+        }
+        return Msg;
+    }
+    $(function () {
+        $("#user_name").focus();
+    });
+</script>
+

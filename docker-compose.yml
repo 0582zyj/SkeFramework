@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  permissionsystem.ui.websites:
+    image: ${DOCKER_REGISTRY-}permissionsystemuiwebsites
+    build:
+      context: .\03-Business\PermissionSystem.UI.WebSites
+      dockerfile: Dockerfile

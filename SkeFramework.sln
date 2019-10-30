@@ -94,9 +94,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicrosServices.API.Permissi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.NetSerialPort", "01-Src\SkeFramework.NetSerialPort\SkeFramework.NetSerialPort.csproj", "{86B650E5-6D4C-4B35-8687-4C4C268BE55C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.ApiCommons", "01-Src\SkeFramework.Core.ApiCommons\SkeFramework.Core.ApiCommons.csproj", "{1BB3FD10-9F42-4F1D-889A-79FB82F5FDBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkeFramework.Core.ApiCommons", "01-Src\SkeFramework.Core.ApiCommons\SkeFramework.Core.ApiCommons.csproj", "{1BB3FD10-9F42-4F1D-889A-79FB82F5FDBB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.Helper.Core", "03-Business\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj", "{2AC71E45-3249-48C3-AE3B-F303EB899675}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06-UI", "06-UI", "{EDE3C2EA-9294-4D45-A4C1-B8F595C9ACB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PermissionSystem.UI.WebSites", "03-Business\PermissionSystem.UI.WebSites\PermissionSystem.UI.WebSites.csproj", "{B6D836CE-9743-4AFA-967A-B83B0269B806}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -208,6 +212,10 @@ Global
 		{2AC71E45-3249-48C3-AE3B-F303EB899675}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AC71E45-3249-48C3-AE3B-F303EB899675}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AC71E45-3249-48C3-AE3B-F303EB899675}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6D836CE-9743-4AFA-967A-B83B0269B806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6D836CE-9743-4AFA-967A-B83B0269B806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6D836CE-9743-4AFA-967A-B83B0269B806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6D836CE-9743-4AFA-967A-B83B0269B806}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -254,6 +262,8 @@ Global
 		{86B650E5-6D4C-4B35-8687-4C4C268BE55C} = {02BB5DE6-1886-429B-87C4-EBACDAE1D1A1}
 		{1BB3FD10-9F42-4F1D-889A-79FB82F5FDBB} = {74CF6593-2629-4303-A881-03D61B249176}
 		{2AC71E45-3249-48C3-AE3B-F303EB899675} = {4F701287-4B9A-4720-B577-29ECBFFB3E8A}
+		{EDE3C2EA-9294-4D45-A4C1-B8F595C9ACB4} = {FBA827F4-7E04-40C2-B8D1-2D7964D2D5EE}
+		{B6D836CE-9743-4AFA-967A-B83B0269B806} = {EDE3C2EA-9294-4D45-A4C1-B8F595C9ACB4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}

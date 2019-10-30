@@ -1,0 +1,64 @@
+﻿<template id="pagedemo">
+    <div class="box-footer">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="dataTables_paginate paging_simple_numbers">
+                    <ul class="pagination">
+                        <li v-bind:class="{disabled:pages.curPage==1}">
+                            <a href="javascript:;" v-on:click="pages.curPage==1?'':go(pages.curPage-1)" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li v-bind:class="{active:pages.curPage==1}"><a href="javascript:;" v-on:click="go(1)">{{pages.firstNum}}</a></li>
+                        <li v-if="pages.previousSpot" class="disabled"><span><span aria-hidden="true">...</span></span></li>
+                        <li v-for="item in pages.pagelist" v-bind:class="{active:pages.curPage==item}"><a href="javascript:;" v-on:click="go(item)">{{item}}</a></li>
+                        <li v-show="pages.nextSpot" class="disabled"><span><span aria-hidden="true">...</span></span></li>
+                        <li v-if="pages.lastNum!=1&&pages.lastNum!=0" v-bind:class="{active:pages.curPage==pages.lastNum}"><a href="javascript:;" v-on:click="go(pages.lastNum)">{{pages.lastNum}}</a></li>
+                        <li v-bind:class="{disabled:pages.curPage==pages.lastNum}">
+                            <a href="javascript:;" v-on:click="pages.curPage==pages.lastNum?'':go(pages.curPage+1)" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2" style="text-align:right">
+                <div class="pagination">
+                    共<span style="font-size: 18px"><strong>{{pages.total}}</strong></span>条记录
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script type="text/javascript">
+    Vue.component('templatepage', {
+        template: '#pagedemo',
+        props: ['url', 'prop'],
+        data: function () {
+            return {
+                pages: [],
+            }
+        },
+        mounted: function () {
+            this.go(1);
+        },
+        methods: {
+            go: function (n) {
+                this.getdata(n);
+            },
+            getdata: function (n) {
+                this.prop = this.prop || {};
+                this.prop.curPage = n;
+                var _self = this;
+                axios.get(this.url, {
+                    params: this.prop
+                }).then(function (response) {
+                    if (response.status == 200) {
+                        _self.pages = response.data.pages;
+                        _self.$emit("getdata", response.data.dataList);
+                    }
+                });
+            }
+        }
+    });
+</script>
