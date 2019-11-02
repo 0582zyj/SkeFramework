@@ -11,13 +11,13 @@ using SkeFramework.Core.ApiCommons.Responses;
 
 namespace MicrosServices.API.UserCenter.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
         // GET api/values
-        [HttpGet]
-        public ActionResult<JsonResponses> Login(LoginInfoForm loginInfoForm)
+        [HttpPost]
+        public ActionResult<JsonResponses> Login([FromForm]LoginInfoForm loginInfoForm)
         {
             string MdfPas = "";
             UcUsers users=new UcUsers();

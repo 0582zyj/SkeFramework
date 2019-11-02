@@ -85,8 +85,5 @@ namespace MicrosServices.API.PermissionSystem
                     $"Hello { CultureInfo.CurrentCulture.DisplayName }"
                     );
         }
-        //private async static Task Invoke(HttpContext context)
-        //{
-        //}
     }
 }
