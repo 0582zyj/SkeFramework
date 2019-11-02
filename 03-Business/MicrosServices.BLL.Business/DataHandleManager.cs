@@ -13,6 +13,7 @@ using MicrosServices.BLL.SHBusiness.PsPlatformHandles;
 using MicrosServices.BLL.SHBusiness.PsRolesHandles;
 using MicrosServices.BLL.SHBusiness.PsUserOrgHandles;
 using MicrosServices.BLL.SHBusiness.PsUserRolesHandles;
+using MicrosServices.BLL.SHBusiness.UsersHandles;
 using MicrosServices.Entities.Common;
 using SkeFramework.DataBase.DataAccess.DataHandle.Achieve;
 using ULCloudLockTool.BLL.Business.Achieve;
@@ -87,8 +88,12 @@ namespace MicrosServices.BLL.Business
         }
         #endregion
 
-        #region Define
+        #region UserCenter
 
+        public IUcUsersHandle UcUsersHandle
+        {
+            get { return DataHandleFactory.GetDataHandle<UcUsersHandle, UcUsers>(); }
+        }
         #endregion
     }
 }

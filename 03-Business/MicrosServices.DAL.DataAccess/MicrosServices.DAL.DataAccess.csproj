@@ -63,8 +63,8 @@
     <Compile Include="Repository\PermissionSystem\UserOrgHandles\PsUserOrgHandleCommon.cs" />
     <Compile Include="Repository\PermissionSystem\UserRolesHandles\IPsUserRolesHandleCommon.cs" />
     <Compile Include="Repository\PermissionSystem\UserRolesHandles\PsUserRolesHandleCommon.cs" />
-    <Compile Include="Repository\UsersHandles\IUsersHandleCommon.cs" />
-    <Compile Include="Repository\UsersHandles\UsersHandleCommon.cs" />
+    <Compile Include="Repository\UserCenter\UsersHandles\IUcUsersHandleCommon.cs" />
+    <Compile Include="Repository\UserCenter\UsersHandles\UcUsersHandleCommon.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.Common\SkeFramework.DataBase.Common.csproj">

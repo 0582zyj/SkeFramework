@@ -42,12 +42,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Constants\LoginResultType.cs" />
     <Compile Include="Form\ManagementRolesForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserCenter\FORM\LoginInfoForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTO\" />
     <Folder Include="VO\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Common\SkeFramework.Core.Common.csproj">
+      <Project>{37de7f92-5446-4200-87a6-43c36d1c1650}</Project>
+      <Name>SkeFramework.Core.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

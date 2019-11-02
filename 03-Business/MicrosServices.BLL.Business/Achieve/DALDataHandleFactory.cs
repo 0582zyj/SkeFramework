@@ -13,6 +13,7 @@ using MicrosServices.BLL.SHBusiness.PsPlatformHandles;
 using MicrosServices.BLL.SHBusiness.PsRolesHandles;
 using MicrosServices.BLL.SHBusiness.PsUserOrgHandles;
 using MicrosServices.BLL.SHBusiness.PsUserRolesHandles;
+using MicrosServices.BLL.SHBusiness.UsersHandles;
 using MicrosServices.Entities.Common;
 using SkeFramework.DataBase.DataAccess.DataHandle.Achieve;
 using SkeFramework.DataBase.Interfaces;
@@ -73,7 +74,11 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             {
                 return new PsUserRolesHandle(GetConfigDataSerialer<PsUserRoles>(PsUserRoles.TableName)) as IDataTableHandle;
             }
-            
+            //UserCenter
+            else if (IsSubclassOf(typeof(UcUsers), dataType))
+            {
+                return new UcUsersHandle(GetConfigDataSerialer<UcUsers>(UcUsers.TableName)) as IDataTableHandle;
+            }
             return null;
         }
 
@@ -109,6 +114,10 @@ namespace ULCloudLockTool.BLL.Business.Achieve
                     return new DBRepository<PsUserOrg, PsUserOrg>() as IRepository<TData>;
                 case PsUserRoles.TableName:
                     return new DBRepository<PsUserRoles, PsUserRoles>() as IRepository<TData>;
+
+                //UserCenter
+                case UcUsers.TableName:
+                    return new DBRepository<UcUsers, UcUsers>() as IRepository<TData>;
             }
             return null;
         }

@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\AuthorizeBlackip.cs" />
-    <Compile Include="Common\LogLogin.cs" />
+    <Compile Include="Common\UserCenter\UcAuthorizeBlackip.cs" />
+    <Compile Include="Common\UserCenter\UcLogLogin.cs" />
     <Compile Include="Common\PermissionSystem\PsManagement.cs" />
     <Compile Include="Common\PermissionSystem\PsManagementRoles.cs" />
     <Compile Include="Common\PermissionSystem\PsMenu.cs" />
@@ -53,8 +53,8 @@
     <Compile Include="Common\PermissionSystem\PsRoles.cs" />
     <Compile Include="Common\PermissionSystem\PsUserOrg.cs" />
     <Compile Include="Common\PermissionSystem\PsUserRoles.cs" />
-    <Compile Include="Common\Users.cs" />
-    <Compile Include="Common\UsersSetting.cs" />
+    <Compile Include="Common\UserCenter\UcUsers.cs" />
+    <Compile Include="Common\UserCenter\UcUsersSetting.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Responses\PageModel.cs" />
