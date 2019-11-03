@@ -4,13 +4,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MicrosServices.BLL.Business;
+using MicrosServices.Helper.Core.UserCenter.FORM;
+using MicrosServices.SDK.UserCenter;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
+using SkeFramework.Core.Network.Responses;
 
 namespace SmartCloudIOT.UI.WebSite.Controllers
 {
     public class LoginController : Controller
     {
+        private LoginSdk loginSdk = new LoginSdk();
         #region 管理后台
         /// <summary>
         /// 登录页面
@@ -48,21 +52,12 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
         [HttpPost]
         public JsonResult Login(string UserName, string Password, string Captcha)
         {
-            //UsersCloud userCloud =null;
-            //UsersApp userApp = null;
-            //string Md5Pas = MD5Helper.GetMD5String(Password);
-
-            //int LoginResult = DataHandleManager.Instance().UsersCloudHandle.Login(UserName, Md5Pas, "", "W", ref userCloud);
-            //if (LoginResult == 911)//账号不存在则去检查APP账号登录
-            //{
-            //    LoginResult = DataHandleManager.Instance().UsersAppHandle.Login(UserName, Md5Pas, "", "W", ref userApp);
-            //}
-            //if (LoginResult == 100)
-            //{
-            //    string UserNo = userCloud == null ? userApp.UserNo : userCloud.UserNo;
-            //    int RolesID = userCloud == null ? userApp.RolesID : userCloud.RolesID;
-            //    string APPKey = userCloud == null ? userApp.APPKey : userCloud.APPKey;
-
+            LoginInfoForm loginInfoForm = new LoginInfoForm();
+            loginInfoForm.UserName = UserName;
+            loginInfoForm.Password = Password;
+            loginInfoForm.LoginerInfo = "";
+            loginInfoForm.Platform = "123";
+            JsonResponses responses = loginSdk.Login(loginInfoForm);
             //    ManagementRoles roles = DataHandleManager.Instance().ManagementRolesHandle.GetModelByKey(RolesID.ToString());
             LoginModel.Instance().UserNo = "123";
             LoginModel.Instance().Token = "123";// MD5Helper.GetMD5String(UserNo + APPKey + DateTime.Now.ToString("yyyyMMddHHmmss"));;
@@ -71,7 +66,7 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
             LoginModel.Instance().UserRule = "123";//DataHandleManager.Instance().UsersRuleHandle.GetUserRoles(UserNo);
             AppBusiness.loginModel = LoginModel.Instance();
             //}
-            return Json(100, JsonRequestBehavior.AllowGet);
+            return Json(400, JsonRequestBehavior.AllowGet);
         }
 
         #region 用户前台

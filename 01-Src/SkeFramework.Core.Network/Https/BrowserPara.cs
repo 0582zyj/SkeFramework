@@ -57,7 +57,8 @@ namespace SkeFramework.Core.Network.Https
         /// <summary>
         /// 请求的content-Type值 
         /// </summary>
-        public string contentType = "application/x-www-form-urlencoded";
+        //public string contentType = "application/x-www-form-urlencoded";
+        public string contentType = "application/json;charset=utf-8";
 
     }
 }

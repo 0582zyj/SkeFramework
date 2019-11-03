@@ -47,6 +47,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -99,9 +102,6 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -200,9 +200,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj">
+      <Project>{F30C0CC5-B760-4EE0-9603-FCE8FF5206BC}</Project>
+      <Name>SkeFramework.Core.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MicrosServices.BLL.Business\MicrosServices.BLL.Business.csproj">
       <Project>{00BAAA1A-D082-4822-981C-D8AD6E8EEB59}</Project>
       <Name>MicrosServices.BLL.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj">
+      <Project>{2AC71E45-3249-48C3-AE3B-F303EB899675}</Project>
+      <Name>MicrosServices.Helper.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.SDK.UserCenter\MicrosServices.SDK.UserCenter.csproj">
+      <Project>{3F3F0673-39D0-4356-8744-936A07A05844}</Project>
+      <Name>MicrosServices.SDK.UserCenter</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -8,8 +8,10 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SkeFramework.Core.Network.Commom;
 using SkeFramework.Core.Network.Enums;
+using SkeFramework.Core.Network.Responses;
 
 namespace SkeFramework.Core.Network.Https
 {
@@ -108,6 +110,11 @@ namespace SkeFramework.Core.Network.Https
         {
             try
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                ServicePointManager.ServerCertificateValidationCallback = RemoteCertificateValidate;
+                ServicePointManager.CheckCertificateRevocationList = false;
+                ServicePointManager.DefaultConnectionLimit = 512;
+                ServicePointManager.Expect100Continue = false;
                 var myRequest = (HttpWebRequest)WebRequest.Create(bPara.Uri);
                 myRequest.Accept = bPara.Accept;
                 myRequest.UserAgent = bPara.UserAgent;
@@ -137,7 +144,7 @@ namespace SkeFramework.Core.Network.Https
                     rs.Write(byteRequest, 0, byteRequest.Length);
                     rs.Close();
                 }
-                ServicePointManager.ServerCertificateValidationCallback = RemoteCertificateValidate;
+                
                 var myResponse = (HttpWebResponse)myRequest.GetResponse();
 
                 CookieStr += myResponse.Headers.Get("Set-Cookie");
@@ -152,7 +159,8 @@ namespace SkeFramework.Core.Network.Https
             }
             catch (System.Exception ex)
             {
-                return string.Format("-1|Error:{0}", ex.Message);
+                JsonResponses responses = new JsonResponses(JsonResponses.Failed.code, ex.Message);
+                return  JsonConvert.SerializeObject(responses);
             }
         }
 

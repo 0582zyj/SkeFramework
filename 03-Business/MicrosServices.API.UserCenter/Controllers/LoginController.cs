@@ -7,8 +7,8 @@ using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.UserCenter.FORM;
-using SkeFramework.Core.ApiCommons.Responses;
 using SkeFramework.Core.Encrypts;
+using SkeFramework.Core.Network.Responses;
 
 namespace MicrosServices.API.UserCenter.Controllers
 {
@@ -29,8 +29,22 @@ namespace MicrosServices.API.UserCenter.Controllers
                 return new JsonResponses(JsonResponses.Success.code,LoginResult.ToString(), LoginResult);
             }
             return new JsonResponses(JsonResponses.Failed.code, LoginResult.ToString(), LoginResult);
-
         }
 
+
+        // GET api/values
+        [HttpGet]
+        public ActionResult<JsonResponses> LoginGet([FromForm]LoginInfoForm loginInfoForm)
+        {
+            string MdfPas = MD5Helper.GetMD5String(loginInfoForm.Password);
+            UcUsers users = new UcUsers();
+            LoginResultType LoginResult = DataHandleManager.Instance().UcUsersHandle.Login(loginInfoForm.UserName, MdfPas, loginInfoForm.LoginerInfo,
+                loginInfoForm.Platform, ref users);
+            if (LoginResult == LoginResultType.SUCCESS_LOGIN)
+            {
+                return new JsonResponses(JsonResponses.Success.code, LoginResult.ToString(), LoginResult);
+            }
+            return new JsonResponses(JsonResponses.Failed.code, LoginResult.ToString(), LoginResult);
+        }
     }
 }

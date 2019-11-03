@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using SkeFramework.Core.ApiCommons.Responses;
+using SkeFramework.Core.Network.Responses;
 
 namespace SkeFramework.Core.ApiCommons.Middlewares
 {
