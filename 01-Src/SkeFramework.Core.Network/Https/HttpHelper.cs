@@ -118,7 +118,7 @@ namespace SkeFramework.Core.Network.Https
                 var myRequest = (HttpWebRequest)WebRequest.Create(bPara.Uri);
                 myRequest.Accept = bPara.Accept;
                 myRequest.UserAgent = bPara.UserAgent;
-                myRequest.ContentType = bPara.contentType;
+                myRequest.ContentType = bPara.contentTypeGet;
                 myRequest.Referer = bPara.Referer;
                 if (bPara.Cookies != null)
                 {
@@ -164,5 +164,44 @@ namespace SkeFramework.Core.Network.Https
             }
         }
 
+        public  string HttpPost(string Url, string postDataStr)
+        {
+            string result = "";
+            try
+            {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                ServicePointManager.ServerCertificateValidationCallback = RemoteCertificateValidate;
+                ServicePointManager.CheckCertificateRevocationList = false;
+                ServicePointManager.DefaultConnectionLimit = 512;
+                ServicePointManager.Expect100Continue = false;
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+                request.Method = "POST";
+                request.ContentType = "multipart/form-data;charset=utf-8";
+                request.ContentLength = Encoding.UTF8.GetByteCount(postDataStr);
+
+                Stream myRequestStream = request.GetRequestStream();
+                //如果为gb2312，参数中有汉字时会发生错误： 
+                //远程服务器返回错误: (400) 错误的请求。      
+                StreamWriter myStreamWriter =
+                    new StreamWriter(myRequestStream, Encoding.GetEncoding("utf-8"));
+
+                myStreamWriter.Write(postDataStr);
+                myStreamWriter.Close();
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                Stream myResponseStream = response.GetResponseStream();
+                StreamReader myStreamReader =
+                    new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
+                string retString = myStreamReader.ReadToEnd();
+                result = retString;
+                myStreamReader.Close();
+                myResponseStream.Close();
+            }
+            catch (Exception ex)
+            {
+            }
+            return result;
+        }
     }
 }

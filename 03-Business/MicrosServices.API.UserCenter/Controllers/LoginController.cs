@@ -34,7 +34,7 @@ namespace MicrosServices.API.UserCenter.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<JsonResponses> LoginGet([FromForm]LoginInfoForm loginInfoForm)
+        public ActionResult<JsonResponses> LoginGet([FromQuery]LoginInfoForm loginInfoForm)
         {
             string MdfPas = MD5Helper.GetMD5String(loginInfoForm.Password);
             UcUsers users = new UcUsers();

@@ -55,7 +55,7 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
             LoginInfoForm loginInfoForm = new LoginInfoForm();
             loginInfoForm.UserName = UserName;
             loginInfoForm.Password = Password;
-            loginInfoForm.LoginerInfo = "";
+            loginInfoForm.LoginerInfo = "123";
             loginInfoForm.Platform = "123";
             JsonResponses responses = loginSdk.Login(loginInfoForm);
             //    ManagementRoles roles = DataHandleManager.Instance().ManagementRolesHandle.GetModelByKey(RolesID.ToString());
