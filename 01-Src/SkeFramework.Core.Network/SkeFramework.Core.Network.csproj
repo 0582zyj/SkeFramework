@@ -46,12 +46,19 @@
   <ItemGroup>
     <Compile Include="Commom\EnumsHelper.cs" />
     <Compile Include="DataUtility\RequestModel.cs" />
+    <Compile Include="Enums\ContentTypeEnums.cs" />
     <Compile Include="Enums\RequestTypeEnums.cs" />
     <Compile Include="Https\BrowserPara.cs" />
     <Compile Include="Https\HttpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\RequestBase.cs" />
     <Compile Include="Responses\JsonResponses.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SkeFramework.Core.Common\SkeFramework.Core.Common.csproj">
+      <Project>{37DE7F92-5446-4200-87A6-43C36D1C1650}</Project>
+      <Name>SkeFramework.Core.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

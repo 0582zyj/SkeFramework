@@ -57,8 +57,11 @@ namespace SkeFramework.Core.Network.Https
         /// <summary>
         /// 请求的content-Type值 
         /// </summary>
-        public string contentTypeGet = "application/x-www-form-urlencoded";
-        //public string contentType = "multipart/form-data";
+        //public string contentTypeGet = "application/x-www-form-urlencoded";
 
+        /// <summary>
+        /// 请求的content-Type值 
+        /// </summary>
+        public string contentTypeGet = "application/json";
     }
 }

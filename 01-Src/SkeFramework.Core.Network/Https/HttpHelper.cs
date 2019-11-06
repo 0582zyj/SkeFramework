@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SkeFramework.Core.Common.Enums;
 using SkeFramework.Core.Network.Commom;
 using SkeFramework.Core.Network.Enums;
 using SkeFramework.Core.Network.Responses;
@@ -117,8 +118,7 @@ namespace SkeFramework.Core.Network.Https
                 ServicePointManager.Expect100Continue = false;
                 var myRequest = (HttpWebRequest)WebRequest.Create(bPara.Uri);
                 myRequest.Accept = bPara.Accept;
-                myRequest.UserAgent = bPara.UserAgent;
-                myRequest.ContentType = bPara.contentTypeGet;
+                myRequest.UserAgent = bPara.UserAgent;                
                 myRequest.Referer = bPara.Referer;
                 if (bPara.Cookies != null)
                 {
@@ -138,13 +138,18 @@ namespace SkeFramework.Core.Network.Https
                 myRequest.Method = EnumsHelper.ValueOfRequestType(bPara.Method);
                 if (bPara.Method == RequestTypeEnums.POST)
                 {
+                    myRequest.ContentType = EnumUtil.GetEnumExtendAttribute<ContentTypeEnums>(ContentTypeEnums.POSTJSON).Desc;
                     myRequest.MediaType = bPara.MediaType;
                     byte[] byteRequest = Encoding.UTF8.GetBytes(bPara.PostData);
                     Stream rs = myRequest.GetRequestStream();
                     rs.Write(byteRequest, 0, byteRequest.Length);
                     rs.Close();
                 }
-                
+                else
+                {
+                    myRequest.ContentType = EnumUtil.GetEnumExtendAttribute< ContentTypeEnums >(ContentTypeEnums.GETFORM).Desc;
+                }
+
                 var myResponse = (HttpWebResponse)myRequest.GetResponse();
 
                 CookieStr += myResponse.Headers.Get("Set-Cookie");

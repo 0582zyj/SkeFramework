@@ -46,5 +46,14 @@ namespace MicrosServices.API.UserCenter.Controllers
             }
             return new JsonResponses(JsonResponses.Failed.code, LoginResult.ToString(), LoginResult);
         }
+
+        // GET api/values
+        [HttpPost]
+        public ActionResult<JsonResponses> LoginPost([FromBody]LoginInfoForm loginInfoForm)
+        {
+          
+            return new JsonResponses(JsonResponses.Failed.code, loginInfoForm.UserName, loginInfoForm.UserName);
+        }
+
     }
 }

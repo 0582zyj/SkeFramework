@@ -63,5 +63,50 @@ namespace SkeFramework.Core.Common.Enums
             return Enum.Parse(typeof(T), itemValue.ToString()).ToString();
         }
 
+        /// <summary>
+        /// 从枚举类型和它的特性读出并返回一个键值对
+        /// </summary>
+        /// <param name="enumType">Type,该参数的格式为typeof(需要读的枚举类型)</param>
+        /// <returns>键值对</returns>
+        public static Dictionary<String, EnumAttribute> ListEnumExtendAttribute(Type enumType)
+        {
+            Dictionary<String, EnumAttribute> nvc = new Dictionary<String, EnumAttribute>();
+            Type typeDescription = typeof(EnumAttribute);
+            System.Reflection.FieldInfo[] fields = enumType.GetFields();
+            string strText = string.Empty;
+            string strValue = string.Empty;
+            foreach (FieldInfo field in fields)
+            {
+                if (field.FieldType.IsEnum)
+                {
+                    strValue = ((int)enumType.InvokeMember(field.Name, BindingFlags.GetField, null, null, null)).ToString();
+                    object[] arr = field.GetCustomAttributes(typeDescription, true);
+                    strText = field.Name;
+                    EnumAttribute item = null;
+                    if (arr.Length > 0)
+                    {
+                        item = (EnumAttribute)arr[0];
+                    }
+                    nvc.Add(strText, item);
+                }
+            }
+            return nvc;
+        }
+
+        /// <summary>
+        /// 从枚举类型和它的特性读出并返回一个键值对
+        /// </summary>
+        /// <param name="enumType">Type,该参数的格式为typeof(需要读的枚举类型)</param>
+        /// <returns>键值对</returns>
+        public static EnumAttribute GetEnumExtendAttribute<T>(object itemValue)
+        {
+            Dictionary<String, EnumAttribute> nvc = EnumUtil.ListEnumExtendAttribute(typeof(T));
+            if (nvc.ContainsKey(itemValue.ToString()))
+            {
+                return nvc[itemValue.ToString()];
+            }
+            return null;
+        }
+
     }
 }

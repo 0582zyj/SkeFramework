@@ -12,11 +12,12 @@ namespace MicrosServices.SDK.UserCenter
     {
         private static string LoginUrl = "https://localhost:5001/api/Login/Login";
         private static string LoginUrl1 = "https://localhost:5001/api/Login/LoginGet";
+        private static string LoginUrl2 = "https://localhost:5001/api/Login/LoginPost";
         private static string TestUrl = "https://localhost:5001/api/values";
         public JsonResponses Login(LoginInfoForm loginInfo)
         {
             RequestBase request = new RequestBase();
-            request.Url = LoginUrl1;
+            request.Url = LoginUrl;
             request.SetValue("UserName", loginInfo.UserName);
             request.SetValue("Password", loginInfo.Password);
             request.SetValue("LoginerInfo", loginInfo.LoginerInfo);
@@ -31,11 +32,11 @@ namespace MicrosServices.SDK.UserCenter
 
              result = HttpHelper.Example.GetWebData(new BrowserPara()
             {
-                Uri = request.GetReqUrl(),
-                PostData = "",
-                Method = RequestTypeEnums.GET
+                Uri = LoginUrl2,
+                PostData = JsonConvert.SerializeObject(request.ParameterValue),
+                 Method = RequestTypeEnums.POST
             });
-            return JsonConvert.DeserializeObject<JsonResponses>(result);
+             return JsonConvert.DeserializeObject<JsonResponses>(result);
         }
     }
 }
