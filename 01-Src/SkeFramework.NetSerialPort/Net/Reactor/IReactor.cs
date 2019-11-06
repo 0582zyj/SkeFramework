@@ -24,10 +24,10 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         ///// 连接事件
         ///// </summary>
         //event ConnectionEstablishedCallback OnConnection;
-        ///// <summary>
-        ///// 接受事件
-        ///// </summary>
-        //event ReceivedDataCallback OnReceive;
+        /// <summary>
+        /// 接受事件
+        /// </summary>
+        event ReceivedDataCallback OnReceive;
         ///// <summary>
         ///// 连接终止事件
         ///// </summary>
@@ -56,11 +56,15 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         /// <summary>
         /// 连接适配器
         /// </summary>
-        IConnection ConnectionAdapter { get; }
+        IConnection ConnectionAdapter { get; set; }
         /// <summary>
         /// 连接是否活跃
         /// </summary>
         bool IsActive { get; }
+        /// <summary>
+        /// 是否解析数据
+        /// </summary>
+        bool IsParsing { get; }
         /// <summary>
         /// 是否释放
         /// </summary>
@@ -68,7 +72,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         /// <summary>
         /// 本地连接
         /// </summary>
-        SerialPort LocalEndpoint { get; }
+        INode LocalEndpoint { get; }
         /// <summary>
         /// 连接参数配置
         /// </summary>

@@ -125,6 +125,5 @@ namespace SkeFramework.NetSerialPort.Topology
             return n;
         }
 
-
     }
 }

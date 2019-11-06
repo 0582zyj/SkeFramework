@@ -1,49 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO.Ports;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
 using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Connections;
 using SkeFramework.NetSerialPort.Protocols.Constants;
+using SkeFramework.NetSerialPort.Protocols.Listenser;
 using SkeFramework.NetSerialPort.Topology;
 
-namespace SkeFramework.NetSerialPort.Protocols.Response
+namespace SkeFramework.NetSerialPort.Protocols.Requests
 {
     /// <summary>
-    /// 远程实例响应
+    /// 协议请求处理
     /// </summary>
-    public abstract class ReactorResponseChannel : IConnection
+   public abstract class RefactorRequestChannel : IConnection
     {
         private readonly ReactorBase _reactor;
-        internal SerialPort Socket;
-
+        /// <summary>
+        /// 协议发送监听器
+        /// </summary>
+        public SenderListenser Sender;
         //protected ICircularBuffer<NetworkData> UnreadMessages = new ConcurrentCircularBuffer<NetworkData>(1000);
 
-        protected ReactorResponseChannel(ReactorBase reactor, SerialPort outboundSocket)
-            : this(reactor, outboundSocket,null)
+        protected RefactorRequestChannel(ReactorBase reactor)
+            : this(reactor,null)
         {
         }
 
-        protected ReactorResponseChannel(ReactorBase reactor, SerialPort outboundSocket,INode node)
+        protected RefactorRequestChannel(ReactorBase reactor, INode node)
         {
             _reactor = reactor;
-            Socket = outboundSocket;
             Decoder = _reactor.Decoder.Clone();
             Encoder = _reactor.Encoder.Clone();
             Allocator = _reactor.Allocator;
             Local = reactor.LocalEndpoint;
             RemoteHost = node;
-            Timeout = NetworkConstants.BackoffIntervals[6];
             this.Created = DateTime.Now;
             Dead = false;
-            //Local = reactor.LocalEndpoint.ToNode(reactor.Transport);
-            //RemoteHost = NodeBuilder.FromEndpoint(endPoint);
+            Timeout = NetworkConstants.BackoffIntervals[6];
+            this.Sender = new SenderListenser(this);
+
         }
 
 
@@ -52,7 +52,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
         {
             add { }
             // ReSharper disable once ValueParameterNotUsed
-            remove {  }
+            remove { }
         }
 
 
@@ -81,12 +81,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
 
         public bool IsOpen()
         {
-            return Socket != null && true;
-        }
-
-        public int Available
-        {
-            get { return Socket == null ? 0 : 1; }
+            return _reactor.IsActive;
         }
 
         public int MessagesInSendQueue
@@ -99,8 +94,14 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
 
         public void Open()
         {
-           
+
         }
+
+        public void Close()
+        {
+            _reactor.CloseConnection(this);
+        }
+
 
         public void BeginReceive()
         {
@@ -117,14 +118,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
             BeginReceiveInternal();
         }
 
-        public void StopReceive()
+        public void InvokeReceiveIfNotNull(NetworkData data)
         {
-            StopReceiveInternal();
-        }
-
-        public void Close()
-        {
-            _reactor.CloseConnection(this);
+            OnReceive(data);
         }
 
         public virtual void Send(NetworkData data)
@@ -134,11 +130,38 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
 
         public void Send(byte[] buffer, int index, int length, INode destination)
         {
+            if (destination == null)
+            {
+                destination = this._reactor.LocalEndpoint;
+            }
             _reactor.Send(buffer, index, length, destination);
         }
+        /// <summary>
+        /// Case发送帧 </summary>
+        /// <param name="frame">    发送帧 </param>
+        /// <param name="interval"> 发送间隔 </param>
+        /// <param name="sendTimes"> 发送次数 </param>
+        protected  virtual void CaseSendFrame(NetworkData frame, int interval, int sendTimes)
+        {
+            if (null == frame)
+            {
+                return;
+            }
+            this.Sender.FrameBeSent = frame;
+            this.Sender.Interval = interval;
+            this.Sender.TotalSendTimes = sendTimes;
+            this.Sender.BeginSend();
+        }
+        /// <summary>
+        /// 开始发送
+        /// </summary>
+        /// <param name="connectionTask"></param>
+        public abstract void ExecuteTaskSync(ConnectionTask connectionTask);
 
-        protected abstract void BeginReceiveInternal();
-
+        /// <summary>
+        /// 开始接受
+        /// </summary>
+        public abstract void BeginReceiveInternal();
 
         /// <summary>
         ///     Method is called directly by the <see cref="ReactorBase" /> implementation to send data to this
@@ -148,18 +171,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
         /// <param name="data">The data to pass directly to the recipient</param>
         internal virtual void OnReceive(NetworkData data)
         {
-          
+
         }
 
-
-        protected abstract void StopReceiveInternal();
-
-        public void InvokeReceiveIfNotNull(NetworkData data)
-        {
-            OnReceive(data);
-        }
-
-       
         #region IDisposable members
 
         public void Dispose()
@@ -176,9 +190,13 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
                 if (disposing)
                 {
                     Close();
-                    Socket = null;
                 }
             }
+        }
+
+        public void StopReceive()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

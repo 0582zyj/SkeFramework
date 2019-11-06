@@ -24,9 +24,19 @@ namespace SkeFramework.NetSerialPort.Bootstrap
         {
             var reactor = NewReactorInternal(listenAddress);
             reactor.Configure(Config);
-
+            reactor.LocalEndpoint = listenAddress;
             if (ReceivedData != null)
                 reactor.OnReceive += (ReceivedDataCallback)ReceivedData.Clone();
+            return reactor;
+        }
+        public IReactor NewReactor(INode listenAddress, IConnection connection)
+        {
+            var reactor = NewReactorInternal(listenAddress);
+            reactor.Configure(Config);
+            reactor.LocalEndpoint = listenAddress;
+            if (ReceivedData != null)
+                reactor.OnReceive += (ReceivedDataCallback)ReceivedData.Clone();
+            reactor.ConnectionAdapter = connection;
             return reactor;
         }
 
@@ -41,10 +51,8 @@ namespace SkeFramework.NetSerialPort.Bootstrap
             return reactor.ConnectionAdapter;
         }
 
-        public IConnection NewConnection(INode localEndpoint, INode remoteEndpoint)
-        {
-            return NewConnection(localEndpoint);
-        }
+     
+
         #endregion
 
         /// <summary>
@@ -54,5 +62,6 @@ namespace SkeFramework.NetSerialPort.Bootstrap
         /// <returns></returns>
         protected abstract ReactorBase NewReactorInternal(INode listenAddress);
 
+      
     }
 }

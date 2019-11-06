@@ -12,7 +12,7 @@ namespace SkeFramework.NetSerialPort.Buffers.Serialization.Achieves
         public  void Decode(IConnection connection, IByteBuf buffer, out List<IByteBuf> decoded)
         {
             var outBuffer = connection.Allocator.Buffer(buffer.ReadableBytes);
-            buffer.ReadBytes(outBuffer);
+            outBuffer.WriteBytes(buffer.ToArray(), buffer.ReaderIndex, buffer.ReadableBytes);
             decoded = new List<IByteBuf> { outBuffer };
         }
 

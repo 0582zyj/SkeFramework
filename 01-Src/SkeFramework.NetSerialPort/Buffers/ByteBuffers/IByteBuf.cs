@@ -41,5 +41,7 @@ namespace SkeFramework.NetSerialPort.Buffers
         byte[] ToArray();
 
         IByteBuf ReadBytes(IByteBuf destination);
+
+        IByteBuf WriteBytes(byte[] buffer, int index, int length);
     }
 }

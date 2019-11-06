@@ -35,6 +35,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Constants
         /// 默认连接超时
         /// </summary>
         public static readonly TimeSpan DefaultConnectivityTimeout = TimeSpan.FromSeconds(30);
+        /// <summary>
+        /// -1代表等待超时
+        /// </summary>
+        public static readonly int WAIT_FOR_COMPLETE = -1;
 
         /// <summary>
         /// 检查健康状况

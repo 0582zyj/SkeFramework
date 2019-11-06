@@ -21,7 +21,6 @@ namespace SkeFramework.NetSerialPort.Protocols
     public interface IConnection : IDisposable
     {
         event ReceivedDataCallback Receive;
-   
 
         IMessageEncoder Encoder { get; }
         IMessageDecoder Decoder { get; }
@@ -30,56 +29,54 @@ namespace SkeFramework.NetSerialPort.Protocols
         /// Used to allocate reusable buffers for network I/O
         /// </summary>
         IByteBufAllocator Allocator { get; }
-
-        DateTimeOffset Created { get; }
-
-        INode RemoteHost { get; }
-
-        INode Local { get; }
-
-        TimeSpan Timeout { get; }
-
-        bool WasDisposed { get; }
-
-        bool Receiving { get; }
-
-        bool IsOpen();
-
         /// <summary>
-        /// The total number of bytes written the network that are available to be read
+        /// 协议创建时间
         /// </summary>
-        /// <returns>the number of bytes received from the network that are available to be read</returns>
-        int Available { get; }
-
+        DateTime Created { get; }
         /// <summary>
-        /// Messages that have not yet been delivered to their intended destination
+        /// 远程连接
+        /// </summary>
+        INode RemoteHost { get; }
+        /// <summary>
+        /// 当前连接
+        /// </summary>
+        INode Local { get; }
+        /// <summary>
+        /// 超时时间
+        /// </summary>
+        TimeSpan Timeout { get; }
+        /// <summary>
+        /// 是否释放
+        /// </summary>
+        bool WasDisposed { get; }
+        /// <summary>
+        /// 是否正在接受
+        /// </summary>
+        bool Receiving { get; }
+        /// <summary>
+        /// 是否打开
+        /// </summary>
+        /// <returns></returns>
+        bool IsOpen();
+     
+        /// <summary>
+        /// 尚未发送到预期目的地的消息
         /// </summary>
         int MessagesInSendQueue { get; }
-
+        /// <summary>
+        /// 协议是否过期
+        /// </summary>
+        bool Dead { get; set; }
+        #region Method
         /// <summary>
         /// 选项配置此传输
         /// </summary>
-        /// <param name="config">a <see cref="IConnectionConfig"/> instance with the appropriate configuration options</param>
+        /// <param name="config"></param>
         void Configure(IConnectionConfig config);
-
+        /// <summary>
+        /// 开启
+        /// </summary>
         void Open();
-
-        /// <summary>
-        /// 开始接收此连接上的数据
-        /// Assumes that <see cref="Receive"/> has already been set.
-        /// </summary>
-        void BeginReceive();
-
-        /// <summary>
-        /// 开始接收此连接上的数据
-        /// </summary>
-        /// <param name="callback">A callback for when data is received</param>
-        void BeginReceive(ReceivedDataCallback callback);
-
-        /// <summary>
-        /// 停止接收消息，但保持连接打开
-        /// </summary>
-        void StopReceive();
         /// <summary>
         /// 关闭
         /// </summary>
@@ -92,5 +89,21 @@ namespace SkeFramework.NetSerialPort.Protocols
         /// <param name="length"></param>
         /// <param name="destination"></param>
         void Send(byte[] buffer, int index, int length, INode destination);
+        /// <summary>
+        /// 开始接收此连接上的数据
+        /// Assumes that <see cref="Receive"/> has already been set.
+        /// </summary>
+        void BeginReceive();
+        /// <summary>
+        /// 开始接收此连接上的数据
+        /// </summary>
+        /// <param name="callback">A callback for when data is received</param>
+        void BeginReceive(ReceivedDataCallback callback);
+        /// <summary>
+        /// 停止接收消息，但保持连接打开
+        /// </summary>
+        void StopReceive();
+        #endregion
+
     }
 }

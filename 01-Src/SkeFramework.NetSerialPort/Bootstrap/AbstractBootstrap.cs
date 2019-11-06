@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Buffers.Allocators.Achieves;
 using SkeFramework.NetSerialPort.Buffers.Serialization;
+using SkeFramework.NetSerialPort.Net;
 using SkeFramework.NetSerialPort.Protocols;
 using SkeFramework.NetSerialPort.Protocols.Configs;
 using SkeFramework.NetSerialPort.Protocols.Connections;
@@ -22,8 +24,8 @@ namespace SkeFramework.NetSerialPort.Bootstrap
             Config = new DefaultConnectionConfig();
             Encoder = Encoders.DefaultEncoder;
             Decoder = Encoders.DefaultDecoder;
-            Allocator = null;
-            ReactorType = "SerialPorts";
+            Allocator = new DefaultByteBufAllocator();
+            ReactorTypes = ReactorType.SerialPorts;
         }
 
         protected AbstractBootstrap(AbstractBootstrap other)
@@ -37,6 +39,7 @@ namespace SkeFramework.NetSerialPort.Bootstrap
 
             Encoder = other.Encoder;
             Decoder = other.Decoder;
+
         }
 
         #region 事件
@@ -44,7 +47,7 @@ namespace SkeFramework.NetSerialPort.Bootstrap
         #endregion
 
         #region 引导属性
-        public string ReactorType { get; set; }
+        public ReactorType ReactorTypes { get; set; }
         /// <summary>
         /// 配置
         /// </summary>

@@ -13,9 +13,8 @@ namespace SkeFramework.NetSerialPort.Topology
     /// </summary>
     public interface INode : ICloneable
     {
-        NodeConfig nodeConfig { get; set; }
         /// <summary>
-        ///     The name of this machine
+        /// 机器名称
         /// </summary>
         string MachineName { get; set; }
         /// <summary>
@@ -30,7 +29,10 @@ namespace SkeFramework.NetSerialPort.Topology
         /// Json字节数据
         /// </summary>
         string CustomData { get; set; }
-
+        /// <summary>
+        /// 串口链接参数
+        /// </summary>
+        NodeConfig nodeConfig { get; set; }
         /// <summary>
         /// 将节点信息转为监听点
         /// </summary>

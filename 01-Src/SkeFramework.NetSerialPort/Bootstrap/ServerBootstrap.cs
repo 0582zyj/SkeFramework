@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Net;
 using SkeFramework.NetSerialPort.Protocols;
 using SkeFramework.NetSerialPort.Protocols.Configs;
 using SkeFramework.NetSerialPort.Protocols.Connections;
@@ -111,16 +112,16 @@ namespace SkeFramework.NetSerialPort.Bootstrap
 
         public override void Validate()
         {
-            if (ReactorType =="") throw new ArgumentException("Type must be set");
+            if (1 <= (int)ReactorTypes && (int)ReactorTypes <= 4) throw new ArgumentException("Type must be set");
             if (Workers < 1) throw new ArgumentException("Workers must be at least 1");
             if (BufferBytes < 1024) throw new ArgumentException("BufferSize must be at least 1024");
         }
 
         protected override IConnectionFactory BuildInternal()
         {
-            switch (ReactorType)
+            switch (ReactorTypes)
             {
-                case "SerialPorts":
+                case ReactorType.SerialPorts:
                     return new SPServerFactory(this);
                 default:
                     throw new InvalidOperationException("This shouldn't happen");

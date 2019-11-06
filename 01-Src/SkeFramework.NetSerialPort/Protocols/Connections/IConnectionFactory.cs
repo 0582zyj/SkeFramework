@@ -17,7 +17,11 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// </summary>
         /// <returns></returns>
         IConnection NewConnection();
+        /// <summary>
+        /// 新建一个链接
+        /// </summary>
+        /// <param name="remoteEndpoint"></param>
+        /// <returns></returns>
         IConnection NewConnection(INode remoteEndpoint);
-        IConnection NewConnection(INode localEndpoint, INode remoteEndpoint);
     }
 }

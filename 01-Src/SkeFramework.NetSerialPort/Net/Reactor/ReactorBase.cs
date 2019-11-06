@@ -49,12 +49,11 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             Listener.StopBits = nodeConfig.StopBits;
             Listener.Parity = nodeConfig.Parity;
             Listener.ReceivedBytesThreshold = 1;
-          
 
             //LocalEndpoint = new IPEndPoint(localAddress, localPort);      
             Backlog = NetworkConstants.DefaultBacklog;
-            ConnectionAdapter = new ReactorConnectionAdapter(this);
             BufferSize = bufferSize;
+            ConnectionAdapter = new ReactorConnectionAdapter(this);
         }
         #endregion
 
@@ -67,16 +66,13 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         /// 缓冲区大小
         /// </summary>
         protected int BufferSize { get; set; }
-
         public IMessageEncoder Encoder { get; set; }
         public IMessageDecoder Decoder { get; set; }
         public IByteBufAllocator Allocator { get; set; }
         public IConnection ConnectionAdapter { get; set; }
-
         public abstract bool IsActive { get; protected set; }
+        public abstract bool IsParsing { get; protected set; }
         public bool WasDisposed { get; protected set; }
-
-
 
         public void Start()
         {
@@ -84,9 +80,9 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             if (IsActive) return;
             CheckWasDisposed();
             IsActive = true;
+            this.ConnectionAdapter.Open();
             StartInternal();
         }
-       
 
         public void Stop()
         {
@@ -108,14 +104,11 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         }
 
         public int Backlog { get; set; }
-
-        public SerialPort LocalEndpoint { get; protected set; }
-
+        public INode LocalEndpoint { get;set; }
         public abstract void Configure(IConnectionConfig config);
         public abstract void Send(byte[] buffer, int index, int length, INode destination);
         protected abstract void StartInternal();
         protected abstract void StopInternal();
-
 
         /// <summary>
         /// Abstract method to be filled in by a child class - data received from the

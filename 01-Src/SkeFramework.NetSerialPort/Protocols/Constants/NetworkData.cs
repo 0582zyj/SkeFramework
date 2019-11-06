@@ -11,7 +11,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Constants
     /// <summary>
     /// 远程主机数据接收处理
     /// </summary>
-    public struct NetworkData
+    public class NetworkData
     {
         /// <summary>
         /// 远程节点信息
@@ -50,7 +50,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Constants
             {
                 Buffer = buf.ToArray(),
                 Length = readableBytes,
-                RemoteHost = node
+                RemoteHost = node,
+                Recieved=DateTime.Now
             };
         }
         #endregion

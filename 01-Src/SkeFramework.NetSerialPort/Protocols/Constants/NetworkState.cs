@@ -41,6 +41,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Constants
         /// <summary>
         /// 原始缓冲区
         /// </summary>
-        public byte[] RawBuffer { get; private set; }
+        public byte[] RawBuffer { get;  set; }
     }
 }
