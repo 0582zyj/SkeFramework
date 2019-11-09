@@ -205,6 +205,7 @@ namespace SkeFramework.Core.Network.Https
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
             }
             return result;
         }

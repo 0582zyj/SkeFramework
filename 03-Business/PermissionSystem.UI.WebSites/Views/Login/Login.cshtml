@@ -121,14 +121,14 @@
             type: "POST",
             dataType: "json",
             success: function (rdata) {
-                if (rdata == 100) {
-                    //加载层-风格4
+                if (rdata.code == 200) {
+                  
                 }
                 else {
-                    var msg = getLoginResult(rdata);
-                    alert(msg);
-                    result= false;
+                    alert(rdata.msg);
+                    result = false;
                 }
+                
             }
         });
         return result;

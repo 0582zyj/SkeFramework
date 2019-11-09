@@ -58,15 +58,18 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
             loginInfoForm.LoginerInfo = "123";
             loginInfoForm.Platform = "123";
             JsonResponses responses = loginSdk.Login(loginInfoForm);
-            //    ManagementRoles roles = DataHandleManager.Instance().ManagementRolesHandle.GetModelByKey(RolesID.ToString());
-            LoginModel.Instance().UserNo = "123";
-            LoginModel.Instance().Token = "123";// MD5Helper.GetMD5String(UserNo + APPKey + DateTime.Now.ToString("yyyyMMddHHmmss"));;
-            LoginModel.Instance().ManagementValue = 1213;// roles.ManagementValue;
-            LoginModel.Instance().UserRolesName = "123";// roles.Name;
-            LoginModel.Instance().UserRule = "123";//DataHandleManager.Instance().UsersRuleHandle.GetUserRoles(UserNo);
-            AppBusiness.loginModel = LoginModel.Instance();
-            //}
-            return Json(400, JsonRequestBehavior.AllowGet);
+            if (responses.code == JsonResponses.Success.code)
+            { 
+                //ManagementRoles roles = DataHandleManager.Instance().ManagementRolesHandle.GetModelByKey(RolesID.ToString());
+                LoginModel.Instance().UserNo = "123";
+                LoginModel.Instance().Token = "123";// MD5Helper.GetMD5String(UserNo + APPKey + DateTime.Now.ToString("yyyyMMddHHmmss"));;
+                LoginModel.Instance().ManagementValue = 1213;// roles.ManagementValue;
+                LoginModel.Instance().UserRolesName = "123";// roles.Name;
+                LoginModel.Instance().UserRule = "123";//DataHandleManager.Instance().UsersRuleHandle.GetUserRoles(UserNo);
+                AppBusiness.loginModel = LoginModel.Instance();
+                //}
+            }
+            return Json(responses, JsonRequestBehavior.AllowGet);
         }
 
         #region 用户前台
