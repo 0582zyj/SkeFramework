@@ -38,6 +38,7 @@ namespace MicrosServices.SDK.UserCenter
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 return JsonResponses.Failed;
             }
         }

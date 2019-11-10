@@ -6,9 +6,15 @@ using PermissionSystem.UI.WebSites.Models;
 
 namespace PermissionSystem.UI.WebSites.Global
 {
+    /// <summary>
+    /// 静态初始化
+    /// </summary>
     public class AppBusiness
     {
-
+        public static string PlatformCode = "SkeCloud";
+        /// <summary>
+        /// 登录信息
+        /// </summary>
         public static LoginModel loginModel
         {
             get
@@ -17,7 +23,7 @@ namespace PermissionSystem.UI.WebSites.Global
                 {
                     return (LoginModel)HttpContext.Current.Session["LoginModel"];
                 }
-                return null;
+                return new LoginModel();
             }
             set
             {

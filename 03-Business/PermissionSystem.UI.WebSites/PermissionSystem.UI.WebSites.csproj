@@ -200,6 +200,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Encrypts\SkeFramework.Core.Encrypts.csproj">
+      <Project>{c76b3db1-cdf9-4cf9-a445-bb272279b0f1}</Project>
+      <Name>SkeFramework.Core.Encrypts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj">
       <Project>{F30C0CC5-B760-4EE0-9603-FCE8FF5206BC}</Project>
       <Name>SkeFramework.Core.Network</Name>
@@ -207,6 +211,10 @@
     <ProjectReference Include="..\MicrosServices.BLL.Business\MicrosServices.BLL.Business.csproj">
       <Project>{00BAAA1A-D082-4822-981C-D8AD6E8EEB59}</Project>
       <Name>MicrosServices.BLL.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj">
+      <Project>{F26359E9-2013-44D7-8569-E5533DEC9BA4}</Project>
+      <Name>MicrosServices.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj">
       <Project>{2AC71E45-3249-48C3-AE3B-F303EB899675}</Project>

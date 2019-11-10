@@ -19,7 +19,7 @@ namespace SkeFramework.Core.Network.Https
         /// <summary>
         /// 请求方式
         /// </summary>
-        public RequestTypeEnums Method = RequestTypeEnums.POST;
+        public RequestTypeEnums Method = RequestTypeEnums.POST_FORM;
         /// <summary>
         /// 请求参数
         /// </summary>

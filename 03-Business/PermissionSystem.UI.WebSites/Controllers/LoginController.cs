@@ -4,10 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MicrosServices.BLL.Business;
+using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.UserCenter.FORM;
 using MicrosServices.SDK.UserCenter;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
+using SkeFramework.Core.Encrypts;
 using SkeFramework.Core.Network.Responses;
 
 namespace SmartCloudIOT.UI.WebSite.Controllers
@@ -15,6 +17,7 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
     public class LoginController : Controller
     {
         private LoginSdk loginSdk = new LoginSdk();
+
         #region 管理后台
         /// <summary>
         /// 登录页面
@@ -56,13 +59,15 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
             loginInfoForm.UserName = UserName;
             loginInfoForm.Password = Password;
             loginInfoForm.LoginerInfo = "123";
-            loginInfoForm.Platform = "123";
+            loginInfoForm.Platform = AppBusiness.PlatformCode;
             JsonResponses responses = loginSdk.Login(loginInfoForm);
             if (responses.code == JsonResponses.Success.code)
-            { 
+            {
+                UcUsers users = (UcUsers)responses.data;
                 //ManagementRoles roles = DataHandleManager.Instance().ManagementRolesHandle.GetModelByKey(RolesID.ToString());
-                LoginModel.Instance().UserNo = "123";
-                LoginModel.Instance().Token = "123";// MD5Helper.GetMD5String(UserNo + APPKey + DateTime.Now.ToString("yyyyMMddHHmmss"));;
+                string APPKey = "";
+                LoginModel.Instance().UserNo = users.UserNo;
+                LoginModel.Instance().Token = MD5Helper.GetMD5String(users.UserNo + APPKey + DateTime.Now.ToString("yyyyMMddHHmmss"));;
                 LoginModel.Instance().ManagementValue = 1213;// roles.ManagementValue;
                 LoginModel.Instance().UserRolesName = "123";// roles.Name;
                 LoginModel.Instance().UserRule = "123";//DataHandleManager.Instance().UsersRuleHandle.GetUserRoles(UserNo);
