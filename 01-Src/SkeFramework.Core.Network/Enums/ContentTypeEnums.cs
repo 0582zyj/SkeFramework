@@ -14,5 +14,6 @@ namespace SkeFramework.Core.Network.Enums
     {
         [EnumAttribute(810, "application/json")] POSTJSON,
         [EnumAttribute(811, "application/x-www-form-urlencoded")] GETFORM,
+        [EnumAttribute(811, "application/x-www-form-urlencoded;")] POSTFORM,
     }
 }

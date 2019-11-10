@@ -10,8 +10,8 @@ namespace MicrosServices.SDK.UserCenter
 {
     public class LoginSdk
     {
-        private static string LoginUrl = NetwordConstants.BASE_URL_USERCENTER + "/api/Login/LoginPost";
-
+        private static string LoginPostUrl = NetwordConstants.BASE_URL_USERCENTER + "/api/Login/LoginPost";
+        private static string LoginUrl = NetwordConstants.BASE_URL_USERCENTER + "/api/Login/Login";
         /// <summary>
         /// 登录
         /// </summary>
@@ -31,8 +31,8 @@ namespace MicrosServices.SDK.UserCenter
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = LoginUrl,
-                    PostData = JsonConvert.SerializeObject(request.ParameterValue),
-                    Method = RequestTypeEnums.POST
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.POST_FORM
                 });
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }

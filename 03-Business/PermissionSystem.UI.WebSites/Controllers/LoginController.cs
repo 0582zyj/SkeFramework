@@ -50,7 +50,7 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
         /// <param name="Captcha"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult Login(string UserName, string Password, string Captcha)
+        public JsonResult Login( string UserName, string Password, string Captcha)
         {
             LoginInfoForm loginInfoForm = new LoginInfoForm();
             loginInfoForm.UserName = UserName;

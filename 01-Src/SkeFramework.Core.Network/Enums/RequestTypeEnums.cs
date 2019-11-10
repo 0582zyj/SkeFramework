@@ -10,9 +10,10 @@ namespace SkeFramework.Core.Network.Enums
     /// 请求类型枚举
     /// <remarks>ZYJUN</remarks>
     /// </summary>
-   public enum RequestTypeEnums
+    public enum RequestTypeEnums
     {
-       GET,
-       POST
+        GET,
+        POST_JSON,
+        POST_FORM
     }
 }
