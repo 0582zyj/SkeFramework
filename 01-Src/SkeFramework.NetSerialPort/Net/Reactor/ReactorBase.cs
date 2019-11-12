@@ -69,6 +69,9 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         public IMessageEncoder Encoder { get; set; }
         public IMessageDecoder Decoder { get; set; }
         public IByteBufAllocator Allocator { get; set; }
+        /// <summary>
+        /// 链接适配器
+        /// </summary>
         public IConnection ConnectionAdapter { get; set; }
         public abstract bool IsActive { get; protected set; }
         public abstract bool IsParsing { get; protected set; }
@@ -116,7 +119,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         /// </summary>
         /// <param name="availableData">Data available from the network, including a response address</param>
         /// <param name="responseChannel">Available channel for handling network response</param>
-        protected virtual void ReceivedData(NetworkData availableData, ReactorResponseChannel responseChannel)
+        protected virtual void ReceivedData(NetworkData availableData, RefactorResponseChannel responseChannel)
         {
             //if (EventLoop.Receive != null)
             //{

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
 using SkeFramework.NetSerialPort.Protocols.Constants;
+using SkeFramework.NetSerialPort.Protocols.Requests;
 using SkeFramework.NetSerialPort.Protocols.Response;
 using SkeFramework.NetSerialPort.Topology;
 
@@ -15,7 +16,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
 {
     public abstract class ProxyReactorBase : ReactorBase
     {
-        protected Dictionary<INode, ReactorResponseChannel> SocketMap = new Dictionary<INode, ReactorResponseChannel>();
+        protected Dictionary<INode, RefactorRequestChannel> SocketMap = new Dictionary<INode, RefactorRequestChannel>();
 
         protected ProxyReactorBase(NodeConfig nodeConfig, 
             IMessageEncoder encoder, IMessageDecoder decoder, IByteBufAllocator allocator,
@@ -33,7 +34,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         /// </summary>
         public bool ProxiesShareFiber { get; protected set; }
 
-        protected override void ReceivedData(NetworkData availableData, ReactorResponseChannel responseChannel)
+        protected override void ReceivedData(NetworkData availableData, RefactorResponseChannel responseChannel)
         {
             responseChannel.OnReceive(availableData);
         }

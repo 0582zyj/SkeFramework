@@ -39,6 +39,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Constants
         /// -1代表等待超时
         /// </summary>
         public static readonly int WAIT_FOR_COMPLETE = -1;
+        /// <summary>
+        ///  默认任务重发间隔时间[毫秒]
+        /// </summary>
+        public static readonly int DefaultTaskInterval =1000;
 
         /// <summary>
         /// 检查健康状况

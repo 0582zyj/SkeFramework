@@ -30,6 +30,10 @@ namespace SkeFramework.NetSerialPort.Topology
         /// </summary>
         string CustomData { get; set; }
         /// <summary>
+        /// 任务唯一标识
+        /// </summary>
+        string TaskTag { get; set; }
+        /// <summary>
         /// 串口链接参数
         /// </summary>
         NodeConfig nodeConfig { get; set; }

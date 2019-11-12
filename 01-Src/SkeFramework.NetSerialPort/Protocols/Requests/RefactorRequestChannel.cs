@@ -17,7 +17,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
     /// <summary>
     /// 协议请求处理
     /// </summary>
-   public abstract class RefactorRequestChannel : IConnection
+    public abstract class RefactorRequestChannel : IConnection
     {
         private readonly ReactorBase _reactor;
         /// <summary>
@@ -27,7 +27,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         //protected ICircularBuffer<NetworkData> UnreadMessages = new ConcurrentCircularBuffer<NetworkData>(1000);
 
         protected RefactorRequestChannel(ReactorBase reactor)
-            : this(reactor,null)
+            : this(reactor, null)
         {
         }
 
@@ -43,7 +43,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             Dead = false;
             Timeout = NetworkConstants.BackoffIntervals[6];
             this.Sender = new SenderListenser(this);
-
         }
 
 
@@ -66,10 +65,22 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
 
         public TimeSpan Timeout
         {
-            get;set;
+            get; set;
         }
 
-        public bool Dead { get { return DateTime.Now.Subtract(this.Created.Add(this.Timeout)).Ticks > 0; } set { if (value) this.Timeout = TimeSpan.FromSeconds(0); else this.Created = DateTime.Now; } }
+        public bool Dead
+        {
+            get { return DateTime.Now.Subtract(this.Created.Add(this.Timeout)).Ticks > 0; }
+            set
+            {
+                if (value)
+                {
+                    this.Timeout = TimeSpan.FromSeconds(0);
+                    this.Sender.EndSend();
+                }
+                else this.Created = DateTime.Now;
+            }
+        }
 
 
         public bool WasDisposed { get; private set; }
@@ -141,7 +152,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// <param name="frame">    发送帧 </param>
         /// <param name="interval"> 发送间隔 </param>
         /// <param name="sendTimes"> 发送次数 </param>
-        protected  virtual void CaseSendFrame(NetworkData frame, int interval, int sendTimes)
+        protected virtual void CaseSendFrame(NetworkData frame, int interval, int sendTimes)
         {
             if (null == frame)
             {
@@ -164,7 +175,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         public abstract void BeginReceiveInternal();
 
         /// <summary>
-        ///     Method is called directly by the <see cref="ReactorBase" /> implementation to send data to this
+        /// Method is called directly by the <see cref="ReactorBase" /> implementation to send data to this
         ///     <see cref="IConnection" />.
         ///     Can also be called by the socket itself if this reactor doesn't use <see cref="ReactorProxyResponseChannel" />.
         /// </summary>

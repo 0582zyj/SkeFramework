@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Protocols.Requests;
+using SkeFramework.NetSerialPort.Topology;
 
 namespace SkeFramework.NetSerialPort.Protocols.Connections
 {
@@ -52,15 +53,26 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             lock (caseList)
             {
-                //return caseList.Find(o => o.CmdByte == cmd);
-                return caseList.FirstOrDefault();
+                return caseList.Find(o => o.Local.TaskTag == cmd.ToString());
             }
         }
-       /// <summary>
-       /// 任务过期
-       /// </summary>
-       /// <param name="task"></param>
-       internal void SetCaseAsDead(ConnectionTask task)
+        /// <summary>
+        /// 获取协议业务
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <returns></returns>
+        public IConnection GetCase(INode node)
+        {
+            lock (caseList)
+            {
+                return caseList.Find(o => o.Local == node);
+            }
+        }
+        /// <summary>
+        /// 任务过期
+        /// </summary>
+        /// <param name="task"></param>
+        internal void SetCaseAsDead(ConnectionTask task)
        {
            IConnection csObj = null;
            lock (caseList)

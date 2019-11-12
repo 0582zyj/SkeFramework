@@ -110,6 +110,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05-SDK", "05-SDK", "{C7C678
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.SDK.UserCenter", "03-Business\MicrosServices.SDK.UserCenter\MicrosServices.SDK.UserCenter.csproj", "{3F3F0673-39D0-4356-8744-936A07A05844}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.NetProtocol", "01-Src\SkeFramework.NetProtocol\SkeFramework.NetProtocol.csproj", "{586DF167-47B7-40CC-A133-74A74C2533E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -236,6 +238,10 @@ Global
 		{3F3F0673-39D0-4356-8744-936A07A05844}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F3F0673-39D0-4356-8744-936A07A05844}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F3F0673-39D0-4356-8744-936A07A05844}.Release|Any CPU.Build.0 = Release|Any CPU
+		{586DF167-47B7-40CC-A133-74A74C2533E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{586DF167-47B7-40CC-A133-74A74C2533E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{586DF167-47B7-40CC-A133-74A74C2533E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{586DF167-47B7-40CC-A133-74A74C2533E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -288,6 +294,7 @@ Global
 		{C76B3DB1-CDF9-4CF9-A445-BB272279B0F1} = {74CF6593-2629-4303-A881-03D61B249176}
 		{C7C67878-EE19-4954-B2B8-1A1CC69C1B0A} = {FBA827F4-7E04-40C2-B8D1-2D7964D2D5EE}
 		{3F3F0673-39D0-4356-8744-936A07A05844} = {C7C67878-EE19-4954-B2B8-1A1CC69C1B0A}
+		{586DF167-47B7-40CC-A133-74A74C2533E8} = {02BB5DE6-1886-429B-87C4-EBACDAE1D1A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}

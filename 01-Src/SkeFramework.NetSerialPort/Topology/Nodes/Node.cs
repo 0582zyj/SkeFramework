@@ -50,7 +50,10 @@ namespace SkeFramework.NetSerialPort.Topology.Nodes
         /// Json字节
         /// </summary>
         public string CustomData { get; set; }
-      
+        /// <summary>
+        /// 任务唯一标识
+        /// </summary>
+        public string TaskTag { get; set; }
 
         public object Clone()
         {

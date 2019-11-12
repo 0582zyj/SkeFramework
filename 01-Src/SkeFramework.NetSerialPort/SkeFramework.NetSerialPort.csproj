@@ -57,6 +57,7 @@
     <Compile Include="Buffers\Serialization\Encoders.cs" />
     <Compile Include="Buffers\Serialization\IMessageDecoder.cs" />
     <Compile Include="Buffers\Serialization\IMessageEncoder.cs" />
+    <Compile Include="Net\Constants\NetworkState.cs" />
     <Compile Include="Net\ReactorType.cs" />
     <Compile Include="Net\Reactor\IReactor.cs" />
     <Compile Include="Net\Reactor\ProxyReactorBase.cs" />
@@ -76,12 +77,14 @@
     <Compile Include="Protocols\Connections\Tasks\TaskResult.cs" />
     <Compile Include="Protocols\Constants\NetworkConstants.cs" />
     <Compile Include="Protocols\Constants\NetworkData.cs" />
+    <Compile Include="Protocols\Constants\NetworkDataDocker.cs" />
     <Compile Include="Protocols\Constants\NetworkState.cs" />
     <Compile Include="Protocols\IConnection.cs" />
     <Compile Include="Protocols\Listenser\SenderListenser.cs" />
+    <Compile Include="Protocols\Requests\RefactorProxyRequestChannel.cs" />
     <Compile Include="Protocols\Requests\RefactorRequestChannel.cs" />
-    <Compile Include="Protocols\Response\ReactorProxyResponseChannel.cs" />
-    <Compile Include="Protocols\Response\ReactorResponseChannel.cs" />
+    <Compile Include="Protocols\Response\RefactorProxyResponseChannel.cs" />
+    <Compile Include="Protocols\Response\RefactorResponseChannel.cs" />
     <Compile Include="Topology\INode.cs" />
     <Compile Include="Topology\NodeBuilder.cs" />
     <Compile Include="Topology\Nodes\Node.cs" />

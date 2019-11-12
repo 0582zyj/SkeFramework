@@ -11,6 +11,8 @@ using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols.Configs;
 using SkeFramework.NetSerialPort.Protocols.Connections.Tasks;
 using SkeFramework.NetSerialPort.Protocols.Constants;
+using SkeFramework.NetSerialPort.Protocols.Requests;
+using SkeFramework.NetSerialPort.Protocols.Response;
 using SkeFramework.NetSerialPort.Topology;
 
 namespace SkeFramework.NetSerialPort.Protocols.Connections
@@ -24,13 +26,14 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// <summary>
         /// 是否等待停止
         /// </summary>
-        private bool waitForStop=false;
+        private bool waitForStop = false;
 
         public ReactorConnectionAdapter(ReactorBase reactor)
         {
             _reactor = reactor;
             connectionDocker = new ConnectionDocker();
             taskDocker = new TaskManager(this);
+            networkDataDocker = new NetworkDataDocker();
             this.protocolEvents = new WaitHandle[3];
             this.protocolEvents[(int)ProtocolEvents.ProtocolExit] = new ManualResetEvent(false);
             this.protocolEvents[(int)ProtocolEvents.PortReceivedData] = new AutoResetEvent(false);
@@ -63,12 +66,12 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
 
         public INode Local
         {
-            get { return  _reactor.LocalEndpoint; }
+            get { return _reactor.LocalEndpoint; }
         }
 
         public TimeSpan Timeout { get; private set; }
 
-        public bool Dead { get { return DateTime.Now.Subtract(this.Created.Add(this.Timeout)).Ticks > 0; }  set{ } }
+        public bool Dead { get { return DateTime.Now.Subtract(this.Created.Add(this.Timeout)).Ticks > 0; } set { } }
 
         public bool WasDisposed { get; private set; }
 
@@ -82,11 +85,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             return _reactor.IsActive;
         }
 
-        public int Available
-        {
-            get { throw new NotSupportedException("[Available] is not supported on ReactorConnectionAdapter"); }
-        }
-
         public int MessagesInSendQueue
         {
             get { return 0; }
@@ -96,6 +94,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             _reactor.Configure(config);
         }
+
+        #region 开启关闭
         /// <summary>
         /// 启动协议进程
         /// </summary>
@@ -130,6 +130,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             }
             catch (Exception ex)
             {
+                Console.WriteLine("启动协议进程:" + ex.ToString());
             }
         }
         /// <summary>
@@ -165,9 +166,28 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                 _reactor.Stop();
             }
         }
+        #endregion
 
+        #region 接受数据
         public void BeginReceive()
         {
+            if (_reactor == null || !_reactor.IsActive)
+                return;
+            ///* 这个while及其判断目的是解决一次性接收多个帧数据时，及时将数据全部解析。
+            // * （否则若收到两个帧，而没有此while，则只能解析前面那个帧，而后面的帧数据仍然在缓冲区，
+            // * 要等待下一次接收到数据触发了接收事件才能获得解析的机会）*/
+            int revTimes = this.networkDataDocker.BusinessCaseList.Count;
+            int FailedFrameCount = 0; //蓝牙端口接收数据缓存可能有N条数据
+            while ((FailedFrameCount < 1) && revTimes>0)
+            {
+                ProcessReceivedData(networkDataDocker.GetNetworkData());
+                revTimes--;
+                // 若远端无休止地发送数据，这边处理较慢时将导致while一直循环，在这种情况下Sleep将导致切换线程，而不至于一直占用CPU。
+                Thread.Sleep(10);
+                //因此在再此while中循环已经没有意义，等下面的数据来到后将会由事件触发。
+                //if (receivingFrame != null)
+                //    break;
+            }
         }
 
         public void BeginReceive(ReceivedDataCallback callback)
@@ -179,7 +199,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             Receive += (data, channel) => { };
         }
+        #endregion
 
+        #region 发送数据
         public void Send(NetworkData data)
         {
             _reactor.Send(data);
@@ -198,7 +220,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             }
             _reactor.Send(buffer, index, length, destination);
         }
-
+        #endregion
 
         #region 协议线程
         /// <summary>
@@ -225,6 +247,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// 任务容器
         /// </summary>
         protected TaskManager taskDocker;
+        /// <summary>
+        /// 数据处理缓冲区
+        /// </summary>
+        public NetworkDataDocker networkDataDocker;
         #endregion
 
         #region 协议线程的处理过程
@@ -252,7 +278,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                                 ProcessNewTask();
                                 break;
                             case (int)ProtocolEvents.PortReceivedData:
-                                ProcessReceivedData();
+                                BeginReceive();
                                 break;
                         }
                     }
@@ -265,7 +291,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             UnInitialize();
             this.ThreadProtocol = null;
         }
-
+        /// <summary>
+        /// 轮询处理
+        /// </summary>
         private void Polling()
         {
             ProcessAsyncTaskOvertime();
@@ -274,12 +302,11 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             OnPolling();
             ProcessNewTask();
         }
-
         /// <summary>
         /// 处理新任务
         /// </summary>
         private void ProcessNewTask()
-         {
+        {
             try
             {
                 for (int i = this.taskDocker.TaskList.Count - 1; i >= 0 && this.taskDocker.TaskList.Count > 0; i--)
@@ -351,32 +378,17 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// <summary>
         /// 处理端口缓冲区收到的端口数据。
         /// </summary>
-        protected virtual void ProcessReceivedData()
+        protected virtual void ProcessReceivedData(NetworkData networkData)
         {
-            if (_reactor == null || !_reactor.IsActive)
-                return;
-            ///* 这个while及其判断目的是解决一次性接收多个帧数据时，及时将数据全部解析。
-            // * （否则若收到两个帧，而没有此while，则只能解析前面那个帧，而后面的帧数据仍然在缓冲区，
-            // * 要等待下一次接收到数据触发了接收事件才能获得解析的机会）*/
-            //int revTimes = 0;
-            //int FailedFrameCount = 0; //蓝牙端口接收数据缓存可能有N条数据
-            //while ((FailedFrameCount < 1 || (_reactor).HasData) && revTimes < 200)
-            //{
-            //    FrameBase frame = ParseToValidFrame();
-            //    if (frame != null)
-            //    {
-            //    }
-            //    else
-            //    {
-            //        FailedFrameCount++;
-            //    }
-            //    revTimes++;
-            //    // 若远端无休止地发送数据，这边处理较慢时将导致while一直循环，在这种情况下Sleep将导致切换线程，而不至于一直占用CPU。
-            //    Thread.Sleep(10);
-            //    //因此在再此while中循环已经没有意义，等下面的数据来到后将会由事件触发。
-            //    //if (receivingFrame != null)
-            //    //    break;
-            //}
+            IConnection connection = this.connectionDocker.GetCase(networkData.RemoteHost);
+            if (connection != null && connection is RefactorRequestChannel)
+            {
+                RefactorRequestChannel requestChannel = (RefactorRequestChannel)connection;
+                if (requestChannel.Sender.TotalSendTimes!= NetworkConstants.WAIT_FOR_COMPLETE)
+                {
+                    requestChannel.Sender.EndSend();
+                }
+            }
         }
         #endregion
 
@@ -457,6 +469,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         }
         #endregion
 
+        #region 请求和响应
+       
+        #endregion
+
         #region IDisposable methods
 
         public void Dispose()
@@ -483,7 +499,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         }
 
         #endregion
-
     }
     /// <summary>
     /// 协议线程阻塞而等待要处理的事件。

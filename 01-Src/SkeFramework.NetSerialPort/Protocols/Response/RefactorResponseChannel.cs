@@ -11,6 +11,7 @@ using SkeFramework.NetSerialPort.Buffers.Allocators;
 using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols.Configs;
 using SkeFramework.NetSerialPort.Protocols.Constants;
+using SkeFramework.NetSerialPort.Protocols.Requests;
 using SkeFramework.NetSerialPort.Topology;
 
 namespace SkeFramework.NetSerialPort.Protocols.Response
@@ -18,22 +19,22 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
     /// <summary>
     /// 远程实例响应
     /// </summary>
-    public abstract class ReactorResponseChannel : IConnection
+    public abstract class RefactorResponseChannel : IConnection
     {
         private readonly ReactorBase _reactor;
-        internal SerialPort Socket;
+        internal RefactorRequestChannel requestChannel;
 
         //protected ICircularBuffer<NetworkData> UnreadMessages = new ConcurrentCircularBuffer<NetworkData>(1000);
 
-        protected ReactorResponseChannel(ReactorBase reactor, SerialPort outboundSocket)
-            : this(reactor, outboundSocket,null)
+        protected RefactorResponseChannel(ReactorBase reactor, RefactorRequestChannel request)
+            : this(reactor, request, null)
         {
         }
 
-        protected ReactorResponseChannel(ReactorBase reactor, SerialPort outboundSocket,INode node)
+        protected RefactorResponseChannel(ReactorBase reactor, RefactorRequestChannel request, INode node)
         {
             _reactor = reactor;
-            Socket = outboundSocket;
+            requestChannel = request;
             Decoder = _reactor.Decoder.Clone();
             Encoder = _reactor.Encoder.Clone();
             Allocator = _reactor.Allocator;
@@ -42,8 +43,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
             Timeout = NetworkConstants.BackoffIntervals[6];
             this.Created = DateTime.Now;
             Dead = false;
-            //Local = reactor.LocalEndpoint.ToNode(reactor.Transport);
-            //RemoteHost = NodeBuilder.FromEndpoint(endPoint);
         }
 
 
@@ -81,13 +80,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
 
         public bool IsOpen()
         {
-            return Socket != null && true;
+            return _reactor.IsActive;
         }
 
-        public int Available
-        {
-            get { return Socket == null ? 0 : 1; }
-        }
 
         public int MessagesInSendQueue
         {
@@ -143,12 +138,12 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
         /// <summary>
         ///     Method is called directly by the <see cref="ReactorBase" /> implementation to send data to this
         ///     <see cref="IConnection" />.
-        ///     Can also be called by the socket itself if this reactor doesn't use <see cref="ReactorProxyResponseChannel" />.
+        ///     Can also be called by the socket itself if this reactor doesn't use <see cref="RefactorProxyResponseChannel" />.
         /// </summary>
         /// <param name="data">The data to pass directly to the recipient</param>
-        internal virtual void OnReceive(NetworkData data)
+        public virtual void OnReceive(NetworkData data)
         {
-          
+            requestChannel.Dead = false;
         }
 
 
@@ -176,7 +171,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
                 if (disposing)
                 {
                     Close();
-                    Socket = null;
                 }
             }
         }

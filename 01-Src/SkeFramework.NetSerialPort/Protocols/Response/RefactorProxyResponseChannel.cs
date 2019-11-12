@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Requests;
 using SkeFramework.NetSerialPort.Topology;
 
 namespace SkeFramework.NetSerialPort.Protocols.Response
@@ -13,15 +14,15 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
     /// <summary>
     /// 响应代理类
     /// </summary>
-    public class ReactorProxyResponseChannel : ReactorResponseChannel
+    public class RefactorProxyResponseChannel : RefactorResponseChannel
     {
-        public ReactorProxyResponseChannel(ReactorBase reactor, SerialPort outboundSocket)
-            : this(reactor, outboundSocket,null)
+        public RefactorProxyResponseChannel(ReactorBase reactor, RefactorRequestChannel request)
+            : this(reactor, request, null)
         {
         }
 
-        public ReactorProxyResponseChannel(ReactorBase reactor, SerialPort outboundSocket, INode endPoint)
-            : base(reactor, outboundSocket, endPoint)
+        public RefactorProxyResponseChannel(ReactorBase reactor, RefactorRequestChannel request, INode endPoint)
+            : base(reactor, request, endPoint)
         {
         }
 
