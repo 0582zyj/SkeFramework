@@ -26,7 +26,7 @@ namespace MicrosServices.API.UserCenter.Controllers
                 loginInfoForm.Platform, ref users);
             if(LoginResult== LoginResultType.SUCCESS_LOGIN)
             {
-                return new JsonResponses(JsonResponses.Success.code,LoginResult.ToString(), LoginResult);
+                return new JsonResponses(JsonResponses.Success.code,LoginResult.ToString(), users);
             }
             return new JsonResponses(JsonResponses.Failed.code, LoginResult.ToString(), LoginResult);
         }
@@ -46,5 +46,14 @@ namespace MicrosServices.API.UserCenter.Controllers
             }
             return new JsonResponses(JsonResponses.Failed.code, LoginResult.ToString(), LoginResult);
         }
+
+        // GET api/values
+        [HttpPost]
+        public ActionResult<JsonResponses> LoginPost([FromBody]LoginInfoForm loginInfoForm)
+        {
+          
+            return new JsonResponses(JsonResponses.Failed.code, loginInfoForm.UserName, loginInfoForm.UserName);
+        }
+
     }
 }

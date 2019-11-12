@@ -19,7 +19,7 @@ namespace SkeFramework.Core.Network.Https
         /// <summary>
         /// 请求方式
         /// </summary>
-        public RequestTypeEnums Method = RequestTypeEnums.POST;// public string Method = "Post";
+        public RequestTypeEnums Method = RequestTypeEnums.POST_FORM;
         /// <summary>
         /// 请求参数
         /// </summary>
@@ -58,7 +58,6 @@ namespace SkeFramework.Core.Network.Https
         /// 请求的content-Type值 
         /// </summary>
         public string contentTypeGet = "application/x-www-form-urlencoded";
-        //public string contentType = "multipart/form-data";
-
+        
     }
 }

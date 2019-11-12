@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Security;
@@ -9,8 +11,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SkeFramework.Core.Common.Enums;
 using SkeFramework.Core.Network.Commom;
 using SkeFramework.Core.Network.Enums;
+using SkeFramework.Core.Network.Requests;
 using SkeFramework.Core.Network.Responses;
 
 namespace SkeFramework.Core.Network.Https
@@ -118,7 +122,6 @@ namespace SkeFramework.Core.Network.Https
                 var myRequest = (HttpWebRequest)WebRequest.Create(bPara.Uri);
                 myRequest.Accept = bPara.Accept;
                 myRequest.UserAgent = bPara.UserAgent;
-                myRequest.ContentType = bPara.contentTypeGet;
                 myRequest.Referer = bPara.Referer;
                 if (bPara.Cookies != null)
                 {
@@ -136,15 +139,28 @@ namespace SkeFramework.Core.Network.Https
                 }
                 myRequest.CookieContainer = cookieContainer;
                 myRequest.Method = EnumsHelper.ValueOfRequestType(bPara.Method);
-                if (bPara.Method == RequestTypeEnums.POST)
+                if (bPara.Method == RequestTypeEnums.GET)
                 {
+                    myRequest.ContentType = EnumUtil.GetEnumExtendAttribute<ContentTypeEnums>(ContentTypeEnums.GETFORM).Desc;
+                }
+                else
+                {
+                    if(bPara.Method == RequestTypeEnums.POST_FORM)
+                    {
+                        var boundary = "---------------" + DateTime.Now.Ticks.ToString("x");
+                        myRequest.ContentType = EnumUtil.GetEnumExtendAttribute<ContentTypeEnums>(ContentTypeEnums.POSTFORM).Desc + "boundary = " + boundary;
+                    }
+                    else
+                    {
+                        myRequest.ContentType = EnumUtil.GetEnumExtendAttribute<ContentTypeEnums>(ContentTypeEnums.POSTJSON).Desc;
+                    }
                     myRequest.MediaType = bPara.MediaType;
                     byte[] byteRequest = Encoding.UTF8.GetBytes(bPara.PostData);
                     Stream rs = myRequest.GetRequestStream();
                     rs.Write(byteRequest, 0, byteRequest.Length);
                     rs.Close();
                 }
-                
+
                 var myResponse = (HttpWebResponse)myRequest.GetResponse();
 
                 CookieStr += myResponse.Headers.Get("Set-Cookie");
@@ -155,53 +171,46 @@ namespace SkeFramework.Core.Network.Https
                 returnStream.Close();
                 myResponse.Close();
                 Regex reg = new Regex(@"(?i)\\[uU]([0-9a-f]{4})");
-                return reg.Replace(html, delegate(Match m) { return ((char)Convert.ToInt32(m.Groups[1].Value, 16)).ToString(); });
+                return reg.Replace(html, delegate (Match m) { return ((char)Convert.ToInt32(m.Groups[1].Value, 16)).ToString(); });
             }
             catch (System.Exception ex)
             {
                 JsonResponses responses = new JsonResponses(JsonResponses.Failed.code, ex.Message);
-                return  JsonConvert.SerializeObject(responses);
+                return JsonConvert.SerializeObject(responses);
             }
         }
 
-        public  string HttpPost(string Url, string postDataStr)
+        public string HttpPost(string Url, RequestBase postData)
         {
             string result = "";
             try
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-                ServicePointManager.ServerCertificateValidationCallback = RemoteCertificateValidate;
-                ServicePointManager.CheckCertificateRevocationList = false;
-                ServicePointManager.DefaultConnectionLimit = 512;
-                ServicePointManager.Expect100Continue = false;
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-                request.Method = "POST";
-                request.ContentType = "multipart/form-data;charset=utf-8";
-                request.ContentLength = Encoding.UTF8.GetByteCount(postDataStr);
+                HttpWebRequest request = WebRequest.CreateHttp(Url);
+                request.Method = "post";
+                request.ContentType = "application/x-www-form-urlencoded";
+                //request.CookieContainer = cookie;
 
-                Stream myRequestStream = request.GetRequestStream();
-                //如果为gb2312，参数中有汉字时会发生错误： 
-                //远程服务器返回错误: (400) 错误的请求。      
-                StreamWriter myStreamWriter =
-                    new StreamWriter(myRequestStream, Encoding.GetEncoding("utf-8"));
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (string key in postData.ParameterValue.Keys)
+                {
+                    stringBuilder.AppendFormat("&{0}={1}", key, postData.ParameterValue[key]);
+                }
+                byte[] buffer = Encoding.UTF8.GetBytes(stringBuilder.ToString().Trim('&'));
+                Stream requestStream = request.GetRequestStream();
+                requestStream.Write(buffer, 0, buffer.Length);
+                requestStream.Close();
 
-                myStreamWriter.Write(postDataStr);
-                myStreamWriter.Close();
-
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-                Stream myResponseStream = response.GetResponseStream();
-                StreamReader myStreamReader =
-                    new StreamReader(myResponseStream, Encoding.GetEncoding("utf-8"));
-                string retString = myStreamReader.ReadToEnd();
-                result = retString;
-                myStreamReader.Close();
-                myResponseStream.Close();
+                WebResponse response = request.GetResponse();
+                StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+                return reader.ReadToEnd();
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
             }
             return result;
         }
+
+
     }
 }

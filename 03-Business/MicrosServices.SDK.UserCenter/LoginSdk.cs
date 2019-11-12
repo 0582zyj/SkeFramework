@@ -10,32 +10,37 @@ namespace MicrosServices.SDK.UserCenter
 {
     public class LoginSdk
     {
-        private static string LoginUrl = "https://localhost:5001/api/Login/Login";
-        private static string LoginUrl1 = "https://localhost:5001/api/Login/LoginGet";
-        private static string TestUrl = "https://localhost:5001/api/values";
+        private static string LoginPostUrl = NetwordConstants.BASE_URL_USERCENTER + "/api/Login/LoginPost";
+        private static string LoginUrl = NetwordConstants.BASE_URL_USERCENTER + "/api/Login/Login";
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="loginInfo"></param>
+        /// <returns></returns>
         public JsonResponses Login(LoginInfoForm loginInfo)
         {
-            RequestBase request = new RequestBase();
-            request.Url = LoginUrl1;
-            request.SetValue("UserName", loginInfo.UserName);
-            request.SetValue("Password", loginInfo.Password);
-            request.SetValue("LoginerInfo", loginInfo.LoginerInfo);
-            request.SetValue("Platform", loginInfo.Platform);
-            string result;
-            //result = HttpHelper.Example.GetWebData(new BrowserPara()
-            //{
-            //    Uri = request.Url,
-            //    PostData = JsonConvert.SerializeObject(request.ParameterValue),
-            //    Method = RequestTypeEnums.POST
-            //});
-
-             result = HttpHelper.Example.GetWebData(new BrowserPara()
+            try
             {
-                Uri = request.GetReqUrl(),
-                PostData = "",
-                Method = RequestTypeEnums.GET
-            });
-            return JsonConvert.DeserializeObject<JsonResponses>(result);
+                RequestBase request = new RequestBase();
+                request.Url = LoginUrl;
+                request.SetValue("UserName", loginInfo.UserName);
+                request.SetValue("Password", loginInfo.Password);
+                request.SetValue("LoginerInfo", loginInfo.LoginerInfo);
+                request.SetValue("Platform", loginInfo.Platform);
+
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = LoginUrl,
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.POST_FORM
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return JsonResponses.Failed;
+            }
         }
     }
 }

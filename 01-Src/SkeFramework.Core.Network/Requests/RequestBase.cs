@@ -63,7 +63,15 @@ namespace SkeFramework.Core.Network.Requests
         /// <returns></returns>
         public string GetReqUrl()
         {
-            string buff = this.Url.TrimEnd('?')+"?";
+            return this.Url.TrimEnd('?') + "?" + this.GetRequestData();
+        }
+        /// <summary>
+        /// 获取请求数据
+        /// </summary>
+        /// <returns></returns>
+        public string GetRequestData()
+        {
+            string buff = "&";
             foreach (KeyValuePair<string, object> pair in ParameterValue)
             {
                 if (pair.Value == null)
