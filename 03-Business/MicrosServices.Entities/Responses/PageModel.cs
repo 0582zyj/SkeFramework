@@ -32,6 +32,8 @@ namespace MicrosServices.Entities.Responses
         /// </summary>
         public int PageCount { get; set; }
 
+        public PageModel() { }
+
         public PageModel(int pageIndex,int pageSize,int totalCount)
         {
             this.PageIndex = pageIndex;
