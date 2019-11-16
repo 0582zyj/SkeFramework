@@ -20,6 +20,7 @@ namespace MicrosServices.SDK.PermissionSystem
     {
         
         private static string GetMenuListUrl = NetwordConstants.BASE_URL_PERMISSION + "/api/Menu/GetList";
+        private static string GetMenuPageUrl = NetwordConstants.BASE_URL_PERMISSION + "/api/Menu/GetPageList";
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -32,7 +33,6 @@ namespace MicrosServices.SDK.PermissionSystem
             {
                 RequestBase request = new RequestBase();
                 request.Url = GetMenuListUrl;
-
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.Url,
@@ -64,10 +64,13 @@ namespace MicrosServices.SDK.PermissionSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.Url = GetMenuListUrl;
+                request.SetValue("PageIndex", page.PageIndex);
+                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("keywords", keywords);
+                request.Url = GetMenuPageUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
-                    Uri = request.Url,
+                    Uri = request.GetReqUrl(),
                     PostData = request.GetRequestData(),
                     Method = RequestTypeEnums.GET
                 });

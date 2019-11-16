@@ -39,17 +39,25 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpGet]
         public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] string keywords = "")
         {
-            Expression<Func<PsMenu, bool>> where = null;
-            if (!String.IsNullOrEmpty(keywords))
+            try
             {
-                where = (o => o.Name.Contains(keywords));
+                Expression<Func<PsMenu, bool>> where = null;
+                if (!String.IsNullOrEmpty(keywords))
+                {
+                    where = (o => o.Name.Contains(keywords));
+                }
+                int total = Convert.ToInt32(DataHandleManager.Instance().PsMenuHandle.Count(where));//取记录数
+                List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
+                PageResponse<PsMenu> response = new PageResponse<PsMenu>();
+                response.page = page;
+                response.dataList = list;
+                return new JsonResponses(response);
             }
-            int total = Convert.ToInt32(DataHandleManager.Instance().PsMenuHandle.Count(where));//取记录数
-            List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetDefaultPagedList(page.PageIndex, page.PageSize,where).ToList();
-            PageResponse<PsMenu> response = new PageResponse<PsMenu>();
-            response.page = page;
-            response.dataList = list;
-            return new JsonResponses(response);
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
         }
     }
 }
