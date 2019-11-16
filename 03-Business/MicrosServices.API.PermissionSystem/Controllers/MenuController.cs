@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
-using MicrosServices.Entities.Responses;
+using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 
 namespace MicrosServices.API.PermissionSystem.Controllers
@@ -46,8 +46,10 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             }
             int total = Convert.ToInt32(DataHandleManager.Instance().PsMenuHandle.Count(where));//取记录数
             List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetDefaultPagedList(page.PageIndex, page.PageSize,where).ToList();
-            var obj = new { pages = page, dataList = list };
-            return new JsonResponses(obj);
+            PageResponse<PsMenu> response = new PageResponse<PsMenu>();
+            response.page = page;
+            response.dataList = list;
+            return new JsonResponses(response);
         }
     }
 }

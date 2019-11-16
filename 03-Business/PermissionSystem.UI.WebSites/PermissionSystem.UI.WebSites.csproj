@@ -123,6 +123,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -188,6 +189,7 @@
     <Content Include="Views\Shared\Web\_LayoutWeb.cshtml" />
     <Content Include="Views\Shared\_LayoutNull.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Menu\MenuList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -219,6 +221,10 @@
     <ProjectReference Include="..\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj">
       <Project>{2AC71E45-3249-48C3-AE3B-F303EB899675}</Project>
       <Name>MicrosServices.Helper.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.SDK.PermissionSystem\MicrosServices.SDK.PermissionSystem.csproj">
+      <Project>{50CABD78-9509-44AF-82E8-21709236C187}</Project>
+      <Name>MicrosServices.SDK.PermissionSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\MicrosServices.SDK.UserCenter\MicrosServices.SDK.UserCenter.csproj">
       <Project>{3F3F0673-39D0-4356-8744-936A07A05844}</Project>

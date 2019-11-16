@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commom\EnumsHelper.cs" />
+    <Compile Include="DataUtility\PageModel.cs" />
     <Compile Include="DataUtility\RequestModel.cs" />
     <Compile Include="Enums\ContentTypeEnums.cs" />
     <Compile Include="Enums\RequestTypeEnums.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\RequestBase.cs" />
     <Compile Include="Responses\JsonResponses.cs" />
+    <Compile Include="Responses\PageResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SkeFramework.Core.Common\SkeFramework.Core.Common.csproj">

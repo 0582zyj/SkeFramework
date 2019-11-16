@@ -46,15 +46,19 @@
     <Compile Include="Form\ManagementRolesForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserCenter\FORM\LoginInfoForm.cs" />
+    <Compile Include="VO\MenuSideBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DTO\" />
-    <Folder Include="VO\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Common\SkeFramework.Core.Common.csproj">
       <Project>{37de7f92-5446-4200-87a6-43c36d1c1650}</Project>
       <Name>SkeFramework.Core.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj">
+      <Project>{F26359E9-2013-44D7-8569-E5533DEC9BA4}</Project>
+      <Name>MicrosServices.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

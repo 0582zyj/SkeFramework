@@ -37,10 +37,10 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
             {
                 System.Web.HttpContext.Current.Session.Remove("LoginModel");
             }
-            //if (AppBusiness.SideBarList != null)
-            //{
-            //    System.Web.HttpContext.Current.Session.Remove("SideBarList");
-            //}
+            if (AppBusiness.SideBarList != null)
+            {
+                System.Web.HttpContext.Current.Session.Remove("SideBarList");
+            }
             return RedirectToAction("Login", "Login");
         }
         #endregion
@@ -72,7 +72,7 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
                 LoginModel.Instance().UserRolesName = "123";// roles.Name;
                 LoginModel.Instance().UserRule = "123";//DataHandleManager.Instance().UsersRuleHandle.GetUserRoles(UserNo);
                 AppBusiness.loginModel = LoginModel.Instance();
-                //}
+               
             }
             return Json(responses, JsonRequestBehavior.AllowGet);
         }

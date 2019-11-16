@@ -10,7 +10,7 @@ namespace MicrosServices.SDK.UserCenter
 {
     public class LoginSdk
     {
-        private static string LoginPostUrl = NetwordConstants.BASE_URL_USERCENTER + "/api/Login/LoginPost";
+        //private static string LoginPostUrl = NetwordConstants.BASE_URL_USERCENTER + "/api/Login/LoginPost";
         private static string LoginUrl = NetwordConstants.BASE_URL_USERCENTER + "/api/Login/Login";
         /// <summary>
         /// 登录

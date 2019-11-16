@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MicrosServices.Helper.Core.VO;
+using PermissionSystem.UI.WebSites.Global;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,18 +15,14 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return View();
         }
 
-        public ActionResult About()
+        [HttpGet]
+        public JsonResult GetSideBarList()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            MenuSideBar menuSideBar = new MenuSideBar();
+            menuSideBar.root = AppBusiness.SideBarList;
+            menuSideBar.child = AppBusiness.SideBarList;
+            return Json(menuSideBar, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

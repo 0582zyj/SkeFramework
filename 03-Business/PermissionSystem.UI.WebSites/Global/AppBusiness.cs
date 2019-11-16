@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MicrosServices.Entities.Common;
+using MicrosServices.SDK.PermissionSystem;
+using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Models;
+using SkeFramework.Core.Network.Responses;
 
 namespace PermissionSystem.UI.WebSites.Global
 {
@@ -11,6 +15,7 @@ namespace PermissionSystem.UI.WebSites.Global
     /// </summary>
     public class AppBusiness
     {
+        public static MenuSdk menuSdk = new MenuSdk();
         public static string PlatformCode = "SkeCloud";
         /// <summary>
         /// 登录信息
@@ -31,20 +36,18 @@ namespace PermissionSystem.UI.WebSites.Global
             }
         }
 
-        //public static List<ManagementDTO> SideBarList
-        //{
-        //    get
-        //    {
-        //        if (HttpContext.Current.Session == null || HttpContext.Current.Session["SideBarList"] == null)
-        //        {
-        //            var managementList=DataHandleManager.Instance().ManagementHandle.GetList().ToList();
-        //            var managementDtoList=DataSourceAdapter.Instance().GetManagementDTOList(managementList,AppBusiness.loginModel.ManagementValue,true);
-        //            HttpContext.Current.Session["SideBarList"] = managementDtoList.Where(o => o.Enabled == true).ToList();
-        //        }
-        //        return (List<ManagementDTO>)HttpContext.Current.Session["SideBarList"];
-        //    }
-        //   private set{}
-        //}
+        public static List<PsMenu> SideBarList
+        {
+            get
+            {
+                if (HttpContext.Current.Session == null || HttpContext.Current.Session["SideBarList"] == null)
+                {
+                    HttpContext.Current.Session["SideBarList"] = menuSdk.GetMenuList(); 
+                }
+                return (List<PsMenu>)HttpContext.Current.Session["SideBarList"];
+            }
+            private set { }
+        }
 
         public static void Init()
         {

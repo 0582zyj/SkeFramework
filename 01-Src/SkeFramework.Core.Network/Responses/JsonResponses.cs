@@ -11,14 +11,16 @@ namespace SkeFramework.Core.Network.Responses
     /// </summary>
     public class JsonResponses
     {
+        public static int SuccessCode = 200;
+        public static int FailedCode = 200;
         /// <summary>
         /// 成功
         /// </summary>
-        public static JsonResponses Success = new JsonResponses(200, "成功");
+        public static JsonResponses Success = new JsonResponses(SuccessCode, "成功");
         /// <summary>
         /// 失败
         /// </summary>
-        public static JsonResponses Failed = new JsonResponses(400, "失败");
+        public static JsonResponses Failed = new JsonResponses(FailedCode, "失败");
 
         /// <summary>
         /// 请求应答Code
