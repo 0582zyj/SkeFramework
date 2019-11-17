@@ -63,17 +63,26 @@ namespace PermissionSystem.UI.WebSites.Controllers
             PageResponse<PsMenu> pageResponse = menuSdk.GetMenuPageList(page, keywords);
             return Json(pageResponse, JsonRequestBehavior.AllowGet);
         }
-        ///// <summary>
-        ///// 新增提交方法
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public JsonResult PsMenuAdd(PsMenu model)
-        //{
-        //    var ResultCode = -1;
-        //    ResultCode = DataHandleManager.Instance().PsMenuHandle.Insert(model);
-        //    return Json(GetResultMsg(ResultCode > 0 ? 100 : 101), JsonRequestBehavior.AllowGet);
-        //}
+        /// <summary>
+        /// 新增提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult PsMenuAdd(PsMenu model)
+        {
+            JsonResponses responses= menuSdk.MenuAdd(model);
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 新增提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult PsMenuAdd1(string Name)
+        {
+            return Json(Name+"test", JsonRequestBehavior.AllowGet);
+        }
         ///// <summary>
         ///// 更新提交方法
         ///// </summary>
@@ -134,5 +143,5 @@ namespace PermissionSystem.UI.WebSites.Controllers
         //    return obj;
         //}
         #endregion
-}
+    }
 }

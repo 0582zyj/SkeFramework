@@ -21,6 +21,7 @@ namespace MicrosServices.SDK.PermissionSystem
         
         private static string GetMenuListUrl = NetwordConstants.BASE_URL_PERMISSION + "/api/Menu/GetList";
         private static string GetMenuPageUrl = NetwordConstants.BASE_URL_PERMISSION + "/api/Menu/GetPageList";
+        private static string AddMenuUrl = NetwordConstants.BASE_URL_PERMISSION + "/api/Menu/Add";
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -87,6 +88,40 @@ namespace MicrosServices.SDK.PermissionSystem
                 Console.WriteLine(ex.ToString());
             }
             return menus;
+        }
+        /// <summary>
+        /// 新增菜单
+        /// </summary>
+        /// <param name="menu"></param>
+        /// <returns></returns>
+        public JsonResponses MenuAdd(PsMenu menu)
+        {
+            try
+            {
+                RequestBase request = new RequestBase();
+                request.SetValue("ParentNo", menu.ParentNo);
+                request.SetValue("Name", menu.Name);
+                request.SetValue("Value", menu.Value);
+                request.SetValue("icon", menu.icon);
+                request.SetValue("url", menu.url);
+                request.SetValue("Sort", menu.Sort);
+                request.SetValue("PlatformNo", menu.PlatformNo);
+                request.SetValue("Enabled", menu.Enabled);
+                request.SetValue("InputUser", menu.InputUser);
+                request.Url = AddMenuUrl;
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.POST_FORM
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
         }
     }
 }

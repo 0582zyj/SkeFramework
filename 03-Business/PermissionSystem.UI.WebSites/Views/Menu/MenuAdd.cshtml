@@ -131,8 +131,8 @@
                     axios.post(this.addPostUrl, this.dataItem)
                      .then(function (response) {
                          if (response.status == 200) {
-                             alert(response.data.ResultMsg);
-                             if (response.data.ResultCode == 100) {
+                             alert(response.data.msg);
+                             if (response.data.code == 100) {
                                  window.location.href = _self.listJumpUrl;
                              }
                          }
