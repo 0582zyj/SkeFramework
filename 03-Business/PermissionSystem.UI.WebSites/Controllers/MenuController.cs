@@ -35,7 +35,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// 新增页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult PsMenuAdd()
+        public ActionResult MenuAdd()
         {
             return View();
         }
