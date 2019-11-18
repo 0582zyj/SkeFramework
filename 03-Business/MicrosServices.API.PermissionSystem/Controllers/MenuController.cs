@@ -73,7 +73,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             {
                 bool checkResult = true;
                 checkResult= DataHandleManager.Instance().PsMenuHandle.CheckNameIsExist(menu.MenuNo, menu.Name);
-                if (!checkResult)
+                if (checkResult)
                 {
                     return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENU_NAME_REPEAT.ToString());
                 }

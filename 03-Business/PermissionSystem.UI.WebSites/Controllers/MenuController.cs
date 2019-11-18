@@ -71,7 +71,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult PsMenuAdd(PsMenu model)
         {
             JsonResponses responses= menuSdk.MenuAdd(model);
-            return Json(model, JsonRequestBehavior.AllowGet);
+            return Json(responses, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
