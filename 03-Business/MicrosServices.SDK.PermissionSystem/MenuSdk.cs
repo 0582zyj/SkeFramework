@@ -18,10 +18,9 @@ namespace MicrosServices.SDK.PermissionSystem
     /// </summary>
     public class MenuSdk
     {
-        
-        private static string GetMenuListUrl = NetwordConstants.BASE_URL_PERMISSION + "/api/Menu/GetList";
-        private static string GetMenuPageUrl = NetwordConstants.BASE_URL_PERMISSION + "/api/Menu/GetPageList";
-        private static string AddMenuUrl = NetwordConstants.BASE_URL_PERMISSION + "/api/Menu/Add";
+        private static string GetMenuListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetList";
+        private static string GetMenuPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetPageList";
+        private static string AddMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Add";
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>

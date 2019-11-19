@@ -1,5 +1,6 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.SDK.PermissionSystem;
+using PermissionSystem.UI.WebSites.Global;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 using System;
@@ -70,6 +71,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpPost]
         public JsonResult PsMenuAdd(PsMenu model)
         {
+            model.InputUser = AppBusiness.loginModel.UserNo;
             JsonResponses responses= menuSdk.MenuAdd(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }

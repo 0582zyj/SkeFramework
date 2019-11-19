@@ -22,18 +22,6 @@
                     <div class="tab-pane active" id="profile">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <label for="id" class="col-sm-2 control-label">ID</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="id" id="id" v-model="dataItem.id" required maxlength="200" placeholder="ID">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="MenuNo" class="col-sm-2 control-label">MenuNo</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="MenuNo" id="MenuNo" v-model="dataItem.MenuNo" required maxlength="200" placeholder="MenuNo">
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label for="ParentNo" class="col-sm-2 control-label">父节点</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="ParentNo" id="ParentNo" v-model="dataItem.ParentNo" required maxlength="200" placeholder="父节点">
@@ -79,24 +67,6 @@
                                 <label for="Enabled" class="col-sm-2 control-label">Enabled</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="Enabled" id="Enabled" v-model="dataItem.Enabled" required maxlength="200" placeholder="Enabled">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputUser" class="col-sm-2 control-label">操作员</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="InputUser" id="InputUser" v-model="dataItem.InputUser" required maxlength="10" placeholder="操作员">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="InputTime" class="col-sm-2 control-label">操作时间</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="InputTime" id="InputTime" v-model="dataItem.InputTime" required maxlength="200" placeholder="操作时间">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="UpdateTime" class="col-sm-2 control-label">UpdateTime</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="UpdateTime" id="UpdateTime" v-model="dataItem.UpdateTime" required maxlength="200" placeholder="UpdateTime">
                                 </div>
                             </div>
                             <input type="hidden" name="token" value="5cbd303f221a626ce0f404cec31b4ea4">
