@@ -7,6 +7,7 @@ using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.UserCenter.FORM;
 using MicrosServices.SDK.UserCenter;
+using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
 using SkeFramework.Core.Encrypts;
@@ -63,7 +64,7 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
             JsonResponses responses = loginSdk.Login(loginInfoForm);
             if (responses.code == JsonResponses.Success.code)
             {
-                UcUsers users = (UcUsers)responses.data;
+                UcUsers users =JsonConvert.DeserializeObject<UcUsers>( responses.data.ToString());
                 //ManagementRoles roles = DataHandleManager.Instance().ManagementRolesHandle.GetModelByKey(RolesID.ToString());
                 string APPKey = "";
                 LoginModel.Instance().UserNo = users.UserNo;

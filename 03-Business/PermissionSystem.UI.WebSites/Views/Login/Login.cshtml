@@ -105,7 +105,7 @@
     Parsley.setLocale('zh-cn');
 
     function doSumit() {
-        var result = true;
+        var result = false;
         if ($('#remember_checkbox').prop('checked')) {
             $('#is_remember').val(1);
         } else {
@@ -122,7 +122,8 @@
             dataType: "json",
             success: function (rdata) {
                 if (rdata.code == 200) {
-                  
+                    alert(rdata.msg);
+                    result = true;
                 }
                 else {
                     alert(rdata.msg);
