@@ -46,7 +46,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 Expression<Func<PsMenu, bool>> where = null;
                 if (!String.IsNullOrEmpty(keywords))
                 {
-                    where = (o => o.Name.Contains(keywords));
+                    where = (o => o.Name.Contains(keywords)||o.id.ToString()==keywords
+                    ||o.MenuNo.ToString()==keywords);
                 }
                 int total = Convert.ToInt32(DataHandleManager.Instance().PsMenuHandle.Count(where));//取记录数
                 List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
@@ -61,6 +62,18 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             }
             return JsonResponses.Failed;
         }
+        /// <summary>
+        /// 根据主键ID获取信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetMenuInfo(int id)
+        {
+            PsMenu Info = new PsMenu();
+            Info = DataHandleManager.Instance().PsMenuHandle.GetModelByKey(id.ToString());
+            return new JsonResponses(Info);
+        }
+
         /// <summary>
         /// 新增菜单
         /// </summary>
@@ -100,7 +113,6 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             }
             return JsonResponses.Failed;
         }
-
         /// <summary>
         /// 删除提交方法
         /// </summary>
@@ -112,6 +124,44 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             if (result > 0)
             {
                 return JsonResponses.Success;
+            }
+            return JsonResponses.Failed;
+        }
+        /// <summary>
+        /// 更新菜单
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> Update([FromForm] PsMenu menu)
+        {
+            try
+            {
+                bool checkResult = true;
+                checkResult = DataHandleManager.Instance().PsMenuHandle.CheckNameIsExist(menu.MenuNo, menu.Name);
+                if (checkResult)
+                {
+                    return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENU_NAME_REPEAT.ToString());
+                }
+                if (menu.ParentNo != -1)
+                {
+                    checkResult = DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(menu.ParentNo);
+                    if (!checkResult)
+                    {
+                        return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENU_PARENTNO_NOT_EXISET.ToString());
+                    }
+                }
+                menu.UpdateTime = DateTime.Now;
+                int result = DataHandleManager.Instance().PsMenuHandle.Update(menu);
+                if (result > 0)
+                {
+                    return JsonResponses.Success;
+                }
+                return JsonResponses.Failed;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
             return JsonResponses.Failed;
         }
