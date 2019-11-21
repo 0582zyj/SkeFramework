@@ -140,6 +140,24 @@ namespace SkeFramework.Core.SnowFlake
         }
 
         /// <summary>
+        /// 获取下个自动序列号
+        /// </summary>
+        /// <returns></returns>
+        public long GetAutoSequence()
+        {
+            //加个锁 37180 74936 46452 7360
+            long autoId = this.GetAutoID();
+            string ss = autoId.ToString();
+            int index = timestampLeftShift / 2;
+            long Sequence=long.Parse( ss.Substring(index, Math.Max(ss.Length - index, 0)));
+            if (Sequence > 0)
+            {
+                return Sequence;
+            }
+            return autoId;
+        }
+
+        /// <summary>
         /// 获取下一微秒时间戳
         /// </summary>
         /// <param name="lastTimestamp"></param>
