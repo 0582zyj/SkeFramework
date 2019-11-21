@@ -62,7 +62,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             return JsonResponses.Failed;
         }
         /// <summary>
-        /// 
+        /// 新增菜单
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
@@ -86,7 +86,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                     }
                 }
                 menu.InputTime = DateTime.Now;
-                menu.MenuNo = AutoIDWorker.Example.GetAutoID();
+                menu.MenuNo = AutoIDWorker.Example.GetAutoSequence();
                 int result= DataHandleManager.Instance().PsMenuHandle.Insert(menu);
                 if (result > 0)
                 {
@@ -100,5 +100,21 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             }
             return JsonResponses.Failed;
         }
+
+        /// <summary>
+        /// 删除提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> Delete([FromForm] int id)
+        {
+            int result = DataHandleManager.Instance().PsMenuHandle.Delete(id);
+            if (result > 0)
+            {
+                return JsonResponses.Success;
+            }
+            return JsonResponses.Failed;
+        }
+
     }
 }

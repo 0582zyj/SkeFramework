@@ -89,7 +89,7 @@
         var vm = new Vue({
             el: "#section-content",
             data: {
-                listJumpUrl: "@Url.Action("PsMenuList", "Menu")",
+                listJumpUrl: "@Url.Action("MenuList", "Menu")",
                 addPostUrl: "@Url.Action("PsMenuAdd", "Menu")",
                 dataItem: {},
             },
@@ -102,9 +102,12 @@
                      .then(function (response) {
                          if (response.status == 200) {
                              alert(response.data.msg);
-                             if (response.data.code == 100) {
+                             if (response.data.code == 200) {
                                  window.location.href = _self.listJumpUrl;
                              }
+                         }
+                         else {
+                             alert(response.data.msg);
                          }
                      })
                      .catch(function (error) {

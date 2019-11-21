@@ -76,15 +76,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// 新增提交方法
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public JsonResult PsMenuAdd1(string Name)
-        {
-            return Json(Name+"test", JsonRequestBehavior.AllowGet);
-        }
+        
         ///// <summary>
         ///// 更新提交方法
         ///// </summary>
@@ -96,54 +88,17 @@ namespace PermissionSystem.UI.WebSites.Controllers
         //    ResultCode = DataHandleManager.Instance().PsMenuHandle.Update(model);
         //    return Json(GetResultMsg(ResultCode > 0 ? 200 : 201), JsonRequestBehavior.AllowGet);
         //}
-        ///// <summary>
-        ///// 删除提交方法
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public JsonResult PsMenuDelete(int id)
-        //{
-        //    var ResultCode = -1;
-        //    ResultCode = DataHandleManager.Instance().PsMenuHandle.Delete(id);
-        //    return Json(GetResultMsg(ResultCode > 0 ? 300 : 301), JsonRequestBehavior.AllowGet);
-        //}
-        ///// <summary>
-        ///// 根据状态获取结果
-        ///// </summary>
-        ///// <returns></returns>
-        //public Object GetResultMsg(int ResultCode)
-        //{
-        //    string Msg = "操作成功";
-        //    switch (ResultCode)
-        //    {
-        //        case -1:
-        //            Msg = "服务器响应错误";
-        //            break;
-        //        case 100:
-        //            Msg = "新增成功";
-        //            break;
-        //        case 101:
-        //            Msg = "新增失败";
-        //            break;
-        //        case 200:
-        //            Msg = "更新成功";
-        //            break;
-        //        case 201:
-        //            Msg = "更新失败";
-        //            break;
-        //        case 300:
-        //            Msg = "删除成功";
-        //            break;
-        //        case 301:
-        //            Msg = "删除失败";
-        //            break;
-        //        default:
-        //            Msg = "未知错误";
-        //            break;
-        //    }
-        //    var obj = new { ResultCode = ResultCode, ResultMsg = Msg };//构造对象
-        //    return obj;
-        //}
+        /// <summary>
+        /// 删除提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult PsMenuDelete(int id)
+        {
+            JsonResponses responses = menuSdk.MenuDelete(id );
+            return Json(responses, JsonRequestBehavior.AllowGet);
+        }
+        
         #endregion
     }
 }

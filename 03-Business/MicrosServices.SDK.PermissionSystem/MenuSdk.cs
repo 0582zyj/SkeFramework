@@ -21,6 +21,7 @@ namespace MicrosServices.SDK.PermissionSystem
         private static string GetMenuListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetList";
         private static string GetMenuPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetPageList";
         private static string AddMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Add";
+        private static string DeleteMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Delete";
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -52,7 +53,6 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return menus;
         }
-
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -108,6 +108,33 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("Enabled", menu.Enabled);
                 request.SetValue("InputUser", menu.InputUser);
                 request.Url = AddMenuUrl;
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.POST_FORM
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+
+        /// <summary>
+        /// 删除菜单
+        /// </summary>
+        /// <param name="menu"></param>
+        /// <returns></returns>
+        public JsonResponses MenuDelete(int id)
+        {
+            try
+            {
+                RequestBase request = new RequestBase();
+                request.SetValue("id", id);
+                request.Url = DeleteMenuUrl ;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.Url,

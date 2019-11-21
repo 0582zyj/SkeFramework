@@ -96,7 +96,7 @@
             data: {
                 updateJumpUrl: "@Url.Action("MenuUpdate", "Menu")",
                 addJumpUrl: "@Url.Action("MenuAdd", "Menu")",
-                deleteUrl: "@Url.Action("MenuDelete", "Menu")",
+                deleteUrl: "@Url.Action("PsMenuDelete", "Menu")",
                 GetListUrl: "@Url.Action("GetPsMenuList", "Menu")",
                 dataList: [],
                 search: { keywords: ""}
@@ -120,14 +120,15 @@
                     axios.post(this.deleteUrl, { id: _id })
                      .then(function (response) {
                          if (response.status == 200) {
-                             alert(response.data.ResultMsg);
-                             if (response.data.ResultCode == 300) {
+                             alert(response.data.msg);
+                             if (response.data.code == 200) {
                                  window.location.reload();
                              }
                          }
                      })
                      .catch(function (error) {
                          console.log(error);
+                         alert(error.message);
                      });
                 },
                 btnSearch: function () {
