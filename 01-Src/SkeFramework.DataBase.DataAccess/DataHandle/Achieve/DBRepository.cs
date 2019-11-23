@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SkeFramework.Core.SqlExpression;
 using SkeFramework.DataBase.Common.DataCommon;
 using SkeFramework.DataBase.Common.DataFactory;
 using SkeFramework.DataBase.Interfaces;

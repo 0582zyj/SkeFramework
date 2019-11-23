@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AAA1A2D1-12B6-4A1F-8AE0-46ECE0BD4D89}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SkeFramework.Core.SqlExpression</RootNamespace>
+    <AssemblyName>SkeFramework.Core.SqlExpression</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bootstrap\Factorys\ServerFactory.cs" />
+    <Compile Include="Constants\ExpressionTypeConstants.cs" />
+    <Compile Include="DataHandler\AbstractExpressionHandle.cs" />
+    <Compile Include="DataHandler\BinaryServices\BinaryExpressionHandle.cs" />
+    <Compile Include="DataHandler\ClassServices\MemberExpressionHandle.cs" />
+    <Compile Include="DataHandler\ConstantsServices\ConstantExpressionHandle.cs" />
+    <Compile Include="DataHandler\IExpressionHandle.cs" />
+    <Compile Include="DataHandler\InitializeServices\MemberInitExpressionHandle.cs" />
+    <Compile Include="DataHandler\MethodServices\MethodCallExpressionHandle.cs" />
+    <Compile Include="DataHandler\UnaryServices\UnaryExpressionHandle.cs" />
+    <Compile Include="DataUtil\ExpressionTypeUtil.cs" />
+    <Compile Include="DataUtil\SQLMethods.cs" />
+    <Compile Include="ExpressionHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -14,6 +14,7 @@ namespace SkeFramework.DataBase.Common.DataCommon
     /// </summary>
     public class ExpressionHelper
     {
+        #region 单例模式
         /// <summary>
         /// 单例模式
         /// </summary>
@@ -26,37 +27,49 @@ namespace SkeFramework.DataBase.Common.DataCommon
             }
             return _SimpleInstance;
         }
+        #endregion
 
+        /// <summary>
+        /// 获取SQL
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="exp"></param>
+        /// <returns></returns>
         public string GetSql<T, TKey>(Expression<Func<T, TKey>> exp)
         {
             return DealExpression(exp.Body);
         }
+        /// <summary>
+        /// 获取SQL
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="exp"></param>
+        /// <returns></returns>
         public string GetSql<T>(Expression<Func<T, bool>> exp)
         {
             return DealExpression(exp.Body);
         }
-        private object Eval(MemberExpression member)
-        {
-            var cast = Expression.Convert(member, typeof(object));
-            object c = Expression.Lambda<Func<object>>(cast).Compile().Invoke();
-            return GetValueFormat(c);
-        }
+        /// <summary>
+        /// 解析Expression表达式
+        /// </summary>
+        /// <param name="exp"></param>
+        /// <param name="need"></param>
+        /// <returns></returns>
         private string DealExpression(Expression exp, bool need = false)
         {
             string name = exp.GetType().Name;
             switch (name)
             {
-                case "BinaryExpression":
-                case "LogicalBinaryExpression":
-                case "MethodBinaryExpression":
-                case "SimpleBinaryExpression":
+                case ConstantsData.BinaryExpression:
+                case ConstantsData.LogicalBinaryExpression:
+                case ConstantsData.MethodBinaryExpression:
+                case ConstantsData.SimpleBinaryExpression:
                     {
                         BinaryExpression b_exp = exp as BinaryExpression;
                         if (exp.NodeType == ExpressionType.Add
                             || exp.NodeType == ExpressionType.Subtract
-                            //|| exp.NodeType == ExpressionType.Multiply
-                            //|| exp.NodeType == ExpressionType.Divide
-                            //|| exp.NodeType == ExpressionType.Modulo
                             )
                         {
                             return "(" + DealBinary(b_exp) + ")";
@@ -71,18 +84,19 @@ namespace SkeFramework.DataBase.Common.DataCommon
                         }
                         return DealBinary(b_exp);
                     }
-                case "MemberExpression":
-                case "PropertyExpression":
-                case "FieldExpression":
+                case ConstantsData.MemberExpression:
+                case ConstantsData.PropertyExpression:
+                case ConstantsData.FieldExpression:
                     return DealMember(exp as MemberExpression);
-                case "ConstantExpression":
+                case ConstantsData.ConstantExpression:
                     return DealConstant(exp as ConstantExpression);
-                case "MemberInitExpression":
+                case ConstantsData.MemberInitExpression:
                     return DealMemberInit(exp as MemberInitExpression);
-                case "UnaryExpression":
+                case ConstantsData.UnaryExpression:
                     return DealUnary(exp as UnaryExpression);
-                case "MethodCallExpressionN":
-                case "InstanceMethodCallExpressionN":
+                case ConstantsData.MethodCallExpressionN:
+                case ConstantsData.InstanceMethodCallExpression1:
+                case ConstantsData.InstanceMethodCallExpressionN:
                     return DealMethodsCall(exp as MethodCallExpression);
                 default:
                     Console.WriteLine("error:" + name);
@@ -90,8 +104,6 @@ namespace SkeFramework.DataBase.Common.DataCommon
             }
 
         }
-
-    
         private string DealFieldAccess(FieldAccessException f_exp)
         {
             var c = f_exp;
@@ -105,12 +117,23 @@ namespace SkeFramework.DataBase.Common.DataCommon
             {
                 return DealExpression(g);
             }
-            if (k.Method.DeclaringType.Name.Contains("List`1") && k.Method.Name == "Contains")
+            if (k.Method.Name == "Contains")
             {
-                var exp1 = k.Arguments[0];
-                var exp2 = k.Object;
-                string methods =" IN ";
-                return DealExpression(exp1) + methods + DealExpression(exp2);
+                if (k.Method.DeclaringType.Name.Contains("List`1"))
+                {
+                    var exp1 = k.Arguments[0];
+                    var exp2 = k.Object;
+                    string methods = " IN ";
+                    return DealExpression(exp1) + methods + DealExpression(exp2);
+                }
+                else
+                {
+                    var exp1 = k.Arguments[0];
+                    var exp2 = k.Object;
+                    string methods = " LIKE ";
+                    char[] trimChars = "'".ToCharArray();
+                    return DealExpression(exp2) + methods + "'%" + DealExpression(exp1).Trim(trimChars) + "%'";
+                }
             }
             /// 控制函数所在类名。
             if (k.Method.DeclaringType != typeof(SQLMethods))
@@ -301,6 +324,12 @@ namespace SkeFramework.DataBase.Common.DataCommon
             }
             return obj.ToString();
         }
+        private object Eval(MemberExpression member)
+        {
+            var cast = Expression.Convert(member, typeof(object));
+            object c = Expression.Lambda<Func<object>>(cast).Compile().Invoke();
+            return GetValueFormat(c);
+        }
     }
 
     public static class SQLMethods
@@ -325,6 +354,24 @@ namespace SkeFramework.DataBase.Common.DataCommon
         {
             return true;
         }
-
+    }
+    /// <summary>
+    /// 静态关键字
+    /// </summary>
+    public class ConstantsData
+    {
+        public const string BinaryExpression = "BinaryExpression";
+        public const string LogicalBinaryExpression = "LogicalBinaryExpression";
+        public const string MethodBinaryExpression = "MethodBinaryExpression";
+        public const string SimpleBinaryExpression = "SimpleBinaryExpression";
+        public const string MemberExpression = "MemberExpression";
+        public const string PropertyExpression = "PropertyExpression";
+        public const string FieldExpression = "FieldExpression";
+        public const string ConstantExpression = "ConstantExpression";
+        public const string MemberInitExpression = "MemberInitExpression";
+        public const string UnaryExpression = "UnaryExpression";
+        public const string MethodCallExpressionN = "MethodCallExpressionN";
+        public const string InstanceMethodCallExpression1 = "InstanceMethodCallExpression1";
+        public const string InstanceMethodCallExpressionN = "InstanceMethodCallExpressionN";
     }
 }

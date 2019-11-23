@@ -46,8 +46,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 Expression<Func<PsMenu, bool>> where = null;
                 if (!String.IsNullOrEmpty(keywords))
                 {
-                    where = (o => o.Name.Contains(keywords)||o.id.ToString()==keywords
-                    ||o.MenuNo.ToString()==keywords);
+                    where = (o => o.Name.Contains(keywords));
                 }
                 int total = Convert.ToInt32(DataHandleManager.Instance().PsMenuHandle.Count(where));//取记录数
                 List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
