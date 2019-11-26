@@ -169,6 +169,7 @@ namespace MicrosServices.SDK.PermissionSystem
             try
             {
                 RequestBase request = new RequestBase();
+                request.SetValue("MenuNo", menu.MenuNo);
                 request.SetValue("ParentNo", menu.ParentNo);
                 request.SetValue("Name", menu.Name);
                 request.SetValue("Value", menu.Value);

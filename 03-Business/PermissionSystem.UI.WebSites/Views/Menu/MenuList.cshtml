@@ -1,13 +1,13 @@
 ﻿@{
-    ViewBag.Title = "列表";
+    ViewBag.Title = "菜单列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>PsMenu列表</h1>
+    <h1>菜单列表</h1>
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> 主页</a></li>
-        <li><a href="javascript:void(0);"><i class="fa fa-bar-chart"></i> PsMenu管理</a></li>
+        <li><a href="javascript:void(0);"><i class="fa fa-bar-chart"></i> 菜单管理</a></li>
     </ol>
 </section>
 <!-- Main content -->
@@ -44,7 +44,7 @@
                         <thead>
                             <tr class="show-datatable-list-title">
                                 <th>ID</th>
-                                <th>MenuNo</th>
+                                <th>菜单编号</th>
                                 <th>父节点</th>
                                 <th>名称</th>
                                 <th>权限值</th>
@@ -53,9 +53,6 @@
                                 <th>排序</th>
                                 <th>PlatformNo</th>
                                 <th>Enabled</th>
-                                <th>操作员</th>
-                                <th>操作时间</th>
-                                <th>UpdateTime</th>
                                 <th class="operation">操作</th>
                             </tr>
                         </thead>
@@ -71,9 +68,6 @@
                                 <td>{{item.Sort}}</td>
                                 <td>{{item.PlatformNo}}</td>
                                 <td>{{item.Enabled}}</td>
-                                <td>{{item.InputUser}}</td>
-                                <td>{{item.InputTime}}</td>
-                                <td>{{item.UpdateTime}}</td>
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
