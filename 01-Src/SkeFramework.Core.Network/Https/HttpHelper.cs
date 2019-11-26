@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SkeFramework.Core.Common.Enums;
+using SkeFramework.Core.Enums;
 using SkeFramework.Core.Network.Commom;
 using SkeFramework.Core.Network.Enums;
 using SkeFramework.Core.Network.Requests;

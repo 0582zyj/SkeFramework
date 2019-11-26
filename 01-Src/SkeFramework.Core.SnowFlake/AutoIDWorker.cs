@@ -132,7 +132,7 @@ namespace SkeFramework.Core.SnowFlake
                 }
                 this.lastTimestamp = timestamp; //把当前时间戳保存为最后生成ID的时间戳
                 long nextId = (timestamp - twepoch << timestampLeftShift)
-                | AutoIDWorker.datacenterId << AutoIDWorker.workerIdShift   //数据中心部分 
+                | (long)(AutoIDWorker.datacenterId << AutoIDWorker.workerIdShift)   //数据中心部分 
                 | AutoIDWorker.workerId << AutoIDWorker.workerIdShift  //机器标识部分
                 | AutoIDWorker.sequence; //序列号部分
                 return nextId;

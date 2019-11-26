@@ -50,9 +50,11 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 }
                 int total = Convert.ToInt32(DataHandleManager.Instance().PsMenuHandle.Count(where));//取记录数
                 List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
-                PageResponse<PsMenu> response = new PageResponse<PsMenu>();
-                response.page = page;
-                response.dataList = list;
+                PageResponse<PsMenu> response = new PageResponse<PsMenu>
+                {
+                    page = page,
+                    dataList = list
+                };
                 return new JsonResponses(response);
             }
             catch(Exception ex)

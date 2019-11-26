@@ -1,9 +1,9 @@
-﻿using System;
+﻿using SkeFramework.Core.Enums.ExtendAttribute;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.Core.Common.Enums;
 
 namespace SkeFramework.Core.Network.Enums
 {

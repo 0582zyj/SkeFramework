@@ -18,12 +18,12 @@ namespace MicrosServices.SDK.PermissionSystem
     /// </summary>
     public class MenuSdk
     {
-        private static string GetMenuListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetList";
-        private static string GetMenuPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetPageList";
-        private static string GetMenuInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetMenuInfo";
-        private static string AddMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Add";
-        private static string DeleteMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Delete";
-        private static string UpdateMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Update";
+        private static readonly string GetMenuListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetList";
+        private static readonly string GetMenuPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetPageList";
+        private static readonly string GetMenuInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetMenuInfo";
+        private static readonly string AddMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Add";
+        private static readonly string DeleteMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Delete";
+        private static readonly string UpdateMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Update";
         
 
         /// <summary>
@@ -36,8 +36,10 @@ namespace MicrosServices.SDK.PermissionSystem
             List<PsMenu> menus = new List<PsMenu>();
             try
             {
-                RequestBase request = new RequestBase();
-                request.Url = GetMenuListUrl;
+                RequestBase request = new RequestBase
+                {
+                    Url = GetMenuListUrl
+                };
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.Url,

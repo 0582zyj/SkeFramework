@@ -61,6 +61,10 @@
       <Project>{37DE7F92-5446-4200-87A6-43C36D1C1650}</Project>
       <Name>SkeFramework.Core.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SkeFramework.Core.Enums\SkeFramework.Core.Enums.csproj">
+      <Project>{6440AC15-B390-4C92-BB11-9C2661EE162F}</Project>
+      <Name>SkeFramework.Core.Enums</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
