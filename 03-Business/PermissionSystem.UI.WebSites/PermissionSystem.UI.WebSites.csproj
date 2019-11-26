@@ -191,6 +191,7 @@
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Menu\MenuList.cshtml" />
     <Content Include="Views\Menu\MenuAdd.cshtml" />
+    <Content Include="Views\Menu\MenuUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

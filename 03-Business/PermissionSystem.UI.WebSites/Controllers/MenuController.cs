@@ -1,5 +1,6 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.SDK.PermissionSystem;
+using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
@@ -28,7 +29,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// 更新页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult PsMenuUpdate(int id)
+        public ActionResult MenuUpdate(int id)
         {
             return View();
         }
@@ -42,17 +43,23 @@ namespace PermissionSystem.UI.WebSites.Controllers
         }
         #endregion 
         #region Basic GET POST
-        ///// <summary>
-        ///// 根据主键ID获取信息
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public JsonResult GetPsMenuInfo(int id)
-        //{
-        //    PsMenu Info = new PsMenu();
-        //    Info = DataHandleManager.Instance().PsMenuHandle.GetModelByKey(id.ToString());
-        //    return Json(Info, JsonRequestBehavior.AllowGet);
-        //}
+        /// <summary>
+        /// 根据主键ID获取信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetPsMenuInfo(int id)
+        {
+            PsMenu Info = new PsMenu();
+            JsonResponses responses = menuSdk.GetPsMenuInfo(id);
+            if (responses.code == JsonResponses.SuccessCode)
+            {
+                //object data = responses.data;
+                //Info = JsonConvert.DeserializeObject<PsMenu>(JsonConvert.SerializeObject(data)); 
+                Info= responses.data as PsMenu;
+            }
+            return Json(Info, JsonRequestBehavior.AllowGet);
+        }
         /// <summary>
         /// 获取列表信息
         /// </summary>
@@ -76,18 +83,17 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
 
-        
-        ///// <summary>
-        ///// 更新提交方法
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpPost]
-        //public JsonResult PsMenuUpdate(PsMenu model)
-        //{
-        //    var ResultCode = -1;
-        //    ResultCode = DataHandleManager.Instance().PsMenuHandle.Update(model);
-        //    return Json(GetResultMsg(ResultCode > 0 ? 200 : 201), JsonRequestBehavior.AllowGet);
-        //}
+
+        /// <summary>
+        /// 更新提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult PsMenuUpdate(PsMenu model)
+        {
+            JsonResponses responses = menuSdk.MenuUpdate(model);
+            return Json(responses, JsonRequestBehavior.AllowGet);
+        }
         /// <summary>
         /// 删除提交方法
         /// </summary>
