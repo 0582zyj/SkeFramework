@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="MenuSdk.cs" />
     <Compile Include="NetwordConstants.cs" />
+    <Compile Include="PlatformSdk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

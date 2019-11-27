@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
-using MicrosServices.Helper.Core.Constants;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 using SkeFramework.Core.SnowFlake;
@@ -16,22 +15,22 @@ namespace MicrosServices.API.PermissionSystem.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class MenuController : ControllerBase
+    public class PlatformController : ControllerBase
     {
-
+        #region Basic GET POST
         /// <summary>
         /// 获取列表信息
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetList(string keywords="")
+        public ActionResult<JsonResponses> GetList(string keywords = "")
         {
-            Expression<Func<PsMenu, bool>> where = null;
+            Expression<Func<PsPlatform, bool>> where = null;
             if (!String.IsNullOrEmpty(keywords))
             {
                 where = (o => o.Name.Contains(keywords));
             }
-            List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetList(where).ToList();
+            List<PsPlatform> list = DataHandleManager.Instance().PsPlatformHandle.GetList(where).ToList();
             return new JsonResponses(list);
         }
         /// <summary>
@@ -43,21 +42,21 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         {
             try
             {
-                Expression<Func<PsMenu, bool>> where = null;
+                Expression<Func<PsPlatform, bool>> where = null;
                 if (!String.IsNullOrEmpty(keywords))
                 {
                     where = (o => o.Name.Contains(keywords));
                 }
-                int total = Convert.ToInt32(DataHandleManager.Instance().PsMenuHandle.Count(where));//取记录数
-                List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
-                PageResponse<PsMenu> response = new PageResponse<PsMenu>
+                int total = Convert.ToInt32(DataHandleManager.Instance().PsPlatformHandle.Count(where));//取记录数
+                List<PsPlatform> list = DataHandleManager.Instance().PsPlatformHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
+                PageResponse<PsPlatform> response = new PageResponse<PsPlatform>
                 {
                     page = page,
                     dataList = list
                 };
                 return new JsonResponses(response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
@@ -68,10 +67,10 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetMenuInfo(int id)
+        public ActionResult<JsonResponses> GetPsPlatformInfo(int id)
         {
-            PsMenu Info = new PsMenu();
-            Info = DataHandleManager.Instance().PsMenuHandle.GetModelByKey(id.ToString());
+            PsPlatform Info = new PsPlatform();
+            Info = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(id.ToString());
             return new JsonResponses(Info);
         }
         /// <summary>
@@ -80,27 +79,14 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> Add([FromForm] PsMenu menu)
+        public ActionResult<JsonResponses> Add([FromForm] PsPlatform platform)
         {
             try
             {
-                bool checkResult = true;
-                checkResult= DataHandleManager.Instance().PsMenuHandle.CheckNameIsExist(menu.MenuNo, menu.Name);
-                if (checkResult)
-                {
-                    return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENU_NAME_REPEAT.ToString());
-                }
-                if (menu.ParentNo != -1)
-                {
-                    checkResult = DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(menu.ParentNo);
-                    if (!checkResult)
-                    {
-                        return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENU_PARENTNO_NOT_EXISET.ToString());
-                    }
-                }
-                menu.InputTime = DateTime.Now;
-                menu.MenuNo = AutoIDWorker.Example.GetAutoSequence();
-                int result= DataHandleManager.Instance().PsMenuHandle.Insert(menu);
+                //bool checkResult = true;
+                platform.InputTime = DateTime.Now;
+                platform.PlatformNo = AutoIDWorker.Example.GetAutoSequence();
+                int result = DataHandleManager.Instance().PsPlatformHandle.Insert(platform);
                 if (result > 0)
                 {
                     return JsonResponses.Success;
@@ -128,31 +114,18 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             return JsonResponses.Failed;
         }
         /// <summary>
-        /// 更新菜单
+        /// 更新
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> Update([FromForm] PsMenu menu)
+        public ActionResult<JsonResponses> Update([FromForm] PsPlatform platform)
         {
             try
             {
-                bool checkResult = true;
-                checkResult = DataHandleManager.Instance().PsMenuHandle.CheckNameIsExist(menu.MenuNo, menu.Name);
-                if (checkResult)
-                {
-                    return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENU_NAME_REPEAT.ToString());
-                }
-                if (menu.ParentNo != -1)
-                {
-                    checkResult = DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(menu.ParentNo);
-                    if (!checkResult)
-                    {
-                        return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENU_PARENTNO_NOT_EXISET.ToString());
-                    }
-                }
-                menu.UpdateTime = DateTime.Now;
-                int result = DataHandleManager.Instance().PsMenuHandle.Update(menu);
+                //bool checkResult = true;
+                platform.UpdateTime = DateTime.Now;
+                int result = DataHandleManager.Instance().PsPlatformHandle.Update(platform);
                 if (result > 0)
                 {
                     return JsonResponses.Success;
@@ -165,6 +138,6 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             }
             return JsonResponses.Failed;
         }
-
+        #endregion
     }
 }
