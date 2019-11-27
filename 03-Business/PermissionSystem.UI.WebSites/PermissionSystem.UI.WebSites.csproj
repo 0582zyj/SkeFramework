@@ -193,6 +193,9 @@
     <Content Include="Views\Menu\MenuList.cshtml" />
     <Content Include="Views\Menu\MenuAdd.cshtml" />
     <Content Include="Views\Menu\MenuUpdate.cshtml" />
+    <Content Include="Views\Platform\PlatformList.cshtml" />
+    <Content Include="Views\Platform\PlatformUpdate.cshtml" />
+    <Content Include="Views\Platform\PlatformAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -200,7 +203,6 @@
     <Folder Include="fonts\" />
     <Folder Include="Scripts\login\" />
     <Folder Include="Scripts\vue\component\" />
-    <Folder Include="Views\Platform\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

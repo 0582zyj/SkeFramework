@@ -20,7 +20,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// 列表页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult PsPlatformList()
+        public ActionResult PlatformList()
         {
             return View();
         }
@@ -28,7 +28,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// 更新页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult PsPlatformUpdate(int id)
+        public ActionResult PlatformUpdate(int id)
         {
             return View();
         }
@@ -36,7 +36,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// 新增页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult PsPlatformAdd()
+        public ActionResult PlatformAdd()
         {
             return View();
         }
