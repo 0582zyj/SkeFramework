@@ -20,48 +20,61 @@ namespace MicrosServices.API.PermissionSystem.Controllers
     {
         #region 基础查询
         /// <summary>
-        /// 获取全部权限列表
+        /// 获取列表信息
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> List()
-        {
-            List<PsRoles> managements = DataHandleManager.Instance().PsRolesHandle.GetList().ToList();
-            return new JsonResponses(managements);
-        }
-        /// <summary>
-        /// 分页获取权限列表
-        /// </summary>
-        /// <param name="pageIndex">当前第几页</param>
-        /// <param name="pageSize">每页多少行</param>
-        /// <param name="keywords">权限名称</param>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult<JsonResponses> PageList(int pageIndex, int pageSize = PageModel.DefaultPageSize, string keywords = "")
+        public ActionResult<JsonResponses> GetList(string keywords = "")
         {
             Expression<Func<PsRoles, bool>> where = null;
             if (!String.IsNullOrEmpty(keywords))
             {
                 where = (o => o.Name.Contains(keywords));
             }
-            int total = Convert.ToInt32(DataHandleManager.Instance().PsRolesHandle.Count(where));//取记录数
-            PageModel page = new PageModel(pageIndex, pageSize, total);
-            List<PsRoles> managements = DataHandleManager.Instance().PsRolesHandle
-                .GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
-            var obj = new { pages = page, dataList = managements };
-            return new JsonResponses(obj);
+            List<PsRoles> list = DataHandleManager.Instance().PsRolesHandle.GetList(where).ToList();
+            return new JsonResponses(list);
+        }
+        /// <summary>
+        /// 获取列表信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] string keywords = "")
+        {
+            try
+            {
+                Expression<Func<PsRoles, bool>> where = null;
+                if (!String.IsNullOrEmpty(keywords))
+                {
+                    where = (o => o.Name.Contains(keywords));
+                }
+                int total = Convert.ToInt32(DataHandleManager.Instance().PsRolesHandle.Count(where));//取记录数
+                List<PsRoles> list = DataHandleManager.Instance().PsRolesHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
+                PageResponse<PsRoles> response = new PageResponse<PsRoles>
+                {
+                    page = page,
+                    dataList = list
+                };
+                return new JsonResponses(response);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
         }
         /// <summary>
         /// 根据主键ID获取信息
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> Get(int id)
+        public ActionResult<JsonResponses> GetInfo(int id)
         {
-            PsRoles Info = DataHandleManager.Instance().PsRolesHandle.GetModelByKey(id.ToString());
+            PsRoles Info = new PsRoles();
+            Info = DataHandleManager.Instance().PsRolesHandle.GetModelByKey(id.ToString());
             return new JsonResponses(Info);
         }
-        #endregion
+         #endregion
 
         #region 增删改
         /// <summary>

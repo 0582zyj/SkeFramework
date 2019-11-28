@@ -23,7 +23,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetManagementList()
+        public ActionResult<JsonResponses> GetList()
         {
             List<PsManagement> managements = DataHandleManager.Instance().PsManagementHandle.GetList().ToList();
             return new JsonResponses(managements);
@@ -36,7 +36,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name="keywords">权限名称</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetManagementPageList(int pageIndex, int pageSize = PageModel.DefaultPageSize, string keywords = "")
+        public ActionResult<JsonResponses> GetPageList(int pageIndex, int pageSize = PageModel.DefaultPageSize, string keywords = "")
         {
             Expression<Func<PsManagement, bool>> where = null;
             if (!String.IsNullOrEmpty(keywords))
@@ -55,7 +55,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetManagementInfo(int id)
+        public ActionResult<JsonResponses> GetInfo(int id)
         {
             PsManagement Info = DataHandleManager.Instance().PsManagementHandle.GetModelByKey(id.ToString());
             return new JsonResponses(Info);

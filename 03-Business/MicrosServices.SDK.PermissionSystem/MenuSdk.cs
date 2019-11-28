@@ -20,8 +20,8 @@ namespace MicrosServices.SDK.PermissionSystem
     {
         private static readonly string GetMenuListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetList";
         private static readonly string GetMenuPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetPageList";
-        private static readonly string GetMenuInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetMenuInfo";
-        private static readonly string AddMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Add";
+        private static readonly string GetMenuInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetInfo";
+        private static readonly string AddMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Create";
         private static readonly string DeleteMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Delete";
         private static readonly string UpdateMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Update";
         

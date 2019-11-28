@@ -49,8 +49,6 @@
                                 <th>超级管理员名称</th>
                                 <th>超级管理员账号</th>
                                 <th>操作员</th>
-                                <th>操作时间</th>
-                                <th>更新时间</th>
                                 <th class="operation">操作</th>
                             </tr>
                         </thead>
@@ -62,8 +60,6 @@
                                 <td>{{item.DefaultUserName}}</td>
                                 <td>{{item.DefaultUserNo}}</td>
                                 <td>{{item.InputUser}}</td>
-                                <td>{{item.InputTime}}</td>
-                                <td>{{item.UpdateTime}}</td>
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
@@ -73,7 +69,7 @@
                         <!--insert tbody here-->
                     </table>
                 </div>
-                <templatepage v-on:getdata="GetList" url="@Url.Action("GetPlatformList", "Platform")" v-bind:prop="prop"></templatepage>
+                <templatepage v-on:getdata="GetList" url="@Url.Action("GetPsPlatformList", "Platform")" v-bind:prop="prop"></templatepage>
             </div>
         </div>
         <!-- /.box -->
@@ -87,7 +83,7 @@
                 updateJumpUrl: "@Url.Action("PlatformUpdate", "Platform")",
                 addJumpUrl: "@Url.Action("PlatformAdd", "Platform")",
                 deleteUrl: "@Url.Action("PsPlatformDelete", "Platform")",
-                GetListUrl: "@Url.Action("GetPlatformList", "Platform")",
+                GetListUrl: "@Url.Action("GetPsPlatformList", "Platform")",
                 dataList: [],
                 search: { keywords: ""}
             },

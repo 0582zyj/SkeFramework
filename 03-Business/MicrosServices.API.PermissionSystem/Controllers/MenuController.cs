@@ -68,7 +68,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetMenuInfo(int id)
+        public ActionResult<JsonResponses> GetInfo(int id)
         {
             PsMenu Info = new PsMenu();
             Info = DataHandleManager.Instance().PsMenuHandle.GetModelByKey(id.ToString());
@@ -80,7 +80,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> Add([FromForm] PsMenu menu)
+        public ActionResult<JsonResponses> Create([FromForm] PsMenu menu)
         {
             try
             {

@@ -20,8 +20,8 @@ namespace MicrosServices.SDK.PermissionSystem
     {
         private static readonly string GetPlatformListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/GetList";
         private static readonly string GetPlatformPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/GetPageList";
-        private static readonly string GetPlatformInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/GetPlatformInfo";
-        private static readonly string AddPlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/Add";
+        private static readonly string GetPlatformInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/GetInfo";
+        private static readonly string AddPlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/Create";
         private static readonly string DeletePlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/Delete";
         private static readonly string UpdatePlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/Update";
 
@@ -160,15 +160,16 @@ namespace MicrosServices.SDK.PermissionSystem
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
-        public JsonResponses PlatformUpdate(PsPlatform menu)
+        public JsonResponses PlatformUpdate(PsPlatform platform)
         {
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PlatformNo", menu.PlatformNo);
-                request.SetValue("Name", menu.Name);
-                request.SetValue("DefaultUserName", menu.DefaultUserName);
-                request.SetValue("DefaultUserNo", menu.DefaultUserNo);
+                request.SetValue("id", platform.id);
+                request.SetValue("PlatformNo", platform.PlatformNo);
+                request.SetValue("Name", platform.Name);
+                request.SetValue("DefaultUserName", platform.DefaultUserName);
+                request.SetValue("DefaultUserNo", platform.DefaultUserNo);
                 request.Url = UpdatePlatformUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {

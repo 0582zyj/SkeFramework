@@ -67,7 +67,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetPsPlatformInfo(int id)
+        public ActionResult<JsonResponses> GetInfo(int id)
         {
             PsPlatform Info = new PsPlatform();
             Info = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(id.ToString());
@@ -79,7 +79,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> Add([FromForm] PsPlatform platform)
+        public ActionResult<JsonResponses> Create([FromForm] PsPlatform platform)
         {
             try
             {
@@ -106,7 +106,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
-            int result = DataHandleManager.Instance().PsMenuHandle.Delete(id);
+            int result = DataHandleManager.Instance().PsPlatformHandle.Delete(id);
             if (result > 0)
             {
                 return JsonResponses.Success;
