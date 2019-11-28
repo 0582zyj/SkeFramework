@@ -24,13 +24,13 @@
                             <div class="form-group">
                                 <label for="PlatformNo" class="col-sm-2 control-label">平台编号</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo" required maxlength="200" placeholder="角色编号">
+                                    <input type="text" class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo" required maxlength="200" placeholder="平台编号">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="Name" class="col-sm-2 control-label">平台名称</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="Name" id="Name" v-model="dataItem.Name" required maxlength="120" placeholder="权限编号">
+                                    <input type="text" class="form-control" name="Name" id="Name" v-model="dataItem.Name" required maxlength="120" placeholder="平台名称">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -77,8 +77,8 @@
                     axios.post(this.addPostUrl, this.dataItem)
                      .then(function (response) {
                          if (response.status == 200) {
-                             alert(response.data.ResultMsg);
-                             if (response.data.ResultCode == 100) {
+                             alert(response.data.msg);
+                             if (response.data.code == 200) {
                                  window.location.href = _self.listJumpUrl;
                              }
                          }
