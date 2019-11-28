@@ -46,7 +46,6 @@
             this.simpleButtonConnect = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonClose = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
-            this.groupControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textEditDatabase.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditPassword.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditUserId.Properties)).BeginInit();
@@ -76,7 +75,7 @@
             // 
             // textEditDatabase
             // 
-            this.textEditDatabase.EditValue = "smartcloud";
+            this.textEditDatabase.EditValue = "skecloud";
             this.textEditDatabase.Location = new System.Drawing.Point(176, 169);
             this.textEditDatabase.Name = "textEditDatabase";
             this.textEditDatabase.Size = new System.Drawing.Size(537, 20);
@@ -163,6 +162,9 @@
             // 
             this.comboBoxEdit1.Location = new System.Drawing.Point(176, 54);
             this.comboBoxEdit1.Name = "comboBoxEdit1";
+            // 
+            // 
+            // 
             this.comboBoxEdit1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.comboBoxEdit1.Size = new System.Drawing.Size(537, 20);
@@ -221,8 +223,6 @@
             this.Load += new System.EventHandler(this.ConnectionForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ConnectionForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
-            this.groupControl1.ResumeLayout(false);
-            this.groupControl1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textEditDatabase.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditPassword.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditUserId.Properties)).EndInit();
