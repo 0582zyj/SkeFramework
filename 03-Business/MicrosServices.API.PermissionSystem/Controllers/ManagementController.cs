@@ -73,7 +73,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             var ResultCode = -1;
             DataHandleManager.Instance().PsManagementHandle.CheckManagementNameIsExist(model.Name);
             DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.ParentNo);
-            ResultCode = DataHandleManager.Instance().PsManagementHandle.ManagementInser(model);
+            ResultCode = DataHandleManager.Instance().PsManagementHandle.ManagementInsert(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
 
         }
@@ -86,7 +86,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         {
             var ResultCode = -1;
             DataHandleManager.Instance().PsManagementHandle.CheckManagementNameIsExist(model.Name, model.ManagementNo);
-            DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.ManagementNo);
+            DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.ParentNo);
             ResultCode = DataHandleManager.Instance().PsManagementHandle.ManagementUpdate(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
         }

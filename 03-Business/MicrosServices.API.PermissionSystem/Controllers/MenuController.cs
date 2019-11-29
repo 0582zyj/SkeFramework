@@ -90,13 +90,10 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 {
                     return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENU_NAME_REPEAT.ToString());
                 }
-                if (menu.ParentNo != -1)
+                checkResult = DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(menu.ParentNo);
+                if (!checkResult)
                 {
-                    checkResult = DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(menu.ParentNo);
-                    if (!checkResult)
-                    {
-                        return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENU_PARENTNO_NOT_EXISET.ToString());
-                    }
+                    return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENU_PARENTNO_NOT_EXISET.ToString());
                 }
                 menu.InputTime = DateTime.Now;
                 menu.MenuNo = AutoIDWorker.Example.GetAutoSequence();

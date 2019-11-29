@@ -92,6 +92,10 @@
       <Project>{2AC71E45-3249-48C3-AE3B-F303EB899675}</Project>
       <Name>MicrosServices.Helper.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Helper.DataUtil\MicrosServices.Helper.DataUtil.csproj">
+      <Project>{1420C94D-4ECE-4A05-BBCE-0D2EAC8F675E}</Project>
+      <Name>MicrosServices.Helper.DataUtil</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserCenter\" />
