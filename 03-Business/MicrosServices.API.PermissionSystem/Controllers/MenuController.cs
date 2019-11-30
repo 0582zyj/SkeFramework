@@ -18,7 +18,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
     [ApiController]
     public class MenuController : ControllerBase
     {
-
+        #region 基础查询
         /// <summary>
         /// 获取列表信息
         /// </summary>
@@ -74,6 +74,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             Info = DataHandleManager.Instance().PsMenuHandle.GetModelByKey(id.ToString());
             return new JsonResponses(Info);
         }
+        #endregion
+        #region 增删改
         /// <summary>
         /// 新增菜单
         /// </summary>
@@ -95,9 +97,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 {
                     return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENU_PARENTNO_NOT_EXISET.ToString());
                 }
-                menu.InputTime = DateTime.Now;
-                menu.MenuNo = AutoIDWorker.Example.GetAutoSequence();
-                int result= DataHandleManager.Instance().PsMenuHandle.Insert(menu);
+                int result= DataHandleManager.Instance().PsMenuHandle.MenuInsert(menu);
                 if (result > 0)
                 {
                     return JsonResponses.Success;
@@ -148,8 +148,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                         return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENU_PARENTNO_NOT_EXISET.ToString());
                     }
                 }
-                menu.UpdateTime = DateTime.Now;
-                int result = DataHandleManager.Instance().PsMenuHandle.Update(menu);
+                int result = DataHandleManager.Instance().PsMenuHandle.MenuUpdate(menu);
                 if (result > 0)
                 {
                     return JsonResponses.Success;
@@ -162,6 +161,6 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             }
             return JsonResponses.Failed;
         }
-
+        #endregion
     }
 }

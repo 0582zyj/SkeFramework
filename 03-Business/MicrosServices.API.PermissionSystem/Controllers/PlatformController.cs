@@ -17,7 +17,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
     [ApiController]
     public class PlatformController : ControllerBase
     {
-        #region Basic GET POST
+        #region 基础查询
         /// <summary>
         /// 获取列表信息
         /// </summary>
@@ -73,6 +73,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             Info = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(id.ToString());
             return new JsonResponses(Info);
         }
+        #endregion
+        #region 增删改
         /// <summary>
         /// 新增菜单
         /// </summary>
