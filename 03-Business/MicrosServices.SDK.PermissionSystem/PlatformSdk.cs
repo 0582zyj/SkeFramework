@@ -137,6 +137,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = new RequestBase();
                 request.SetValue("PlatformNo", menu.PlatformNo);
                 request.SetValue("Name", menu.Name);
+                request.SetValue("Value", menu.Value);
                 request.SetValue("DefaultUserName", menu.DefaultUserName);
                 request.SetValue("DefaultUserNo", menu.DefaultUserNo);
                 request.SetValue("InputUser", menu.InputUser);
