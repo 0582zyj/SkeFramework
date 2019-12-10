@@ -54,7 +54,7 @@
                     params: this.prop
                 }).then(function (response) {
                     if (response.status == 200) {
-                        _self.pages = response.data.page;
+                        _self.pages = response.data.pageDTO;
                         _self.$emit("getdata", response.data.dataList);
                     }
                 });

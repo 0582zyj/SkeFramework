@@ -1,6 +1,7 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.SDK.PermissionSystem;
 using PermissionSystem.UI.WebSites.Global;
+using PermissionSystem.UI.WebSites.Models;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 using System;
@@ -68,7 +69,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         {
             PageModel page = new PageModel(curPage);
             PageResponse<PsPlatform> pageResponse = platformSdk.GetPlatformPageList(page, keywords);
-            return Json(pageResponse, JsonRequestBehavior.AllowGet);
+            return Json(new PageResponseView<PsPlatform>(pageResponse), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// 新增提交方法

@@ -169,6 +169,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("id", platform.id);
                 request.SetValue("PlatformNo", platform.PlatformNo);
                 request.SetValue("Name", platform.Name);
+                request.SetValue("Value", platform.Value);
                 request.SetValue("DefaultUserName", platform.DefaultUserName);
                 request.SetValue("DefaultUserNo", platform.DefaultUserNo);
                 request.Url = UpdatePlatformUrl;

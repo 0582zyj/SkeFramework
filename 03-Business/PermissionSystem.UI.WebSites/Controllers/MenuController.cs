@@ -2,6 +2,7 @@
 using MicrosServices.SDK.PermissionSystem;
 using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
+using PermissionSystem.UI.WebSites.Models;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 using System;
@@ -67,7 +68,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         {
             PageModel page = new PageModel(curPage);
             PageResponse<PsMenu> pageResponse = menuSdk.GetMenuPageList(page, keywords);
-            return Json(pageResponse, JsonRequestBehavior.AllowGet);
+            return Json(new PageResponseView<PsMenu>(pageResponse), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// 新增提交方法
