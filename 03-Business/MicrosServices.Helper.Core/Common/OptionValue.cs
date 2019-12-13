@@ -11,6 +11,11 @@ namespace MicrosServices.Helper.Core.Common
     /// </summary>
     public class OptionValue
     {
+        public static OptionValue Default = new OptionValue()
+        {
+            Name = "全部",
+            Value = -1
+        };
         /// <summary>
         /// 显示
         /// </summary>
@@ -19,5 +24,7 @@ namespace MicrosServices.Helper.Core.Common
         /// 值
         /// </summary>
         public long Value { get; set; }
+
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MicrosServices.Entities.Common;
+using MicrosServices.Helper.Core.Common;
 using MicrosServices.SDK.PermissionSystem;
 using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
@@ -103,7 +104,19 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = menuSdk.MenuDelete(id );
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
-        
+
         #endregion
+
+        /// <summary>
+        /// 获取列表信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetOptionValues()
+        {
+            List<OptionValue> optionValues = menuSdk.GetOptionValues();
+            optionValues.Insert(0, OptionValue.Default);
+            return Json(optionValues, JsonRequestBehavior.AllowGet);
+        }
     }
 }
