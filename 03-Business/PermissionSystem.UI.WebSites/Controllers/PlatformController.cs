@@ -1,4 +1,5 @@
 ﻿using MicrosServices.Entities.Common;
+using MicrosServices.Helper.Core.Common;
 using MicrosServices.SDK.PermissionSystem;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
@@ -103,5 +104,16 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
         #endregion
+
+        /// <summary>
+        /// 获取列表信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetOptionValues()
+        {
+            List<OptionValue> optionValues = platformSdk.GetOptionValues();
+            return Json(optionValues, JsonRequestBehavior.AllowGet);
+        }
     }
 }

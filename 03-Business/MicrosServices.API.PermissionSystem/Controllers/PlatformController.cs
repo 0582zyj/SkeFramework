@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
+using MicrosServices.Helper.Core.Common;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 using SkeFramework.Core.SnowFlake;
@@ -141,5 +142,16 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             return JsonResponses.Failed;
         }
         #endregion
+
+        /// <summary>
+        /// 获取键值对
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses>  GetOptionValues()
+        {
+            List<OptionValue> optionValues = DataHandleManager.Instance().PsPlatformHandle.GetOptionValues();
+            return new JsonResponses(optionValues);
+        }
     }
 }

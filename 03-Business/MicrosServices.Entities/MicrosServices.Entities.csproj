@@ -66,5 +66,11 @@
       <Name>SkeFramework.DataBase.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataBase\SkeCloud.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DataBase\SkeCloud.pdm" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

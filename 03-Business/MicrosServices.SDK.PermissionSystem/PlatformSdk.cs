@@ -1,4 +1,5 @@
 ﻿using MicrosServices.Entities.Common;
+using MicrosServices.Helper.Core.Common;
 using Newtonsoft.Json;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Enums;
@@ -24,6 +25,7 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string AddPlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/Create";
         private static readonly string DeletePlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/Delete";
         private static readonly string UpdatePlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/Update";
+        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/GetOptionValues";
 
 
         /// <summary>
@@ -214,6 +216,36 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
-
+        /// <summary>
+        /// 获取键值对
+        /// </summary>
+        /// <returns></returns>
+        public List<OptionValue> GetOptionValues()
+        {
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = GetOptionValueUrl
+                };
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.GET
+                });
+                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
+                if (responses.code == JsonResponses.SuccessCode)
+                {
+                    object data = responses.data;
+                    return JsonConvert.DeserializeObject<List<OptionValue>>(JsonConvert.SerializeObject(data));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return new List<OptionValue>();
+        }
     }
 }

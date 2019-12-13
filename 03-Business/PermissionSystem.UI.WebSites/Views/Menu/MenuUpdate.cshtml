@@ -73,13 +73,21 @@
                             <div class="form-group">
                                 <label for="PlatformNo" class="col-sm-2 control-label">PlatformNo</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo" required maxlength="200" placeholder="PlatformNo">
+                                    <select class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.platformList">
+                                        <option v-for="option in platformList" v-bind:value="option.value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="Enabled" class="col-sm-2 control-label">Enabled</label>
+                                <label for="Enabled" class="col-sm-2 control-label">启用状态</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="Enabled" id="Enabled" v-model="dataItem.Enabled" required maxlength="200" placeholder="Enabled">
+                                    <select class="form-control" name="Enabled" id="Enabled" v-model="dataItem.Enabled">
+                                        <option v-for="option in enabledList" v-bind:value="option.value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                             <input type="hidden" name="token" value="5cbd303f221a626ce0f404cec31b4ea4">
@@ -106,7 +114,13 @@
                 listJumpUrl: "@Url.Action("MenuList", "Menu")",
                 updatePostUrl: "@Url.Action("PsMenuUpdate", "Menu")",
                 getItemUrl: "@Url.Action("GetPsMenuInfo", "Menu")",
+                getOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 dataItem: {},
+                platformList: {},
+                enabledList: [
+                    { Name: '启用', value: 1 },
+                    { Name: '停用', value: 0 },
+                ],
                 id:"@Request.QueryString["id"].ToString()"
             },
             created: function () {
@@ -124,7 +138,17 @@
                      })
                      .catch(function (error) {
                          console.log(error);
-                     });
+                        });
+                    _self.platformList = {};
+                    axios.get(this.getOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                 },
                 submit: function () {
                     var _self = this;

@@ -64,9 +64,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="Enabled" class="col-sm-2 control-label">Enabled</label>
+                                <label for="Enabled" class="col-sm-2 control-label">启用状态</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="Enabled" id="Enabled" v-model="dataItem.Enabled" required maxlength="200" placeholder="Enabled">
+                                    <select class="form-control" name="Enabled" id="Enabled" v-model="dataItem.Enabled">
+                                        <option v-for="option in enabledList" v-bind:value="option.value">
+                                            {{ option.text }}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                             <input type="hidden" name="token" value="5cbd303f221a626ce0f404cec31b4ea4">
@@ -92,6 +96,10 @@
                 listJumpUrl: "@Url.Action("MenuList", "Menu")",
                 addPostUrl: "@Url.Action("PsMenuAdd", "Menu")",
                 dataItem: {},
+                enabledList: [
+                    { text: '启用', value: 1 },
+                    { text: '停用', value: 0 },
+                ],
             },
             created: function () {
             },

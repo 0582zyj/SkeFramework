@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Common\OptionValue.cs" />
     <Compile Include="Constants\ErrorResultType.cs" />
     <Compile Include="Constants\LoginResultType.cs" />
     <Compile Include="DTO\PageDTO.cs" />
