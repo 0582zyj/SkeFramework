@@ -24,7 +24,11 @@
                             <div class="form-group">
                                 <label for="ParentNo" class="col-sm-2 control-label">父节点</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="ParentNo" id="ParentNo" v-model="dataItem.ParentNo" required maxlength="200" placeholder="父节点">
+                                    <select class="form-control" name="ParentNo" id="ParentNo" v-model="dataItem.ParentNo">
+                                        <option v-for="option in menuList" v-bind:value="option.Value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -58,17 +62,21 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="PlatformNo" class="col-sm-2 control-label">PlatformNo</label>
+                                <label for="PlatformNo" class="col-sm-2 control-label">平台</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo" required maxlength="200" placeholder="PlatformNo">
+                                    <select class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo">
+                                        <option v-for="option in platformList" v-bind:value="option.Value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="Enabled" class="col-sm-2 control-label">启用状态</label>
                                 <div class="col-sm-10">
                                     <select class="form-control" name="Enabled" id="Enabled" v-model="dataItem.Enabled">
-                                        <option v-for="option in enabledList" v-bind:value="option.value">
-                                            {{ option.text }}
+                                        <option v-for="option in enabledList" v-bind:value="option.Value">
+                                            {{ option.Name }}
                                         </option>
                                     </select>
                                 </div>
@@ -96,9 +104,14 @@
                 listJumpUrl: "@Url.Action("MenuList", "Menu")",
                 addPostUrl: "@Url.Action("PsMenuAdd", "Menu")",
                 dataItem: {},
+                getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
+                getMenuOptionValueUrl: "@Url.Action("GetOptionValues", "Menu")",
+                dataItem: {},
+                platformList: {},
+                menuList: {},
                 enabledList: [
-                    { text: '启用', value: 1 },
-                    { text: '停用', value: 0 },
+                    { Name: '启用', Value: 1 },
+                    { Name: '停用', Value: 0 },
                 ],
             },
             created: function () {
