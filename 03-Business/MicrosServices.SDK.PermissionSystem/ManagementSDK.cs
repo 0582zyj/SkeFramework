@@ -137,6 +137,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("Name", menu.Name);
                 request.SetValue("Description", menu.Description); 
                 request.SetValue("Value", menu.Value);
+                request.SetValue("Type", menu.Type);
                 request.SetValue("Sort", menu.Sort);
                 request.SetValue("PlatformNo", menu.PlatformNo);
                 request.SetValue("Enabled", menu.Enabled);
@@ -171,6 +172,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("ParentNo", menu.ParentNo);
                 request.SetValue("Name", menu.Name);
                 request.SetValue("Value", menu.Value);
+                request.SetValue("Type", menu.Type);
                 request.SetValue("Sort", menu.Sort);
                 request.SetValue("PlatformNo", menu.PlatformNo);
                 request.SetValue("Enabled", menu.Enabled);
