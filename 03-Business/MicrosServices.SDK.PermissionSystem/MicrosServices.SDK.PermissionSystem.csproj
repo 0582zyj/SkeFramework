@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ManagementSDK.cs" />
     <Compile Include="MenuSdk.cs" />
     <Compile Include="NetwordConstants.cs" />
     <Compile Include="PlatformSdk.cs" />

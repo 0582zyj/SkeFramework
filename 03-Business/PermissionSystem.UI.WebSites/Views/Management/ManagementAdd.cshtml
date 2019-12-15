@@ -4,10 +4,10 @@
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>PsMenu新增</h1>
+    <h1>PsManagement新增</h1>
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> 主页</a></li>
-        <li><a href="@Url.Action("PsMenuList","Menu")"><i class="fa fa-bar-chart"></i> PsMenu管理</a></li>
+        <li><a href="@Url.Action("PsManagementList","PsManagement")"><i class="fa fa-bar-chart"></i> PsManagement管理</a></li>
     </ol>
 </section>
 <!-- Main content -->
@@ -24,11 +24,7 @@
                             <div class="form-group">
                                 <label for="ParentNo" class="col-sm-2 control-label">父节点</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control" name="ParentNo" id="ParentNo" v-model="dataItem.ParentNo">
-                                        <option v-for="option in menuList" v-bind:value="option.Value">
-                                            {{ option.Name }}
-                                        </option>
-                                    </select>
+                                    <input type="text" class="form-control" name="ParentNo" id="ParentNo" v-model="dataItem.ParentNo" required maxlength="200" placeholder="父节点">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -38,21 +34,25 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="Description" class="col-sm-2 control-label">Description</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Description" id="Description" v-model="dataItem.Description" required maxlength="512" placeholder="Description">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="Value" class="col-sm-2 control-label">权限值</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="Value" id="Value" v-model="dataItem.Value" required maxlength="120" placeholder="权限值">
+                                    <input type="text" class="form-control" name="Value" id="Value" v-model="dataItem.Value" required maxlength="200" placeholder="权限值">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="icon" class="col-sm-2 control-label">图标</label>
+                                <label for="Type" class="col-sm-2 control-label">权限类型</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="icon" id="icon" v-model="dataItem.icon" required maxlength="120" placeholder="图标">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="url" class="col-sm-2 control-label">跳转地址</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="url" id="url" v-model="dataItem.url" required maxlength="120" placeholder="跳转地址">
+                                    <select class="form-control" name="Type" id="Type" v-model="dataItem.Type">
+                                        <option v-for="option in managmentTypeList" v-bind:value="option.Value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -62,13 +62,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="PlatformNo" class="col-sm-2 control-label">平台</label>
+                                <label for="PlatformNo" class="col-sm-2 control-label">平台编号</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo">
-                                        <option v-for="option in platformList" v-bind:value="option.Value">
-                                            {{ option.Name }}
-                                        </option>
-                                    </select>
+                                    <input type="text" class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo" required maxlength="200" placeholder="平台编号">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -101,13 +97,14 @@
         var vm = new Vue({
             el: "#section-content",
             data: {
-                listJumpUrl: "@Url.Action("MenuList", "Menu")",
-                addPostUrl: "@Url.Action("PsMenuAdd", "Menu")",
-                getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
-                getMenuOptionValueUrl: "@Url.Action("GetOptionValues", "Menu")",
+                listJumpUrl: "@Url.Action("ManagementList", "Management")",
+                addPostUrl: "@Url.Action("PsManagementAdd", ";Management")",
                 dataItem: {},
-                platformList: {},
-                menuList: {},
+                managmentTypeList: [
+                    { Name: '默认权限', Value: 0 },
+                    { Name: '普通权限', Value: 1 },
+                    { Name: '菜单权限', Value: 2 },
+                ],
                 enabledList: [
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
@@ -126,23 +123,10 @@
                                  window.location.href = _self.listJumpUrl;
                              }
                          }
-                         else {
-                             alert(response.data.msg);
-                         }
                      })
                      .catch(function (error) {
                          console.log(error);
-                        });
-                    _self.platformList = {};
-                    axios.get(this.getPlatformOptionValueUrl)
-                        .then(function (response) {
-                            if (response.status == 200) {
-                                _self.platformList = response.data;
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
+                     });
                 },
             }
         });

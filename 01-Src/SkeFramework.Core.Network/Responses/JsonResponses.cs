@@ -12,7 +12,7 @@ namespace SkeFramework.Core.Network.Responses
     public class JsonResponses
     {
         public static int SuccessCode = 200;
-        public static int FailedCode = 200;
+        public static int FailedCode = 400;
         /// <summary>
         /// 成功
         /// </summary>

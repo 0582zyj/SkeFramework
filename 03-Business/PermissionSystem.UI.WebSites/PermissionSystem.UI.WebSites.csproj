@@ -123,6 +123,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ManagementController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\PlatformController.cs" />
     <Compile Include="Global.asax.cs">
@@ -197,6 +198,9 @@
     <Content Include="Views\Platform\PlatformList.cshtml" />
     <Content Include="Views\Platform\PlatformUpdate.cshtml" />
     <Content Include="Views\Platform\PlatformAdd.cshtml" />
+    <Content Include="Views\Management\ManagementList.cshtml" />
+    <Content Include="Views\Management\ManagementUpdate.cshtml" />
+    <Content Include="Views\Management\ManagementAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
