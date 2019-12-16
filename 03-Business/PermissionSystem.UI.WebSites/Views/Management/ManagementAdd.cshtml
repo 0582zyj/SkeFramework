@@ -62,9 +62,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="PlatformNo" class="col-sm-2 control-label">平台编号</label>
+                                <label for="PlatformNo" class="col-sm-2 control-label">平台</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo" required maxlength="200" placeholder="平台编号">
+                                    <select class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo">
+                                        <option v-for="option in platformList" v-bind:value="option.Value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -98,8 +102,10 @@
             el: "#section-content",
             data: {
                 listJumpUrl: "@Url.Action("ManagementList", "Management")",
-                addPostUrl: "@Url.Action("PsManagementAdd", ";Management")",
+                addPostUrl: "@Url.Action("PsManagementAdd", "Management")",
+                getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 dataItem: {},
+                platformList: {},
                 managmentTypeList: [
                     { Name: '默认权限', Value: 0 },
                     { Name: '普通权限', Value: 1 },
@@ -111,8 +117,22 @@
                 ],
             },
             created: function () {
+                this.Init();
             },
             methods: {
+                Init: function () {
+                    var _self = this;
+                    _self.platformList = {};
+                    axios.get(this.getPlatformOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
                 submit: function () {
                     var _self = this;
                     axios.post(this.addPostUrl, this.dataItem)
@@ -127,6 +147,7 @@
                      .catch(function (error) {
                          console.log(error);
                      });
+                    
                 },
             }
         });
