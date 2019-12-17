@@ -51,6 +51,7 @@
     <Compile Include="NetwordConstants.cs" />
     <Compile Include="PlatformSdk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RolesSDK.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj">
