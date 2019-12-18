@@ -126,6 +126,7 @@
     <Compile Include="Controllers\ManagementController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\PlatformController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -201,6 +202,9 @@
     <Content Include="Views\Management\ManagementList.cshtml" />
     <Content Include="Views\Management\ManagementUpdate.cshtml" />
     <Content Include="Views\Management\ManagementAdd.cshtml" />
+    <Content Include="Views\Roles\RolesList.cshtml" />
+    <Content Include="Views\Roles\RolesUpdate.cshtml" />
+    <Content Include="Views\Roles\RolesAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
