@@ -108,8 +108,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// 删除提交方法
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public ActionResult<JsonResponses> Delete(int id)
+        [HttpPost]
+        public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
             var ResultCode = -1;
             ResultCode = DataHandleManager.Instance().PsRolesHandle.Delete(id);
