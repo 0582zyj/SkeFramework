@@ -167,6 +167,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("id", menu.id);
                 request.SetValue("RolesNo", menu.RolesNo);
                 request.SetValue("ParentNo", menu.ParentNo);
+                request.SetValue("Description", menu.Description);
                 request.SetValue("Name", menu.Name);
                 request.SetValue("PlatformNo", menu.PlatformNo);
                 request.SetValue("Enabled", menu.Enabled);

@@ -22,9 +22,13 @@
                     <div class="tab-pane active" id="profile">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <label for="ParentNo" class="col-sm-2 control-label">父节点</label>
+                                <label for="ParentNo" class="col-sm-2 control-label">平台</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="ParentNo" id="ParentNo" v-model="dataItem.ParentNo" required maxlength="200" placeholder="父节点">
+                                    <select class="form-control" name="ParentNo" id="ParentNo" v-model="dataItem.ParentNo">
+                                        <option v-for="option in rolesList" v-bind:value="option.Value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -88,8 +92,10 @@
                 listJumpUrl: "@Url.Action("RolesList", "Roles")",
                 addPostUrl: "@Url.Action("PsRolesAdd", "Roles")",
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
+                getRolesOptionValueUrl: "@Url.Action("GetOptionValues", "Roles")",
                 dataItem: {},
                 platformList: {},
+                rolesList: {},
                 enabledList: [
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
@@ -106,6 +112,16 @@
                         .then(function (response) {
                             if (response.status == 200) {
                                 _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                    _self.rolesList = {};
+                    axios.get(this.getRolesOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.rolesList = response.data;
                             }
                         })
                         .catch(function (error) {
