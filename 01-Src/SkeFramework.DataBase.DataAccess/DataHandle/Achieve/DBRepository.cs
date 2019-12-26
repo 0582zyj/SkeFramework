@@ -82,11 +82,11 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
             foreach (var item in AllPropertiesExceptKeyAndIgnore)
             {
                 object value = item.GetValue(entity, null);
-                if (value != null)
-                {
-                    sbColumnList.Add(string.Format("{0}=@{0}", item.Name));
-                    ParaList.Add(DbFactory.Instance().CreateDataParameter(string.Format("@{0}", item.Name), item.GetValue(entity, null)));
-                }
+                sbColumnList.Add(string.Format("{0}=@{0}", item.Name));
+                ParaList.Add(DbFactory.Instance().CreateDataParameter(string.Format("@{0}", item.Name), item.GetValue(entity, null)));
+                //if (value != null)
+                //{
+                // }
             }
             //where条件
             foreach (var item in KeyProperties)

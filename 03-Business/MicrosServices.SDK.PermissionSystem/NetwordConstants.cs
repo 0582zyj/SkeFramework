@@ -29,7 +29,7 @@ namespace MicrosServices.SDK.PermissionSystem
             return mSingleInstance;
         }
         #endregion
-        private string config = "local";
+        private string config = "dev";
         public string GetBaseUrl()
         {
             switch(config)
