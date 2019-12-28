@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "新增";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>PsManagement新增</h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> 主页</a></li>
+        <li><a href="@Url.Action("PsManagementList","PsManagement")"><i class="fa fa-bar-chart"></i> PsManagement管理</a></li>
+    </ol>
+</section>
+<section class="content" id="section-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#profile" data-toggle="tab" aria-expanded="true">基本信息</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="profile">
+                        <form role="form" id="quickForm">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Email address</label>
+                                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Password</label>
+                                    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                </div>
+                                <div class="form-group mb-0">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
+                                        <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+        </div>
+    </div>
+</section>
+<!-- Content Wrapper. Contains page content -->
+
+<!-- /.content-wrapper -->
+
+<script>
+        var vm = new Vue({
+            el: "#section-content",
+            data: {
+                listJumpUrl: "@Url.Action("ManagementList", "Management")",
+                addPostUrl: "@Url.Action("PsManagementAdd", "Management")",
+                getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
+                getManagementOptionValueUrl: "@Url.Action("GetOptionValues", "Management")",
+                platformList: {},
+                managementList: {},
+                dataItem: {},
+                managmentTypeList: [
+                    { Name: '默认权限', Value: 0 },
+                    { Name: '普通权限', Value: 1 },
+                    { Name: '菜单权限', Value: 2 },
+                ],
+                enabledList: [
+                    { Name: '启用', Value: 1 },
+                    { Name: '停用', Value: 0 },
+                ],
+            },
+            created: function () {
+                this.Init();
+            },
+            methods: {
+                Init: function () {
+                    var _self = this;
+                    _self.platformList = {};
+                    axios.get(this.getPlatformOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                    _self.managementList = {};
+                    axios.get(this.getManagementOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.managementList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                submit: function () {
+                    var _self = this;
+                    axios.post(this.addPostUrl, this.dataItem)
+                     .then(function (response) {
+                         if (response.status == 200) {
+                             alert(response.data.msg);
+                             if (response.data.code == 200) {
+                                 window.location.href = _self.listJumpUrl;
+                             }
+                         }
+                     })
+                     .catch(function (error) {
+                         console.log(error);
+                     });
+
+                },
+            }
+        });
+</script>
+

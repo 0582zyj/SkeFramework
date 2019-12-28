@@ -17,7 +17,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     {
         private ManagementSDK managementSDK = new ManagementSDK();
 
-        #region 页面
+        #region 基础页面
         /// <summary>
         /// 列表页面
         /// </summary>
@@ -117,5 +117,16 @@ namespace PermissionSystem.UI.WebSites.Controllers
             optionValues.Insert(0, OptionValue.Default);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
+
+        #region 页面
+        /// <summary>
+        /// 权限分配
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ManagementAssign()
+        {
+            return View();
+        }
+        #endregion
     }
 }

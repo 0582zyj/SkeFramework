@@ -67,6 +67,7 @@
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.id)">权限分配</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -88,6 +89,7 @@
                 addJumpUrl: "@Url.Action("RolesAdd", "Roles")",
                 deleteUrl: "@Url.Action("PsRolesDelete", "Roles")",
                 GetListUrl: "@Url.Action("GetPsRolesList", "Roles")",
+                assginUrl:"@Url.Action("ManagementAssign", "Management")",
                 dataList: [],
                 search: { keywords: ""}
             },
@@ -102,6 +104,9 @@
                 },
                 toAdd: function () {
                     window.location.href = this.addJumpUrl;
+                },
+                toAssign: function() {
+                    window.location.href = this.assginUrl;
                 },
                 toEdit: function (_id) {
                     window.location.href = this.updateJumpUrl + '?id=' + _id;
