@@ -261,7 +261,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("RolesNo", RolesNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
-                    Uri = request.Url,
+                    Uri = request.GetReqUrl(),
                     PostData = request.GetRequestData(),
                     Method = RequestTypeEnums.GET
                 });

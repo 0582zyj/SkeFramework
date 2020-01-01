@@ -4,6 +4,7 @@ using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Extends;
 using MicrosServices.Helper.Core.Form;
 using MicrosServices.SDK.PermissionSystem;
+using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
 using SkeFramework.Core.Network.DataUtility;
@@ -127,7 +128,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// 权限分配
         /// </summary>
         /// <returns></returns>
-        public ActionResult ManagementAssign(int id)
+        public ActionResult ManagementAssign(long RolesNo)
         {
             return View();
         }
@@ -138,10 +139,14 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetManagementAssign(int id)
+        public JsonResult GetManagementAssign(long RolesNos)
         {
-            ManagmentAssignVo managmentAssignVo = new ManagmentAssignVo();
-            return Json(managmentAssignVo, JsonRequestBehavior.AllowGet);
+            ManagmentAssignVo assignVo = new ManagmentAssignVo();
+            JsonResponses jsonResponses= rolesSDK.GetManagementAssign(RolesNos);
+            if(jsonResponses.ValidateResponses()) {
+                assignVo = JsonConvert.DeserializeObject<ManagmentAssignVo>(JsonConvert.SerializeObject( jsonResponses.data));
+            }
+            return Json(assignVo, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -149,7 +154,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult ManagementAssignUpdate(ManagmentAssignVo model)
+        public JsonResult ManagementAssignUpdate(ManagementRolesForm model)
         {
             JsonResponses responses = JsonResponses.Success;
             return Json(responses, JsonRequestBehavior.AllowGet);

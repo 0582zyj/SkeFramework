@@ -23,16 +23,16 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="RolesNo">角色编号</label>
-                                    <input type="text" name="RolesNo" class="form-control" id="RolesNo"  v-model="dataItem.RolesInfo.RolesNo" placeholder="角色编号" readonly="readonly">
+                                    <input type="text" name="RolesNo" class="form-control" id="RolesNo" v-model="dataItem.RolesInfo.RolesNo" placeholder="角色编号" readonly="readonly">
                                 </div>
                                 <div class="form-group">
                                     <label for="Name">角色名称</label>
-                                    <input type="text" name="Name" class="form-control" id="Name"  v-model="dataItem.RolesInfo.Name"  placeholder="角色名称" readonly="readonly">
+                                    <input type="text" name="Name" class="form-control" id="Name" v-model="dataItem.RolesInfo.Name" placeholder="角色名称" readonly="readonly">
                                 </div>
-                                <div class="form-group mb-0">
-                                    <div class="custom-control custom-checkbox"  v-for="option in dataItem.optionValues" >
-                                        <input type="checkbox" class="custom-control-input" id="ManagementNo"  name="ManagementNos" value="option.Value">
-                                        <label class="custom-control-label" for="Name">{{option.Name}}</label>
+                                <label for="exampleInputPassword1">权限列表</label>
+                                <div class="form-group" v-for="(option,index) in dataItem.optionValues">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" class="custom-control-input" v-on:click="CheckItem(option)"  v-bind:value=option.Value v-model='postData.ManagementNos' v-bind:data=option.Name>{{option.Name}}</label>
                                     </div>
                                 </div>
                             </div>
@@ -60,14 +60,11 @@
                 listJumpUrl: "@Url.Action("RolesList", "Roles")",
                 assignPostUrl: "@Url.Action("ManagementAssignUpdate", "Management")",
                 getItemUrl: "@Url.Action("GetManagementAssign", "Management")",
-                getManagementOptionValueUrl: "@Url.Action("GetOptionValues", "Management")",
                 dataItem: {},
-                managementList: {},
-                enabledList: [
-                    { Name: '启用', Value: 1 },
-                    { Name: '停用', Value: 0 },
-                ],
-                id:"@Request.QueryString["id"].ToString()"
+                postData: {
+                    RolesNo: "@Request.QueryString["RolesNo"].ToString()",
+                    ManagementNos: []
+                },
             },
             created: function () {
                 this.Init();
@@ -76,7 +73,7 @@
                 Init: function () {
                     var _self = this;
                     _self.dataItem = {};
-                    axios.get(this.getItemUrl,{ params: {id: this.id } } )
+                    axios.get(this.getItemUrl, { params: { RolesNos: this.postData.RolesNo } } )
                      .then(function (response) {
                          if (response.status == 200) {
                              _self.dataItem = response.data;
@@ -88,7 +85,7 @@
                 },
                 submit: function () {
                     var _self = this;
-                    axios.post(this.assignPostUrl, this.dataItem)
+                    axios.post(this.assignPostUrl, this.postData)
                      .then(function (response) {
                          if (response.status == 200) {
                              alert(response.data.msg);
@@ -101,6 +98,10 @@
                          console.log(error);
                      });
                 },
+                CheckItem: function (option) {
+                    option.isCheck = !option.isCheck;
+                    console.log(option.isCheck);
+                }
             }
         });
 </script>
