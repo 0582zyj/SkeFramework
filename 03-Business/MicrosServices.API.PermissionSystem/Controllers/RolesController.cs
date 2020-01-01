@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
+using MicrosServices.Helper.Core;
 using MicrosServices.Helper.Core.Form;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
@@ -145,6 +146,17 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             }
             ResultCode = DataHandleManager.Instance().PsManagementRolesHandle.ManagementRolesInsert(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
+        }
+
+        /// <summary>
+        /// 获取角色列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetManagementAssign([FromQuery]long RolesNo)
+        {
+            ManagmentAssignVo managmentAssignVo = DataHandleManager.Instance().PsManagementRolesHandle.GetManagementAssign(RolesNo);
+            return new JsonResponses(managmentAssignVo);
         }
         #endregion
     }

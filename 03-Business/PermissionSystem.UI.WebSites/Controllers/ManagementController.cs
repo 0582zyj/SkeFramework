@@ -1,5 +1,8 @@
 ﻿using MicrosServices.Entities.Common;
+using MicrosServices.Helper.Core;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.Extends;
+using MicrosServices.Helper.Core.Form;
 using MicrosServices.SDK.PermissionSystem;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
@@ -16,6 +19,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     public class ManagementController : Controller
     {
         private ManagementSDK managementSDK = new ManagementSDK();
+        private RolesSDK rolesSDK = new RolesSDK();
 
         #region 基础页面
         /// <summary>
@@ -118,14 +122,37 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
 
-        #region 页面
+        #region 权限页面
         /// <summary>
         /// 权限分配
         /// </summary>
         /// <returns></returns>
-        public ActionResult ManagementAssign()
+        public ActionResult ManagementAssign(int id)
         {
             return View();
+        }
+
+
+        /// <summary>
+        /// 更新提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetManagementAssign(int id)
+        {
+            ManagmentAssignVo managmentAssignVo = new ManagmentAssignVo();
+            return Json(managmentAssignVo, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 更新提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult ManagementAssignUpdate(ManagmentAssignVo model)
+        {
+            JsonResponses responses = JsonResponses.Success;
+            return Json(responses, JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

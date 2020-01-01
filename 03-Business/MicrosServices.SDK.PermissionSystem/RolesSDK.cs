@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MicrosServices.SDK.PermissionSystem
 {
-  public  class RolesSDK
+    public class RolesSDK
     {
         private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetList";
         private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetPageList";
@@ -23,6 +23,7 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/Delete";
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/Update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetOptionValues";
+        private static readonly string GetManagementAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetManagementAssign";
 
         /// <summary>
         /// 获取菜单所有列表
@@ -244,6 +245,33 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return new List<OptionValue>();
         }
-
+        /// <summary>
+        /// 获取角色权限列表
+        /// </summary>
+        /// <param name="RoleNo"></param>
+        /// <returns></returns>
+        public JsonResponses GetManagementAssign(long RolesNo)
+        {
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = GetManagementAssignUrl
+                };
+                request.SetValue("RolesNo", RolesNo);
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.GET
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
     }
 }

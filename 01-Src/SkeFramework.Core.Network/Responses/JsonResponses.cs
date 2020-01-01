@@ -49,5 +49,10 @@ namespace SkeFramework.Core.Network.Responses
             this.data = data;
         }
 
+        public bool ValidateResponses()
+        {
+            return this.code == JsonResponses.SuccessCode;
+        }
+
     }
 }

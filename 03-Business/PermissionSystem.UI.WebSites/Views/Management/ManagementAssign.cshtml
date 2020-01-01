@@ -23,22 +23,22 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="RolesNo">角色编号</label>
-                                    <input type="text" name="RolesNo" class="form-control" id="RolesNo" placeholder="角色编号" readonly="readonly">
+                                    <input type="text" name="RolesNo" class="form-control" id="RolesNo"  v-model="dataItem.RolesInfo.RolesNo" placeholder="角色编号" readonly="readonly">
                                 </div>
                                 <div class="form-group">
                                     <label for="Name">角色名称</label>
-                                    <input type="text" name="Name" class="form-control" id="Name" placeholder="角色名称" readonly="readonly">
+                                    <input type="text" name="Name" class="form-control" id="Name"  v-model="dataItem.RolesInfo.Name"  placeholder="角色名称" readonly="readonly">
                                 </div>
                                 <div class="form-group mb-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" name="terms" class="custom-control-input" id="exampleCheck1">
-                                        <label class="custom-control-label" for="exampleCheck1">I agree to the <a href="#">terms of service</a>.</label>
+                                    <div class="custom-control custom-checkbox"  v-for="option in dataItem.optionValues" >
+                                        <input type="checkbox" class="custom-control-input" id="ManagementNo"  name="ManagementNos" value="option.Value">
+                                        <label class="custom-control-label" for="Name">{{option.Name}}</label>
                                     </div>
                                 </div>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-primary" v-on:click="submit()">保存</button>
                             </div>
                         </form>
                     </div>
@@ -53,27 +53,21 @@
 <!-- Content Wrapper. Contains page content -->
 
 <!-- /.content-wrapper -->
-
 <script>
         var vm = new Vue({
             el: "#section-content",
             data: {
-                listJumpUrl: "@Url.Action("ManagementList", "Management")",
-                addPostUrl: "@Url.Action("PsManagementAdd", "Management")",
-                getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
+                listJumpUrl: "@Url.Action("RolesList", "Roles")",
+                assignPostUrl: "@Url.Action("ManagementAssignUpdate", "Management")",
+                getItemUrl: "@Url.Action("GetManagementAssign", "Management")",
                 getManagementOptionValueUrl: "@Url.Action("GetOptionValues", "Management")",
-                platformList: {},
-                managementList: {},
                 dataItem: {},
-                managmentTypeList: [
-                    { Name: '默认权限', Value: 0 },
-                    { Name: '普通权限', Value: 1 },
-                    { Name: '菜单权限', Value: 2 },
-                ],
+                managementList: {},
                 enabledList: [
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
                 ],
+                id:"@Request.QueryString["id"].ToString()"
             },
             created: function () {
                 this.Init();
@@ -81,30 +75,20 @@
             methods: {
                 Init: function () {
                     var _self = this;
-                    _self.platformList = {};
-                    axios.get(this.getPlatformOptionValueUrl)
-                        .then(function (response) {
-                            if (response.status == 200) {
-                                _self.platformList = response.data;
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                    _self.managementList = {};
-                    axios.get(this.getManagementOptionValueUrl)
-                        .then(function (response) {
-                            if (response.status == 200) {
-                                _self.managementList = response.data;
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error);
+                    _self.dataItem = {};
+                    axios.get(this.getItemUrl,{ params: {id: this.id } } )
+                     .then(function (response) {
+                         if (response.status == 200) {
+                             _self.dataItem = response.data;
+                         }
+                     })
+                     .catch(function (error) {
+                         console.log(error);
                         });
                 },
                 submit: function () {
                     var _self = this;
-                    axios.post(this.addPostUrl, this.dataItem)
+                    axios.post(this.assignPostUrl, this.dataItem)
                      .then(function (response) {
                          if (response.status == 200) {
                              alert(response.data.msg);
@@ -116,9 +100,7 @@
                      .catch(function (error) {
                          console.log(error);
                      });
-
                 },
             }
         });
 </script>
-

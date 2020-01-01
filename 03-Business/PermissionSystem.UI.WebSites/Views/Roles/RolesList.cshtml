@@ -105,8 +105,8 @@
                 toAdd: function () {
                     window.location.href = this.addJumpUrl;
                 },
-                toAssign: function() {
-                    window.location.href = this.assginUrl;
+                toAssign: function (_id) {
+                    window.location.href = this.assginUrl + '?id=' + _id;
                 },
                 toEdit: function (_id) {
                     window.location.href = this.updateJumpUrl + '?id=' + _id;
