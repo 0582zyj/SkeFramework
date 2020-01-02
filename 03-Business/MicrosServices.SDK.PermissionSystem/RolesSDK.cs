@@ -1,5 +1,6 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.Form;
 using Newtonsoft.Json;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Enums;
@@ -24,7 +25,8 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/Update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetOptionValues";
         private static readonly string GetManagementAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetManagementAssign";
-
+        private static readonly string CreateManagementRolesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/CreateManagementRoles";
+        
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -264,6 +266,32 @@ namespace MicrosServices.SDK.PermissionSystem
                     Uri = request.GetReqUrl(),
                     PostData = request.GetRequestData(),
                     Method = RequestTypeEnums.GET
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+        /// <summary>
+        /// 权限系统
+        /// </summary>
+        /// <returns></returns>
+        public JsonResponses CreateManagementRoles(ManagementRolesForm managementRolesForm)
+        {
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = CreateManagementRolesUrl
+                };
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = JsonConvert.SerializeObject(managementRolesForm),
+                    Method = RequestTypeEnums.POST_JSON
                 });
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }

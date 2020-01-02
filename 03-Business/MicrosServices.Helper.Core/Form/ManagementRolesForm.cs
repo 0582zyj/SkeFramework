@@ -12,6 +12,10 @@ namespace MicrosServices.Helper.Core.Form
    public class ManagementRolesForm
     {
         /// <summary>
+        /// 操作者
+        /// </summary>
+        public string InputUser { get; set; }
+        /// <summary>
         /// 角色编号
         /// </summary>
         public long RolesNo { get; set; }
