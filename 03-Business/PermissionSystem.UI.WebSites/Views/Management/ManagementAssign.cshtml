@@ -32,7 +32,10 @@
                                 <label for="exampleInputPassword1">权限列表</label>
                                 <div class="form-group" v-for="(option,index) in dataItem.optionValues">
                                     <div class="checkbox">
-                                        <label><input type="checkbox" class="custom-control-input" v-on:click="CheckItem(option)"  v-bind:value=option.Value v-model='postData.ManagementNos' v-bind:data=option.Name>{{option.Name}}</label>
+                                        <label><input type="checkbox" class="custom-control-input" 
+                                                      v-on:click="CheckItem(option)"  v-bind:checked="option.isCheck"
+                                                      v-bind:value=option.Value v-model='postData.ManagementNos'
+                                                      v-bind:data=option.Name>{{option.Name}}</label>
                                     </div>
                                 </div>
                             </div>
