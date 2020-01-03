@@ -140,9 +140,12 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         {
             var ResultCode = -1;
             DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(model.RolesNo);
-            foreach(var nos in model.ManagementNos)
+            if (model.ManagementNos != null)
             {
-                DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(nos);
+                foreach (var nos in model.ManagementNos)
+                {
+                    DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(nos);
+                }
             }
             ResultCode = DataHandleManager.Instance().PsManagementRolesHandle.ManagementRolesInsert(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
