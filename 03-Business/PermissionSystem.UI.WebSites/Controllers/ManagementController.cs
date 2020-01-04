@@ -156,6 +156,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpPost]
         public JsonResult ManagementAssignUpdate(ManagementRolesForm model)
         {
+            model.InputUser = AppBusiness.loginModel.UserNo;
             JsonResponses responses = rolesSDK.CreateManagementRoles(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
