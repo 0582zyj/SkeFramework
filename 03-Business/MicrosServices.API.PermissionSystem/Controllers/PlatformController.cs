@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.UserCenter.FORM;
+using MicrosServices.SDK.UserCenter;
+using Newtonsoft.Json;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 using SkeFramework.Core.SnowFlake;
@@ -18,6 +21,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
     [ApiController]
     public class PlatformController : ControllerBase
     {
+        private UserSDK userSDK = new UserSDK();
         #region 基础查询
         /// <summary>
         /// 获取列表信息
@@ -89,10 +93,25 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 //bool checkResult = true;
                 platform.InputTime = DateTime.Now;
                 platform.PlatformNo = AutoIDWorker.Example.GetAutoSequence();
-                int result = DataHandleManager.Instance().PsPlatformHandle.Insert(platform);
-                if (result > 0)
+                RegisterPlatformForm registerPlatform = new RegisterPlatformForm()
                 {
-                    return JsonResponses.Success;
+                    UserName = platform.DefaultUserName,
+                    UserNo = platform.DefaultUserNo,
+                    InputUser = platform.InputUser,
+                    Email = "",
+                    Phone = "",
+                    Password = "123456"
+                };
+                JsonResponses jsonResponses = userSDK.RegisterPlatfrom(registerPlatform);
+                if (jsonResponses.code == JsonResponses.SuccessCode)
+                {
+                    RegisterPlatformForm registerResult = JsonConvert.DeserializeObject<RegisterPlatformForm>(JsonConvert.SerializeObject(jsonResponses.data));
+                    platform.DefaultUserNo = registerResult.UserNo;
+                    int result = DataHandleManager.Instance().PsPlatformHandle.Insert(platform);
+                    if (result > 0)
+                    {
+                        return JsonResponses.Success;
+                    }
                 }
                 return JsonResponses.Failed;
             }
@@ -148,7 +167,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses>  GetOptionValues()
+        public ActionResult<JsonResponses> GetOptionValues()
         {
             List<OptionValue> optionValues = DataHandleManager.Instance().PsPlatformHandle.GetOptionValues();
             return new JsonResponses(optionValues);

@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extends\CheckOptionValue.cs" />
+    <Compile Include="UserCenter\FORM\RegisterPlatformForm.cs" />
     <Compile Include="VO\ManagmentAssignVo.cs" />
     <Compile Include="Common\OptionValue.cs" />
     <Compile Include="Constants\ErrorResultType.cs" />

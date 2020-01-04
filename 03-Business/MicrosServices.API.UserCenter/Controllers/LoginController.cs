@@ -51,7 +51,6 @@ namespace MicrosServices.API.UserCenter.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> LoginPost([FromBody]LoginInfoForm loginInfoForm)
         {
-          
             return new JsonResponses(JsonResponses.Failed.code, loginInfoForm.UserName, loginInfoForm.UserName);
         }
 
