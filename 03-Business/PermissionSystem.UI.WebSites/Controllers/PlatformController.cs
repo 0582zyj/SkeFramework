@@ -1,6 +1,9 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.UserCenter.FORM;
 using MicrosServices.SDK.PermissionSystem;
+using MicrosServices.SDK.UserCenter;
+using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
 using SkeFramework.Core.Network.DataUtility;
@@ -16,6 +19,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     public class PlatformController : Controller
     {
         private PlatformSdk platformSdk = new PlatformSdk();
+        private UserSDK userSDK = new UserSDK();
 
         #region 页面
         /// <summary>
@@ -80,8 +84,24 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult PsPlatformAdd(PsPlatform model)
         {
             model.InputUser = AppBusiness.loginModel.UserNo;
-            JsonResponses responses = platformSdk.PlatformAdd(model);
-            return Json(responses, JsonRequestBehavior.AllowGet);
+            RegisterPlatformForm registerPlatform = new RegisterPlatformForm()
+            {
+                UserName = model.DefaultUserName,
+                UserNo = model.DefaultUserNo,
+                InputUser = model.InputUser,
+                Email = "",
+                Phone = "",
+                Password = "123456"
+            };
+            JsonResponses jsonResponses = userSDK.RegisterPlatfrom(registerPlatform);
+            if (jsonResponses.code == JsonResponses.SuccessCode)
+            {
+                RegisterPlatformForm registerResult = JsonConvert.DeserializeObject<RegisterPlatformForm>(JsonConvert.SerializeObject(jsonResponses.data));
+                model.DefaultUserNo = registerResult.UserNo;
+                JsonResponses responses = platformSdk.PlatformAdd(model);
+                return Json(responses, JsonRequestBehavior.AllowGet);
+            }
+            return Json(jsonResponses, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// 更新提交方法

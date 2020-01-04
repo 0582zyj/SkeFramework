@@ -35,11 +35,11 @@ namespace MicrosServices.API.UserCenter.Controllers
                 registerPlatform.Email = ConstData.DefaultNo.ToString();
             }
             LoginResultType LoginResult = DataHandleManager.Instance().UcUsersHandle.RegisterPlatform(registerPlatform);
-            if (LoginResult == LoginResultType.SUCCESS_LOGIN)
+            if (LoginResult == LoginResultType.SUCCESS_REGISTOR)
             {
-                return new JsonResponses(JsonResponses.Success.code, LoginResult.ToString(), registerPlatform);
+                return new JsonResponses(JsonResponses.SuccessCode, LoginResult.ToString(), registerPlatform);
             }
-            return new JsonResponses(JsonResponses.Failed.code, LoginResult.ToString(), LoginResult);
+            return new JsonResponses(JsonResponses.FailedCode, LoginResult.ToString(), LoginResult);
         }
 
     }

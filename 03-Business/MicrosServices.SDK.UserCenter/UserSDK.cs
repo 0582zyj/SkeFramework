@@ -14,7 +14,7 @@ namespace MicrosServices.SDK.UserCenter
 {
     public class UserSDK
     {
-        private static string RegisterPlatfromUrl = NetwordConstants.BASE_URL_USERCENTER + "/api/UserWeb/RegisterPlatfrom";
+        private static string RegisterPlatfromUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/UserWeb/RegisterPlatfrom";
         /// <summary>
         /// 登录
         /// </summary>

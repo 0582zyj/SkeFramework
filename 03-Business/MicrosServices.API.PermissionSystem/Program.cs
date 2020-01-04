@@ -17,7 +17,7 @@ namespace MicrosServices.API.PermissionSystem
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
-
+       
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

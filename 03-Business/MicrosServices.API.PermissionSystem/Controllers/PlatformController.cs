@@ -93,26 +93,12 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 //bool checkResult = true;
                 platform.InputTime = DateTime.Now;
                 platform.PlatformNo = AutoIDWorker.Example.GetAutoSequence();
-                RegisterPlatformForm registerPlatform = new RegisterPlatformForm()
+                int result = DataHandleManager.Instance().PsPlatformHandle.Insert(platform);
+                if (result > 0)
                 {
-                    UserName = platform.DefaultUserName,
-                    UserNo = platform.DefaultUserNo,
-                    InputUser = platform.InputUser,
-                    Email = "",
-                    Phone = "",
-                    Password = "123456"
-                };
-                JsonResponses jsonResponses = userSDK.RegisterPlatfrom(registerPlatform);
-                if (jsonResponses.code == JsonResponses.SuccessCode)
-                {
-                    RegisterPlatformForm registerResult = JsonConvert.DeserializeObject<RegisterPlatformForm>(JsonConvert.SerializeObject(jsonResponses.data));
-                    platform.DefaultUserNo = registerResult.UserNo;
-                    int result = DataHandleManager.Instance().PsPlatformHandle.Insert(platform);
-                    if (result > 0)
-                    {
-                        return JsonResponses.Success;
-                    }
+                    return JsonResponses.Success;
                 }
+               
                 return JsonResponses.Failed;
             }
             catch (Exception ex)
