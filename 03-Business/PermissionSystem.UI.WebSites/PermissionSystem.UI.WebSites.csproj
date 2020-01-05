@@ -206,6 +206,7 @@
     <Content Include="Views\Roles\RolesUpdate.cshtml" />
     <Content Include="Views\Roles\RolesAdd.cshtml" />
     <Content Include="Views\Management\ManagementAssign.cshtml" />
+    <Content Include="Views\Menu\MenuAssign.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

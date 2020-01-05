@@ -69,6 +69,7 @@
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.ManagementNo)"  v-if="item.Type==2">菜单分配</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -89,6 +90,7 @@
                 updateJumpUrl: "@Url.Action("ManagementUpdate", "Management")",
                 addJumpUrl: "@Url.Action("ManagementAdd", "Management")",
                 deleteUrl: "@Url.Action("PsManagementDelete", "Management")",
+                assginUrl:"@Url.Action("MenuAssign", "Menu")",
                 GetListUrl: "@Url.Action("GetPsManagementList", "Management")",
                 dataList: [],
                 search: { keywords: ""}
@@ -107,6 +109,9 @@
                 },
                 toEdit: function (_id) {
                     window.location.href = this.updateJumpUrl + '?id=' + _id;
+                },
+                toAssign: function (_ManagementNo) {
+                    window.location.href = this.assginUrl + '?ManagementNo=' + _ManagementNo;
                 },
                 toDelete: function (_id) {
                     axios.post(this.deleteUrl, { id: _id })

@@ -46,7 +46,7 @@
     <Compile Include="Common\PermissionSystem\PsManagement.cs" />
     <Compile Include="Common\PermissionSystem\PsManagementRoles.cs" />
     <Compile Include="Common\PermissionSystem\PsMenu.cs" />
-    <Compile Include="Common\PermissionSystem\PsMenuRoles.cs" />
+    <Compile Include="Common\PermissionSystem\PsMenuManagement.cs" />
     <Compile Include="Common\PermissionSystem\PsOrganization.cs" />
     <Compile Include="Common\PermissionSystem\PsOrgRoles.cs" />
     <Compile Include="Common\PermissionSystem\PsPlatform.cs" />

@@ -48,7 +48,7 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             }
             else if (IsSubclassOf(typeof(PsMenuRoles), dataType))
             {
-                return new PsMenuRolesHandle(GetConfigDataSerialer<PsMenuRoles>(PsMenuRoles.TableName)) as IDataTableHandle;
+                return new PsMenuManagementHandle(GetConfigDataSerialer<PsMenuRoles>(PsMenuRoles.TableName)) as IDataTableHandle;
             }
             else if (IsSubclassOf(typeof(PsOrganization), dataType))
             {

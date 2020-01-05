@@ -1,5 +1,6 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.Form;
 using Newtonsoft.Json;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Enums;
@@ -26,7 +27,8 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string DeleteMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Delete";
         private static readonly string UpdateMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetOptionValues";
-
+        private static readonly string GetMenuAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetMenuAssign";
+        
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -96,6 +98,35 @@ namespace MicrosServices.SDK.PermissionSystem
             return menus;
         }
         /// <summary>
+        /// 获取权限菜单
+        /// </summary>
+        /// <param name="managementNos"></param>
+        /// <returns></returns>
+        public JsonResponses GetMenuAssign(long managementNos)
+        {
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = GetMenuAssignUrl
+                };
+                request.SetValue("managementNos", managementNos);
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.GetReqUrl(),
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.GET
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+
+        /// <summary>
         /// 根据主键ID获取信息
         /// </summary>
         /// <returns></returns>
@@ -126,6 +157,12 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
+
+        public JsonResponses CreateManagementMenus(ManagementMenusForm model)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 新增菜单
         /// </summary>

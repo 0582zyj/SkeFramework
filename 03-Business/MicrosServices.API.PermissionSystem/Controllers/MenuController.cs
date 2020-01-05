@@ -9,6 +9,7 @@ using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Constants;
+using MicrosServices.Helper.Core.Form;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 using SkeFramework.Core.SnowFlake;
@@ -174,5 +175,39 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             List<OptionValue> optionValues = DataHandleManager.Instance().PsMenuHandle.GetOptionValues();
             return new JsonResponses(optionValues);
         }
+
+          
+        #region 权限菜单
+        /// <summary>
+        /// 角色授权
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> CreateManagementMenus([FromBody]ManagementMenusForm model)
+        {
+            var ResultCode = -1;
+            DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.ManagementNo);
+            if (model.MenuNos != null)
+            {
+                foreach (var nos in model.MenuNos)
+                {
+                    DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(nos);
+                }
+            }
+            ResultCode = DataHandleManager.Instance().PsMenuManagementHandle.ManagementMenusInsert(model);
+            return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
+        }
+
+        /// <summary>
+        /// 获取角色列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetMenuAssign([FromQuery]long ManagementNo)
+        {
+            ManagmentAssignVo managmentAssignVo = DataHandleManager.Instance().PsManagementRolesHandle.GetManagementAssign(RolesNo);
+            return new JsonResponses(managmentAssignVo);
+        }
+        #endregion
     }
 }

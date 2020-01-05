@@ -1,5 +1,7 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.Form;
+using MicrosServices.Helper.Core.VO;
 using MicrosServices.SDK.PermissionSystem;
 using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
@@ -118,5 +120,46 @@ namespace PermissionSystem.UI.WebSites.Controllers
             optionValues.Insert(0, OptionValue.Default);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
+
+
+        #region 菜单权限页面
+        /// <summary>
+        /// 菜单权限分配
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MenuAssign(long ManagementNo)
+        {
+            return View();
+        }
+
+
+        /// <summary>
+        /// 更新提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetMenuAssign(long ManagementNo)
+        {
+            MenuAssignVo assignVo = new MenuAssignVo();
+            JsonResponses jsonResponses = menuSdk.GetMenuAssign(ManagementNo);
+            if (jsonResponses.ValidateResponses())
+            {
+                assignVo = JsonConvert.DeserializeObject<MenuAssignVo>(JsonConvert.SerializeObject(jsonResponses.data));
+            }
+            return Json(assignVo, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 更新提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult MenuAssignUpdate(ManagementMenusForm model)
+        {
+            model.InputUser = AppBusiness.loginModel.UserNo;
+            JsonResponses responses = menuSdk.CreateManagementMenus(model);
+            return Json(responses, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
     }
 }

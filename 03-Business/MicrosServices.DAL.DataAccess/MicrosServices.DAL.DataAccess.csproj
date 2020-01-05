@@ -54,8 +54,8 @@
     <Compile Include="Repository\PermissionSystem\ManagementRolesHandles\PsManagementRolesHandleCommon.cs" />
     <Compile Include="Repository\PermissionSystem\MenuHandles\IPsMenuHandleCommon.cs" />
     <Compile Include="Repository\PermissionSystem\MenuHandles\PsMenuHandleCommon.cs" />
-    <Compile Include="Repository\PermissionSystem\MenuRolesHandles\IPsMenuRolesHandleCommon.cs" />
-    <Compile Include="Repository\PermissionSystem\MenuRolesHandles\PsMenuRolesHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\MenuManagementHandles\IPsMenuManagementHandleCommon.cs" />
+    <Compile Include="Repository\PermissionSystem\MenuManagementHandles\PsMenuManagementHandleCommon.cs" />
     <Compile Include="Repository\PermissionSystem\OrganizationHandles\IPsOrganizationHandleCommon.cs" />
     <Compile Include="Repository\PermissionSystem\OrganizationHandles\PsOrganizationHandleCommon.cs" />
     <Compile Include="Repository\PermissionSystem\OrgRolesHandles\IPsOrgRolesHandleCommon.cs" />

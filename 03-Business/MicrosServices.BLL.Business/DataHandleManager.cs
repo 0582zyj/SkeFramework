@@ -52,9 +52,9 @@ namespace MicrosServices.BLL.Business
             get { return DataHandleFactory.GetDataHandle<PsMenuHandle, PsMenu>(); }
         }
 
-        public IPsMenuRolesHandle PsMenuRolesHandle
+        public IPsMenuManagementHandle PsMenuManagementHandle
         {
-            get { return DataHandleFactory.GetDataHandle<PsMenuRolesHandle, PsMenuRoles>(); }
+            get { return DataHandleFactory.GetDataHandle<PsMenuManagementHandle, PsMenuManagement>(); }
         }
 
         public IPsOrganizationHandle PsOrganizationHandle
