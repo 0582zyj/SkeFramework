@@ -28,6 +28,7 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string UpdateMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetOptionValues";
         private static readonly string GetMenuAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetMenuAssign";
+        private static readonly string CreateManagementMenusUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/CreateManagementMenus";
         
         /// <summary>
         /// 获取菜单所有列表
@@ -157,10 +158,32 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
-
+        /// <summary>
+        /// 权限菜单授权
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public JsonResponses CreateManagementMenus(ManagementMenusForm model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = CreateManagementMenusUrl
+                };
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = JsonConvert.SerializeObject(model),
+                    Method = RequestTypeEnums.POST_JSON
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
         }
 
         /// <summary>
