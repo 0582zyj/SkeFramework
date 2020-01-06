@@ -10,6 +10,7 @@ using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.Form;
+using MicrosServices.Helper.Core.VO;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 using SkeFramework.Core.SnowFlake;
@@ -205,8 +206,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpGet]
         public ActionResult<JsonResponses> GetMenuAssign([FromQuery]long ManagementNo)
         {
-            ManagmentAssignVo managmentAssignVo = DataHandleManager.Instance().PsManagementRolesHandle.GetManagementAssign(RolesNo);
-            return new JsonResponses(managmentAssignVo);
+            MenuAssignVo menuAssignVo  = DataHandleManager.Instance().PsMenuManagementHandle.GetMenuAssign(ManagementNo);
+            return new JsonResponses(menuAssignVo);
         }
         #endregion
     }

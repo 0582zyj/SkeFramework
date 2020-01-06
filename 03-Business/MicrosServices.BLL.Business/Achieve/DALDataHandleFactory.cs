@@ -46,9 +46,9 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             {
                 return new PsMenuHandle(GetConfigDataSerialer<PsMenu>(PsMenu.TableName)) as IDataTableHandle;
             }
-            else if (IsSubclassOf(typeof(PsMenuRoles), dataType))
+            else if (IsSubclassOf(typeof(PsMenuManagement), dataType))
             {
-                return new PsMenuManagementHandle(GetConfigDataSerialer<PsMenuRoles>(PsMenuRoles.TableName)) as IDataTableHandle;
+                return new PsMenuManagementHandle(GetConfigDataSerialer<PsMenuManagement>(PsMenuManagement.TableName)) as IDataTableHandle;
             }
             else if (IsSubclassOf(typeof(PsOrganization), dataType))
             {
@@ -100,8 +100,8 @@ namespace ULCloudLockTool.BLL.Business.Achieve
                     return new DBRepository<PsManagementRoles, PsManagementRoles>() as IRepository<TData>;
                 case PsMenu.TableName:
                     return new DBRepository<PsMenu, PsMenu>() as IRepository<TData>;
-                case PsMenuRoles.TableName:
-                    return new DBRepository<PsMenuRoles, PsMenuRoles>() as IRepository<TData>;
+                case PsMenuManagement.TableName:
+                    return new DBRepository<PsMenuManagement, PsMenuManagement>() as IRepository<TData>;
                 case PsOrganization.TableName:
                     return new DBRepository<PsOrganization, PsOrganization>() as IRepository<TData>;
                 case PsOrgRoles.TableName:
