@@ -100,9 +100,9 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <summary>
         /// 获取权限菜单
         /// </summary>
-        /// <param name="managementNos"></param>
+        /// <param name="ManagementNo"></param>
         /// <returns></returns>
-        public JsonResponses GetMenuAssign(long managementNos)
+        public JsonResponses GetMenuAssign(long ManagementNo)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetMenuAssignUrl
                 };
-                request.SetValue("managementNos", managementNos);
+                request.SetValue("ManagementNo", ManagementNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),
