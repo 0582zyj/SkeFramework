@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Protocols.Connections;
 using SkeFramework.NetSerialPort.Protocols.Constants;
-using SkeFramework.NetProtocol.Constants;
+using ULCloudLockTool.BLL.SHProtocol.Constants;
 
-namespace SkeFramework.NetProtocol.DataHandle.HandleBase
+namespace ULCloudLockTool.BLL.SHProtocol.DataHandle.HandleBase
 {
     /// <summary>
     /// 基础协议请求接口

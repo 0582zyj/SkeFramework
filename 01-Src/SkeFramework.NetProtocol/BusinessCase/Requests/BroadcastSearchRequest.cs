@@ -10,7 +10,7 @@ using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Protocols.Requests;
 using SkeFramework.NetSerialPort.Topology;
 
-namespace SkeFramework.NetProtocol.BusinessCase.Requests
+namespace ULCloudLockTool.BLL.SHProtocol.BusinessCase.Requests
 {
     /// <summary>
     /// 搜索指令
@@ -29,7 +29,7 @@ namespace SkeFramework.NetProtocol.BusinessCase.Requests
 
         public override void Configure(IConnectionConfig config)
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void ExecuteTaskSync(ConnectionTask connectionTask)
@@ -41,11 +41,7 @@ namespace SkeFramework.NetProtocol.BusinessCase.Requests
         }
         public override void BeginReceiveInternal()
         {
-            throw new NotImplementedException();
+           
         }
-
-
-       
-
     }
 }

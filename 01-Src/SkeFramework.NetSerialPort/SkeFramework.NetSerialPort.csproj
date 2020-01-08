@@ -81,7 +81,6 @@
     <Compile Include="Protocols\Constants\NetworkConstants.cs" />
     <Compile Include="Protocols\Constants\NetworkData.cs" />
     <Compile Include="Protocols\Constants\NetworkDataDocker.cs" />
-    <Compile Include="Protocols\Constants\NetworkState.cs" />
     <Compile Include="Protocols\IConnection.cs" />
     <Compile Include="Protocols\Listenser\SenderListenser.cs" />
     <Compile Include="Protocols\Requests\RefactorProxyRequestChannel.cs" />

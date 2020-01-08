@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetProtocol.DataHandle.HandleBase
+namespace ULCloudLockTool.BLL.SHProtocol.DataHandle.HandleBase
 {
     /// <summary>
     /// 基础协议请求接口
