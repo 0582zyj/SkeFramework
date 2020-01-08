@@ -25,13 +25,21 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// <param name="caseObj">业务对象。</param>
        internal void AddCase(IConnection caseObj)
         {
-            if (caseObj != null && !caseList.Contains(caseObj))
+            try
             {
-                lock (caseList)
+                if (caseObj != null && !caseList.Contains(caseObj))
                 {
-                    caseList.Insert(0, caseObj);
+                    lock (caseList)
+                    {
+                        caseList.Insert(0, caseObj);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                string msg = string.Format("AddCase：{0}", ex.ToString());
+            }
+          
         }
         /// <summary>
         /// 在收发列表中清除业务对象。
@@ -39,9 +47,16 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// </summary>
        internal void RemoveCase(IConnection caseObj)
         {
-            lock (caseList)
+            try
             {
-                caseList.Remove(caseObj);
+                lock (caseList)
+                {
+                    caseList.Remove(caseObj);
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = string.Format("RemoveCase：{0}", ex.ToString());
             }
         }
         /// <summary>
@@ -49,12 +64,21 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
-       public IConnection GetCase(byte cmd)
+       public IConnection GetCase(string cmd)
         {
-            lock (caseList)
+            try
             {
-                return caseList.Find(o => o.Local.TaskTag == cmd.ToString());
+                lock (caseList)
+                {
+                    return caseList.OrderBy(o=>o.Created).ToList()
+                        .Find(o => o.RemoteHost.TaskTag == cmd.ToString());
+                }
             }
+            catch (Exception ex)
+            {
+                string msg = string.Format("GetCase：{0}", ex.ToString());
+            }
+            return null;
         }
         /// <summary>
         /// 获取协议业务
@@ -63,10 +87,18 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// <returns></returns>
         public IConnection GetCase(INode node)
         {
-            lock (caseList)
+            try
             {
-                return caseList.Find(o => o.Local == node);
+                lock (caseList)
+                {
+                    return caseList.Find(o => o.RemoteHost == node);
+                }
             }
+            catch (Exception ex)
+            {
+                string msg = string.Format("GetCase：{0}", ex.ToString());
+            }
+            return null;
         }
         /// <summary>
         /// 任务过期

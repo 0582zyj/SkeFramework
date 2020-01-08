@@ -29,7 +29,13 @@ namespace SkeFramework.NetSerialPort.Protocols.Constants
         /// 数据长度
         /// </summary>
         public int Length { get; set; }
-
+        /// <summary>
+        /// 结果数据
+        /// </summary>
+        public Object ResultData { get; set; }
+        /// <summary>
+        /// 空数据
+        /// </summary>
         public static NetworkData Empty = new NetworkData() { Length = 0, RemoteHost =null };
 
         #region 生成一个远程数据对象

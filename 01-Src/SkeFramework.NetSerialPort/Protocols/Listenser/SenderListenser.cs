@@ -8,6 +8,9 @@ using SkeFramework.NetSerialPort.Protocols.Requests;
 
 namespace SkeFramework.NetSerialPort.Protocols.Listenser
 {
+    /// <summary>
+    /// 发送监听器
+    /// </summary>
     public class SenderListenser
     {
         private NetworkData frame;
@@ -145,7 +148,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
                 this.caseObj.Send(sendByte, 0, sendByte.Length, null);
                 timeCounter.Reset();
                 timeCounter.Start();
-
+            }
+            else
+            {
+                sentTimes = totalSendTimes;
             }
             return ret;
         }

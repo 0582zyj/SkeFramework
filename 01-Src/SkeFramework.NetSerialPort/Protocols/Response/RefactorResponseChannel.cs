@@ -27,7 +27,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
         //protected ICircularBuffer<NetworkData> UnreadMessages = new ConcurrentCircularBuffer<NetworkData>(1000);
 
         protected RefactorResponseChannel(ReactorBase reactor, RefactorRequestChannel request)
-            : this(reactor, request, null)
+            : this(reactor, request, request.RemoteHost)
         {
         }
 
@@ -39,7 +39,14 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
             Encoder = _reactor.Encoder.Clone();
             Allocator = _reactor.Allocator;
             Local = reactor.LocalEndpoint;
-            RemoteHost = node;
+            if (node != null)
+            {
+                RemoteHost = node;
+            }
+            else
+            {
+                RemoteHost = reactor.LocalEndpoint.Clone() as INode;
+            }
             Timeout = NetworkConstants.BackoffIntervals[6];
             this.Created = DateTime.Now;
             Dead = false;
@@ -47,11 +54,14 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
 
 
 
+        //2.声明事件；   
+        protected event ReceivedDataCallback ReceiveList;
+
         public event ReceivedDataCallback Receive
         {
-            add { }
+            add { ReceiveList += value; }
             // ReSharper disable once ValueParameterNotUsed
-            remove {  }
+            remove { ReceiveList -= value; }
         }
 
 
@@ -73,10 +83,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
 
         public bool WasDisposed { get; private set; }
 
-        public bool Receiving
-        {
-            get { return _reactor.IsActive; }
-        }
+        public bool Receiving { get; set; }
 
         public bool IsOpen()
         {
@@ -104,11 +111,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
 
         public void BeginReceive(ReceivedDataCallback callback)
         {
-            Receive += callback;
-            //foreach (var msg in UnreadMessages.DequeueAll())
-            //{
-            //    NetworkEventLoop.Receive(msg, this);
-            //}
+            Receive += callback;         
             BeginReceiveInternal();
         }
 
@@ -143,7 +146,14 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
         /// <param name="data">The data to pass directly to the recipient</param>
         public virtual void OnReceive(NetworkData data)
         {
-            requestChannel.Dead = false;
+            if (requestChannel != null)
+            {
+                requestChannel.Dead = false;
+            }
+            if (this.ReceiveList != null)
+            {
+                this.ReceiveList(data, this);   //发出警报
+            }
         }
 
 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Net.Constants;
 using SkeFramework.NetSerialPort.Protocols;
 using SkeFramework.NetSerialPort.Protocols.Configs;
 using SkeFramework.NetSerialPort.Protocols.Connections;

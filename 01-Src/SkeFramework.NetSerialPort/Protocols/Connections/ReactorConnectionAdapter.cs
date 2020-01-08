@@ -22,6 +22,15 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
     /// </summary>
     public class ReactorConnectionAdapter : IConnection
     {
+
+        public event ReceivedDataCallback Receive
+        {
+            add { _reactor.OnReceive += value; }
+            remove { _reactor.OnReceive -= value; }
+        }
+        /// <summary>
+        /// 通信
+        /// </summary>
         protected ReactorBase _reactor;
         /// <summary>
         /// 是否等待停止
@@ -34,17 +43,13 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             connectionDocker = new ConnectionDocker();
             taskDocker = new TaskManager(this);
             networkDataDocker = new NetworkDataDocker();
+            RemoteHost = reactor.LocalEndpoint; 
             this.protocolEvents = new WaitHandle[3];
             this.protocolEvents[(int)ProtocolEvents.ProtocolExit] = new ManualResetEvent(false);
             this.protocolEvents[(int)ProtocolEvents.PortReceivedData] = new AutoResetEvent(false);
             this.protocolEvents[(int)ProtocolEvents.TaskArrived] = new AutoResetEvent(false);
         }
 
-        public event ReceivedDataCallback Receive
-        {
-            add { _reactor.OnReceive += value; }
-            remove { _reactor.OnReceive -= value; }
-        }
 
         public IMessageEncoder Encoder
         {
@@ -63,7 +68,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
 
         public DateTime Created { get; private set; }
         public INode RemoteHost { get; private set; }
-
         public INode Local
         {
             get { return _reactor.LocalEndpoint; }
@@ -75,10 +79,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
 
         public bool WasDisposed { get; private set; }
 
-        public bool Receiving
-        {
-            get { return _reactor.IsActive; }
-        }
+        public bool Receiving { get; set; }
 
         public bool IsOpen()
         {
@@ -254,7 +255,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         #endregion
 
         #region 协议线程的处理过程
-        /// <summary>协议运行的线程执行体。
+        /// <summary>
+        /// 协议运行的线程执行体。
         /// </summary>
         void ProtocolThreadProcess()
         {
@@ -309,20 +311,28 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             try
             {
-                for (int i = this.taskDocker.TaskList.Count - 1; i >= 0 && this.taskDocker.TaskList.Count > 0; i--)
+                var newTaskList = this.taskDocker.TaskList.Where(o => o.TaskState == TaskState.NewTask).ToList();
+                foreach(var task in newTaskList)
                 {
-                    ConnectionTask task = this.taskDocker.TaskList[i];
                     if (task.TaskState == TaskState.NewTask)
                     {
+                        Console.WriteLine("处理新任务:" + task.Name);
                         ProcessTask(task);
-                        this.connectionDocker.AddCase(task.GetRelatedProtocol());
-                        Console.WriteLine("处理新任务:" + task.Name + " " + task.Param.ToString());
+                        if (!task.Dead)
+                        {
+                            this.connectionDocker.AddCase(task.GetRelatedProtocol());
+                        }
+                        else
+                        {
+                            task.Complete();
+                        }
                     }
                 }
             }
             catch (Exception exception)
             {
                 var m = exception.Message;
+                Console.WriteLine("处理新任务:" + m.ToString());
             }
         }
         /// <summary>
@@ -337,13 +347,20 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                     var taskList = this.taskDocker.TaskList;
                     for (int i = 0; i < taskList.Count; ++i)
                     {
-                        if (taskList[i].AsyncTaskOvertime)
+                        if (taskList[i].AsyncTaskOvertime || taskList[i].Dead)
                         {
                             taskList[i].Complete(TaskState.Completed);
                             this.taskDocker.RemoveTask(taskList[i]);
                             this.connectionDocker.SetCaseAsDead(taskList[i]);
                             Console.WriteLine("处理超时任务:" + taskList[i].Name.ToString() + " ");
-                            break;
+                            //break;
+                        }
+                        else
+                        {
+                            if (taskList[i].GetRelatedProtocol().Dead)
+                            {
+                                taskList[i].Complete(TaskState.Completed);
+                            }
                         }
                     }
                 }
@@ -380,9 +397,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// </summary>
         protected virtual void ProcessReceivedData(NetworkData networkData)
         {
-            IConnection connection = this.connectionDocker.GetCase(networkData.RemoteHost);
+            IConnection connection = this.connectionDocker.GetCase(networkData.RemoteHost.TaskTag);
             if (connection != null && connection is RefactorRequestChannel)
             {
+                connection.Receiving = false;
                 RefactorRequestChannel requestChannel = (RefactorRequestChannel)connection;
                 if (requestChannel.Sender.TotalSendTimes!= NetworkConstants.WAIT_FOR_COMPLETE)
                 {
@@ -390,6 +408,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                 }
             }
         }
+      
         #endregion
 
         #region 协议任务处理过程
@@ -403,7 +422,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             //if (!this.ProtocolIsRunning)
             //    return false;
-
             task.InitSynchObject();
             this.taskDocker.AddTask(task);
             task.WaitBeCompleted(timeout);
@@ -470,7 +488,59 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         #endregion
 
         #region 请求和响应
-       
+        /// <summary>
+        /// 获取最新未收到消息的请求
+        /// </summary>
+        /// <returns></returns>
+        public IConnection GetConnection()
+        {
+            IList<IConnection> connections = this.connectionDocker.BusinessCaseList.Where(o => o.Receiving).OrderByDescending(o => o.Created).ToList();
+            return connections.LastOrDefault();
+        }
+        /// <summary>
+        /// 原始数据解析处理
+        /// </summary>
+        /// <param name="OriginalBuffer"></param>
+        /// <returns></returns>
+        public virtual byte[] ParsingReceivedData(byte[] OriginalBuffer)
+        {
+            //byte[] RawBuffer = null;
+            //StringBuilder builder=new StringBuilder();
+            //builder.Append(Encoding.ASCII.GetString(buf));
+            //string receive_content = builder.ToString();
+            //string receive_contents = this.Encoder.ByteEncode(buf);
+            //int CRLF_AT = -1;
+            //int CRLF_BLUE = -1;
+            //CRLF_AT = receive_content.IndexOf("\r\n",2);
+            //CRLF_BLUE = receive_contents.IndexOf("A5 5A");
+            //if (CRLF_AT != -1 )
+            //{
+            //    string content = receive_content.Substring(0, CRLF_AT + 2);
+            //    RawBuffer = Encoding.ASCII.GetBytes(content);
+
+
+            //    //触发整条记录的处理
+            //    INode node = null;
+            //    IConnection connection = ((ReactorConnectionAdapter)ConnectionAdapter).GetConnection();
+            //    if (connection != null)
+            //    {
+            //        node = connection.RemoteHost;
+            //    }
+            //    else
+            //    {
+            //        node = this.LocalEndpoint;
+            //        node.TaskTag = "none";
+            //    }
+            //    NetworkState state = CreateNetworkState(Listener, node);
+            //    state.RawBuffer = RawBuffer;
+            //    this.ReceiveCallback(state);
+            //}
+            //else
+            //{
+            //    Console.WriteLine("串口丢弃数据-->>" + receive_contents);
+            //}
+            return OriginalBuffer;
+        }
         #endregion
 
         #region IDisposable methods

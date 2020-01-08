@@ -13,7 +13,7 @@ using SkeFramework.NetSerialPort.Topology;
 namespace SkeFramework.NetSerialPort.Protocols
 {
     /// <summary>
-    /// Typed delegate used for handling received data
+    /// 用于处理接收数据的委托
     /// </summary>
     /// <param name="incomingData">a <see cref="NetworkData"/> instance that contains information that's arrived over the network</param>
     public delegate void ReceivedDataCallback(NetworkData incomingData, IConnection responseChannel);
@@ -52,7 +52,7 @@ namespace SkeFramework.NetSerialPort.Protocols
         /// <summary>
         /// 是否正在接受
         /// </summary>
-        bool Receiving { get; }
+        bool Receiving { get;  set; }
         /// <summary>
         /// 是否打开
         /// </summary>

@@ -58,7 +58,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
             }
             if (result)
             {
-                string LogMsg = string.Format("协议“{0}”中“{1}”任务已结束。", "未定义协议名称", task.Name);
+                string LogMsg = string.Format("协议“{0}”中“{1}”任务已结束。", task.GetRelatedProtocol().Local.ToString(), task.Name);
+                Console.WriteLine(LogMsg);
             }
             return result;
         }

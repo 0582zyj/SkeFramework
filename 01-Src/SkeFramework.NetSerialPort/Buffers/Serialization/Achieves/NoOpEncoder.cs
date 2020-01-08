@@ -18,5 +18,22 @@ namespace SkeFramework.NetSerialPort.Buffers.Serialization.Achieves
         {
             return new NoOpEncoder();
         }
+
+        public string ByteEncode(byte[] buffer, int offset=0, int size=0)
+        {
+            if (size == 0)
+            {
+                size = buffer.Length;
+            }
+            StringBuilder ret = new StringBuilder();
+            string tmp = "";
+            for (int i = offset; i < size; ++i)
+            {
+                tmp = "0" + buffer[i].ToString("X");
+                ret.Append(tmp.Substring(tmp.Length - 2, 2));
+                ret.Append(" ");
+            }
+            return ret.ToString();
+        }
     }
 }

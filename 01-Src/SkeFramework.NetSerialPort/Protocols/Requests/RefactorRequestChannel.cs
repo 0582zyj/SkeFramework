@@ -7,6 +7,7 @@ using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
 using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Configs.Enums;
 using SkeFramework.NetSerialPort.Protocols.Connections;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Protocols.Listenser;
@@ -19,18 +20,34 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
     /// </summary>
     public abstract class RefactorRequestChannel : IConnection
     {
+        /// <summary>
+        /// 通信基类
+        /// </summary>
         private readonly ReactorBase _reactor;
         /// <summary>
         /// 协议发送监听器
         /// </summary>
         public SenderListenser Sender;
-        //protected ICircularBuffer<NetworkData> UnreadMessages = new ConcurrentCircularBuffer<NetworkData>(1000);
+        /// <summary>
+        /// 链接配置
+        /// </summary>
+        protected IConnectionConfig connectionConfig;
 
-        protected RefactorRequestChannel(ReactorBase reactor)
-            : this(reactor, null)
+        //2.声明事件；   
+        protected event ReceivedDataCallback ReceiveList;
+
+        public event ReceivedDataCallback Receive
         {
+            add { ReceiveList += value; }
+            // ReSharper disable once ValueParameterNotUsed
+            remove { ReceiveList -= value; }
         }
 
+        #region 构造函数
+        protected RefactorRequestChannel(ReactorBase reactor)
+            : this(reactor, reactor.LocalEndpoint)
+        {
+        }
         protected RefactorRequestChannel(ReactorBase reactor, INode node)
         {
             _reactor = reactor;
@@ -38,36 +55,33 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             Encoder = _reactor.Encoder.Clone();
             Allocator = _reactor.Allocator;
             Local = reactor.LocalEndpoint;
-            RemoteHost = node;
+            if (node != null)
+            {
+                RemoteHost = node;
+            }
+            else
+            {
+                RemoteHost = reactor.LocalEndpoint.Clone() as INode;
+            }
             this.Created = DateTime.Now;
             Dead = false;
             Timeout = NetworkConstants.BackoffIntervals[6];
             this.Sender = new SenderListenser(this);
         }
+        #endregion
 
-
-
-        public event ReceivedDataCallback Receive
-        {
-            add { }
-            // ReSharper disable once ValueParameterNotUsed
-            remove { }
-        }
-
-
+        public INode RemoteHost { get; set; }
+        public INode Local { get; set; }
         public IMessageEncoder Encoder { get; set; }
         public IMessageDecoder Decoder { get; set; }
         public IByteBufAllocator Allocator { get; set; }
 
+        #region 请求状态
         public DateTime Created { get; private set; }
-        public INode RemoteHost { get; set; }
-        public INode Local { get; set; }
-
         public TimeSpan Timeout
         {
             get; set;
         }
-
         public bool Dead
         {
             get { return DateTime.Now.Subtract(this.Created.Add(this.Timeout)).Ticks > 0; }
@@ -82,25 +96,41 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             }
         }
 
-
         public bool WasDisposed { get; private set; }
 
-        public bool Receiving
-        {
-            get { return _reactor.IsActive; }
-        }
+        public bool Receiving { get; set; }
 
         public bool IsOpen()
         {
             return _reactor.IsActive;
         }
+        #endregion
 
         public int MessagesInSendQueue
         {
             get { return 0; }
         }
-
-
+        /// <summary>
+        /// 是否是反应处理
+        /// </summary>
+        public bool ProcessModeWithResponse
+        {
+            get
+            {
+                if (this.connectionConfig == null)
+                {
+                    return true;
+                }
+                if (this.connectionConfig.HasOption(OptionKeyEnums.ProcessMode.ToString()))
+                {
+                    if (this.connectionConfig.GetOption(OptionKeyEnums.ProcessMode.ToString()).Equals(ProcessModeValue.Request.ToString()))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
         public abstract void Configure(IConnectionConfig config);
 
         public void Open()
@@ -112,28 +142,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         {
             _reactor.CloseConnection(this);
         }
-
-
-        public void BeginReceive()
-        {
-            BeginReceiveInternal();
-        }
-
-        public void BeginReceive(ReceivedDataCallback callback)
-        {
-            Receive += callback;
-            //foreach (var msg in UnreadMessages.DequeueAll())
-            //{
-            //    NetworkEventLoop.Receive(msg, this);
-            //}
-            BeginReceiveInternal();
-        }
-
-        public void InvokeReceiveIfNotNull(NetworkData data)
-        {
-            OnReceive(data);
-        }
-
+        
         public virtual void Send(NetworkData data)
         {
             _reactor.Send(data);
@@ -146,6 +155,39 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
                 destination = this._reactor.LocalEndpoint;
             }
             _reactor.Send(buffer, index, length, destination);
+        }
+      
+        /// <summary>
+        /// 接受消息触发
+        /// </summary>
+        /// <param name="data"></param>
+        public void InvokeReceiveIfNotNull(NetworkData data)
+        {
+            OnReceive(data);
+        }
+        /// <summary>
+        /// 方法被实现直接调用，以将数据发送给它
+        ///     <see cref="IConnection" />.
+        ///     Can also be called by the socket itself if this reactor doesn't use <see cref="ReactorProxyResponseChannel" />.
+        /// </summary>
+        /// <param name="data">The data to pass directly to the recipient</param>
+        public virtual void OnReceive(NetworkData data)
+        {
+            BeginReceive();
+            if (this.ReceiveList != null)
+            {
+                this.ReceiveList(data,this);   //发出警报
+            }
+        }
+        public void BeginReceive()
+        {
+            BeginReceiveInternal();
+           
+        }
+        public void BeginReceive(ReceivedDataCallback callback)
+        {
+            Receive += callback;
+            BeginReceiveInternal();
         }
         /// <summary>
         /// Case发送帧 </summary>
@@ -168,22 +210,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// </summary>
         /// <param name="connectionTask"></param>
         public abstract void ExecuteTaskSync(ConnectionTask connectionTask);
-
         /// <summary>
         /// 开始接受
         /// </summary>
         public abstract void BeginReceiveInternal();
-
-        /// <summary>
-        /// Method is called directly by the <see cref="ReactorBase" /> implementation to send data to this
-        ///     <see cref="IConnection" />.
-        ///     Can also be called by the socket itself if this reactor doesn't use <see cref="ReactorProxyResponseChannel" />.
-        /// </summary>
-        /// <param name="data">The data to pass directly to the recipient</param>
-        internal virtual void OnReceive(NetworkData data)
-        {
-
-        }
 
         #region IDisposable members
 

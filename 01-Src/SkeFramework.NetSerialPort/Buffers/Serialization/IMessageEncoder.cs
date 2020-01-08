@@ -23,5 +23,13 @@ namespace SkeFramework.NetSerialPort.Buffers
         /// 深度克隆
         /// </summary>
         IMessageEncoder Clone();
+        /// <summary>
+        /// 数组编码为字符串
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        string ByteEncode(byte[] buffer, int offset=0, int size= 0);       
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Net;
@@ -8,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Net.Constants;
 using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols;
 using SkeFramework.NetSerialPort.Protocols.Configs;
@@ -55,11 +57,11 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
         protected override void StartInternal()
         {
             var receiveState = CreateNetworkState(Listener, Node.Empty());
-            if (!SocketMap.ContainsKey(this.LocalEndpoint))
+            if (!SocketMap.ContainsKey(this.LocalEndpoint.nodeConfig.ToString()))
             {
                 RefactorRequestChannel adapter; 
                 adapter = new RefactorProxyRequestChannel(this, this.LocalEndpoint);
-                SocketMap.Add(this.LocalEndpoint, adapter);
+                SocketMap.Add(this.LocalEndpoint.nodeConfig.ToString(), adapter);
             }
             Listener.DataReceived += new SerialDataReceivedEventHandler(PortDataReceived);
             Listener.Open();
@@ -81,22 +83,25 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                 byte[] buf = new byte[n];
                 Listener.Read(buf, 0, n);
                 int receive_count = n;
+                ReactorConnectionAdapter adapter = ((ReactorConnectionAdapter)ConnectionAdapter);
+                byte[] RawBuffer = adapter.ParsingReceivedData(buf);
+                //触发整条记录的处理
+                INode node = null;
+                IConnection connection = adapter.GetConnection();
+                if (connection != null)
+                {
+                    node = connection.RemoteHost;
+                }
+                else
+                {
+                    node = this.LocalEndpoint;
+                    node.TaskTag = "none";
+                }
+                NetworkState state = CreateNetworkState(Listener, node);
+                state.RawBuffer = RawBuffer;
+                this.ReceiveCallback(state);
 
-                StringBuilder builder=new StringBuilder();
-                builder.Append(Encoding.ASCII.GetString(buf));
-                                
-                string  receive_content = builder.ToString();
-
-                int CRLF = -1;
-                CRLF = receive_content.IndexOf("\r\n",2);
-                if (CRLF != -1)
-                {
-                    string content = receive_content.Substring(0, CRLF+2);
-                    //触发整条记录的处理
-                    NetworkState state = CreateNetworkState(Listener, LocalEndpoint);
-                    state.RawBuffer = Encoding.ASCII.GetBytes(content);
-                    this.ReceiveCallback(state);
-                }
+                
             }
             catch (Exception ex)
             {
@@ -119,13 +124,19 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                 var received = receiveState.RawBuffer.Length;
                 if (received == 0)
                 {
-                    if (SocketMap.ContainsKey(receiveState.RemoteHost))
-                    {
-                        var connection = SocketMap[receiveState.RemoteHost];
-                    }
                     return;
                 }
-
+                INode node = receiveState.RemoteHost;
+                if (SocketMap.ContainsKey(receiveState.RemoteHost.nodeConfig.ToString()))
+                {
+                    var connection = SocketMap[receiveState.RemoteHost.nodeConfig.ToString()];
+                    node = connection.RemoteHost;
+                }
+                else
+                {
+                    RefactorProxyResponseChannel adapter = new RefactorProxyResponseChannel(this, null);
+                    SocketMap.Add(adapter.RemoteHost.nodeConfig.ToString(), adapter.requestChannel);
+                }
                 receiveState.Buffer.WriteBytes(receiveState.RawBuffer, 0, received);
 
                 List<IByteBuf> decoded;
@@ -134,7 +145,7 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                 foreach (var message in decoded)
                 {
                     var networkData = NetworkData.Create(receiveState.RemoteHost, message);
-                    Console.WriteLine("串口收到数据-->>" + String.Join(" ", networkData.Buffer));
+                    Console.WriteLine("串口收到数据-->>" + this.Encoder.ByteEncode( networkData.Buffer));
                     if(ConnectionAdapter is ReactorConnectionAdapter)
                     {
                         ((ReactorConnectionAdapter)ConnectionAdapter).networkDataDocker.AddNetworkData(networkData);
@@ -142,29 +153,17 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                     }
                  
                 }
-
-                //ReactorResponseChannel adapter;
-                //if (SocketMap.ContainsKey(receiveState.RemoteHost))
-                //{
-                //    adapter = SocketMap[receiveState.RemoteHost];
-                //}
-                //else
-                //{
-                //    adapter = new ReactorProxyResponseChannel(this, receiveState.Socket);
-                //    SocketMap.Add(adapter.RemoteHost, adapter);
-                //}
-                //ReceivedData(networkData, adapter);
             }
             catch  //node disconnected
             {
-                var connection = SocketMap[receiveState.RemoteHost];
+                var connection = SocketMap[receiveState.RemoteHost.nodeConfig.ToString()];
                 CloseConnection(connection);
             }
         }
 
         public override void Send(byte[] buffer, int index, int length, INode destination)
         {
-            var clientSocket = SocketMap[destination];
+            var clientSocket = SocketMap[destination.nodeConfig.ToString()];
             try
             {
                 if (clientSocket.WasDisposed)
@@ -179,8 +178,7 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                 foreach (var message in encodedMessages)
                 {
                     Listener.Write(message.ToArray(), message.ReaderIndex, message.ReadableBytes);
-                    //clientSocket.Send.Socket.Write(message.ToArray(), message.ReaderIndex, message.ReadableBytes);
-                    Console.WriteLine("串口发送数据-->>" +String.Join(" ", message.ToArray()));
+                    Console.WriteLine("串口发送数据-->>" + this.Encoder.ByteEncode(message.ToArray()));
                 }
             }
             catch (Exception ex)

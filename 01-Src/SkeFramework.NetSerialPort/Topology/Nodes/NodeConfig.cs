@@ -10,7 +10,7 @@ namespace SkeFramework.NetSerialPort.Topology
     /// <summary>
     /// 串口配置
     /// </summary>
-   public class NodeConfig
+    public class NodeConfig
     {
         public NodeConfig()
         {
@@ -36,5 +36,10 @@ namespace SkeFramework.NetSerialPort.Topology
         /// 校验位
         /// </summary>
         public Parity Parity { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("{0}-{1}-{2}-{3}-{4}", PortName.ToString(), BaudRate.ToString(), DataBits.ToString(), StopBits.ToString(), Parity.ToString());
+        }
     }
 }

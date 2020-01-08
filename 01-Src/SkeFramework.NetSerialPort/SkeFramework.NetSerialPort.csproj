@@ -66,6 +66,9 @@
     <Compile Include="ProjectVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocols\Configs\DefaultConnectionConfig.cs" />
+    <Compile Include="Protocols\Configs\Enums\ConstantConnConfig.cs" />
+    <Compile Include="Protocols\Configs\Enums\OptionKeyEnums.cs" />
+    <Compile Include="Protocols\Configs\Enums\ProcessModeValue.cs" />
     <Compile Include="Protocols\Configs\IConnectionConfig.cs" />
     <Compile Include="Protocols\Connections\ConnectionDocker.cs" />
     <Compile Include="Protocols\Connections\IConnectionFactory.cs" />

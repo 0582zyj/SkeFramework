@@ -18,7 +18,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// <summary>
         /// 任务是否过期
         /// </summary>
-          private bool dead = false;
+        private bool dead = false;
 
         public bool Dead
         {
@@ -116,7 +116,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         public void Complete()
         {
             // 若任务未经过协议的ExecuteTask来执行，则relatedProtocol为空
-            if (relatedConnection == null)	
+            if (relatedConnection == null)
             {
                 Complete(TaskState.Completed);
             }
@@ -143,11 +143,17 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
 
         public void SetRelatedProtocol(IConnection connection)
         {
+            //connection.Local.TaskTag = this.name;
+            if (connection.RemoteHost != null)
+            {
+                connection.RemoteHost.TaskTag = this.name;
+                connection.Receiving = true;
+            }
             relatedConnection = connection;
         }
         internal IConnection GetRelatedProtocol()
         {
-           return relatedConnection;
+            return relatedConnection;
         }
         /// <summary>
         /// 设置任务超时。
@@ -184,7 +190,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// 若当前线程因为调用了WaitToComplete函数而阻塞，那么此函数将使当前线程恢复运行。
         /// </summary>
         /// <param name="tkState">任务状态。</param>
-        public  void Complete(TaskState tkState)
+        public void Complete(TaskState tkState)
         {
             taskState = tkState;
             if (asyncTaskResult != null)

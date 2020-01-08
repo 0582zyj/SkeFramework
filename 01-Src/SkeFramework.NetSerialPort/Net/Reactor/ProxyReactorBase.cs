@@ -16,7 +16,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
 {
     public abstract class ProxyReactorBase : ReactorBase
     {
-        protected Dictionary<INode, RefactorRequestChannel> SocketMap = new Dictionary<INode, RefactorRequestChannel>();
+        protected Dictionary<string, RefactorRequestChannel> SocketMap = new Dictionary<string, RefactorRequestChannel>();
 
         protected ProxyReactorBase(NodeConfig nodeConfig, 
             IMessageEncoder encoder, IMessageDecoder decoder, IByteBufAllocator allocator,

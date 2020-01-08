@@ -27,7 +27,7 @@ namespace SkeFramework.NetSerialPort.Topology.Nodes
 
         SerialPort INode.ToEndPoint()
         {
-            throw new NotImplementedException();
+            return null;
         }
         /// <summary>
         /// 节点上次访问的时间戳
@@ -60,13 +60,18 @@ namespace SkeFramework.NetSerialPort.Topology.Nodes
             return new Node
             {
                 CustomData = CustomData,
+                nodeConfig= nodeConfig,
+                TaskTag=TaskTag,
                 MachineName = MachineName,
+                ServiceVersion= ServiceVersion,
+                LastPulse=0,
+                OS= OS,
             };
         }
 
         public override string ToString()
         {
-            return string.Format("{0}:{1}", 1, 2);
+            return string.Format("{0}:{1}", nodeConfig.ToString(), TaskTag==null?"none": TaskTag.ToString());
         }
 
         #region Static methods
