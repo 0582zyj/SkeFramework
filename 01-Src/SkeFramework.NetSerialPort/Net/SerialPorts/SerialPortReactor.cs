@@ -25,16 +25,8 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
     /// <summary>
     /// 串口通信实现类
     /// </summary>
-   public sealed class SerialPortReactor: ProxyReactorBase
+    public sealed class SerialPortReactor : ProxyReactorBase
     {
-
-        public SerialPortReactor(NodeConfig nodeConfig, 
-            IMessageEncoder encoder, IMessageDecoder decoder, IByteBufAllocator allocator,
-            int bufferSize = NetworkConstants.DEFAULT_BUFFER_SIZE)
-            : base(nodeConfig,  encoder, decoder, allocator, 
-                bufferSize)
-        {
-        }
         /// <summary>
         /// 是否打开
         /// </summary>
@@ -44,6 +36,18 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
         /// </summary>
         public override bool IsParsing { get; protected set; }
 
+        public SerialPortReactor(NodeConfig nodeConfig,
+            IMessageEncoder encoder, IMessageDecoder decoder, IByteBufAllocator allocator,
+            int bufferSize = NetworkConstants.DEFAULT_BUFFER_SIZE)
+            : base(nodeConfig, encoder, decoder, allocator,
+                bufferSize)
+        {
+        }
+
+        /// <summary>
+        /// 默认配置
+        /// </summary>
+        /// <param name="config"></param>
         public override void Configure(IConnectionConfig config)
         {
             if (config.HasOption<int>("ReadBufferSize"))
@@ -53,23 +57,34 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
             else
                 ProxiesShareFiber = true;
         }
-
+        /// <summary>
+        /// 开始监听
+        /// </summary>
         protected override void StartInternal()
         {
             var receiveState = CreateNetworkState(Listener, Node.Empty());
             if (!SocketMap.ContainsKey(this.LocalEndpoint.nodeConfig.ToString()))
             {
-                RefactorRequestChannel adapter; 
+                RefactorRequestChannel adapter;
                 adapter = new RefactorProxyRequestChannel(this, this.LocalEndpoint);
                 SocketMap.Add(this.LocalEndpoint.nodeConfig.ToString(), adapter);
             }
             Listener.DataReceived += new SerialDataReceivedEventHandler(PortDataReceived);
             Listener.Open();
             IsActive = true;
-
         }
-
-
+        /// <summary>
+        /// 关闭监听
+        /// </summary>
+        protected override void StopInternal()
+        {
+            //NO-OP
+        }
+        /// <summary>
+        /// 数据接收
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PortDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             Thread.Sleep(50);
@@ -77,12 +92,12 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
             //if (OnReceive==null) return;
             if (this.WasDisposed) return;  //如果正在关闭，忽略操作，直接返回，尽快的完成串口监听线程的一次循环
             try
-            {
+            {
                 IsParsing = true;  //设置标记，说明已经开始处理数据，一会儿要使用系统UI
                 int n = Listener.BytesToRead;
-                byte[] buf = new byte[n];
+                byte[] buf = new byte[n];
                 Listener.Read(buf, 0, n);
-                int receive_count = n;
+                int receive_count = n;
                 ReactorConnectionAdapter adapter = ((ReactorConnectionAdapter)ConnectionAdapter);
                 byte[] RawBuffer = adapter.ParsingReceivedData(buf);
                 //触发整条记录的处理
@@ -100,24 +115,22 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                 NetworkState state = CreateNetworkState(Listener, node);
                 state.RawBuffer = RawBuffer;
                 this.ReceiveCallback(state);
-
-                
-            }
-            catch (Exception ex)
-            {
+            }
+            catch (Exception ex)
+            {
                 string enmsg = string.Format("Serial Port {0} Communication Fail\r\n" + ex.ToString(), Listener.PortName);
-            }
-            finally
-            {
+            }
+            finally
+            {
                 IsParsing = false;   //监听完毕， UI可关闭串口
             }
         }
-     
+
         /// <summary>
         /// 处理数据
         /// </summary>
         /// <param name="receiveState"></param>
-       private void ReceiveCallback(NetworkState receiveState)
+        private void ReceiveCallback(NetworkState receiveState)
         {
             try
             {
@@ -145,13 +158,13 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                 foreach (var message in decoded)
                 {
                     var networkData = NetworkData.Create(receiveState.RemoteHost, message);
-                    Console.WriteLine("串口收到数据-->>" + this.Encoder.ByteEncode( networkData.Buffer));
-                    if(ConnectionAdapter is ReactorConnectionAdapter)
+                    Console.WriteLine("串口处理数据-->>" + this.Encoder.ByteEncode(networkData.Buffer));
+                    if (ConnectionAdapter is ReactorConnectionAdapter)
                     {
                         ((ReactorConnectionAdapter)ConnectionAdapter).networkDataDocker.AddNetworkData(networkData);
                         ((EventWaitHandle)((ReactorConnectionAdapter)ConnectionAdapter).protocolEvents[(int)ProtocolEvents.PortReceivedData]).Set();
                     }
-                 
+
                 }
             }
             catch  //node disconnected
@@ -160,7 +173,13 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                 CloseConnection(connection);
             }
         }
-
+        /// <summary>
+        /// 发送数据
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="index"></param>
+        /// <param name="length"></param>
+        /// <param name="destination"></param>
         public override void Send(byte[] buffer, int index, int length, INode destination)
         {
             var clientSocket = SocketMap[destination.nodeConfig.ToString()];
@@ -186,17 +205,23 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                 CloseConnection(ex, clientSocket);
             }
         }
-
-
+        /// <summary>
+        /// 关闭连接
+        /// </summary>
+        /// <param name="remoteHost"></param>
         internal override void CloseConnection(IConnection remoteHost)
         {
             Console.WriteLine("CloseConnection-->>" + remoteHost.ToString());
             CloseConnection(null, remoteHost);
         }
-
+        /// <summary>
+        /// 关闭连接
+        /// </summary>
+        /// <param name="reason"></param>
+        /// <param name="remoteConnection"></param>
         internal override void CloseConnection(Exception reason, IConnection remoteConnection)
         {
-            Console.WriteLine("CloseConnection-->>"+ reason.ToString() + remoteConnection.ToString());
+            Console.WriteLine("CloseConnection-->>" + reason.ToString() + remoteConnection.ToString());
             //NO-OP (no connections in UDP)
             //try
             //{
@@ -211,11 +236,6 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
             //    if (SocketMap.ContainsKey(remoteConnection.RemoteHost))
             //        SocketMap.Remove(remoteConnection.RemoteHost);
             //}
-        }
-
-        protected override void StopInternal()
-        {
-            //NO-OP
         }
 
         #region IDisposable Members
