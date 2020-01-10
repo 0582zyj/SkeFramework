@@ -26,5 +26,9 @@ namespace MicrosServices.Helper.Core.Constants
         [EnumAttribute(810, "邮箱不存在")] ERROR_EMAIL_NOT_EXIST,
         [EnumAttribute(811, "电话号码不存在")] ERROR_PHONE_NOT_EXIST,
 
+
+        [EnumAttribute(200, "注销成功")] SUCCESS_CANCEL,
+        [EnumAttribute(400, "注销失败")] FAILED_CANCEL,
+
     }
 }

@@ -49,13 +49,13 @@ namespace MicrosServices.API.UserCenter.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> CancelPlatform([FromForm]string UserNo)
         {
-            if (DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(UserNo))
+            if (!DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(UserNo))
             {
                 return new JsonResponses(JsonResponses.FailedCode, LoginResultType.ERROR_USER_NOT_EXIST.ToString()
                     , LoginResultType.ERROR_USER_NOT_EXIST); 
             }
             LoginResultType LoginResult = DataHandleManager.Instance().UcUsersHandle.CancelPlatform(UserNo);
-            if (LoginResult == LoginResultType.SUCCESS_LOGIN)
+            if (LoginResult == LoginResultType.SUCCESS_CANCEL)
             {
                 return new JsonResponses(JsonResponses.SuccessCode, LoginResult.ToString(), LoginResult);
             }
