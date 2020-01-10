@@ -41,6 +41,26 @@ namespace MicrosServices.API.UserCenter.Controllers
             }
             return new JsonResponses(JsonResponses.FailedCode, LoginResult.ToString(), LoginResult);
         }
-
+        /// <summary>
+        /// 平台用户注销
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> CancelPlatform([FromForm]string UserNo)
+        {
+            if (DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(UserNo))
+            {
+                return new JsonResponses(JsonResponses.FailedCode, LoginResultType.ERROR_USER_NOT_EXIST.ToString()
+                    , LoginResultType.ERROR_USER_NOT_EXIST); 
+            }
+            LoginResultType LoginResult = DataHandleManager.Instance().UcUsersHandle.CancelPlatform(UserNo);
+            if (LoginResult == LoginResultType.SUCCESS_LOGIN)
+            {
+                return new JsonResponses(JsonResponses.SuccessCode, LoginResult.ToString(), LoginResult);
+            }
+            return new JsonResponses(JsonResponses.FailedCode, LoginResult.ToString(), LoginResult);
+            
+        }
     }
 }
