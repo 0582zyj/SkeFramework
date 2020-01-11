@@ -114,8 +114,32 @@
                 ],
             },
             created: function () {
+                this.Init();
             },
             methods: {
+                Init: function () {
+                    var _self = this;
+                    _self.menuList = {};
+                    axios.get(this.getMenuOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.menuList = response.data;
+                            }    
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                    _self.platformList = {};
+                    axios.get(this.getPlatformOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
                 submit: function () {
                     var _self = this;
                     axios.post(this.addPostUrl, this.dataItem)
