@@ -1,5 +1,7 @@
-﻿using MicrosServices.Helper.Core.UserCenter.FORM;
+﻿using MicrosServices.Entities.Common;
+using MicrosServices.Helper.Core.UserCenter.FORM;
 using Newtonsoft.Json;
+using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Enums;
 using SkeFramework.Core.Network.Https;
 using SkeFramework.Core.Network.Requests;
@@ -16,7 +18,9 @@ namespace MicrosServices.SDK.UserCenter
     {
         private static string RegisterPlatfromUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/UserWeb/RegisterPlatfrom";
         private static string CancelPlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/UserWeb/CancelPlatform";
-        
+        private static string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/UserWeb/GetPageList";
+
+        #region 平台管理
         /// <summary>
         /// 平台账号注册
         /// </summary>
@@ -49,6 +53,8 @@ namespace MicrosServices.SDK.UserCenter
             }
         }
 
+      
+
         /// <summary>
         /// 平台账号注册
         /// </summary>
@@ -74,6 +80,43 @@ namespace MicrosServices.SDK.UserCenter
                 Console.WriteLine(ex.ToString());
                 return JsonResponses.Failed;
             }
+        }
+        #endregion
+        /// <summary>
+        /// 获取用户分页列表
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="keywords"></param>
+        /// <returns></returns>
+        public PageResponse<UcUsers> GetUserPageList(PageModel page, string keywords)
+        {
+            PageResponse<UcUsers> lists = new PageResponse<UcUsers>();
+            try
+            {
+                RequestBase request = new RequestBase();
+                request.SetValue("PageIndex", page.PageIndex);
+                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("keywords", keywords);
+                request.Url = GetPageUrl;
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.GetReqUrl(),
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.GET
+                });
+                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
+                if (responses.code == JsonResponses.SuccessCode)
+                {
+                    object data = responses.data;
+                    lists = JsonConvert.DeserializeObject<PageResponse<UcUsers>>(JsonConvert.SerializeObject(data));
+                    return lists;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return lists;
         }
     }
 }

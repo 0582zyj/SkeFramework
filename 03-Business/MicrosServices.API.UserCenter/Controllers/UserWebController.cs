@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
+using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Constants;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.UserCenter.FORM;
 using SkeFramework.Core.Encrypts;
+using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 
 namespace MicrosServices.API.UserCenter.Controllers
@@ -16,6 +19,35 @@ namespace MicrosServices.API.UserCenter.Controllers
     [ApiController]
     public class UserWebController : ControllerBase
     {
+        /// <summary>
+        /// 获取列表信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] string keywords = "")
+        {
+            try
+            {
+                Expression<Func<UcUsers, bool>> where = null;
+                if (!String.IsNullOrEmpty(keywords))
+                {
+                    where = (o => o.UserNo.Contains(keywords));
+                }
+                int total = Convert.ToInt32(DataHandleManager.Instance().UcUsersHandle.Count(where));//取记录数
+                List<UcUsers> list = DataHandleManager.Instance().UcUsersHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
+                PageResponse<UcUsers> response = new PageResponse<UcUsers>
+                {
+                    page = page,
+                    dataList = list
+                };
+                return new JsonResponses(response);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
         /// <summary>
         /// 平台用户注册接口
         /// </summary>
