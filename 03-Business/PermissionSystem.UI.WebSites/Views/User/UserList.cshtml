@@ -63,8 +63,7 @@
                                 <td>{{item.Email}}</td>
                                 <td>{{item.Signature}}</td>
                                 <td class="operation">
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toRoleAssign(item.id)">角色授权</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -98,10 +97,7 @@
                 GetList: function (data) {
                     this.dataList = data;
                 },
-                toAdd: function () {
-                    window.location.href = this.addJumpUrl;
-                },
-                toEdit: function (_id) {
+                toRoleAssign: function (_id) {
                     window.location.href = this.updateJumpUrl + '?id=' + _id;
                 },
                 toDelete: function (_id) {

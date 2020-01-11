@@ -1,5 +1,7 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.Form;
+using MicrosServices.Helper.Core.VO;
 using MicrosServices.SDK.PermissionSystem;
 using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
@@ -44,6 +46,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return View();
         }
         #endregion 
+
         #region Basic GET POST
         /// <summary>
         /// 根据主键ID获取信息
@@ -121,8 +124,46 @@ namespace PermissionSystem.UI.WebSites.Controllers
         }
         #endregion
 
+        #region 用户角色页面
+        /// <summary>
+        /// 用户角色分配页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult RolesAssign(long UserNo)
+        {
+            return View();
+        }
 
-        
+
+        /// <summary>
+        /// 获取用户角色
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetRolesAssign(long UserNo)
+        {
+            RolesAssignVo assignVo = new RolesAssignVo();
+            JsonResponses jsonResponses = rolesSDK.GetRolesAssign(UserNo);
+            if (jsonResponses.ValidateResponses())
+            {
+                assignVo = JsonConvert.DeserializeObject<RolesAssignVo>(JsonConvert.SerializeObject(jsonResponses.data));
+            }
+            return Json(assignVo, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 更新提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult RolesAssignUpdate(UserRolesForm model)
+        {
+            model.InputUser = AppBusiness.loginModel.UserNo;
+            JsonResponses responses = rolesSDK.CreateUserRoles(model);
+            return Json(responses, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
 
     }
 }

@@ -46,6 +46,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return View();
         }
         #endregion 
+
         #region Basic GET POST
         /// <summary>
         /// 根据主键ID获取信息
@@ -120,7 +121,6 @@ namespace PermissionSystem.UI.WebSites.Controllers
             optionValues.Insert(0, OptionValue.Default);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
-
 
         #region 菜单权限页面
         /// <summary>

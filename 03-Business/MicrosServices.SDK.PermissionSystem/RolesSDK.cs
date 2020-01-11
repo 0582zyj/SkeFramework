@@ -95,6 +95,12 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return menus;
         }
+
+        public JsonResponses GetRolesAssign(long userNo)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 根据主键ID获取信息
         /// </summary>
@@ -126,6 +132,12 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
+
+        public JsonResponses CreateUserRoles(UserRolesForm model)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 新增菜单
         /// </summary>
