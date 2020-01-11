@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MicrosServices.BLL.Business.UserCenter.UcUsersSettingHandles;
 using MicrosServices.BLL.SHBusiness.PsManagementHandles;
 using MicrosServices.BLL.SHBusiness.PsManagementRolesHandles;
 using MicrosServices.BLL.SHBusiness.PsMenuHandles;
@@ -94,6 +95,11 @@ namespace MicrosServices.BLL.Business
         {
             get { return DataHandleFactory.GetDataHandle<UcUsersHandle, UcUsers>(); }
         }
+        public IUcUsersSettingHandle UcUsersSettingHandle
+        {
+            get { return DataHandleFactory.GetDataHandle<UcUsersSettingHandle, UcUsersSetting>(); }
+        }
+        
         #endregion
     }
 }

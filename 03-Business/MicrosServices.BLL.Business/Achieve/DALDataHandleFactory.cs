@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MicrosServices.BLL.Business.UserCenter.UcUsersSettingHandles;
 using MicrosServices.BLL.SHBusiness.PsManagementHandles;
 using MicrosServices.BLL.SHBusiness.PsManagementRolesHandles;
 using MicrosServices.BLL.SHBusiness.PsMenuHandles;
@@ -79,6 +80,10 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             {
                 return new UcUsersHandle(GetConfigDataSerialer<UcUsers>(UcUsers.TableName)) as IDataTableHandle;
             }
+            else if (IsSubclassOf(typeof(UcUsersSetting), dataType))
+            {
+                return new UcUsersSettingHandle(GetConfigDataSerialer<UcUsersSetting>(UcUsersSetting.TableName)) as IDataTableHandle;
+            }
             return null;
         }
 
@@ -118,6 +123,8 @@ namespace ULCloudLockTool.BLL.Business.Achieve
                 //UserCenter
                 case UcUsers.TableName:
                     return new DBRepository<UcUsers, UcUsers>() as IRepository<TData>;
+                case UcUsersSetting.TableName:
+                    return new DBRepository<UcUsersSetting, UcUsersSetting>() as IRepository<TData>;
             }
             return null;
         }
