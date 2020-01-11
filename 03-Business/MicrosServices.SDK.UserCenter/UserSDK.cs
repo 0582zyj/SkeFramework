@@ -15,8 +15,10 @@ namespace MicrosServices.SDK.UserCenter
     public class UserSDK
     {
         private static string RegisterPlatfromUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/UserWeb/RegisterPlatfrom";
+        private static string CancelPlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/UserWeb/CancelPlatform";
+        
         /// <summary>
-        /// 登录
+        /// 平台账号注册
         /// </summary>
         /// <param name="loginInfo"></param>
         /// <returns></returns>
@@ -39,6 +41,33 @@ namespace MicrosServices.SDK.UserCenter
                     Method = RequestTypeEnums.POST_FORM
                 });
                return  JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return JsonResponses.Failed;
+            }
+        }
+
+        /// <summary>
+        /// 平台账号注册
+        /// </summary>
+        /// <param name="loginInfo"></param>
+        /// <returns></returns>
+        public JsonResponses CancelPlatform(string UserNo)
+        {
+            try
+            {
+                RequestBase request = new RequestBase();
+                request.Url = CancelPlatformUrl;
+                request.SetValue("UserNo", UserNo);
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.POST_FORM
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
             {

@@ -120,7 +120,16 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpPost]
         public JsonResult PsPlatformDelete(int id)
         {
-            JsonResponses responses = platformSdk.PlatformDelete(id);
+            JsonResponses responses = platformSdk.GetPsPlatformInfo(id);
+            if (responses.ValidateResponses())
+            {
+                PsPlatform platform= responses.data as PsPlatform;
+                responses = userSDK.CancelPlatform(platform.DefaultUserNo);
+                if (responses.ValidateResponses())
+                {
+                    responses = platformSdk.PlatformDelete(id);
+                }
+            }
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
         #endregion
