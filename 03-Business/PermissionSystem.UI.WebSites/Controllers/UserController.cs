@@ -31,7 +31,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetUcUserList(int curPage = 1, string keywords = "")
+        public JsonResult GetUcUsersList(int curPage = 1, string keywords = "")
         {
             PageModel page = new PageModel(curPage);
             PageResponse<UcUsers> pageResponse = userSDK.GetUserPageList(page, keywords);
