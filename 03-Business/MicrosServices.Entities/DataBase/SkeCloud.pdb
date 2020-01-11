@@ -4355,11 +4355,12 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>UserNo</a:Code>
 <a:CreationDate>1570798093</a:CreationDate>
 <a:Creator>ZYJUN</a:Creator>
-<a:ModificationDate>1578756641</a:ModificationDate>
+<a:ModificationDate>1578756669</a:ModificationDate>
 <a:Modifier>ZYJUN</a:Modifier>
 <a:Comment>用户账号</a:Comment>
 <a:DefaultValue>NULL</a:DefaultValue>
-<a:DataType>bigint</a:DataType>
+<a:DataType>bigint(6)</a:DataType>
+<a:Length>6</a:Length>
 </o:Column>
 <o:Column Id="o108">
 <a:ObjectID>1D83696C-8A13-4B49-9F46-C72A16D7588E</a:ObjectID>
@@ -4758,11 +4759,11 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>UserNo</a:Code>
 <a:CreationDate>1570798093</a:CreationDate>
 <a:Creator>ZYJUN</a:Creator>
-<a:ModificationDate>1570798093</a:ModificationDate>
+<a:ModificationDate>1578756659</a:ModificationDate>
 <a:Modifier>ZYJUN</a:Modifier>
 <a:Comment>描述</a:Comment>
 <a:DefaultValue>NULL</a:DefaultValue>
-<a:DataType>varchar(6)</a:DataType>
+<a:DataType>bigint(6)</a:DataType>
 <a:Length>6</a:Length>
 </o:Column>
 <o:Column Id="o138">
