@@ -23,11 +23,13 @@ namespace MicrosServices.BLL.Business.UserCenter.UcUsersSettingHandles
         /// </summary>
         /// <param name="usersNo"></param>
         /// <returns></returns>
-       public UcUsersSetting GetUcUsersSettingInfo(long UserNo)
+       public UcUsersSetting GetUcUsersSettingInfo(string UserNo)
         {
-            Expression<Func<UcUsersSetting, bool>> where = (o => o.UserNo == UserNo.ToString());
+            Expression<Func<UcUsersSetting, bool>> where = (o => o.UserNo == UserNo);
             return this.Get(where);
         }
+
+     
     }
 
 }

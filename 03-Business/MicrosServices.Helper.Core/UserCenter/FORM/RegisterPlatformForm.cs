@@ -35,5 +35,9 @@ namespace MicrosServices.Helper.Core.UserCenter.FORM
         /// 操作者
         /// </summary>
         public string InputUser { get; set; }
+        /// <summary>
+        /// 平台编号
+        /// </summary>
+        public long PlatformNo { get; set; }
     }
 }

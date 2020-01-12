@@ -144,5 +144,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             List<OptionValue> optionValues = platformSdk.GetOptionValues();
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
+
+
     }
 }

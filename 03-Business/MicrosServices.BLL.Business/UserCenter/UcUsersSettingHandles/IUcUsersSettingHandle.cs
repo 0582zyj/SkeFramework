@@ -15,7 +15,8 @@ namespace MicrosServices.BLL.Business.UserCenter.UcUsersSettingHandles
         /// </summary>
         /// <param name="usersNo"></param>
         /// <returns></returns>
-        UcUsersSetting GetUcUsersSettingInfo(long usersNo);
+        UcUsersSetting GetUcUsersSettingInfo(string usersNo);
+     
     }
 
 }

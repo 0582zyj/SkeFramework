@@ -10,5 +10,11 @@ namespace MicrosServices.DAL.DataAccess.Repository.UserCenter.UcUsersSettingHand
 {
     public interface IUcUsersSettingHandleCommon : IDataTableHandle<UcUsersSetting>
     {
+        /// <summary>
+        /// 删除用户设定
+        /// </summary>
+        /// <param name="usersNo"></param>
+        /// <returns></returns>
+        int DeleteUserSetting(string usersNo);
     }
 }
