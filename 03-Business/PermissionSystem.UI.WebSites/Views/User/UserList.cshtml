@@ -97,8 +97,8 @@
                 GetList: function (data) {
                     this.dataList = data;
                 },
-                toRoleAssign: function (_id) {
-                    window.location.href = this.roleAssignUrl + '?id=' + _id;
+                toRoleAssign: function (_UserNo) {
+                    window.location.href = this.roleAssignUrl + '?UserNo=' + _UserNo;
                 },
                 toDelete: function (_id) {
                     axios.post(this.deleteUrl, { id: _id })

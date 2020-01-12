@@ -66,7 +66,7 @@
                 getItemUrl: "@Url.Action("GetRolesAssign", "Roles")",
                 dataItem: {},
                 postData: {
-                    UsersNo: "@Request.QueryString["UsersNo"].ToString()",
+                    UserNo: "@Request.QueryString["UserNo"].ToString()",
                     RolesNos: []
                 },
             },
@@ -77,7 +77,7 @@
                 Init: function () {
                     var _self = this;
                     _self.dataItem = {};
-                    axios.get(this.getItemUrl, { params: { UsersNo: this.postData.UsersNo } } )
+                    axios.get(this.getItemUrl, { params: { UserNo: this.postData.UserNo } } )
                      .then(function (response) {
                          if (response.status == 200) {
                              _self.dataItem = response.data;

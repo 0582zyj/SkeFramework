@@ -26,6 +26,7 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetOptionValues";
         private static readonly string GetManagementAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetManagementAssign";
         private static readonly string CreateManagementRolesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/CreateManagementRoles";
+        private static readonly string GetRolesAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetRolesAssign";
         
         /// <summary>
         /// 获取菜单所有列表
@@ -96,11 +97,7 @@ namespace MicrosServices.SDK.PermissionSystem
             return menus;
         }
 
-        public JsonResponses GetRolesAssign(long userNo)
-        {
-            throw new NotImplementedException();
-        }
-
+       
         /// <summary>
         /// 根据主键ID获取信息
         /// </summary>
@@ -313,5 +310,37 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
+
+        #region 用户角色
+        /// <summary>
+        /// 获取用户角色列表
+        /// </summary>
+        /// <param name="UserNo"></param>
+        /// <returns></returns>
+        public JsonResponses GetRolesAssign(long UserNo)
+        {
+
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = GetRolesAssignUrl
+                };
+                request.SetValue("UserNo", UserNo);
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.GetReqUrl(),
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.GET
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+        #endregion
     }
 }
