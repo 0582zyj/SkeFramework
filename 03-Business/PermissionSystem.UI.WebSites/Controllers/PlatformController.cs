@@ -91,7 +91,8 @@ namespace PermissionSystem.UI.WebSites.Controllers
                 InputUser = model.InputUser,
                 Email = "",
                 Phone = "",
-                Password = "123456"
+                Password = "123456",
+                PlatformNo=model.PlatformNo
             };
             JsonResponses jsonResponses = userSDK.RegisterPlatfrom(registerPlatform);
             if (jsonResponses.code == JsonResponses.SuccessCode)

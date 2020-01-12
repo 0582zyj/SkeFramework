@@ -63,7 +63,7 @@
                                 <td>{{item.Email}}</td>
                                 <td>{{item.Signature}}</td>
                                 <td class="operation">
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toRoleAssign(item.id)">角色授权</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toRoleAssign(item.UserNo)">角色授权</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -81,7 +81,7 @@
         var vm = new Vue({
             el: "#section-content",
             data: {
-                updateJumpUrl: "@Url.Action("UcUsersUpdate", "User")",
+                roleAssignUrl: "@Url.Action("RolesAssign", "Roles")",
                 addJumpUrl: "@Url.Action("UcUsersAdd", "User")",
                 deleteUrl: "@Url.Action("UcUsersDelete", "User")",
                 GetListUrl: "@Url.Action("GetUcUsersList", "User")",
@@ -98,7 +98,7 @@
                     this.dataList = data;
                 },
                 toRoleAssign: function (_id) {
-                    window.location.href = this.updateJumpUrl + '?id=' + _id;
+                    window.location.href = this.roleAssignUrl + '?id=' + _id;
                 },
                 toDelete: function (_id) {
                     axios.post(this.deleteUrl, { id: _id })

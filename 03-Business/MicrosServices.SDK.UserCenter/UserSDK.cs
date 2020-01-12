@@ -38,6 +38,7 @@ namespace MicrosServices.SDK.UserCenter
                 request.SetValue("Phone", registerPlatform.Phone);
                 request.SetValue("Email", registerPlatform.Email);
                 request.SetValue("InputUser", registerPlatform.InputUser);
+                request.SetValue("PlatformNo", registerPlatform.PlatformNo); 
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.Url,
