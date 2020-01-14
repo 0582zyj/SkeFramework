@@ -15,7 +15,6 @@ namespace ULCloudLockTool.BLL.SHProtocol
         /// <summary>
         /// 规约基类，具体实现根据工厂方法实例化
         /// </summary>
-        private IConnection commCase_Receive = null;
         private IConnection commCase_Send = null;
         ///// <summary>
         ///// ErLangLinkCase 跟云主机Erlang进行通信【30S】 
