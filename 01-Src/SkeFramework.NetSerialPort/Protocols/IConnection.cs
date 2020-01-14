@@ -22,11 +22,16 @@ namespace SkeFramework.NetSerialPort.Protocols
     {
         event ReceivedDataCallback Receive;
 
-        IMessageEncoder Encoder { get; }
-        IMessageDecoder Decoder { get; }
-
         /// <summary>
-        /// Used to allocate reusable buffers for network I/O
+        /// 消息编码
+        /// </summary>
+        IMessageEncoder Encoder { get; }
+        /// <summary>
+        /// 消息解码
+        /// </summary>
+        IMessageDecoder Decoder { get; }
+        /// <summary>
+        /// 用于为网络I/O分配可重用缓冲区
         /// </summary>
         IByteBufAllocator Allocator { get; }
         /// <summary>
@@ -58,7 +63,6 @@ namespace SkeFramework.NetSerialPort.Protocols
         /// </summary>
         /// <returns></returns>
         bool IsOpen();
-     
         /// <summary>
         /// 尚未发送到预期目的地的消息
         /// </summary>
@@ -67,6 +71,10 @@ namespace SkeFramework.NetSerialPort.Protocols
         /// 协议是否过期
         /// </summary>
         bool Dead { get; set; }
+        /// <summary>
+        /// 协议控制码
+        /// </summary>
+        string ControlCode { get; set; }
         #region Method
         /// <summary>
         /// 选项配置此传输

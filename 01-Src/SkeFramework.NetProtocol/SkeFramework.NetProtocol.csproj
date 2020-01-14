@@ -45,13 +45,12 @@
     <Compile Include="BusinessCase\Response\DefaultResponse.cs" />
     <Compile Include="Constants\ProtocolConst.cs" />
     <Compile Include="DataConfig\OptionKeyExtendEnums.cs" />
-    <Compile Include="DataFrame\Abstracts\DataFrameBase.cs" />
-    <Compile Include="DataFrame\DataUtil\CrcCheck.cs" />
-    <Compile Include="DataFrame\FrameBase.cs" />
-    <Compile Include="DataFrame\Interfaces\IDataFrame.cs" />
-    <Compile Include="DataFrame\Services\ATDataFrame.cs" />
-    <Compile Include="DataHandle\ATHandleBase\ATDataHandle.cs" />
-    <Compile Include="DataHandle\ATHandleBase\IATDataHandle.cs" />
+    <Compile Include="DataFrame\BusinessFrames\Abstracts\BodyFrameBase.cs" />
+    <Compile Include="DataUtils\CrcCheck.cs" />
+    <Compile Include="DataFrame\BusinessFrames\Interfaces\IDataFrame.cs" />
+    <Compile Include="DataFrame\BusinessFrames\Services\ATDataFrame.cs" />
+    <Compile Include="DataHandle\Services\ATHandleBase\ATDataHandle.cs" />
+    <Compile Include="DataHandle\Services\ATHandleBase\IATDataHandle.cs" />
     <Compile Include="DataHandle\HandleBase\DataHandleBase.cs" />
     <Compile Include="DataHandle\HandleBase\IDataHandleBase.cs" />
     <Compile Include="DataHandle\IDataPointListener.cs" />
@@ -68,6 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Lib\SkeFramework.NetSerialPort.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataFrame\ProtocolFrames\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

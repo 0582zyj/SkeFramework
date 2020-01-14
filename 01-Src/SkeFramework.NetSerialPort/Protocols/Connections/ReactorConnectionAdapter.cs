@@ -7,10 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Net.Constants;
 using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols.Configs;
 using SkeFramework.NetSerialPort.Protocols.Connections.Tasks;
 using SkeFramework.NetSerialPort.Protocols.Constants;
+using SkeFramework.NetSerialPort.Protocols.DataFrame;
 using SkeFramework.NetSerialPort.Protocols.Requests;
 using SkeFramework.NetSerialPort.Protocols.Response;
 using SkeFramework.NetSerialPort.Topology;
@@ -85,6 +87,11 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             return _reactor.IsActive;
         }
+
+        /// <summary>
+        /// 响应控制命令码
+        /// </summary>
+        public string ControlCode { get; set; }
 
         public int MessagesInSendQueue
         {
@@ -298,11 +305,11 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// </summary>
         private void Polling()
         {
+            ProcessNewTask();
             ProcessAsyncTaskOvertime();
             connectionDocker.ProcessCase();
             connectionDocker.ProcessCaseOvertime();
             OnPolling();
-            ProcessNewTask();
         }
         /// <summary>
         /// 处理新任务
@@ -316,7 +323,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                 {
                     if (task.TaskState == TaskState.NewTask)
                     {
-                        Console.WriteLine("处理新任务:" + task.Name);
+                        string log = String.Format("{0}:处理新任务:{1}", DateTime.Now.ToString("hh:mm:ss"), task.Name);
+                        Console.WriteLine(log);
                         ProcessTask(task);
                         if (!task.Dead)
                         {
@@ -492,9 +500,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// 获取最新未收到消息的请求
         /// </summary>
         /// <returns></returns>
-        public IConnection GetConnection()
+        public virtual IConnection GetConnection(FrameBase frame)
         {
-            IList<IConnection> connections = this.connectionDocker.BusinessCaseList.Where(o => o.Receiving).OrderByDescending(o => o.Created).ToList();
+            IList<IConnection> connections = this.connectionDocker.BusinessCaseList.
+                Where(o => o.Receiving).OrderByDescending(o => o.Created).ToList();
             return connections.LastOrDefault();
         }
         /// <summary>
@@ -502,44 +511,11 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// </summary>
         /// <param name="OriginalBuffer"></param>
         /// <returns></returns>
-        public virtual byte[] ParsingReceivedData(byte[] OriginalBuffer)
+        public virtual FrameBase ParsingReceivedData(byte[] OriginalBuffer)
         {
-            //byte[] RawBuffer = null;
-            //StringBuilder builder=new StringBuilder();
-            //builder.Append(Encoding.ASCII.GetString(buf));
-            //string receive_content = builder.ToString();
-            //string receive_contents = this.Encoder.ByteEncode(buf);
-            //int CRLF_AT = -1;
-            //int CRLF_BLUE = -1;
-            //CRLF_AT = receive_content.IndexOf("\r\n",2);
-            //CRLF_BLUE = receive_contents.IndexOf("A5 5A");
-            //if (CRLF_AT != -1 )
-            //{
-            //    string content = receive_content.Substring(0, CRLF_AT + 2);
-            //    RawBuffer = Encoding.ASCII.GetBytes(content);
-
-
-            //    //触发整条记录的处理
-            //    INode node = null;
-            //    IConnection connection = ((ReactorConnectionAdapter)ConnectionAdapter).GetConnection();
-            //    if (connection != null)
-            //    {
-            //        node = connection.RemoteHost;
-            //    }
-            //    else
-            //    {
-            //        node = this.LocalEndpoint;
-            //        node.TaskTag = "none";
-            //    }
-            //    NetworkState state = CreateNetworkState(Listener, node);
-            //    state.RawBuffer = RawBuffer;
-            //    this.ReceiveCallback(state);
-            //}
-            //else
-            //{
-            //    Console.WriteLine("串口丢弃数据-->>" + receive_contents);
-            //}
-            return OriginalBuffer;
+            FrameBase frameBase = new FrameBase(OriginalBuffer,null);
+            //触发整条记录的处理
+            return frameBase;
         }
         #endregion
 

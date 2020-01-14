@@ -13,17 +13,16 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
     /// </summary>
     public class ConnectionDocker
     {
-       private readonly List<IConnection> caseList = new List<IConnection>();
-       internal IList<IConnection> BusinessCaseList
+        private readonly List<IConnection> caseList = new List<IConnection>();
+        internal IList<IConnection> BusinessCaseList
         {
             get { return caseList.AsReadOnly(); }
         }
-
         /// <summary>
         /// 添加Case对象到发送列表中。
         /// </summary>
         /// <param name="caseObj">业务对象。</param>
-       internal void AddCase(IConnection caseObj)
+        internal void AddCase(IConnection caseObj)
         {
             try
             {
@@ -39,13 +38,13 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             {
                 string msg = string.Format("AddCase：{0}", ex.ToString());
             }
-          
+
         }
         /// <summary>
         /// 在收发列表中清除业务对象。
         /// 当业务对象被设置死亡时会调用此函数。
         /// </summary>
-       internal void RemoveCase(IConnection caseObj)
+        internal void RemoveCase(IConnection caseObj)
         {
             try
             {
@@ -64,14 +63,36 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
-       public IConnection GetCase(string cmd)
+        public IConnection GetCase(string cmd)
         {
             try
             {
                 lock (caseList)
                 {
-                    return caseList.OrderBy(o=>o.Created).ToList()
-                        .Find(o => o.RemoteHost.TaskTag == cmd.ToString());
+                    return caseList.OrderBy(o => o.Created).ToList()
+                        .Find(o => o.ControlCode == cmd.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = string.Format("GetCase：{0}", ex.ToString());
+            }
+            return null;
+        }
+        /// <summary>
+        /// 获取控制列表中最早的链接
+        /// </summary>
+        /// <param name="cmdList"></param>
+        /// <returns></returns>
+        public IConnection GetCase(List<string> cmdList)
+        {
+            try
+            {
+                lock (caseList)
+                {
+                    IList<IConnection> connections = this.BusinessCaseList.
+                            Where(o => o.Receiving&& cmdList.Contains(o.ControlCode)).OrderByDescending(o => o.Created).ToList();
+                    return connections.LastOrDefault();
                 }
             }
             catch (Exception ex)
@@ -105,26 +126,27 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// </summary>
         /// <param name="task"></param>
         internal void SetCaseAsDead(ConnectionTask task)
-       {
-           IConnection csObj = null;
-           lock (caseList)
-           {
-               foreach (IConnection cs in caseList)
-               {
+        {
+            IConnection csObj = null;
+            lock (caseList)
+            {
+                foreach (IConnection cs in caseList)
+                {
                     if (cs == task.GetRelatedProtocol())
                     {
                         csObj = cs;
                         break;
                     }
                 }
-           }
-           if (csObj != null)
-           {
-               csObj.Dead = true;
-           }
-       }
-      
-
+            }
+            if (csObj != null)
+            {
+                csObj.Dead = true;
+            }
+        }
+        /// <summary>
+        /// 处理超时的协议
+        /// </summary>
         internal void ProcessCaseOvertime()
         {
             try
@@ -136,7 +158,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                         if (cases.Dead == true)
                         {
                             RemoveCase(cases);
-                            Console.WriteLine("处理超时的协议:" + cases.Created.ToString() + " " );
+                            Console.WriteLine("处理超时的协议:" + cases.Created.ToString() + " ");
                         }
                     }
                 }
@@ -167,9 +189,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                             //}
                             //cases.InternalPolling();
                             // 此行会导致业务对象cs被从列表中删除（在cs等待帧回复超时的情况下）。
-                            if(cases is RefactorRequestChannel)
+                            if (cases is RefactorRequestChannel)
                             {
-                               ((RefactorRequestChannel) cases).Sender.Send();
+                                ((RefactorRequestChannel)cases).Sender.Send();
                             }
                             // cs还在列表中，说明它还活着。cs为死亡说明它已被从列表中删除（删除是上面的Send()函数导致的），所以i--。
                         }

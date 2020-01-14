@@ -9,6 +9,7 @@ using SkeFramework.NetSerialPort.Protocols.Connections;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Protocols.Requests;
 using SkeFramework.NetSerialPort.Topology;
+using ULCloudLockTool.BLL.SHProtocol.Constants;
 
 namespace ULCloudLockTool.BLL.SHProtocol.BusinessCase.Requests
 {
@@ -23,7 +24,7 @@ namespace ULCloudLockTool.BLL.SHProtocol.BusinessCase.Requests
         }
 
         public BroadcastSearchRequest(ReactorBase reactor, INode endPoint)
-            : base(reactor, endPoint)
+            : base(reactor, endPoint, ProtocolConst.APP_BROADCAST_SEARCH_NEW_HOST.ToString())
         {
         }
 

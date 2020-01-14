@@ -22,22 +22,18 @@ namespace SkeFramework.NetSerialPort.Net.Constants
             Socket = socket;
             RawBuffer = new byte[rawBufferLength];
         }
-
         /// <summary>
         /// Socket对象
         /// </summary>
         public SerialPort Socket { get; private set; }
-
         /// <summary>
         /// 远程主机节点
         /// </summary>
         public INode RemoteHost { get; set; }
-
         /// <summary>
         /// 接收缓冲区
         /// </summary>
         public IByteBuf Buffer { get; private set; }
-
         /// <summary>
         /// 原始缓冲区
         /// </summary>
