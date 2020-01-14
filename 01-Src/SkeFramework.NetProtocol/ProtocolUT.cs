@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SkeFramework.NetSerialPort.Net.Reactor;
+﻿using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols;
-using SkeFramework.NetSerialPort.Protocols.Configs;
-using SkeFramework.NetSerialPort.Protocols.Configs.Enums;
 using SkeFramework.NetSerialPort.Protocols.Connections;
-using SkeFramework.NetSerialPort.Protocols.Constants;
+using SkeFramework.NetSerialPort.Protocols.DataFrame;
 using SkeFramework.NetSerialPort.Protocols.Requests;
-using SkeFramework.NetSerialPort.Protocols.Response;
+using System;
+using System.Text;
 using ULCloudLockTool.BLL.SHProtocol.BusinessCase.Requests;
-using ULCloudLockTool.BLL.SHProtocol.BusinessCase.Response;
 using ULCloudLockTool.BLL.SHProtocol.Constants;
-using ULCloudLockTool.BLL.SHProtocol.DataFrame;
 
 namespace ULCloudLockTool.BLL.SHProtocol
 {
@@ -93,43 +85,56 @@ namespace ULCloudLockTool.BLL.SHProtocol
             }
         }
         /// <summary>
-        /// 处理返回的数据
-        /// </summary>
-        /// <param name="networkData"></param>
-        protected override void ProcessReceivedData(NetworkData networkData)
-        {
-            bool isASCII = networkData.Buffer[0]!=0xA5;
-            string content = isASCII ? Encoding.ASCII.GetString(networkData.Buffer) : Encoder.ByteEncode(networkData.Buffer);
-            Console.WriteLine(String.Format( "协议层消息处理【{0}】：{1}",networkData.RemoteHost.ToString(), content));
-            base.ProcessReceivedData(networkData);
-            IConnection connection = this.connectionDocker.GetCase(networkData.RemoteHost.TaskTag);
-            if (connection!=null && connection is RefactorRequestChannel)
-            {
-                RefactorRequestChannel requestChannel = (RefactorRequestChannel)connection;
-                if (requestChannel.ProcessModeWithResponse)
-                {
-                    commCase_Receive = new RefactorProxyResponseChannel(this._reactor, requestChannel);
-                    ((RefactorResponseChannel)commCase_Receive).OnReceive(networkData);
-                }
-                else
-                {
-                    requestChannel.InvokeReceiveIfNotNull(networkData);
-                }
-            }
-            else
-            {
-                DefaultResponse response = new DefaultResponse(this._reactor);
-                response.OnReceive(networkData);
-            }
-        }
-        /// <summary>
         /// 原始数据解析
         /// </summary>
         /// <param name="OriginalBuffer"></param>
         /// <returns></returns>
-        public override byte[] ParsingReceivedData(byte[] OriginalBuffer)
+        public override FrameBase ParsingReceivedData(byte[] OriginalBuffer)
         {
-            return base.ParsingReceivedData(OriginalBuffer);
+            Console.WriteLine("串口收到数据<<--" + this.Encoder.ByteEncode(OriginalBuffer));
+            FrameBase frame = new FrameBase(OriginalBuffer,null);
+            FrameBase.ResultOfParsingFrame result = frame.ParseToFrame(OriginalBuffer);
+            if (result.Equals(FrameBase.ResultOfParsingFrame.ReceivingCompleted))
+            {
+                int len = (int)OriginalBuffer[2];
+                if (OriginalBuffer.Length < len + 7)//数据接收不完整
+                {
+                    Console.WriteLine("串口丢弃数据-->>" + this.Encoder.ByteEncode(OriginalBuffer));
+                    return null;
+                }
+                return frame;
+            }
+            else
+            {
+
+            }
+            byte[] RawBuffer = null;
+            StringBuilder builder = new StringBuilder();
+            builder.Append(Encoding.ASCII.GetString(OriginalBuffer));
+            string receive_content = builder.ToString();
+            int CRLF_AT = -1;
+            CRLF_AT = receive_content.IndexOf("\r\n", 2);
+            if (CRLF_AT != -1)
+            {
+                string content = receive_content.Substring(0, CRLF_AT + 2);
+                RawBuffer = Encoding.ASCII.GetBytes(content);
+                return new FrameBase(RawBuffer, new byte[] { });
+            }
+            Console.WriteLine("串口丢弃数据-->>" + receive_content);
+            return null;
+        }
+        /// <summary>
+        /// 分配链接
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <returns></returns>
+        public override IConnection GetConnection(FrameBase frame)
+        {
+            if (frame is FrameBase)
+            {
+                return base.GetConnection(frame);
+            }
+            return base.GetConnection(frame);
         }
     }
 }

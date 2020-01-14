@@ -144,7 +144,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
             if (frame != null)
             {
                 ++sentTimes;
-                byte[] sendByte = frame.Buffer;
+                byte[] sendByte = frame.Buffer;               
                 this.caseObj.Send(sendByte, 0, sendByte.Length, null);
                 timeCounter.Reset();
                 timeCounter.Start();

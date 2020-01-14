@@ -15,20 +15,20 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
     /// </summary>
    public class RefactorProxyRequestChannel : RefactorRequestChannel
     {
-        public RefactorProxyRequestChannel(ReactorBase reactor)
-            : this(reactor, reactor.LocalEndpoint)
+        public RefactorProxyRequestChannel(ReactorBase reactor, string controlCode)
+            : this(reactor, reactor.LocalEndpoint, controlCode)
         {
         }
 
-        public RefactorProxyRequestChannel(ReactorBase reactor, INode endPoint)
-            : base(reactor,  endPoint)
+        public RefactorProxyRequestChannel(ReactorBase reactor, INode endPoint, string controlCode)
+            : base(reactor,  endPoint, controlCode)
         {
         }
 
         public override void BeginReceiveInternal()
         {
+            this.Receiving = false;
             Sender.EndSend();
-         
         }
 
         public override void Configure(IConnectionConfig config)

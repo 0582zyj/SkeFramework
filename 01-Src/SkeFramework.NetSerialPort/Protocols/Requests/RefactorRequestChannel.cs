@@ -44,27 +44,21 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         }
 
         #region 构造函数
-        protected RefactorRequestChannel(ReactorBase reactor)
-            : this(reactor, reactor.LocalEndpoint)
+        protected RefactorRequestChannel(ReactorBase reactor, string controlCode)
+            : this(reactor, reactor.LocalEndpoint, controlCode)
         {
         }
-        protected RefactorRequestChannel(ReactorBase reactor, INode node)
+        protected RefactorRequestChannel(ReactorBase reactor, INode node,string controlCode)
         {
             _reactor = reactor;
             Decoder = _reactor.Decoder.Clone();
             Encoder = _reactor.Encoder.Clone();
             Allocator = _reactor.Allocator;
             Local = reactor.LocalEndpoint;
-            if (node != null)
-            {
-                RemoteHost = node;
-            }
-            else
-            {
-                RemoteHost = reactor.LocalEndpoint.Clone() as INode;
-            }
+            RemoteHost = node == null ? reactor.LocalEndpoint.Clone() as INode : node;
             this.Created = DateTime.Now;
             Dead = false;
+            ControlCode = controlCode;
             Timeout = NetworkConstants.BackoffIntervals[6];
             this.Sender = new SenderListenser(this);
         }
@@ -104,6 +98,11 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         {
             return _reactor.IsActive;
         }
+
+        /// <summary>
+        /// 响应控制命令码
+        /// </summary>
+        public string ControlCode { get; set; }
         #endregion
 
         public int MessagesInSendQueue

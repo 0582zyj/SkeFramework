@@ -54,7 +54,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
 
 
 
-        //2.声明事件；   
+        #region 声明事件 
         protected event ReceivedDataCallback ReceiveList;
 
         public event ReceivedDataCallback Receive
@@ -63,12 +63,11 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
             // ReSharper disable once ValueParameterNotUsed
             remove { ReceiveList -= value; }
         }
-
+        #endregion
 
         public IMessageEncoder Encoder { get; set; }
         public IMessageDecoder Decoder { get; set; }
         public IByteBufAllocator Allocator { get; set; }
-
         public DateTime Created { get; private set; }
         public INode RemoteHost { get; set; }
         public INode Local { get; set; }
@@ -89,13 +88,17 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
         {
             return _reactor.IsActive;
         }
-
+        /// <summary>
+        /// 响应控制命令码
+        /// </summary>
+        public string ControlCode { get ; set; }
 
         public int MessagesInSendQueue
         {
             get { return 0; }
         }
 
+        
 
         public abstract void Configure(IConnectionConfig config);
 
