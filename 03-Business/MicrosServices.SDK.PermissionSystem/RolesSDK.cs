@@ -319,7 +319,6 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <returns></returns>
         public JsonResponses GetRolesAssign(long UserNo)
         {
-
             try
             {
                 RequestBase request = new RequestBase
