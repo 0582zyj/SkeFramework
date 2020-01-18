@@ -22,12 +22,12 @@
                         <form role="form" id="quickForm">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="UsersNo">用户编号</label>
-                                    <input type="text" name="UsersNo" class="form-control" id="UsersNo" v-model="dataItem.UsersInfo.UsersNo" placeholder="权限编号" readonly="readonly">
+                                    <label for="UserNo">用户编号</label>
+                                    <input type="text" name="UserNo" class="form-control" id="UserNo" v-model="dataItem.UsersSettingInfo.UserNo" placeholder="用户编号" readonly="readonly">
                                 </div>
                                 <div class="form-group">
                                     <label for="UserName">用户名称</label>
-                                    <input type="text" name="UserName" class="form-control" id="UserName" v-model="dataItem.UsersInfo.UserName" placeholder="用户名称" readonly="readonly">
+                                    <input type="text" name="UserName" class="form-control" id="UserName" v-model="dataItem.UserName" placeholder="用户名称" readonly="readonly">
                                 </div>
                                 <label for="exampleInputPassword1">角色列表</label>
                                 <div class="form-group" v-for="(option,index) in dataItem.optionValues">

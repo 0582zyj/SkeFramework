@@ -14,9 +14,13 @@ namespace MicrosServices.Helper.Core.VO
    public class RolesAssignVo
     {
         /// <summary>
+        /// 用户名称
+        /// </summary>
+        public string UserName { get; set; }
+        /// <summary>
         /// 用户信息
         /// </summary>
-        public UcUsers UsersInfo { get; set; }
+        public UcUsersSetting UsersSettingInfo { get; set; }
         /// <summary>
         /// 角色列表
         /// </summary>
