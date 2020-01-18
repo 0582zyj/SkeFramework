@@ -39,34 +39,6 @@ namespace ULCloudLockTool.BLL.SHProtocol.BusinessCase.Response
 
         public override void OnReceive(NetworkData data)
         {
-            
-            if (data.Buffer[2] == ProtocolConst.ATPraseLockInfo)
-            {
-                IDataFrame dataFrame = new ATDataFrame();
-                int tagIndex = 10;
-                byte[] dataBuffer = data.Buffer;
-                if (dataBuffer.Length >= 30)
-                {
-                    tagIndex = 12;
-                }
-                if (dataBuffer.Length > tagIndex && dataBuffer[tagIndex] == 0x3A)
-                {
-                    int bodyStartIndex = tagIndex + 1;
-                    byte[] ReceiveBytes = new byte[dataBuffer.Length - bodyStartIndex];
-                    dataBuffer.ToList().CopyTo(bodyStartIndex, ReceiveBytes, 0, dataBuffer.Length - bodyStartIndex);
-                    data.RemoteHost.TaskTag = ProtocolConst.ATPraseLockInfo.ToString();
-                    data.ResultData = dataFrame.ProcessDataFrame(ReceiveBytes);
-                }
-                else
-                {
-                    Console.WriteLine("丢弃未处理数据:" + this.Encoder.ByteEncode(data.Buffer));
-                    return;
-                }
-            }
-            else
-            {
-                data.RemoteHost.TaskTag = ProtocolConst.ATScanDevice.ToString();
-            }
             base.OnReceive(data);
 
         }

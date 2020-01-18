@@ -15,8 +15,7 @@ namespace ULCloudLockTool.BLL.SHProtocol.DataHandle.ATHandleBase
         /// <returns></returns>
         public void RequestATScan()
         {
-            string strAT = "AT+INQ=1\r\n";
-            base.RequestReactorFunction(ProtocolConst.ATScanDevice, strAT);
+        
         }
         public virtual void RequestATSetRemoteAddress(string mac)
         {

@@ -43,11 +43,11 @@ namespace ULCloudLockTool.BLL.SHProtocol
         /// <summary>
         /// 通信基类
         /// </summary>
-        private IReactor reactor;
+        protected IReactor reactor;
         /// <summary>
         /// 协议适配类
         /// </summary>
-        private IConnection connectionAdapter;
+        protected IConnection connectionAdapter;
         /// <summary>
         /// 协议适配类
         /// </summary>
@@ -65,7 +65,7 @@ namespace ULCloudLockTool.BLL.SHProtocol
         /// <summary>
         /// 界面监听消息列表
         /// </summary>
-        private List<IDataPointListener> _mDataPointListeners = null;
+        protected List<IDataPointListener> _mDataPointListeners = null;
 
         #region 协议处理代理
         /// <summary>
@@ -86,7 +86,7 @@ namespace ULCloudLockTool.BLL.SHProtocol
         /// 启动一个通信
         /// </summary>
         /// <param name="nodeConfig"></param>
-        public bool StartReactor(NodeConfig nodeConfig)
+        public virtual bool StartReactor(NodeConfig nodeConfig)
         {
             try
             {
@@ -113,10 +113,6 @@ namespace ULCloudLockTool.BLL.SHProtocol
         {
             if (_mDataPointListeners != null && _mDataPointListeners.Count>0)
             {
-                if(incomingData.RemoteHost.TaskTag== ProtocolConst.ATPraseLockInfo.ToString())
-                {
-
-                }
                 foreach(var item in _mDataPointListeners)
                 {
                     item.OnReceivedDataPoint(incomingData, responseChannel.Local.TaskTag);
