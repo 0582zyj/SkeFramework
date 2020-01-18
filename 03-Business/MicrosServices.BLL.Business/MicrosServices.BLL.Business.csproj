@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{00BAAA1A-D082-4822-981C-D8AD6E8EEB59}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MicrosServices.BLL.Business</RootNamespace>
+    <AssemblyName>MicrosServices.BLL.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Achieve\DALDataHandleFactory.cs" />
+    <Compile Include="DataHandleManager.cs" />
+    <Compile Include="PermissionSystem\ManagementHandles\IPsManagementHandle.cs" />
+    <Compile Include="PermissionSystem\ManagementHandles\PsManagementHandle.cs" />
+    <Compile Include="PermissionSystem\ManagementRolesHandles\IPsManagementRolesHandle.cs" />
+    <Compile Include="PermissionSystem\ManagementRolesHandles\PsManagementRolesHandle.cs" />
+    <Compile Include="PermissionSystem\MenuHandles\IPsMenuHandle.cs" />
+    <Compile Include="PermissionSystem\MenuHandles\PsMenuHandle.cs" />
+    <Compile Include="PermissionSystem\MenuManagementHandles\IPsMenuManagementHandle.cs" />
+    <Compile Include="PermissionSystem\MenuManagementHandles\PsMenuManagementHandle.cs" />
+    <Compile Include="PermissionSystem\OrganizationHandles\IPsOrganizationHandle.cs" />
+    <Compile Include="PermissionSystem\OrganizationHandles\PsOrganizationHandle.cs" />
+    <Compile Include="PermissionSystem\OrgRolesHandles\IPsOrgRolesHandle.cs" />
+    <Compile Include="PermissionSystem\OrgRolesHandles\PsOrgRolesHandle.cs" />
+    <Compile Include="PermissionSystem\PlatformHandles\IPsPlatformHandle.cs" />
+    <Compile Include="PermissionSystem\PlatformHandles\PsPlatformHandle.cs" />
+    <Compile Include="PermissionSystem\RolesHandles\IPsRolesHandle.cs" />
+    <Compile Include="PermissionSystem\RolesHandles\PsRolesHandle.cs" />
+    <Compile Include="PermissionSystem\UserOrgHandles\IPsUserOrgHandle.cs" />
+    <Compile Include="PermissionSystem\UserOrgHandles\PsUserOrgHandle.cs" />
+    <Compile Include="PermissionSystem\UserRolesHandles\IPsUserRolesHandle.cs" />
+    <Compile Include="PermissionSystem\UserRolesHandles\PsUserRolesHandle.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserCenter\UcUsersSettingHandles\IUcUsersSettingHandle.cs" />
+    <Compile Include="UserCenter\UcUsersSettingHandles\UcUsersSettingHandle.cs" />
+    <Compile Include="UsersHandles\IUcUsersHandle.cs" />
+    <Compile Include="UsersHandles\UcUsersHandle.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Common\SkeFramework.Core.Common.csproj">
+      <Project>{37DE7F92-5446-4200-87A6-43C36D1C1650}</Project>
+      <Name>SkeFramework.Core.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.SnowFlake\SkeFramework.Core.SnowFlake.csproj">
+      <Project>{59b48553-2829-4bb0-83aa-860c8edc9f68}</Project>
+      <Name>SkeFramework.Core.SnowFlake</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.DataAccess\SkeFramework.DataBase.DataAccess.csproj">
+      <Project>{2811AF18-014F-4D3A-AA91-6AFB13F53A9A}</Project>
+      <Name>SkeFramework.DataBase.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.Interfaces\SkeFramework.DataBase.Interfaces.csproj">
+      <Project>{668b3c84-53ba-44bc-b3e5-59f0c4d248dd}</Project>
+      <Name>SkeFramework.DataBase.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.DAL.DataAccess\MicrosServices.DAL.DataAccess.csproj">
+      <Project>{385c7f8e-7318-4cb8-9df6-b61d49805c4e}</Project>
+      <Name>MicrosServices.DAL.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj">
+      <Project>{f26359e9-2013-44d7-8569-e5533dec9ba4}</Project>
+      <Name>MicrosServices.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj">
+      <Project>{2AC71E45-3249-48C3-AE3B-F303EB899675}</Project>
+      <Name>MicrosServices.Helper.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Helper.DataUtil\MicrosServices.Helper.DataUtil.csproj">
+      <Project>{1420C94D-4ECE-4A05-BBCE-0D2EAC8F675E}</Project>
+      <Name>MicrosServices.Helper.DataUtil</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

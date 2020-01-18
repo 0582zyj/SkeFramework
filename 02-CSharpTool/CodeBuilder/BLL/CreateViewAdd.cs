@@ -108,8 +108,8 @@ namespace CodeBuilder.BLL
             sb.AppendLine("                    axios.post(this.addPostUrl, this.dataItem)");
             sb.AppendLine("                     .then(function (response) {");
             sb.AppendLine("                         if (response.status == 200) {");
-            sb.AppendLine("                             alert(response.data.ResultMsg);");
-            sb.AppendLine("                             if (response.data.ResultCode == 100) {");
+            sb.AppendLine("                             alert(response.data.msg);");
+            sb.AppendLine("                             if (response.data.code == 200) {");
             sb.AppendLine("                                 window.location.href = _self.listJumpUrl;");
             sb.AppendLine("                             }");
             sb.AppendLine("                         }");

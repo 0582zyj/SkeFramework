@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\EnumUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Randoms\RandomUtils.cs" />
     <Compile Include="Validates\ValidateUtils.cs" />

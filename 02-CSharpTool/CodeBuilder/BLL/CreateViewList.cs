@@ -145,8 +145,8 @@ namespace CodeBuilder.BLL
             sb.AppendLine("                    axios.post(this.deleteUrl, { id: _id })");
             sb.AppendLine("                     .then(function (response) {");
             sb.AppendLine("                         if (response.status == 200) {");
-            sb.AppendLine("                             alert(response.data.ResultMsg);");
-            sb.AppendLine("                             if (response.data.ResultCode == 300) {");
+            sb.AppendLine("                             alert(response.data.msg);");
+            sb.AppendLine("                             if (response.data.code == 200) {");
             sb.AppendLine("                                 window.location.reload();");
             sb.AppendLine("                             }");
             sb.AppendLine("                         }");

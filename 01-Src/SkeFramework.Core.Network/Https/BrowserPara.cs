@@ -19,7 +19,7 @@ namespace SkeFramework.Core.Network.Https
         /// <summary>
         /// 请求方式
         /// </summary>
-        public RequestTypeEnums Method = RequestTypeEnums.POST;// public string Method = "Post";
+        public RequestTypeEnums Method = RequestTypeEnums.POST_FORM;
         /// <summary>
         /// 请求参数
         /// </summary>
@@ -47,17 +47,17 @@ namespace SkeFramework.Core.Network.Https
         /// <summary>
         /// 请求Http Accept值 
         /// </summary>
-        public string Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+        public string Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;";
 
         /// <summary>
         /// 请求的User-Agent值 
         /// </summary>
-        public string UserAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.154 Safari/537.36";
+        public string UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36";
 
         /// <summary>
         /// 请求的content-Type值 
         /// </summary>
-        public string contentType = "application/x-www-form-urlencoded";
-
+        public string contentTypeGet = "application/x-www-form-urlencoded";
+        
     }
 }

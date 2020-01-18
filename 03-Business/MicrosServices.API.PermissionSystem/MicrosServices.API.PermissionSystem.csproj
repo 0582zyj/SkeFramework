@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <UserSecretsId>77fd8fba-6b82-45cf-b7e7-bcd057b54a43</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Gobal\ExceptionHandlerMiddleWare.cs" />
+    <Compile Remove="Gobal\i18MiddlewareExtension.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="MySqlClient" Version="5.4.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
+    <PackageReference Include="System.Management" Version="4.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Gobal\" />
+    <Folder Include="Resources\DataBase\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.ApiCommons\SkeFramework.Core.ApiCommons.csproj" />
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj" />
+    <ProjectReference Include="..\MicrosServices.BLL.Business\MicrosServices.BLL.Business.csproj" />
+    <ProjectReference Include="..\MicrosServices.DAL.DataAccess\MicrosServices.DAL.DataAccess.csproj" />
+    <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj" />
+    <ProjectReference Include="..\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj" />
+    <ProjectReference Include="..\MicrosServices.SDK.UserCenter\MicrosServices.SDK.UserCenter.csproj" />
+  </ItemGroup>
+
+</Project>

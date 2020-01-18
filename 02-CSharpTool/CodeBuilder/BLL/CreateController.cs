@@ -115,9 +115,9 @@ namespace CodeBuilder.BLL
             sb.AppendLine("        [HttpPost]");
             sb.AppendLine(string.Format("        public JsonResult {0}Add({0} model)", DealTableName));
             sb.AppendLine("        {");
-            sb.AppendLine("            var ResultCode = -1;");
-            sb.AppendLine(string.Format("            ResultCode = DataHandleManager.Instance().{0}Handle.Insert(model);", DealTableName));
-            sb.AppendLine("            return Json(GetResultMsg(ResultCode>0?100:101), JsonRequestBehavior.AllowGet);");
+            sb.AppendLine("            var code = -1;");
+            sb.AppendLine(string.Format("            code = DataHandleManager.Instance().{0}Handle.Insert(model);", DealTableName));
+            sb.AppendLine("            return Json(GetResultMsg(code>0?100:101), JsonRequestBehavior.AllowGet);");
             sb.AppendLine("        }");
 
             sb.AppendLine("        /// <summary>");
@@ -127,9 +127,9 @@ namespace CodeBuilder.BLL
             sb.AppendLine("        [HttpPost]");
             sb.AppendLine(string.Format("        public JsonResult {0}Update({0} model)", DealTableName));
             sb.AppendLine("        {");
-            sb.AppendLine("            var ResultCode = -1;");
-            sb.AppendLine(string.Format("            ResultCode = DataHandleManager.Instance().{0}Handle.Update(model);", DealTableName));
-            sb.AppendLine("            return Json(GetResultMsg(ResultCode>0?200:201), JsonRequestBehavior.AllowGet);");
+            sb.AppendLine("            var code = -1;");
+            sb.AppendLine(string.Format("            code = DataHandleManager.Instance().{0}Handle.Update(model);", DealTableName));
+            sb.AppendLine("            return Json(GetResultMsg(code>0?200:201), JsonRequestBehavior.AllowGet);");
             sb.AppendLine("        }");
 
 
@@ -140,19 +140,19 @@ namespace CodeBuilder.BLL
             sb.AppendLine("        [HttpPost]");
             sb.AppendLine(string.Format("        public JsonResult {0}Delete(int id)", DealTableName));
             sb.AppendLine("        {");
-            sb.AppendLine("            var ResultCode = -1;");
-            sb.AppendLine(string.Format("            ResultCode = DataHandleManager.Instance().{0}Handle.Delete(id);", DealTableName));
-            sb.AppendLine("            return Json(GetResultMsg(ResultCode>0?300:301), JsonRequestBehavior.AllowGet);");
+            sb.AppendLine("            var code = -1;");
+            sb.AppendLine(string.Format("            code = DataHandleManager.Instance().{0}Handle.Delete(id);", DealTableName));
+            sb.AppendLine("            return Json(GetResultMsg(code>0?300:301), JsonRequestBehavior.AllowGet);");
             sb.AppendLine("        }");
 
             sb.AppendLine("        /// <summary>");
             sb.AppendLine("        /// 根据状态获取结果");
             sb.AppendLine("        /// </summary>");
             sb.AppendLine("        /// <returns></returns>");
-            sb.AppendLine("        public Object GetResultMsg(int ResultCode)");
+            sb.AppendLine("        public Object GetResultMsg(int code)");
             sb.AppendLine("        {");
             sb.AppendLine("            string Msg = \"操作成功\";");
-            sb.AppendLine("            switch (ResultCode)");
+            sb.AppendLine("            switch (code)");
             sb.AppendLine("            {");
             sb.AppendLine("                case -1:");
             sb.AppendLine("                    Msg = \"服务器响应错误\";");
@@ -169,7 +169,7 @@ namespace CodeBuilder.BLL
             sb.AppendLine("                case 201:");
             sb.AppendLine("                    Msg = \"更新失败\";");
             sb.AppendLine("                    break;");
-            sb.AppendLine("                case 300:");
+            sb.AppendLine("                case 200:");
             sb.AppendLine("                    Msg = \"删除成功\";");
             sb.AppendLine("                    break;");
             sb.AppendLine("                case 301:");
@@ -179,7 +179,7 @@ namespace CodeBuilder.BLL
             sb.AppendLine("                    Msg = \"未知错误\";");
             sb.AppendLine("                    break;");
             sb.AppendLine("            }");
-            sb.AppendLine("            var obj = new { ResultCode = ResultCode, ResultMsg = Msg };//构造对象");
+            sb.AppendLine("            var obj = new { code = code, msg = Msg };//构造对象");
             sb.AppendLine("            return obj ;");
             sb.AppendLine("        }");
             sb.AppendLine("        #endregion ");

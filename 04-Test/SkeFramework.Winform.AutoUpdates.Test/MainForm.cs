@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
-using SkeFramework.Core.SnowFlake;
 using SkeFramework.Winform.AutoUpdates.DAL.Interfaces;
 using SkeFramework.Winform.AutoUpdates.DAL.Services;
 
@@ -25,14 +24,14 @@ namespace SkeFramework.Winform.AutoUpdates.Test
         private void Form1_Load(object sender, EventArgs e)
         {
             //InitCheckUpdate();
-            var utcNow = DateTime.Now;
-            AutoIDWorker snowFlake = new AutoIDWorker(2);
-            long start = DateTime.Now.Ticks;
-            for (int i = 0; i < 2*10000; i++)
-            {
-                Console.WriteLine(snowFlake.GetAutoID());
-            }
-            Console.WriteLine(DateTime.Now.Subtract(utcNow).TotalSeconds);
+            //var utcNow = DateTime.Now;
+            //AutoIDWorker snowFlake = new AutoIDWorker(2);
+            //long start = DateTime.Now.Ticks;
+            //for (int i = 0; i < 2*10000; i++)
+            //{
+            //    Console.WriteLine(snowFlake.GetAutoID());
+            //}
+            //Console.WriteLine(DateTime.Now.Subtract(utcNow).TotalSeconds);
         }
 
         private void btnCheck_Click(object sender, EventArgs e)

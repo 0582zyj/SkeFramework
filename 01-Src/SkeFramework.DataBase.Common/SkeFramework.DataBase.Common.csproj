@@ -76,7 +76,6 @@
   <ItemGroup>
     <Compile Include="AttributeExtend\IgonreAttribute.cs" />
     <Compile Include="AttributeExtend\KeyAttribute.cs" />
-    <Compile Include="DataCommon\ExpressionHelper.cs" />
     <Compile Include="DataCommon\PropertiesHelper.cs" />
     <Compile Include="DataCommon\RepositoryHelper.cs" />
     <Compile Include="DataFactory\DbFactory.cs" />

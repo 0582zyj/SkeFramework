@@ -72,7 +72,7 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Common
             {
                 return JsonConvert.DeserializeObject<List<TEntity>>(JsonConvert.SerializeObject(dt)).FirstOrDefault();
             }
-            return new TEntity();
+            return null;
         }
     }
 }

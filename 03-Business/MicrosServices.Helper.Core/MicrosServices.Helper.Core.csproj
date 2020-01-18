@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2AC71E45-3249-48C3-AE3B-F303EB899675}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MicrosServices.Helper.Core</RootNamespace>
+    <AssemblyName>MicrosServices.Helper.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extends\CheckOptionValue.cs" />
+    <Compile Include="Form\ManagementMenusForm.cs" />
+    <Compile Include="Form\UserRolesForm.cs" />
+    <Compile Include="UserCenter\FORM\RegisterPlatformForm.cs" />
+    <Compile Include="VO\ManagmentAssignVo.cs" />
+    <Compile Include="Common\OptionValue.cs" />
+    <Compile Include="Constants\ErrorResultType.cs" />
+    <Compile Include="Constants\LoginResultType.cs" />
+    <Compile Include="DTO\PageDTO.cs" />
+    <Compile Include="Form\ManagementRolesForm.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserCenter\FORM\LoginInfoForm.cs" />
+    <Compile Include="VO\MenuAssignVo.cs" />
+    <Compile Include="VO\MenuSideBar.cs" />
+    <Compile Include="VO\RolesAssignVo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Common\SkeFramework.Core.Common.csproj">
+      <Project>{37de7f92-5446-4200-87a6-43c36d1c1650}</Project>
+      <Name>SkeFramework.Core.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Enums\SkeFramework.Core.Enums.csproj">
+      <Project>{6440AC15-B390-4C92-BB11-9C2661EE162F}</Project>
+      <Name>SkeFramework.Core.Enums</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj">
+      <Project>{F26359E9-2013-44D7-8569-E5533DEC9BA4}</Project>
+      <Name>MicrosServices.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

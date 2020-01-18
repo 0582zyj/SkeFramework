@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "新增";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>角色分配</h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> 主页</a></li>
+        <li><a href="@Url.Action("RolesList","Roles")"><i class="fa fa-bar-chart"></i>角色管理</a></li>
+    </ol>
+</section>
+<section class="content" id="section-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#profile" data-toggle="tab" aria-expanded="true">用户角色分配</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="profile">
+                        <form role="form" id="quickForm">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="UserNo">用户编号</label>
+                                    <input type="text" name="UserNo" class="form-control" id="UserNo" v-model="dataItem.UsersSettingInfo.UserNo" placeholder="用户编号" readonly="readonly">
+                                </div>
+                                <div class="form-group">
+                                    <label for="UserName">用户名称</label>
+                                    <input type="text" name="UserName" class="form-control" id="UserName" v-model="dataItem.UserName" placeholder="用户名称" readonly="readonly">
+                                </div>
+                                <label for="exampleInputPassword1">角色列表</label>
+                                <div class="form-group" v-for="(option,index) in dataItem.optionValues">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" class="custom-control-input"
+                                                   v-on:click="CheckItem(option)"
+                                                   v-bind:value=option.Value v-model=option.isCheck
+                                                   v-bind:data=option.Name>{{option.Name}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="button" class="btn btn-primary" v-on:click="submit()">保存</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+        </div>
+    </div>
+</section>
+<!-- Content Wrapper. Contains page content -->
+<!-- /.content-wrapper -->
+<script>
+        var vm = new Vue({
+            el: "#section-content",
+            data: {
+                listJumpUrl: "@Url.Action("UserList", "User")",
+                assignPostUrl: "@Url.Action("RolesAssignUpdate", "Roles")",
+                getItemUrl: "@Url.Action("GetRolesAssign", "Roles")",
+                dataItem: {},
+                postData: {
+                    UserNo: "@Request.QueryString["UserNo"].ToString()",
+                    RolesNos: []
+                },
+            },
+            created: function () {
+                this.Init();
+            },
+            methods: {
+                Init: function () {
+                    var _self = this;
+                    _self.dataItem = {};
+                    axios.get(this.getItemUrl, { params: { UserNo: this.postData.UserNo } } )
+                     .then(function (response) {
+                         if (response.status == 200) {
+                             _self.dataItem = response.data;
+                         }
+                     })
+                     .catch(function (error) {
+                         console.log(error);
+                        });
+                },
+                submit: function () {
+                    var _self = this;
+                    _self.postData.RolesNos = _self.dataItem.optionValues.filter(item => item.isCheck).map(item => item.Value);
+                    axios.post(this.assignPostUrl, this.postData)
+                     .then(function (response) {
+                         if (response.status == 200) {
+                             alert(response.data.msg);
+                             if (response.data.code == 200) {
+                                 window.location.href = _self.listJumpUrl;
+                             }
+                         }
+                     })
+                     .catch(function (error) {
+                         console.log(error);
+                     });
+                },
+                CheckItem: function (option) {
+                    option.isCheck = !option.isCheck;
+                    console.log(option.isCheck);
+                },
+
+            }
+        });
+</script>

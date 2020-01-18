@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title = "新增";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>权限新增</h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> 主页</a></li>
+        <li><a href="@Url.Action("ManagementList","Management")"><i class="fa fa-bar-chart"></i> 权限管理</a></li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content" id="section-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#profile" data-toggle="tab" aria-expanded="true">基本信息</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="profile">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="PlatformNo" class="col-sm-2 control-label">父节点</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" name="ParentNo" id="ParentNo" v-model="dataItem.ParentNo">
+                                        <option v-for="option in managementList" v-bind:value="option.Value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Name" class="col-sm-2 control-label">名称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Name" id="Name" v-model="dataItem.Name" required maxlength="120" placeholder="名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Description" class="col-sm-2 control-label">Description</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Description" id="Description" v-model="dataItem.Description" required maxlength="512" placeholder="Description">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Value" class="col-sm-2 control-label">权限值</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Value" id="Value" v-model="dataItem.Value" required maxlength="200" placeholder="权限值">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Type" class="col-sm-2 control-label">权限类型</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" name="Type" id="Type" v-model="dataItem.Type">
+                                        <option v-for="option in managmentTypeList" v-bind:value="option.Value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Sort" class="col-sm-2 control-label">排序</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Sort" id="Sort" v-model="dataItem.Sort" required maxlength="200" placeholder="排序">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="PlatformNo" class="col-sm-2 control-label">平台</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo">
+                                        <option v-for="option in platformList" v-bind:value="option.Value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Enabled" class="col-sm-2 control-label">启用状态</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" name="Enabled" id="Enabled" v-model="dataItem.Enabled">
+                                        <option v-for="option in enabledList" v-bind:value="option.Value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="hidden" name="token" value="5cbd303f221a626ce0f404cec31b4ea4">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-default" v-on:click="submit()">保存</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+        </div>
+    </div>
+</section>
+<script>
+        var vm = new Vue({
+            el: "#section-content",
+            data: {
+                listJumpUrl: "@Url.Action("ManagementList", "Management")",
+                addPostUrl: "@Url.Action("PsManagementAdd", "Management")",
+                getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
+                getManagementOptionValueUrl: "@Url.Action("GetOptionValues", "Management")",
+                platformList: {},
+                managementList: {},
+                dataItem: {},
+                managmentTypeList: [
+                    { Name: '默认权限', Value: 0 },
+                    { Name: '普通权限', Value: 1 },
+                    { Name: '菜单权限', Value: 2 },
+                ],
+                enabledList: [
+                    { Name: '启用', Value: 1 },
+                    { Name: '停用', Value: 0 },
+                ],
+            },
+            created: function () {
+                this.Init();
+            },
+            methods: {
+                Init: function () {
+                    var _self = this;
+                    _self.platformList = {};
+                    axios.get(this.getPlatformOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                    _self.managementList = {};
+                    axios.get(this.getManagementOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.managementList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                submit: function () {
+                    var _self = this;
+                    axios.post(this.addPostUrl, this.dataItem)
+                     .then(function (response) {
+                         if (response.status == 200) {
+                             alert(response.data.msg);
+                             if (response.data.code == 200) {
+                                 window.location.href = _self.listJumpUrl;
+                             }
+                         }
+                     })
+                     .catch(function (error) {
+                         console.log(error);
+                     });
+                    
+                },
+            }
+        });
+</script>
+

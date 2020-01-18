@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MicrosServices.APIGateway.Global;
 using Nacos;
 using Nacos.AspNetCore;
 
@@ -27,6 +28,13 @@ namespace MicrosServices.APIGateway
             // important step
             services.AddNacosAspNetCore(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+   
+
+            services.AddIdentityServer()//Ids4服务
+                .AddDeveloperSigningCredential()
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryClients(Config.GetClients());//把配置文件的Client配置资源放到内存
         }
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -38,6 +46,8 @@ namespace MicrosServices.APIGateway
             app.UseMvc();
 
             app.UseNacosAspNetCore();
+            //
+            app.UseIdentityServer();
 
         }
     }

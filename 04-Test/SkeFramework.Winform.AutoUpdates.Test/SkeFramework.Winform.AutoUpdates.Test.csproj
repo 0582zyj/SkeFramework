@@ -87,10 +87,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.SnowFlake\SkeFramework.Core.SnowFlake.csproj">
-      <Project>{59B48553-2829-4BB0-83AA-860C8EDC9F68}</Project>
-      <Name>SkeFramework.Core.SnowFlake</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.NetSocket\SkeFramework.NetSocket.csproj">
       <Project>{e8fda6ec-46bf-4915-8bbe-de8ef38b11f0}</Project>
       <Name>SkeFramework.NetSocket</Name>

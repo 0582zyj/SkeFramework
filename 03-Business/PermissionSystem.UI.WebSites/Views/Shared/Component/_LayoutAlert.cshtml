@@ -1,0 +1,68 @@
+﻿<template id="alert">
+    <section class="sidebar">
+        <!--Sidebar user panel-->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="@Url.Content("~/Content/images/avatar.png")" class="img-circle" alt="User Image">
+                >
+            </div>
+            <div class="pull-left info">
+                <p></p>
+                <a><i class="fa fa-circle text-success"></i> 正常</a>
+            </div>
+        </div>
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu tree" data-widget="tree">
+            <li v-for="item in dataList" class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-user-secret"></i><span>账号服务</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+            </li>
+        </ul>
+    </section>
+</template>
+<script type="text/javascript">
+    Vue.component('alert', {
+        template: '#alert',
+        data: function () {
+            return {
+                dataList: [],
+            }
+        },
+        mounted: function () {
+            
+        },
+        methods: {
+            close :function() {
+                $('.win iframe').fadeOut();
+                $('.win').fadeOut("fast");
+                setTimeout(function() {
+                    $('.win iframe').remove();
+                    $('.win').remove();
+                }, 200);
+            },
+            open : function(width, height, title, url, closed) {
+                this._close = function() {
+                    this.close();
+                    if ($.isFunction(closed)) closed();                  
+                };
+                var html = '<div class="win"><div class="mask-layer"></div><div class="window-panel"><iframe class="title-panel" frameborder="0" marginheight="0" marginwidth="0" scrolling="no"></iframe><div class="title"><h3></h3></div><a href="javascript:void(0)" onclick="mizhu._close();" class="close-btn" title="关闭">×</a><iframe class="body-panel" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto" src=""></iframe></div></div>';
+                var jq = $(html);
+                jq.find(".window-panel").height(mizhu.height).width(mizhu.width).css("margin-left", -mizhu.width / 2).css("margin-top", -mizhu.height);
+                jq.find(".title").find(":header").html(title);
+                jq.find(".body-panel").height(height - 36).attr("src", url);
+                jq.appendTo('body').fadeIn("fast");
+                $(".win .window-panel").focus();
+            },
+            alert:function(title, message, ico) {
+                var icon = "";
+                if(!valempty(ico)) {
+                    icon = '<p class="btns" style="margin-bottom:-15px;"><img width="70px" height="70px" src="images/' + ico + '.png"></p>';
+                }
+                var html = '<div class="win"><div class="mask-layer"></div><div class="window-panel"><iframe class="title-panel" frameborder="0" marginheight="0" marginwidth="0" scrolling="no"></iframe><div class="title"><h3></h3></div><div class="body-panel">' + icon + '<p class="content"></p><p class="btns"><button class="w-btn" tabindex="1" onclick="mizhu.close();">确定</button></p></div></div></div>';
+                messageBox(html, title, message);
+            },
+        }
+    });
+</script>

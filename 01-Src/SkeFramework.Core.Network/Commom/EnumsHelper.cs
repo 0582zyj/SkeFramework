@@ -24,8 +24,9 @@ namespace SkeFramework.Core.Network.Commom
              {
                  case RequestTypeEnums.GET:
                      return "get";
-                 case RequestTypeEnums.POST:  
-                     return "Post";
+                 case RequestTypeEnums.POST_FORM:
+                case RequestTypeEnums.POST_JSON:
+                    return "Post";
                  default:  
                     return "error";
              }  

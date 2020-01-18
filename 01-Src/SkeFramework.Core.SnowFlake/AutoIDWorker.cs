@@ -16,6 +16,23 @@ namespace SkeFramework.Core.SnowFlake
     /// </summary>
     public class AutoIDWorker
     {
+        #region 单例
+        /// <summary>
+        /// 静态实例
+        /// </summary>
+        private static AutoIDWorker instance;
+        public static AutoIDWorker Example
+        {
+            get
+            {
+                if (AutoIDWorker.instance == null)
+                {
+                    AutoIDWorker.instance = new AutoIDWorker(1);
+                }
+                return instance;
+            }
+        }
+        #endregion
         /// <summary>
         /// 机器ID
         /// </summary>
@@ -82,7 +99,7 @@ namespace SkeFramework.Core.SnowFlake
             Console.WriteLine(@"+------+----------------------+----------------+-----------+");
             Console.WriteLine(@"  1bit          41bits              10bits         10bits");
             if (workerId > maxWorkerId || workerId < 0)
-                throw new Exception(string.Format("worker Id can't be greater than {0} or less than 0 ", workerId));
+                throw new Exception(string.Format("worker Id {0} can't be greater than {1} or less than 0 ", workerId, maxWorkerId));
             AutoIDWorker.workerId = workerId;
         }
         /// <summary>
@@ -115,11 +132,29 @@ namespace SkeFramework.Core.SnowFlake
                 }
                 this.lastTimestamp = timestamp; //把当前时间戳保存为最后生成ID的时间戳
                 long nextId = (timestamp - twepoch << timestampLeftShift)
-                | AutoIDWorker.datacenterId << AutoIDWorker.workerIdShift   //数据中心部分 
+                | (long)(AutoIDWorker.datacenterId << AutoIDWorker.workerIdShift)   //数据中心部分 
                 | AutoIDWorker.workerId << AutoIDWorker.workerIdShift  //机器标识部分
                 | AutoIDWorker.sequence; //序列号部分
                 return nextId;
             }
+        }
+
+        /// <summary>
+        /// 获取下个自动序列号
+        /// </summary>
+        /// <returns></returns>
+        public long GetAutoSequence()
+        {
+            //加个锁 37180 74936 46452 7360
+            long autoId = this.GetAutoID();
+            string ss = autoId.ToString();
+            int index = timestampLeftShift / 2;
+            long Sequence=long.Parse( ss.Substring(index, Math.Max(ss.Length - index, 0)));
+            if (Sequence > 0)
+            {
+                return Sequence;
+            }
+            return autoId;
         }
 
         /// <summary>
