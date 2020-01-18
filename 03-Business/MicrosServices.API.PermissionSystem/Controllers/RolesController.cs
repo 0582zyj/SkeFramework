@@ -171,18 +171,18 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> CreateManagementMenus([FromBody]ManagementMenusForm model)
+        public ActionResult<JsonResponses> CreateUserRoles([FromBody]UserRolesForm model)
         {
             var ResultCode = -1;
-            DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.ManagementNo);
-            if (model.MenuNos != null)
+            DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(model.UserNo);
+            if (model.RolesNos != null)
             {
-                foreach (var nos in model.MenuNos)
+                foreach (var nos in model.RolesNos)
                 {
-                    DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(nos);
+                    DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(nos);
                 }
             }
-            ResultCode = DataHandleManager.Instance().PsMenuManagementHandle.ManagementMenusInsert(model);
+            ResultCode = DataHandleManager.Instance().PsUserRolesHandle.UserRolesInsert(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
         }
 

@@ -18,7 +18,7 @@ namespace MicrosServices.Helper.Core.Form
         /// <summary>
         /// 用户编号
         /// </summary>
-        public long UsersNo { get; set; }
+        public string UserNo { get; set; }
         /// <summary>
         /// 角色编号数组
         /// </summary>

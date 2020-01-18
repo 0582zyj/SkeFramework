@@ -27,6 +27,7 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string GetManagementAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetManagementAssign";
         private static readonly string CreateManagementRolesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/CreateManagementRoles";
         private static readonly string GetRolesAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetRolesAssign";
+        private static readonly string CreateUserRolesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/CreateUserRoles";
         
         /// <summary>
         /// 获取菜单所有列表
@@ -130,10 +131,7 @@ namespace MicrosServices.SDK.PermissionSystem
             return JsonResponses.Failed;
         }
 
-        public JsonResponses CreateUserRoles(UserRolesForm model)
-        {
-            throw new NotImplementedException();
-        }
+    
 
         /// <summary>
         /// 新增菜单
@@ -331,6 +329,33 @@ namespace MicrosServices.SDK.PermissionSystem
                     Uri = request.GetReqUrl(),
                     PostData = request.GetRequestData(),
                     Method = RequestTypeEnums.GET
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+        /// <summary>
+        /// 用户角色授权
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public JsonResponses CreateUserRoles(UserRolesForm model)
+        {
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = CreateUserRolesUrl
+                };
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = JsonConvert.SerializeObject(model),
+                    Method = RequestTypeEnums.POST_JSON
                 });
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
