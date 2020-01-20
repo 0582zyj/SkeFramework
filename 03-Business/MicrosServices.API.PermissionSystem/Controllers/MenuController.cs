@@ -78,6 +78,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             return new JsonResponses(Info);
         }
         #endregion
+
         #region 增删改
         /// <summary>
         /// 新增菜单
@@ -166,6 +167,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
         #endregion
 
+        #region 基础方法
         /// <summary>
         /// 获取键值对
         /// </summary>
@@ -176,8 +178,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             List<OptionValue> optionValues = DataHandleManager.Instance().PsMenuHandle.GetOptionValues();
             return new JsonResponses(optionValues);
         }
+        #endregion
 
-          
         #region 权限菜单
         /// <summary>
         /// 角色授权
@@ -208,6 +210,23 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         {
             MenuAssignVo menuAssignVo  = DataHandleManager.Instance().PsMenuManagementHandle.GetMenuAssign(ManagementNo);
             return new JsonResponses(menuAssignVo);
+        }
+        #endregion
+
+        #region
+        /// <summary>
+        /// 获取列表信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetUserMenusList(string UserNo)
+        {
+            List<PsRoles> roles = DataHandleManager.Instance().PsRolesHandle.GetUserRoleList(UserNo);
+            List<long> RolesNos = roles.Select(o=>o.RolesNo).ToList();
+            List<PsManagement> menus = DataHandleManager.Instance().PsManagementHandle.GetRoleManagementList(RolesNos);
+            List<long> ManagenmentNos = menus.Select(o=>o.ManagementNo).ToList();
+            List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetManagementMenusList(ManagenmentNos).ToList();
+            return new JsonResponses(list);
         }
         #endregion
     }

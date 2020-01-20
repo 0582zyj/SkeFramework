@@ -29,7 +29,9 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetOptionValues";
         private static readonly string GetMenuAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetMenuAssign";
         private static readonly string CreateManagementMenusUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/CreateManagementMenus";
-        
+        private static readonly string GetUserMenusListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetUserMenusList";
+       
+        #region 列表
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -98,6 +100,41 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return menus;
         }
+        /// <summary>
+        /// 获取用户菜单列表
+        /// </summary>
+        /// <param name="loginInfo"></param>
+        /// <returns></returns>
+        public List<PsMenu> GetUserMenusList(string UserNo)
+        {
+            List<PsMenu> menus = new List<PsMenu>();
+            try
+            {
+                RequestBase request = new RequestBase();
+                request.SetValue("UserNo", UserNo);
+                request.Url = GetUserMenusListUrl;
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.GetReqUrl(),
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.GET
+                });
+                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
+                if (responses.code == JsonResponses.SuccessCode)
+                {
+                    object data = responses.data;
+                    menus = JsonConvert.DeserializeObject<List<PsMenu>>(JsonConvert.SerializeObject(data));
+                    return menus;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return menus;
+        }
+        #endregion
+
         /// <summary>
         /// 获取权限菜单
         /// </summary>
