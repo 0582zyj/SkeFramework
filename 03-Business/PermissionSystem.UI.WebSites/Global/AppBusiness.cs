@@ -42,7 +42,12 @@ namespace PermissionSystem.UI.WebSites.Global
             {
                 if (HttpContext.Current.Session == null || HttpContext.Current.Session["SideBarList"] == null)
                 {
-                    HttpContext.Current.Session["SideBarList"] = menuSdk.GetMenuList(); 
+                    LoginModel loginModel = AppBusiness.loginModel;
+                    if (AppBusiness.loginModel != null)
+                    {
+                        string UserNo = AppBusiness.loginModel.UserNo;
+                        HttpContext.Current.Session["SideBarList"] = menuSdk.GetUserMenusList(UserNo);
+                    }
                 }
                 return (List<PsMenu>)HttpContext.Current.Session["SideBarList"];
             }
