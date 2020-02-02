@@ -167,7 +167,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
         #endregion
 
-        #region 基础方法
+        #region 公共方法
         /// <summary>
         /// 获取键值对
         /// </summary>
@@ -213,7 +213,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
         #endregion
 
-        #region
+        #region 用户菜单
         /// <summary>
         /// 获取列表信息
         /// </summary>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core;
+using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Form;
 using MicrosServices.Helper.Core.VO;
 using SkeFramework.Core.Network.DataUtility;
@@ -76,7 +77,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             Info = DataHandleManager.Instance().PsRolesHandle.GetModelByKey(id.ToString());
             return new JsonResponses(Info);
         }
-         #endregion
+        #endregion
 
         #region 增删改
         /// <summary>
@@ -131,6 +132,20 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
         #endregion
 
+        #region 公共方法
+        /// <summary>
+        /// 获取键值对
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetOptionValues()
+        {
+            List<OptionValue> optionValues = DataHandleManager.Instance().PsRolesHandle.GetOptionValues();
+            return new JsonResponses(optionValues);
+        }
+
+        #endregion
+
         #region 角色权限
         /// <summary>
         /// 角色授权
@@ -163,7 +178,6 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             return new JsonResponses(managmentAssignVo);
         }
         #endregion
-
 
         #region 用户角色
         /// <summary>

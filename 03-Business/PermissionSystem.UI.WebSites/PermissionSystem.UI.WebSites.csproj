@@ -125,6 +125,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManagementController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PlatformController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -210,6 +211,9 @@
     <Content Include="Views\Menu\MenuAssign.cshtml" />
     <Content Include="Views\User\UserList.cshtml" />
     <Content Include="Views\Roles\RolesAssign.cshtml" />
+    <Content Include="Views\Organization\OrganizationList.cshtml" />
+    <Content Include="Views\Organization\OrganizationUpdate.cshtml" />
+    <Content Include="Views\Organization\OrganizationAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

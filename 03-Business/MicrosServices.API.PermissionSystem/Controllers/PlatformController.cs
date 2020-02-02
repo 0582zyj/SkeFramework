@@ -22,6 +22,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
     public class PlatformController : ControllerBase
     {
         private UserSDK userSDK = new UserSDK();
+
         #region 基础查询
         /// <summary>
         /// 获取列表信息
@@ -78,6 +79,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             Info = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(id.ToString());
             return new JsonResponses(Info);
         }
+      
         #endregion
         #region 增删改
         /// <summary>
@@ -148,6 +150,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
         #endregion
 
+        #region 公共方法
         /// <summary>
         /// 获取键值对
         /// </summary>
@@ -158,5 +161,6 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             List<OptionValue> optionValues = DataHandleManager.Instance().PsPlatformHandle.GetOptionValues();
             return new JsonResponses(optionValues);
         }
+        #endregion
     }
 }

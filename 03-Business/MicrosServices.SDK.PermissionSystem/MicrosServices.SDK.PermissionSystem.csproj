@@ -49,6 +49,7 @@
     <Compile Include="ManagementSDK.cs" />
     <Compile Include="MenuSdk.cs" />
     <Compile Include="NetwordConstants.cs" />
+    <Compile Include="OrganizationSdk.cs" />
     <Compile Include="PlatformSdk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RolesSDK.cs" />

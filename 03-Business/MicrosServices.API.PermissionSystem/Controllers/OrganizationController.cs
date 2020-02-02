@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
+using MicrosServices.Helper.Core.Common;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 
@@ -75,7 +76,6 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
         #endregion
 
-
         #region 增删改
         /// <summary>
         /// 新增提交方法
@@ -108,8 +108,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// 删除提交方法
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public ActionResult<JsonResponses> Delete(int id)
+        [HttpPost]
+        public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
             var ResultCode = -1;
             ResultCode = DataHandleManager.Instance().PsOrganizationHandle.Delete(id);
@@ -129,5 +129,17 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
         #endregion
 
+        #region 公共方法
+        /// <summary>
+        /// 获取键值对
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetOptionValues()
+        {
+            List<OptionValue> optionValues = DataHandleManager.Instance().PsOrganizationHandle.GetOptionValues();
+            return new JsonResponses(optionValues);
+        }
+        #endregion
     }
 }
