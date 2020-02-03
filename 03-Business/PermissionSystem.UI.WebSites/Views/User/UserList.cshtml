@@ -86,7 +86,22 @@
                 deleteUrl: "@Url.Action("UcUsersDelete", "User")",
                 GetListUrl: "@Url.Action("GetUcUsersList", "User")",
                 dataList: [],
+                enabledList: [
+                    { Name: '启用', Value: 1 },
+                    { Name: '停用', Value: 0 },
+                ],
                 search: { keywords: ""}
+            },
+            filters: {
+                formateEnabled: function (enabled, list) {
+                    let result = enabled;
+                    list.map(res => {
+                        if (enabled == res.Value) {
+                            result = res.Name;
+                        }
+                    });
+                    return result;
+                }
             },
             computed: {
                 prop: function () {

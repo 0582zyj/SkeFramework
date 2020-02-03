@@ -63,7 +63,7 @@
                                 <td>{{item.Description}}</td>
                                 <td>{{item.ManagementValue}}</td>
                                 <td>{{item.PlatformNo}}</td>
-                                <td>{{item.Enabled}}</td>
+                                <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
@@ -91,7 +91,22 @@
                 GetListUrl: "@Url.Action("GetPsRolesList", "Roles")",
                 assginUrl:"@Url.Action("ManagementAssign", "Management")",
                 dataList: [],
+                enabledList: [
+                    { Name: '启用', Value: 1 },
+                    { Name: '停用', Value: 0 },
+                ],
                 search: { keywords: ""}
+            },
+            filters: {
+                formateEnabled: function (enabled, list) {
+                    let result = enabled;
+                    list.map(res => {
+                        if (enabled == res.Value) {
+                            result = res.Name;
+                        }
+                    });
+                    return result;
+                }
             },
             computed: {
                 prop: function () {
