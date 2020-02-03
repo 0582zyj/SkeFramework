@@ -62,9 +62,9 @@
                                 <td>{{item.Name}}</td>
                                 <td>{{item.Description}}</td>
                                 <td>{{item.Value}}</td>
-                                <td>{{item.Type}}</td>
+                                <td>{{item.Type|formateMenuType(typeList)}}</td>
                                 <td>{{item.Sort}}</td>
-                                <td>{{item.PlatformNo}}</td>
+                                <td>{{item.PlatformNo|formatePlatform(platformList)}}</td>
                                 <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
@@ -92,10 +92,16 @@
                 deleteUrl: "@Url.Action("PsManagementDelete", "Management")",
                 assginUrl:"@Url.Action("MenuAssign", "Menu")",
                 GetListUrl: "@Url.Action("GetPsManagementList", "Management")",
+                getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 dataList: [],
+                platformList: {},
                 enabledList: [
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
+                ],
+                typeList: [
+                    { Name: '操作权限', Value: 1 },
+                    { Name: '菜单权限', Value: 2 },
                 ],
                 search: { keywords: ""}
             },
@@ -108,6 +114,24 @@
                         }
                     });
                     return result;
+                },
+                formateMenuType: function (type, list) {
+                    let result = type;
+                    list.map(res => {
+                        if (type == res.Value) {
+                            result = res.Name;
+                        }
+                    });
+                    return result;
+                },
+                formatePlatform: function (PlatformNo, list) {
+                    let result = PlatformNo;
+                    list.map(res => {
+                        if (PlatformNo == res.Value) {
+                            result = res.Name;
+                        }
+                    });
+                    return result;
                 }
             },
             computed: {
@@ -115,7 +139,23 @@
                     return { keywords: this.search.keywords }
                 }
             },
+            created: function () {
+                this.Init();
+            },
             methods: {
+                Init: function () {
+                    var _self = this;
+                    _self.platformList = {};
+                    axios.get(this.getPlatformOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
                 GetList: function (data) {
                     this.dataList = data;
                 },

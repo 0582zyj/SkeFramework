@@ -51,7 +51,7 @@
                                 <th>图标</th>
                                 <th>跳转地址</th>
                                 <th>排序</th>
-                                <th>PlatformNo</th>
+                                <th>平台编号</th>
                                 <th>启用状态</th>
                                 <th class="operation">操作</th>
                             </tr>
@@ -66,7 +66,7 @@
                                 <td>{{item.icon}}</td>
                                 <td>{{item.url}}</td>
                                 <td>{{item.Sort}}</td>
-                                <td>{{item.PlatformNo}}</td>
+                                <td>{{item.PlatformNo|formatePlatform(platformList)}}</td>
                                 <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
@@ -92,7 +92,9 @@
                 addJumpUrl: "@Url.Action("MenuAdd", "Menu")",
                 deleteUrl: "@Url.Action("PsMenuDelete", "Menu")",
                 GetListUrl: "@Url.Action("GetPsMenuList", "Menu")",
+                getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 dataList: [],
+                platformList: {},
                 enabledList: [
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
@@ -108,6 +110,15 @@
                         }
                     });
                     return result;
+                },
+                formatePlatform: function (PlatformNo, list) {
+                    let result = PlatformNo;
+                    list.map(res => {
+                        if (PlatformNo == res.Value) {
+                            result = res.Name;
+                        }
+                    });
+                    return result;
                 }
             },
             computed: {
@@ -115,7 +126,23 @@
                     return { keywords: this.search.keywords }
                 }
             },
+            created: function () {
+                this.Init();
+            },
             methods: {
+                Init: function () {
+                    var _self = this;
+                    _self.platformList = {};
+                    axios.get(this.getPlatformOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
                 GetList: function (data) {
                     this.dataList = data;
                 },

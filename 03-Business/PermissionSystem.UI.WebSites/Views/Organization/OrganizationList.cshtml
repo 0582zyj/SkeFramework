@@ -61,8 +61,8 @@
                                 <td>{{item.ParentNo}}</td>
                                 <td>{{item.Name}}</td>
                                 <td>{{item.Description}}</td>
-                                <td>{{item.Category}}</td>
-                                <td>{{item.PlatformNo}}</td>
+                                <td>{{item.Category|formateCategory(categoryList)}}</td>
+                                <td>{{item.PlatformNo|formatePlatform(platformList)}}</td>
                                 <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
@@ -88,10 +88,18 @@
                 addJumpUrl: "@Url.Action("OrganizationAdd", "Organization")",
                 deleteUrl: "@Url.Action("PsOrganizationDelete", "Organization")",
                 GetListUrl: "@Url.Action("GetPsOrganizationList", "Organization")",
+                getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 dataList: [],
+                platformList: {},
                 enabledList: [
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
+                ],
+                categoryList: [
+                    { Name: '集团', Value: 0 },
+                    { Name: '公司', Value: 1 },
+                    { Name: '部门', Value: 2 },
+                    { Name: '工作组', Value: 3 },
                 ],
                 search: { keywords: ""}
             },
@@ -104,14 +112,49 @@
                         }
                     });
                     return result;
+                },
+                formatePlatform: function (PlatformNo, list) {
+                    let result = PlatformNo;
+                    list.map(res => {
+                        if (PlatformNo == res.Value) {
+                            result = res.Name;
+                        }
+                    });
+                    return result;
+                },
+                formateCategory: function (Category, list) {
+                    let result = Category;
+                    list.map(res => {
+                        if (Category == res.Value) {
+                            result = res.Name;
+                        }
+                    });
+                    return result;
                 }
+             
             },
             computed: {
                 prop: function () {
                     return { keywords: this.search.keywords }
                 }
             },
+            created: function () {
+                this.Init();
+            },
             methods: {
+                Init: function () {
+                    var _self = this;
+                    _self.platformList = {};
+                    axios.get(this.getPlatformOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
                 GetList: function (data) {
                     this.dataList = data;
                 },
