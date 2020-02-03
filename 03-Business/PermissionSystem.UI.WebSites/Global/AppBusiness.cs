@@ -26,6 +26,7 @@ namespace PermissionSystem.UI.WebSites.Global
             {
                 if (HttpContext.Current.Session != null && HttpContext.Current.Session["LoginModel"] != null)
                 {
+                    HttpContext.Current.Session.Timeout = 30 * 1000;
                     return (LoginModel)HttpContext.Current.Session["LoginModel"];
                 }
                 return new LoginModel();
@@ -47,6 +48,7 @@ namespace PermissionSystem.UI.WebSites.Global
                     {
                         string UserNo = AppBusiness.loginModel.UserNo;
                         HttpContext.Current.Session["SideBarList"] = menuSdk.GetUserMenusList(UserNo);
+                        HttpContext.Current.Session.Timeout = 30 * 1000;
                     }
                 }
                 return (List<PsMenu>)HttpContext.Current.Session["SideBarList"];

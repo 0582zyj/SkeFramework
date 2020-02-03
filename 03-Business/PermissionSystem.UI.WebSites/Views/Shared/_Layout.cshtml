@@ -118,7 +118,7 @@
                 </div>
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu tree" data-widget="tree">
-                    <li v-for="item in rootList" v-if="item.url!=null">
+                    <li v-for="item in rootList" v-if="item.url!=null &&item.url!='#' &&item.url!=''">
                         <a v-bind:href="item.url">
                             <i v-bind:class="item.icon"></i><span>{{item.Name}}</span>
                         </a>
@@ -129,7 +129,7 @@
                             <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                         </a>
                         <ul class="treeview-menu">
-                            <li v-for="itemS in childList" v-if="itemS.ParentId == item.id">
+                            <li v-for="itemS in childList" v-if="itemS.ParentNo == item.MenuNo">
                                 <a v-bind:href="itemS.url">
                                     <i v-bind:class="itemS.icon"></i>
                                     <span>{{itemS.Name}}</span>
