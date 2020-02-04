@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.Form;
 using Newtonsoft.Json;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Enums;
@@ -26,7 +27,9 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Organization/Delete";
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Organization/Update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Organization/GetOptionValues";
-
+        private static readonly string GetOrgAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Organization/GetOrgAssign";
+        private static readonly string CreateOrgRolesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Organization/CreateOrgRoles";
+        
         /// <summary>
         /// 获取分页列表
         /// </summary>
@@ -158,7 +161,6 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
-
         /// <summary>
         /// 删除机构
         /// </summary>
@@ -216,13 +218,63 @@ namespace MicrosServices.SDK.PermissionSystem
             return new List<OptionValue>();
         }
 
+        #region 机构角色
+        /// <summary>
+        /// 获取机构角色列表
+        /// </summary>
+        /// <param name="UserNo"></param>
+        /// <returns></returns>
+        public JsonResponses GetOrgAssign(long OrgNo)
+        {
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = GetOrgAssignUrl
+                };
+                request.SetValue("OrgNo", OrgNo);
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.GetReqUrl(),
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.GET
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+        /// <summary>
+        /// 机构角色授权
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public JsonResponses CreateOrgRoles(OrgRolesForm model)
+        {
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = CreateOrgRolesUrl
+                };
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = JsonConvert.SerializeObject(model),
+                    Method = RequestTypeEnums.POST_JSON
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+        #endregion
 
-     
-
-       
-      
-      
-     
-      
     }
 }

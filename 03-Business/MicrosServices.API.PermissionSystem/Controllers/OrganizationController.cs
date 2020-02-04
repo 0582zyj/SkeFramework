@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.Form;
+using MicrosServices.Helper.Core.VO;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 
@@ -139,6 +141,39 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         {
             List<OptionValue> optionValues = DataHandleManager.Instance().PsOrganizationHandle.GetOptionValues();
             return new JsonResponses(optionValues);
+        }
+        #endregion
+
+        #region 机构角色
+        /// <summary>
+        /// 角色授权
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> CreateOrgRoles([FromBody]OrgRolesForm model)
+        {
+            var ResultCode = -1;
+            DataHandleManager.Instance().PsOrganizationHandle.CheckOrgNoIsExist(model.OrgNo);
+            if (model.RolesNos != null)
+            {
+                foreach (var nos in model.RolesNos)
+                {
+                    DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(nos);
+                }
+            }
+            ResultCode = DataHandleManager.Instance().PsOrgRolesHandle.OrgRolesInsert(model);
+            return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
+        }
+
+        /// <summary>
+        /// 获取用户角色列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetOrgAssign([FromQuery]long OrgNo)
+        {
+            OrgAssignVo assignVo = DataHandleManager.Instance().PsOrgRolesHandle.GetOrgAssign(OrgNo);
+            return new JsonResponses(assignVo);
         }
         #endregion
     }

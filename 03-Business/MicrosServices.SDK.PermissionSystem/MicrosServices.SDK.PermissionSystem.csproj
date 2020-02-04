@@ -48,7 +48,7 @@
   <ItemGroup>
     <Compile Include="ManagementSDK.cs" />
     <Compile Include="MenuSdk.cs" />
-    <Compile Include="NetwordConstants.cs" />
+    <Compile Include="DataUtil\NetwordConstants.cs" />
     <Compile Include="OrganizationSdk.cs" />
     <Compile Include="PlatformSdk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,8 +68,6 @@
       <Name>MicrosServices.Helper.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataUtil\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

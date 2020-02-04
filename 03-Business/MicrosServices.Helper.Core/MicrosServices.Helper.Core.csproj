@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Extends\CheckOptionValue.cs" />
     <Compile Include="Form\ManagementMenusForm.cs" />
+    <Compile Include="Form\OrgRolesForm.cs" />
     <Compile Include="Form\UserRolesForm.cs" />
     <Compile Include="UserCenter\FORM\RegisterPlatformForm.cs" />
     <Compile Include="VO\ManagmentAssignVo.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="UserCenter\FORM\LoginInfoForm.cs" />
     <Compile Include="VO\MenuAssignVo.cs" />
     <Compile Include="VO\MenuSideBar.cs" />
+    <Compile Include="VO\OrgAssignVo.cs" />
     <Compile Include="VO\RolesAssignVo.cs" />
   </ItemGroup>
   <ItemGroup />

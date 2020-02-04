@@ -67,6 +67,7 @@
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.OrgNo)">角色分配</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -89,6 +90,7 @@
                 deleteUrl: "@Url.Action("PsOrganizationDelete", "Organization")",
                 GetListUrl: "@Url.Action("GetPsOrganizationList", "Organization")",
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
+                assginUrl:"@Url.Action("OrganizationAssign", "Organization")",
                 dataList: [],
                 platformList: {},
                 enabledList: [
@@ -157,6 +159,9 @@
                 },
                 GetList: function (data) {
                     this.dataList = data;
+                },
+                toAssign: function (_OrgNo) {
+                    window.location.href = this.assginUrl + '?OrgNo=' + _OrgNo;
                 },
                 toAdd: function () {
                     window.location.href = this.addJumpUrl;

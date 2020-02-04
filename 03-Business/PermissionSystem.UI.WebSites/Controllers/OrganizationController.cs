@@ -1,6 +1,9 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.Form;
+using MicrosServices.Helper.Core.VO;
 using MicrosServices.SDK.PermissionSystem;
+using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
 using SkeFramework.Core.Network.DataUtility;
@@ -121,5 +124,44 @@ namespace PermissionSystem.UI.WebSites.Controllers
             optionValues.Insert(0, OptionValue.Default);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
+
+        #region 机构角色分配
+        /// <summary>
+        /// 用户角色分配页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult OrganizationAssign(long OrgNo)
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 获取用户角色
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetOrgAssign(long OrgNo)
+        {
+            OrgAssignVo assignVo = new OrgAssignVo();
+            JsonResponses jsonResponses = organizationSdk.GetOrgAssign(OrgNo);
+            if (jsonResponses.ValidateResponses())
+            {
+                assignVo = JsonConvert.DeserializeObject<OrgAssignVo>(JsonConvert.SerializeObject(jsonResponses.data));
+            }
+            return Json(assignVo, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 更新提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult RolesAssignUpdate(OrgRolesForm model)
+        {
+            JsonResponses responses = organizationSdk.CreateOrgRoles(model);
+            return Json(responses, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
     }
 }

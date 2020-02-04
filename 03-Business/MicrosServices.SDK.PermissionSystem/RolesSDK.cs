@@ -97,8 +97,6 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return menus;
         }
-
-       
         /// <summary>
         /// 根据主键ID获取信息
         /// </summary>
@@ -130,9 +128,6 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
-
-    
-
         /// <summary>
         /// 新增菜单
         /// </summary>
@@ -196,7 +191,6 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
-
         /// <summary>
         /// 删除菜单
         /// </summary>
@@ -254,6 +248,7 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return new List<OptionValue>();
         }
+        #region 权限角色
         /// <summary>
         /// 获取角色权限列表
         /// </summary>
@@ -308,6 +303,7 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
+        #endregion
 
         #region 用户角色
         /// <summary>
