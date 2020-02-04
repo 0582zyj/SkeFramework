@@ -1,4 +1,5 @@
 ﻿using PermissionSystem.UI.WebSites.Global;
+using SmartCloudIOT.UI.WebSite.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,10 @@ namespace PermissionSystem.UI.WebSites.Controllers.Filters
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             bool flag = true;
+            if(filterContext.Controller is LoginController)
+            {
+                return;
+            }
             switch (Situation)
             {
                 case 1:

@@ -29,7 +29,7 @@ namespace PermissionSystem.UI.WebSites.Global
                     HttpContext.Current.Session.Timeout = 30 * 1000;
                     return (LoginModel)HttpContext.Current.Session["LoginModel"];
                 }
-                return new LoginModel();
+                return null;
             }
             set
             {
