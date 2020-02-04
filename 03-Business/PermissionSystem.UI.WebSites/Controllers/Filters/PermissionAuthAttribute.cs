@@ -32,7 +32,9 @@ namespace PermissionSystem.UI.WebSites.Controllers.Filters
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             bool flag = true;
-            if(filterContext.Controller is LoginController)
+            //判断是否跳过授权过滤器
+            if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true)
+                || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true))
             {
                 return;
             }

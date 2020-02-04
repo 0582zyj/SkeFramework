@@ -24,6 +24,7 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
         /// 登录页面
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
@@ -54,6 +55,7 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
         /// <param name="Captcha"></param>
         /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         public JsonResult Login( string UserName, string Password, string Captcha)
         {
             LoginInfoForm loginInfoForm = new LoginInfoForm();
