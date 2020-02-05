@@ -41,8 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\EnabledType.cs" />
+    <Compile Include="Constants\ManagementType.cs" />
     <Compile Include="Extends\CheckOptionValue.cs" />
     <Compile Include="Form\AssignForm\ManagementMenusForm.cs" />
+    <Compile Include="Form\AssignForm\MenuManagementsForm.cs" />
     <Compile Include="Form\AssignForm\OrgRolesForm.cs" />
     <Compile Include="Form\AssignForm\UserOrgsForm.cs" />
     <Compile Include="Form\AssignForm\UserRolesForm.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserCenter\FORM\LoginInfoForm.cs" />
     <Compile Include="VO\AssignVo\MenuAssignVo.cs" />
+    <Compile Include="VO\AssignVo\MenuManagmentAssignVo.cs" />
     <Compile Include="VO\MenuSideBar.cs" />
     <Compile Include="VO\AssignVo\OrgAssignVo.cs" />
     <Compile Include="VO\AssignVo\RolesAssignVo.cs" />

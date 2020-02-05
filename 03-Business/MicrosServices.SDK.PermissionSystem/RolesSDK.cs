@@ -170,6 +170,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("ParentNo", menu.ParentNo);
                 request.SetValue("Description", menu.Description);
                 request.SetValue("Name", menu.Name);
+                request.SetValue("ManagementValue", menu.ManagementValue);
                 request.SetValue("PlatformNo", menu.PlatformNo);
                 request.SetValue("Enabled", menu.Enabled);
                 request.Url = UpdateUrl;

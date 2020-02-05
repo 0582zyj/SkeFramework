@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Helper.Core;
 using MicrosServices.Helper.Core.Form;
+using MicrosServices.Helper.Core.Form.AssignForm;
 using MicrosServices.Helper.Core.VO;
+using MicrosServices.Helper.Core.VO.AssignVo;
 using SkeFramework.Core.Network.Responses;
 
 namespace MicrosServices.API.PermissionSystem.Controllers
@@ -180,5 +182,39 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             return new JsonResponses(assignVo);
         }
         #endregion
+
+        #region 菜单权限授权
+        /// <summary>
+        /// 菜单权限授权
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> CreateMenuManagements([FromBody]MenuManagementsForm model)
+        {
+            var ResultCode = -1;
+            DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(model.MenuNo);
+            if (model.ManagementNos != null)
+            {
+                foreach (var nos in model.ManagementNos)
+                {
+                    DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(nos);
+                }
+            }
+            ResultCode = DataHandleManager.Instance().PsMenuManagementHandle.MenuManagementsInsert(model);
+            return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
+        }
+
+        /// <summary>
+        /// 获取菜单权限列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> MenuManagmentAssign([FromQuery]long MenuNo)
+        {
+            MenuManagmentAssignVo assignVo = DataHandleManager.Instance().PsMenuManagementHandle.GetMenuManagmentAssignVo(MenuNo);
+            return new JsonResponses(assignVo);
+        }
+        #endregion
+
     }
 }

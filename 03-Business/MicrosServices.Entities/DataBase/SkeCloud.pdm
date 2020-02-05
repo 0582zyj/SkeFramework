@@ -3535,11 +3535,12 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>Value</a:Code>
 <a:CreationDate>1570798093</a:CreationDate>
 <a:Creator>ZYJUN</a:Creator>
-<a:ModificationDate>1570801057</a:ModificationDate>
+<a:ModificationDate>1580908608</a:ModificationDate>
 <a:Modifier>ZYJUN</a:Modifier>
 <a:Comment>权限值</a:Comment>
 <a:DefaultValue>NULL</a:DefaultValue>
-<a:DataType>bigint</a:DataType>
+<a:DataType>VARCHAR(120)</a:DataType>
+<a:Length>120</a:Length>
 </o:Column>
 <o:Column Id="o47">
 <a:ObjectID>6F52EBC3-EF55-4E20-9443-2CDA49018E20</a:ObjectID>
@@ -3732,11 +3733,12 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>ManagementValue</a:Code>
 <a:CreationDate>1570798093</a:CreationDate>
 <a:Creator>ZYJUN</a:Creator>
-<a:ModificationDate>1570801617</a:ModificationDate>
+<a:ModificationDate>1580909077</a:ModificationDate>
 <a:Modifier>ZYJUN</a:Modifier>
 <a:Comment>权限值</a:Comment>
 <a:DefaultValue>NULL</a:DefaultValue>
-<a:DataType>bigint</a:DataType>
+<a:DataType>varchar(120)</a:DataType>
+<a:Length>120</a:Length>
 </o:Column>
 <o:Column Id="o62">
 <a:ObjectID>89BF7ED7-CD95-476F-9C9C-A783971A7514</a:ObjectID>
@@ -4261,13 +4263,13 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:Column>
 <o:Column Id="o101">
 <a:ObjectID>36C5ABE1-050A-4A80-AB4B-7B3FFDF63E54</a:ObjectID>
-<a:Name>Enabled</a:Name>
-<a:Code>Enabled</a:Code>
+<a:Name>Type</a:Name>
+<a:Code>Type</a:Code>
 <a:CreationDate>1570798093</a:CreationDate>
 <a:Creator>ZYJUN</a:Creator>
-<a:ModificationDate>1570801707</a:ModificationDate>
+<a:ModificationDate>1580912552</a:ModificationDate>
 <a:Modifier>ZYJUN</a:Modifier>
-<a:Comment>启用状态</a:Comment>
+<a:Comment>关系类型【1：权限菜单；2：菜单权限】</a:Comment>
 <a:DefaultValue>NULL</a:DefaultValue>
 <a:DataType>int</a:DataType>
 </o:Column>
