@@ -27,9 +27,7 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string DeleteMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Delete";
         private static readonly string UpdateMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetOptionValues";
-        private static readonly string GetMenuAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetMenuAssign";
-        private static readonly string CreateManagementMenusUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/CreateManagementMenus";
-        private static readonly string GetUserMenusListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetUserMenusList";
+       private static readonly string GetUserMenusListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetUserMenusList";
        
         #region 列表
         /// <summary>
@@ -135,35 +133,7 @@ namespace MicrosServices.SDK.PermissionSystem
         }
         #endregion
 
-        /// <summary>
-        /// 获取权限菜单
-        /// </summary>
-        /// <param name="ManagementNo"></param>
-        /// <returns></returns>
-        public JsonResponses GetMenuAssign(long ManagementNo)
-        {
-            try
-            {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetMenuAssignUrl
-                };
-                request.SetValue("ManagementNo", ManagementNo);
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            return JsonResponses.Failed;
-        }
-
+      
         /// <summary>
         /// 根据主键ID获取信息
         /// </summary>
@@ -195,34 +165,8 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
-        /// <summary>
-        /// 权限菜单授权
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public JsonResponses CreateManagementMenus(ManagementMenusForm model)
-        {
-            try
-            {
-                RequestBase request = new RequestBase
-                {
-                    Url = CreateManagementMenusUrl
-                };
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = JsonConvert.SerializeObject(model),
-                    Method = RequestTypeEnums.POST_JSON
-                });
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            return JsonResponses.Failed;
-        }
 
+       
         /// <summary>
         /// 新增菜单
         /// </summary>

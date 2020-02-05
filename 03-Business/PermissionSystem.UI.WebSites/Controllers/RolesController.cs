@@ -19,6 +19,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     public class RolesController : Controller
     {
         private RolesSDK rolesSDK = new RolesSDK();
+        private AssignSDK assignSDK = new AssignSDK();
 
         #region 页面
         /// <summary>
@@ -143,7 +144,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult GetRolesAssign(long UserNo)
         {
             RolesAssignVo assignVo = new RolesAssignVo();
-            JsonResponses jsonResponses = rolesSDK.GetRolesAssign(UserNo);
+            JsonResponses jsonResponses = assignSDK.GetRolesAssign(UserNo);
             if (jsonResponses.ValidateResponses())
             {
                 assignVo = JsonConvert.DeserializeObject<RolesAssignVo>(JsonConvert.SerializeObject(jsonResponses.data));
@@ -159,7 +160,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult RolesAssignUpdate(UserRolesForm model)
         {
             model.InputUser = AppBusiness.loginModel.UserNo;
-            JsonResponses responses = rolesSDK.CreateUserRoles(model);
+            JsonResponses responses = assignSDK.CreateUserRoles(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
         #endregion

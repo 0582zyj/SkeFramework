@@ -146,70 +146,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
 
         #endregion
 
-        #region 角色权限
-        /// <summary>
-        /// 角色授权
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult<JsonResponses> CreateManagementRoles([FromBody]ManagementRolesForm model)
-        {
-            var ResultCode = -1;
-            DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(model.RolesNo);
-            if (model.ManagementNos != null)
-            {
-                foreach (var nos in model.ManagementNos)
-                {
-                    DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(nos);
-                }
-            }
-            ResultCode = DataHandleManager.Instance().PsManagementRolesHandle.ManagementRolesInsert(model);
-            return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
-        }
-
-        /// <summary>
-        /// 获取角色列表
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult<JsonResponses> GetManagementAssign([FromQuery]long RolesNo)
-        {
-            ManagmentAssignVo managmentAssignVo = DataHandleManager.Instance().PsManagementRolesHandle.GetManagementAssign(RolesNo);
-            return new JsonResponses(managmentAssignVo);
-        }
-        #endregion
-
-        #region 用户角色
-        /// <summary>
-        /// 角色授权
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult<JsonResponses> CreateUserRoles([FromBody]UserRolesForm model)
-        {
-            var ResultCode = -1;
-            DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(model.UserNo);
-            if (model.RolesNos != null)
-            {
-                foreach (var nos in model.RolesNos)
-                {
-                    DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(nos);
-                }
-            }
-            ResultCode = DataHandleManager.Instance().PsUserRolesHandle.UserRolesInsert(model);
-            return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
-        }
-
-        /// <summary>
-        /// 获取用户角色列表
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult<JsonResponses> GetRolesAssign([FromQuery]long UserNo)
-        {
-            RolesAssignVo assignVo = DataHandleManager.Instance().PsUserRolesHandle.GetRolesAssign(UserNo);
-            return new JsonResponses(assignVo);
-        }
-        #endregion
+        
+        
     }
 }

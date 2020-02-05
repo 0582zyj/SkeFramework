@@ -19,6 +19,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     public class OrganizationController : Controller
     {
         private OrganizationSdk organizationSdk = new OrganizationSdk();
+        private AssignSDK assignSDK = new AssignSDK();
 
         #region 页面
         /// <summary>
@@ -143,7 +144,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult GetOrgAssign(long OrgNo)
         {
             OrgAssignVo assignVo = new OrgAssignVo();
-            JsonResponses jsonResponses = organizationSdk.GetOrgAssign(OrgNo);
+            JsonResponses jsonResponses = assignSDK.GetOrgAssign(OrgNo);
             if (jsonResponses.ValidateResponses())
             {
                 assignVo = JsonConvert.DeserializeObject<OrgAssignVo>(JsonConvert.SerializeObject(jsonResponses.data));
@@ -158,7 +159,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpPost]
         public JsonResult RolesAssignUpdate(OrgRolesForm model)
         {
-            JsonResponses responses = organizationSdk.CreateOrgRoles(model);
+            JsonResponses responses = assignSDK.CreateOrgRoles(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
 

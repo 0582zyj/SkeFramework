@@ -21,6 +21,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     {
         private ManagementSDK managementSDK = new ManagementSDK();
         private RolesSDK rolesSDK = new RolesSDK();
+        private AssignSDK assignSDK = new AssignSDK();
 
         #region 基础页面
         /// <summary>
@@ -48,6 +49,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return View();
         }
         #endregion 
+
         #region Basic GET POST
         /// <summary>
         /// 根据主键ID获取信息
@@ -142,7 +144,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult GetManagementAssign(long RolesNos)
         {
             ManagmentAssignVo assignVo = new ManagmentAssignVo();
-            JsonResponses jsonResponses= rolesSDK.GetManagementAssign(RolesNos);
+            JsonResponses jsonResponses= assignSDK.GetManagementAssign(RolesNos);
             if(jsonResponses.ValidateResponses()) {
                 assignVo = JsonConvert.DeserializeObject<ManagmentAssignVo>(JsonConvert.SerializeObject( jsonResponses.data));
             }
@@ -157,7 +159,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult ManagementAssignUpdate(ManagementRolesForm model)
         {
             model.InputUser = AppBusiness.loginModel.UserNo;
-            JsonResponses responses = rolesSDK.CreateManagementRoles(model);
+            JsonResponses responses = assignSDK.CreateManagementRoles(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
         #endregion

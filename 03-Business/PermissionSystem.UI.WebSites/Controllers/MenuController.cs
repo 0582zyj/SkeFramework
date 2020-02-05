@@ -19,6 +19,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     public class MenuController : Controller
     {
         private MenuSdk menuSdk = new MenuSdk();
+        private AssignSDK assignSDK = new AssignSDK();
 
         #region 页面
         /// <summary>
@@ -141,7 +142,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult GetMenuAssign(long ManagementNo)
         {
             MenuAssignVo assignVo = new MenuAssignVo();
-            JsonResponses jsonResponses = menuSdk.GetMenuAssign(ManagementNo);
+            JsonResponses jsonResponses = assignSDK.GetMenuAssign(ManagementNo);
             if (jsonResponses.ValidateResponses())
             {
                 assignVo = JsonConvert.DeserializeObject<MenuAssignVo>(JsonConvert.SerializeObject(jsonResponses.data));
@@ -157,7 +158,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult MenuAssignUpdate(ManagementMenusForm model)
         {
             model.InputUser = AppBusiness.loginModel.UserNo;
-            JsonResponses responses = menuSdk.CreateManagementMenus(model);
+            JsonResponses responses = assignSDK.CreateManagementMenus(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
         #endregion

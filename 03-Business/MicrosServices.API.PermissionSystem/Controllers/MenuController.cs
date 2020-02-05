@@ -180,38 +180,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
         #endregion
 
-        #region 权限菜单
-        /// <summary>
-        /// 角色授权
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult<JsonResponses> CreateManagementMenus([FromBody]ManagementMenusForm model)
-        {
-            var ResultCode = -1;
-            DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.ManagementNo);
-            if (model.MenuNos != null)
-            {
-                foreach (var nos in model.MenuNos)
-                {
-                    DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(nos);
-                }
-            }
-            ResultCode = DataHandleManager.Instance().PsMenuManagementHandle.ManagementMenusInsert(model);
-            return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
-        }
-
-        /// <summary>
-        /// 获取角色列表
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult<JsonResponses> GetMenuAssign([FromQuery]long ManagementNo)
-        {
-            MenuAssignVo menuAssignVo  = DataHandleManager.Instance().PsMenuManagementHandle.GetMenuAssign(ManagementNo);
-            return new JsonResponses(menuAssignVo);
-        }
-        #endregion
+        
 
         #region 用户菜单
         /// <summary>
