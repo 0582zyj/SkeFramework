@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssignSDK.cs" />
     <Compile Include="ManagementSDK.cs" />
     <Compile Include="MenuSdk.cs" />
     <Compile Include="DataUtil\NetwordConstants.cs" />

@@ -64,6 +64,7 @@
                                 <td>{{item.Signature}}</td>
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toRoleAssign(item.UserNo)">角色授权</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toOrgAssign(item.UserNo)">机构授权</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -85,6 +86,7 @@
                 addJumpUrl: "@Url.Action("UcUsersAdd", "User")",
                 deleteUrl: "@Url.Action("UcUsersDelete", "User")",
                 GetListUrl: "@Url.Action("GetUcUsersList", "User")",
+                orgAssignUrl: "@Url.Action("UserOrgAssign", "User")",                
                 dataList: [],
                 enabledList: [
                     { Name: '启用', Value: 1 },
@@ -114,6 +116,9 @@
                 },
                 toRoleAssign: function (_UserNo) {
                     window.location.href = this.roleAssignUrl + '?UserNo=' + _UserNo;
+                },
+                toOrgAssign: function (_UserNo) {
+                    window.location.href = this.orgAssignUrl + '?UserNo=' + _UserNo;
                 },
                 toDelete: function (_id) {
                     axios.post(this.deleteUrl, { id: _id })

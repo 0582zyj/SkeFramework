@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 namespace MicrosServices.Helper.Core.VO
 {
     /// <summary>
-    /// 机构角色分配
+    /// 用户机构分配
     /// </summary>
-    public class OrgAssignVo
+    public class UserOrgAssignVo
     {
         /// <summary>
         /// 用户名称
         /// </summary>
-        public string OrgName { get; set; }
+        public string UserName { get; set; }
         /// <summary>
         /// 用户信息
         /// </summary>
-        public PsOrganization OrgInfo { get; set; }
+        public UcUsersSetting UsersSettingInfo { get; set; }
         /// <summary>
         /// 角色列表
         /// </summary>

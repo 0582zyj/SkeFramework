@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NetwordConstants.cs" />
+    <Compile Include="DataUtil\NetwordConstants.cs" />
     <Compile Include="LoginSdk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserSDK.cs" />
