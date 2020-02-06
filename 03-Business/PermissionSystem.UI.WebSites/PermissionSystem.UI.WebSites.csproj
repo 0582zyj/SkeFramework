@@ -217,6 +217,7 @@
     <Content Include="Views\Organization\OrganizationAdd.cshtml" />
     <Content Include="Views\Organization\OrganizationAssign.cshtml" />
     <Content Include="Views\User\UserOrgAssign.cshtml" />
+    <Content Include="Views\Menu\MenuManagementAssign.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -125,7 +125,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
 
-        #region 权限页面
+        #region 角色权限页面
         /// <summary>
         /// 权限分配
         /// </summary>
@@ -134,8 +134,6 @@ namespace PermissionSystem.UI.WebSites.Controllers
         {
             return View();
         }
-
-
         /// <summary>
         /// 更新提交方法
         /// </summary>
@@ -150,7 +148,6 @@ namespace PermissionSystem.UI.WebSites.Controllers
             }
             return Json(assignVo, JsonRequestBehavior.AllowGet);
         }
-
         /// <summary>
         /// 更新提交方法
         /// </summary>

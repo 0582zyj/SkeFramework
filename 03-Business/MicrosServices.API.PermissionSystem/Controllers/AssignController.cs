@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Helper.Core;
+using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.Form;
 using MicrosServices.Helper.Core.Form.AssignForm;
 using MicrosServices.Helper.Core.VO;
@@ -209,8 +210,13 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> MenuManagmentAssign([FromQuery]long MenuNo)
+        public ActionResult<JsonResponses> GetMenuManagmentAssign([FromQuery]long MenuNo)
         {
+           bool result= DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(MenuNo);
+            if (!result)
+            {
+                return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENUNO_NOT_EXISET.ToString());
+            }
             MenuManagmentAssignVo assignVo = DataHandleManager.Instance().PsMenuManagementHandle.GetMenuManagmentAssignVo(MenuNo);
             return new JsonResponses(assignVo);
         }

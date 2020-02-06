@@ -1,4 +1,5 @@
 ﻿using MicrosServices.Helper.Core.Form;
+using MicrosServices.Helper.Core.Form.AssignForm;
 using Newtonsoft.Json;
 using SkeFramework.Core.Network.Enums;
 using SkeFramework.Core.Network.Https;
@@ -24,6 +25,8 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string CreateManagementMenusUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/CreateManagementMenus";
         private static readonly string GetOrgAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/GetOrgAssign";
         private static readonly string CreateOrgRolesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/CreateOrgRoles";
+        private static readonly string GetMenuManagmentAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/GetMenuManagmentAssign";
+        private static readonly string CreateMenuManagementsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/CreateMenuManagements";
 
         #region 用户角色
         /// <summary>
@@ -299,6 +302,65 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = new RequestBase
                 {
                     Url = CreateOrgRolesUrl
+                };
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = JsonConvert.SerializeObject(model),
+                    Method = RequestTypeEnums.POST_JSON
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+        #endregion
+
+        #region 菜单权限
+        /// <summary>
+        /// 获取菜单权限
+        /// </summary>
+        /// <param name="MenuNo"></param>
+        /// <returns></returns>
+        public JsonResponses GetMenuManagmentAssign(long MenuNo)
+        {
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = GetMenuManagmentAssignUrl
+                };
+                request.SetValue("MenuNo", MenuNo);
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.GetReqUrl(),
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.GET
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+
+        /// <summary>
+        /// 权限菜单授权
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public JsonResponses CreateMenuManagements(MenuManagementsForm model)
+        {
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = CreateMenuManagementsUrl
                 };
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {

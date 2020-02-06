@@ -1,7 +1,9 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Form;
+using MicrosServices.Helper.Core.Form.AssignForm;
 using MicrosServices.Helper.Core.VO;
+using MicrosServices.Helper.Core.VO.AssignVo;
 using MicrosServices.SDK.PermissionSystem;
 using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
@@ -123,17 +125,15 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
 
-        #region 菜单权限页面
+        #region 权限菜单页面
         /// <summary>
-        /// 菜单权限分配
+        /// 权限菜单分配
         /// </summary>
         /// <returns></returns>
         public ActionResult MenuAssign(long ManagementNo)
         {
             return View();
         }
-
-
         /// <summary>
         /// 更新提交方法
         /// </summary>
@@ -149,7 +149,6 @@ namespace PermissionSystem.UI.WebSites.Controllers
             }
             return Json(assignVo, JsonRequestBehavior.AllowGet);
         }
-
         /// <summary>
         /// 更新提交方法
         /// </summary>
@@ -162,5 +161,43 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
         #endregion
+
+        #region 菜单权限页面
+        /// <summary>
+        /// 菜单权限分配
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MenuManagementAssign(long MenuNo)
+        {
+            return View();
+        }
+        /// <summary>
+        /// 更新提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetMenuManagmentAssign(long MenuNo)
+        {
+            MenuManagmentAssignVo assignVo = new MenuManagmentAssignVo();
+            JsonResponses jsonResponses = assignSDK.GetMenuManagmentAssign(MenuNo);
+            if (jsonResponses.ValidateResponses())
+            {
+                assignVo = JsonConvert.DeserializeObject<MenuManagmentAssignVo>(JsonConvert.SerializeObject(jsonResponses.data));
+            }
+            return Json(assignVo, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 更新提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult MenuManagementsUpdate(MenuManagementsForm model)
+        {
+            model.InputUser = AppBusiness.loginModel.UserNo;
+            JsonResponses responses = assignSDK.CreateMenuManagements(model);
+            return Json(responses, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
     }
 }

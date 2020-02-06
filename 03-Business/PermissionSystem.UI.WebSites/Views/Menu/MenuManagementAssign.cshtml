@@ -1,13 +1,13 @@
 ﻿@{
-    ViewBag.Title = "权限菜单分配";
+    ViewBag.Title = "菜单权限授权";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>权限菜单分配</h1>
+    <h1>菜单权限授权</h1>
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> 主页</a></li>
-        <li><a href="@Url.Action("ManagementList","Management")"><i class="fa fa-bar-chart"></i> 权限管理</a></li>
+        <li><a href="@Url.Action("MenuList","Menu")"><i class="fa fa-bar-chart"></i> 菜单管理</a></li>
     </ol>
 </section>
 <section class="content" id="section-content">
@@ -15,21 +15,21 @@
         <div class="col-md-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#profile" data-toggle="tab" aria-expanded="true">权限菜单分配</a></li>
+                    <li class="active"><a href="#profile" data-toggle="tab" aria-expanded="true">菜单权限分配</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="profile">
                         <form role="form" id="quickForm">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="ManagementNo">权限编号</label>
-                                    <input type="text" name="ManagementNo" class="form-control" id="ManagementNo" v-model="dataItem.ManagementInfo.ManagementNo" placeholder="权限编号" readonly="readonly">
+                                    <label for="MenuNo">菜单编号</label>
+                                    <input type="text" name="MenuNo" class="form-control" id="MenuNo" v-model="dataItem.MenuInfo.MenuNo" placeholder="权限编号" readonly="readonly">
                                 </div>
                                 <div class="form-group">
-                                    <label for="Name">权限名称</label>
-                                    <input type="text" name="Name" class="form-control" id="Name" v-model="dataItem.ManagementInfo.Name" placeholder="权限名称" readonly="readonly">
+                                    <label for="Name">菜单名称</label>
+                                    <input type="text" name="Name" class="form-control" id="Name" v-model="dataItem.MenuInfo.Name" placeholder="权限名称" readonly="readonly">
                                 </div>
-                                <label for="exampleInputPassword1">菜单列表</label>
+                                <label for="exampleInputPassword1">权限列表</label>
                                 <div class="form-group" v-for="(option,index) in dataItem.optionValues">
                                     <div class="checkbox">
                                         <label>
@@ -61,13 +61,13 @@
         var vm = new Vue({
             el: "#section-content",
             data: {
-                listJumpUrl: "@Url.Action("ManagementList", "Management")",
-                assignPostUrl: "@Url.Action("MenuAssignUpdate", "Menu")",
-                getItemUrl: "@Url.Action("GetMenuAssign", "Menu")",
+                listJumpUrl: "@Url.Action("MenuList", "Menu")",
+                assignPostUrl: "@Url.Action("MenuManagementsUpdate", "Menu")",
+                getItemUrl: "@Url.Action("GetMenuManagmentAssign", "Menu")",
                 dataItem: {},
                 postData: {
-                    ManagementNo: "@Request.QueryString["ManagementNo"].ToString()",
-                    MenuNos: []
+                    MenuNo: "@Request.QueryString["MenuNo"].ToString()",
+                    ManagementNos: []
                 },
             },
             created: function () {
@@ -77,7 +77,7 @@
                 Init: function () {
                     var _self = this;
                     _self.dataItem = {};
-                    axios.get(this.getItemUrl, { params: { ManagementNo: this.postData.ManagementNo } } )
+                    axios.get(this.getItemUrl, { params: { MenuNo: this.postData.MenuNo } } )
                      .then(function (response) {
                          if (response.status == 200) {
                              _self.dataItem = response.data;
@@ -89,7 +89,7 @@
                 },
                 submit: function () {
                     var _self = this;
-                    _self.postData.MenuNos = _self.dataItem.optionValues.filter(item => item.isCheck).map(item => item.Value);
+                    _self.postData.ManagementNos = _self.dataItem.optionValues.filter(item => item.isCheck).map(item => item.Value);
                     axios.post(this.assignPostUrl, this.postData)
                      .then(function (response) {
                          if (response.status == 200) {

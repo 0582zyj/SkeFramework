@@ -71,6 +71,7 @@
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.MenuNo)">操作权限授权</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -92,6 +93,7 @@
                 addJumpUrl: "@Url.Action("MenuAdd", "Menu")",
                 deleteUrl: "@Url.Action("PsMenuDelete", "Menu")",
                 GetListUrl: "@Url.Action("GetPsMenuList", "Menu")",
+                assginUrl:"@Url.Action("MenuManagementAssign", "Menu")",
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 dataList: [],
                 platformList: {},
@@ -151,6 +153,9 @@
                 },
                 toEdit: function (_id) {
                     window.location.href = this.updateJumpUrl + '?id=' + _id;
+                },
+                toAssign: function (_MenuNo) {
+                    window.location.href = this.assginUrl + '?MenuNo=' + _MenuNo;
                 },
                 toDelete: function (_id) {
                     axios.post(this.deleteUrl, { id: _id })
