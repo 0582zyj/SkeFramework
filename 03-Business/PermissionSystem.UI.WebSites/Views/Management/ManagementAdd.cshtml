@@ -111,6 +111,7 @@
                 getManagementOptionValueUrl: "@Url.Action("GetOptionValues", "Management")",
                 platformList: {},
                 managementList: {},
+                menuManagementList: {},
                 dataItem: { ParentNo: -1, Enabled: 1 },
                 managmentTypeList: [
                     { Name: '默认权限', Value: 0 },
@@ -148,6 +149,7 @@
                         .catch(function (error) {
                             console.log(error);
                         });
+                    
                 },
                 submit: function () {
                     var _self = this;

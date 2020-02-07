@@ -1,5 +1,6 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.Extends;
 using Newtonsoft.Json;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Enums;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace MicrosServices.SDK.PermissionSystem
 {
-   public class ManagementSDK
+    public class ManagementSDK
     {
         private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetList";
         private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetPageList";
@@ -23,7 +24,9 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/Delete";
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/Update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetOptionValues";
-
+        private static readonly string GetManagementOptionValuesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetManagementOptionValues";
+        private static readonly string GetUserManagementListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetUserManagementList";
+        
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -135,7 +138,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = new RequestBase();
                 request.SetValue("ParentNo", menu.ParentNo);
                 request.SetValue("Name", menu.Name);
-                request.SetValue("Description", menu.Description); 
+                request.SetValue("Description", menu.Description);
                 request.SetValue("Value", menu.Value);
                 request.SetValue("Type", menu.Type);
                 request.SetValue("Sort", menu.Sort);
@@ -191,7 +194,6 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
-
         /// <summary>
         /// 删除菜单
         /// </summary>
@@ -249,6 +251,79 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return new List<OptionValue>();
         }
+
+
+        #region 菜单权限列表
+        /// <summary>
+        /// 获取菜单权限值
+        /// </summary>
+        /// <param name="MenuNo"></param>
+        /// <returns></returns>
+        public List<ManagementOptionValue> GetManagementOptionValues(long MenuNo)
+        {
+            List<ManagementOptionValue> managements = new List<ManagementOptionValue>();
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = GetManagementOptionValuesUrl
+                };
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.GET
+                });
+                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
+                if (responses.code == JsonResponses.SuccessCode)
+                {
+                    object data = responses.data;
+                    return JsonConvert.DeserializeObject<List<ManagementOptionValue>>(JsonConvert.SerializeObject(data));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return managements;
+        }
+
+        /// <summary>
+        /// 获取用户权限值
+        /// </summary>
+        /// <param name="MenuNo"></param>
+        /// <returns></returns>
+        public List<ManagementOptionValue> GetUserManagementList(string  UserNo)
+        {
+            List<ManagementOptionValue> managements = new List<ManagementOptionValue>();
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = GetUserManagementListUrl
+                };
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.GET
+                });
+                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
+                if (responses.code == JsonResponses.SuccessCode)
+                {
+                    object data = responses.data;
+                    return JsonConvert.DeserializeObject<List<ManagementOptionValue>>(JsonConvert.SerializeObject(data));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return managements;
+        }
+
+        
+        #endregion
 
     }
 }

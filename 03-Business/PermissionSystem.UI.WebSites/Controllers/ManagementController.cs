@@ -160,5 +160,20 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
         #endregion
+
+        #region
+        /// <summary>
+        /// 获取菜单权限值
+        /// </summary>
+        /// <param name="MenuNo"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetUserManagementList()
+        {
+            string UserNo = AppBusiness.loginModel.UserNo;
+            List<ManagementOptionValue > optionValues = managementSDK.GetUserManagementList(UserNo);
+            return Json(optionValues, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
     }
 }

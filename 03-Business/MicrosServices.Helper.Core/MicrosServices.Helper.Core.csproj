@@ -44,6 +44,7 @@
     <Compile Include="Constants\EnabledType.cs" />
     <Compile Include="Constants\ManagementType.cs" />
     <Compile Include="Extends\CheckOptionValue.cs" />
+    <Compile Include="Extends\ManagementOptionValue.cs" />
     <Compile Include="Form\AssignForm\ManagementMenusForm.cs" />
     <Compile Include="Form\AssignForm\MenuManagementsForm.cs" />
     <Compile Include="Form\AssignForm\OrgRolesForm.cs" />

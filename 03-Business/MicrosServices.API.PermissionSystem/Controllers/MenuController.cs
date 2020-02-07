@@ -180,8 +180,6 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
         #endregion
 
-        
-
         #region 用户菜单
         /// <summary>
         /// 获取列表信息
@@ -190,17 +188,10 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpGet]
         public ActionResult<JsonResponses> GetUserMenusList(string UserNo)
         {
-            List<PsRoles> roles = DataHandleManager.Instance().PsRolesHandle.GetUserRoleList(UserNo);
-            if (roles.Count == 0)
-            {
-                return new JsonResponses(new List<PsMenu>());
-            }
-            List<long> RolesNos = roles.Select(o=>o.RolesNo).ToList();
-            List<PsManagement> menus = DataHandleManager.Instance().PsManagementHandle.GetRoleManagementList(RolesNos);
-            List<long> ManagenmentNos = menus.Select(o=>o.ManagementNo).ToList();
-            List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetManagementMenusList(ManagenmentNos).ToList();
+            List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetUserMenusList(UserNo).ToList();
             return new JsonResponses(list);
         }
         #endregion
+
     }
 }

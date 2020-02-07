@@ -212,7 +212,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpGet]
         public ActionResult<JsonResponses> GetMenuManagmentAssign([FromQuery]long MenuNo)
         {
-           bool result= DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(MenuNo);
+            bool result = DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(MenuNo);
             if (!result)
             {
                 return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENUNO_NOT_EXISET.ToString());

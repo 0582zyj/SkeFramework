@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.Constants;
+using MicrosServices.Helper.Core.Extends;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 
@@ -141,6 +143,38 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             return new JsonResponses(optionValues);
         }
 
+        #endregion
+
+        #region 菜单权限列表
+        /// <summary>
+        /// 获取菜单权限列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetManagementOptionValues([FromQuery]long MenuNo)
+        {
+            bool result = DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(MenuNo);
+            if (!result)
+            {
+                return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENUNO_NOT_EXISET.ToString());
+            }
+            List<long> MenuNos = new List<long>() { MenuNo };
+            List<ManagementOptionValue> optionValues = DataHandleManager.Instance().PsMenuManagementHandle.GetManagementOptionValues(MenuNos, (int)ManagementType.OPERATE_TYPE);
+            return new JsonResponses(optionValues);
+        }
+
+        /// <summary>
+        /// 获取键值对
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetUserManagementList([FromQuery]string UserNo)
+        {
+            List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetUserMenusList(UserNo).ToList();
+            List<long> MenuNos = list.Select(o=>o.MenuNo).ToList();
+            List<ManagementOptionValue> optionValues = DataHandleManager.Instance().PsMenuManagementHandle.GetManagementOptionValues(MenuNos, (int)ManagementType.OPERATE_TYPE);
+            return new JsonResponses(optionValues);
+        }
         #endregion
     }
 }
