@@ -36,7 +36,7 @@
             <div class="box">
                 <!--数据列表页头部-->
                 <div class="box-header with-border">
-                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()">新增</a>
+                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()" v-if="checkAssign('userAdd',menuManagementList)==true">新增</a>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
@@ -63,8 +63,8 @@
                                 <td>{{item.Email}}</td>
                                 <td>{{item.Signature}}</td>
                                 <td class="operation">
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toRoleAssign(item.UserNo)">角色授权</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toOrgAssign(item.UserNo)">机构授权</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toRoleAssign(item.UserNo)" v-if="checkAssign('userRoleAssign',menuManagementList)==true">角色授权</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toOrgAssign(item.UserNo)" v-if="checkAssign('userOrgAssign',menuManagementList)==true">机构授权</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -86,7 +86,8 @@
                 addJumpUrl: "@Url.Action("UcUsersAdd", "User")",
                 deleteUrl: "@Url.Action("UcUsersDelete", "User")",
                 GetListUrl: "@Url.Action("GetUcUsersList", "User")",
-                orgAssignUrl: "@Url.Action("UserOrgAssign", "User")",                
+                orgAssignUrl: "@Url.Action("UserOrgAssign", "User")",
+                GetUserManagementListUrl: "@Url.Action("GetUserManagementList", "Management")",
                 dataList: [],
                 enabledList: [
                     { Name: '启用', Value: 1 },
@@ -110,7 +111,23 @@
                     return { keywords: this.search.keywords }
                 }
             },
+            created: function () {
+                this.Init();
+            },
             methods: {
+                Init: function () {
+                    var _self = this;
+                    _self.menuManagementList = {};
+                    axios.get(this.GetUserManagementListUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.menuManagementList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
                 GetList: function (data) {
                     this.dataList = data;
                 },
@@ -138,6 +155,17 @@
                     if (this.$children.length > 0) {
                         this.$children[0].go(1);
                     }
+                },
+                checkAssign: function (value, list) {
+                    let result = false;
+                    if (list.length > 0) {
+                        list.map(res => {
+                            if (value == res.Code) {
+                                result = true;
+                            }
+                        });
+                    }
+                    return result;
                 }
             }
         });

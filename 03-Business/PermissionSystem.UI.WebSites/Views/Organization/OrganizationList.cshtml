@@ -36,7 +36,7 @@
             <div class="box">
                 <!--数据列表页头部-->
                 <div class="box-header with-border">
-                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()">新增</a>
+                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()" v-if="checkAssign('orgAdd',menuManagementList)==true">新增</a>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
@@ -65,9 +65,9 @@
                                 <td>{{item.PlatformNo|formatePlatform(platformList)}}</td>
                                 <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
                                 <td class="operation">
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.OrgNo)">角色分配</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)" v-if="checkAssign('orgUpdate',menuManagementList)==true">修改</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)" v-if="checkAssign('orgDelete',menuManagementList)==true">删除</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.OrgNo)" v-if="checkAssign('orgRoleAssign',menuManagementList)==true">角色分配</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -90,7 +90,8 @@
                 deleteUrl: "@Url.Action("PsOrganizationDelete", "Organization")",
                 GetListUrl: "@Url.Action("GetPsOrganizationList", "Organization")",
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
-                assginUrl:"@Url.Action("OrganizationAssign", "Organization")",
+                assginUrl: "@Url.Action("OrganizationAssign", "Organization")",
+                GetUserManagementListUrl: "@Url.Action("GetUserManagementList", "Management")",
                 dataList: [],
                 platformList: {},
                 enabledList: [
@@ -146,6 +147,16 @@
             methods: {
                 Init: function () {
                     var _self = this;
+                    _self.menuManagementList = {};
+                    axios.get(this.GetUserManagementListUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.menuManagementList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                     _self.platformList = {};
                     axios.get(this.getPlatformOptionValueUrl)
                         .then(function (response) {
@@ -187,6 +198,17 @@
                     if (this.$children.length > 0) {
                         this.$children[0].go(1);
                     }
+                },
+                checkAssign: function (value, list) {
+                    let result = false;
+                    if (list.length > 0) {
+                        list.map(res => {
+                            if (value == res.Code) {
+                                result = true;
+                            }
+                        });
+                    }
+                    return result;
                 }
             }
         });

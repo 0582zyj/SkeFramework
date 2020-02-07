@@ -36,11 +36,11 @@
             <div class="box">
                 <!--数据列表页头部-->
                 <div class="box-header with-border">
-                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()" v-if="checkAssign('menuAdd',menuManagementList)==true" >新增</a>
+                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()" v-if="checkAssign('managementAdd',menuManagementList)==true" >新增</a>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
-                    <table id="j-alert-table" class="table table-hover table-bordered datatable">
+                    <table id="j-alert-table" class="table table-hover table-bordered datatable" >
                         <thead>
                             <tr class="show-datatable-list-title">
                                 <th>ID</th>
@@ -56,7 +56,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in dataList">
+                            <tr v-for="item in dataList" >
                                 <td>{{item.id}}</td>
                                 <td>{{item.ParentNo}}</td>
                                 <td>{{item.Name}}</td>
@@ -67,9 +67,9 @@
                                 <td>{{item.PlatformNo|formatePlatform(platformList)}}</td>
                                 <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
                                 <td class="operation">
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.ManagementNo)" v-if="item.Type==2">菜单分配</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)" v-if="checkAssign('managementUpdate',menuManagementList)==true">修改</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)" v-if="checkAssign('managementDelete',menuManagementList)==true">删除</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.ManagementNo)" v-if="item.Type==2 || checkAssign('managementMenuAssign',menuManagementList)==true">菜单分配</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -147,16 +147,6 @@
             methods: {
                 Init: function () {
                     var _self = this;
-                    _self.platformList = {};
-                    axios.get(this.getPlatformOptionValueUrl)
-                        .then(function (response) {
-                            if (response.status == 200) {
-                                _self.platformList = response.data;
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
                     _self.menuManagementList = {};
                     axios.get(this.GetUserManagementListUrl)
                         .then(function (response) {
@@ -167,6 +157,17 @@
                         .catch(function (error) {
                             console.log(error);
                         });
+                    _self.platformList = {};
+                    axios.get(this.getPlatformOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                    
                 },
                 GetList: function (data) {
                     this.dataList = data;
@@ -203,7 +204,7 @@
                     let result = false;
                     if (list.length > 0) {
                         list.map(res => {
-                            if (value == res.code) {
+                            if (value == res.Code) {
                                 result = true;
                             }
                         });

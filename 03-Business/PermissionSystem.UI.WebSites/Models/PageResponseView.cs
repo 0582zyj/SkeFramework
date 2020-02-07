@@ -19,7 +19,7 @@ namespace PermissionSystem.UI.WebSites.Models
         {
             this.page = pageResponse.page;
             this.dataList = pageResponse.dataList;
-            this.pageDTO = new PageDTO(pageResponse.page.PageIndex, pageResponse.page.PageCount, pageResponse.page.PageSize);
+            this.pageDTO = new PageDTO(pageResponse.page.PageIndex, pageResponse.page.TotalCount, pageResponse.page.PageSize);
         }
 
     }

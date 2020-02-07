@@ -51,7 +51,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 {
                     where = (o => o.Name.Contains(keywords));
                 }
-                int total = Convert.ToInt32(DataHandleManager.Instance().PsRolesHandle.Count(where));//取记录数
+                page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().PsRolesHandle.Count(where)));//取记录数
                 List<PsRoles> list = DataHandleManager.Instance().PsRolesHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
                 PageResponse<PsRoles> response = new PageResponse<PsRoles>
                 {

@@ -302,9 +302,10 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetUserManagementListUrl
                 };
+                request.SetValue("UserNo", UserNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
-                    Uri = request.Url,
+                    Uri = request.GetReqUrl(),
                     PostData = request.GetRequestData(),
                     Method = RequestTypeEnums.GET
                 });

@@ -48,5 +48,15 @@ namespace SkeFramework.Core.Network.DataUtility
             this.TotalCount = totalCount;
             this.PageCount = (TotalCount + PageSize - 1) / PageSize;
         }
+
+        public void setTotalCount(int totalCount)
+        {
+            if (this.PageSize == 0)
+            {
+                this.PageSize = totalCount > this.PageSize ? totalCount : this.PageSize;
+            }
+            this.TotalCount = totalCount;
+            this.PageCount = (TotalCount + PageSize - 1) / PageSize;
+        }
     }
 }

@@ -50,7 +50,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 {
                     where = (o => o.Name.Contains(keywords));
                 }
-                int total = Convert.ToInt32(DataHandleManager.Instance().PsManagementHandle.Count(where));//取记录数
+                page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().PsManagementHandle.Count(where)));//取记录数
                 List<PsManagement> list = DataHandleManager.Instance().PsManagementHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
                 PageResponse<PsManagement> response = new PageResponse<PsManagement>
                 {
