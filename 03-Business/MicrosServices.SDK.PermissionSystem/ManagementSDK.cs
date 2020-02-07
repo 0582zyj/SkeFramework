@@ -24,8 +24,9 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/Delete";
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/Update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetOptionValues";
-        private static readonly string GetManagementOptionValuesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetManagementOptionValues";
+        private static readonly string GetMenuManagementOptionsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetMenuManagementOptions";
         private static readonly string GetUserManagementListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetUserManagementList";
+        private static readonly string GetManagementOptionValuesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetManagementOptionValues";
         
         /// <summary>
         /// 获取菜单所有列表
@@ -251,22 +252,55 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return new List<OptionValue>();
         }
+        /// <summary>
+        /// 获取键值对
+        /// </summary>
+        /// <returns></returns>
+        public List<ManagementOptionValue> GetManagementOptionValues(long PlatformNo,long ManagementType)
+        {
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = GetManagementOptionValuesUrl
+                };
+                request.SetValue("PlatformNo", PlatformNo);
+                request.SetValue("ManagementType", ManagementType); 
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.GetReqUrl(),
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.GET
+                });
+                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
+                if (responses.code == JsonResponses.SuccessCode)
+                {
+                    object data = responses.data;
+                    return JsonConvert.DeserializeObject<List<ManagementOptionValue>>(JsonConvert.SerializeObject(data));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return new List<ManagementOptionValue>();
+        }
 
-
+        
         #region 菜单权限列表
         /// <summary>
         /// 获取菜单权限值
         /// </summary>
         /// <param name="MenuNo"></param>
         /// <returns></returns>
-        public List<ManagementOptionValue> GetManagementOptionValues(long MenuNo)
+        public List<ManagementOptionValue> GetMenuManagementOptions(long MenuNo)
         {
             List<ManagementOptionValue> managements = new List<ManagementOptionValue>();
             try
             {
                 RequestBase request = new RequestBase
                 {
-                    Url = GetManagementOptionValuesUrl
+                    Url = GetMenuManagementOptionsUrl
                 };
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -322,8 +356,6 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return managements;
         }
-
-        
         #endregion
 
     }

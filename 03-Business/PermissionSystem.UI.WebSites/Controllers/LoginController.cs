@@ -74,6 +74,7 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
                 LoginModel.Instance().ManagementValue = 1213;// roles.ManagementValue;
                 LoginModel.Instance().UserRolesName = "123";// roles.Name;
                 LoginModel.Instance().UserRule = "123";//DataHandleManager.Instance().UsersRuleHandle.GetUserRoles(UserNo);
+                LoginModel.Instance().PlatformNo = 88073472;
                 AppBusiness.loginModel = LoginModel.Instance();
                
             }

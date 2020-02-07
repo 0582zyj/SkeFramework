@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Constants;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.Extends;
@@ -143,6 +144,18 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             return new JsonResponses(optionValues);
         }
 
+        /// <summary>
+        /// 获取权限键值对列表
+        /// </summary>
+        /// <param name="PlatformNo">平台号</param>
+        /// <param name="ManagementType">权限类型</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetManagementOptionValues([FromQuery]long PlatformNo, long ManagementType)
+        {
+            List<ManagementOptionValue> optionValues = DataHandleManager.Instance().PsManagementHandle.GetManagementOptions(PlatformNo, ManagementType);
+            return new JsonResponses(optionValues);
+        }
         #endregion
 
         #region 菜单权限列表
@@ -151,7 +164,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetManagementOptionValues([FromQuery]long MenuNo)
+        public ActionResult<JsonResponses> GetMenuManagementOptions([FromQuery]long MenuNo)
         {
             bool result = DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(MenuNo);
             if (!result)
@@ -162,7 +175,6 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             List<ManagementOptionValue> optionValues = DataHandleManager.Instance().PsMenuManagementHandle.GetManagementOptionValues(MenuNos, (int)ManagementType.OPERATE_TYPE);
             return new JsonResponses(optionValues);
         }
-
         /// <summary>
         /// 获取键值对
         /// </summary>
@@ -171,7 +183,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         public ActionResult<JsonResponses> GetUserManagementList([FromQuery]string UserNo)
         {
             List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetUserMenusList(UserNo).ToList();
-            List<long> MenuNos = list.Select(o=>o.MenuNo).ToList();
+            List<long> MenuNos = list.Select(o => o.MenuNo).ToList();
             List<ManagementOptionValue> optionValues = DataHandleManager.Instance().PsMenuManagementHandle.GetManagementOptionValues(MenuNos, (int)ManagementType.OPERATE_TYPE);
             return new JsonResponses(optionValues);
         }

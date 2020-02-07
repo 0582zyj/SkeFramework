@@ -124,7 +124,15 @@ namespace PermissionSystem.UI.WebSites.Controllers
             optionValues.Insert(0, OptionValue.Default);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
-
+        [HttpGet]
+        public JsonResult GetManagementOptionValues( long ManagementType)
+        {
+            long PlatformNo = AppBusiness.loginModel.PlatformNo;
+            List<ManagementOptionValue> optionValues = managementSDK.GetManagementOptionValues(PlatformNo,ManagementType);
+            optionValues.Insert(0, ManagementOptionValue.Default);
+            return Json(optionValues, JsonRequestBehavior.AllowGet);
+        }
+        
         #region 角色权限页面
         /// <summary>
         /// 权限分配

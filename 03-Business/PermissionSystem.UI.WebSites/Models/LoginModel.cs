@@ -37,5 +37,9 @@ namespace PermissionSystem.UI.WebSites.Models
         /// 账号规则
         /// </summary>
         public string UserRule { get; set; }
+        /// <summary>
+        /// 所属平台号
+        /// </summary>
+        public long PlatformNo { get;  set; }
     }
 }

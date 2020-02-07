@@ -108,7 +108,7 @@
                 listJumpUrl: "@Url.Action("ManagementList", "Management")",
                 addPostUrl: "@Url.Action("PsManagementAdd", "Management")",
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
-                getManagementOptionValueUrl: "@Url.Action("GetOptionValues", "Management")",
+                getManagementOptionValueUrl: "@Url.Action("GetManagementOptionValues", "Management",new { ManagementType = (int)MicrosServices.Helper.Core.Constants.ManagementType.MENU_TYPE })",
                 platformList: {},
                 managementList: {},
                 menuManagementList: {},
