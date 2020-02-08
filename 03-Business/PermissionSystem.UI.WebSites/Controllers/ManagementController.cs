@@ -1,6 +1,7 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core;
 using MicrosServices.Helper.Core.Common;
+using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.Extends;
 using MicrosServices.Helper.Core.Form;
 using MicrosServices.SDK.PermissionSystem;
@@ -147,10 +148,10 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetManagementAssign(long RolesNos)
+        public JsonResult GetManagementAssign(long RolesNo)
         {
             ManagmentAssignVo assignVo = new ManagmentAssignVo();
-            JsonResponses jsonResponses= assignSDK.GetManagementAssign(RolesNos);
+            JsonResponses jsonResponses= assignSDK.GetManagementAssign(RolesNo,(int)ManagementType.MENU_TYPE);
             if(jsonResponses.ValidateResponses()) {
                 assignVo = JsonConvert.DeserializeObject<ManagmentAssignVo>(JsonConvert.SerializeObject( jsonResponses.data));
             }

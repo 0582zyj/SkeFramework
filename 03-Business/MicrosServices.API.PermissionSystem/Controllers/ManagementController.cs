@@ -151,7 +151,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name="ManagementType">权限类型</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetManagementOptionValues([FromQuery]long PlatformNo, long ManagementType)
+        public ActionResult<JsonResponses> GetManagementOptionValues([FromQuery]long PlatformNo, [FromQuery] long ManagementType)
         {
             List<ManagementOptionValue> optionValues = DataHandleManager.Instance().PsManagementHandle.GetManagementOptions(PlatformNo, ManagementType);
             return new JsonResponses(optionValues);

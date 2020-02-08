@@ -46,7 +46,6 @@
                                 <th>ID</th>
                                 <th>父节点</th>
                                 <th>名称</th>
-                                <th>Description</th>
                                 <th>权限值</th>
                                 <th>权限类型</th>
                                 <th>排序</th>
@@ -60,7 +59,6 @@
                                 <td>{{item.id}}</td>
                                 <td>{{item.ParentNo}}</td>
                                 <td>{{item.Name}}</td>
-                                <td>{{item.Description}}</td>
                                 <td>{{item.Value}}</td>
                                 <td>{{item.Type|formateMenuType(typeList)}}</td>
                                 <td>{{item.Sort}}</td>
@@ -69,7 +67,7 @@
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)" v-if="checkAssign('managementUpdate',menuManagementList)==true">修改</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)" v-if="checkAssign('managementDelete',menuManagementList)==true">删除</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.ManagementNo)" v-if="item.Type==2 || checkAssign('managementMenuAssign',menuManagementList)==true">菜单分配</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.ManagementNo)" v-if="item.Type==2 && checkAssign('managementMenuAssign',menuManagementList)==true">菜单分配</a>
                                 </td>
                             </tr>
                         </tbody>
