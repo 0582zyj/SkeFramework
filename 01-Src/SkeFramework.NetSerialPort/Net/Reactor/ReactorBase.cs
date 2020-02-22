@@ -85,7 +85,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             CheckWasDisposed();
             IsActive = true;
             this.ConnectionAdapter.Open();
-            StartInternal();
+            StartInternal();            
         }
 
         public void Stop()

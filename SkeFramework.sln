@@ -58,7 +58,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.Network",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Push", "Push", "{20F0A03B-1D39-4EC5-8BF9-B5D11FC95939}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.Push", "01-Src\SkeFramework.Core.Push\SkeFramework.Core.Push.csproj", "{FDE47477-16B9-49C6-8D4F-8918D8BFA7B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Push.Core", "01-Src\SkeFramework.Push.Core\SkeFramework.Push.Core.csproj", "{FDE47477-16B9-49C6-8D4F-8918D8BFA7B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicrosServices", "MicrosServices", "{2C275C9C-3596-45BC-8D0C-C97D69403791}"
 EndProject

@@ -7,8 +7,8 @@
     <ProjectGuid>{FDE47477-16B9-49C6-8D4F-8918D8BFA7B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SkeFramework.Core.Push</RootNamespace>
-    <AssemblyName>SkeFramework.Core.Push</AssemblyName>
+    <RootNamespace>SkeFramework.Push.Core</RootNamespace>
+    <AssemblyName>SkeFramework.Push.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
