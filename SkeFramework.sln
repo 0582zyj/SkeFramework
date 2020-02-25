@@ -120,6 +120,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.Enums", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.Helper.DataUtil", "03-Business\MicrosServices.Helper.DataUtil\MicrosServices.Helper.DataUtil.csproj", "{1420C94D-4ECE-4A05-BBCE-0D2EAC8F675E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.NetLog", "01-Src\SkeFramework.Core.NetLog\SkeFramework.Core.NetLog.csproj", "{B62BB163-9E25-40D5-BE5E-8D515E5BFE16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -266,6 +268,10 @@ Global
 		{1420C94D-4ECE-4A05-BBCE-0D2EAC8F675E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1420C94D-4ECE-4A05-BBCE-0D2EAC8F675E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1420C94D-4ECE-4A05-BBCE-0D2EAC8F675E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B62BB163-9E25-40D5-BE5E-8D515E5BFE16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B62BB163-9E25-40D5-BE5E-8D515E5BFE16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B62BB163-9E25-40D5-BE5E-8D515E5BFE16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B62BB163-9E25-40D5-BE5E-8D515E5BFE16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -323,6 +329,7 @@ Global
 		{AAA1A2D1-12B6-4A1F-8AE0-46ECE0BD4D89} = {74CF6593-2629-4303-A881-03D61B249176}
 		{6440AC15-B390-4C92-BB11-9C2661EE162F} = {74CF6593-2629-4303-A881-03D61B249176}
 		{1420C94D-4ECE-4A05-BBCE-0D2EAC8F675E} = {4F701287-4B9A-4720-B577-29ECBFFB3E8A}
+		{B62BB163-9E25-40D5-BE5E-8D515E5BFE16} = {74CF6593-2629-4303-A881-03D61B249176}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}

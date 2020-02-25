@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Core.Push.Interfaces
+namespace SkeFramework.Core.NetLog.Constants
 {
     /// <summary>
-    /// 推送接口
+    /// 日志等级
     /// </summary>
-   public interface IPush
+    [Flags]
+    public enum LogLevel
     {
-          void SendMessage(string message);
+        Info = 0,
+        Debug = 2,
+        Error = 8
     }
 }
