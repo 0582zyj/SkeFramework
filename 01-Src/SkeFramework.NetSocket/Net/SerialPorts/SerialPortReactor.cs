@@ -1,4 +1,13 @@
-﻿using SkeFramework.NetSocket.Buffers;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO.Ports;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using SkeFramework.NetSocket.Buffers;
 using SkeFramework.NetSocket.Buffers.Allocators;
 using SkeFramework.NetSocket.Net.Constants;
 using SkeFramework.NetSocket.Net.Reactor;
@@ -6,41 +15,24 @@ using SkeFramework.NetSocket.Protocols;
 using SkeFramework.NetSocket.Protocols.Configs;
 using SkeFramework.NetSocket.Protocols.Connections;
 using SkeFramework.NetSocket.Protocols.Constants;
+using SkeFramework.NetSocket.Protocols.DataFrame;
 using SkeFramework.NetSocket.Protocols.Requests;
 using SkeFramework.NetSocket.Protocols.Response;
 using SkeFramework.NetSocket.Topology;
 using SkeFramework.NetSocket.Topology.Nodes;
 using SkeFramework.NetSocket.Topology.ExtendNodes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using SkeFramework.NetSocket.Protocols.DataFrame;
-using SkeFramework.Core.NetLog;
 
-namespace SkeFramework.NetSocket.Net.Udp
+namespace SkeFramework.NetSocket.Net.SerialPorts
 {
     /// <summary>
-    /// UDP协议通信
+    /// 串口通信实现类
     /// </summary>
-    public class UdpProxyReactor : ProxyReactorBase
+    public sealed class SerialPortReactor : ProxyReactorBase
     {
         /// <summary>
         /// 
         /// </summary>
-        private Socket ListenerSocket;
-        /// <summary>
-        /// 当前监听点
-        /// </summary>
-        protected EndPoint LocalEndPoint;
-        /// <summary>
-        /// 远程监听点
-        /// </summary>
-        protected EndPoint RemoteEndPoint;
+        private SerialPort ListenerSocket;
         /// <summary>
         /// 是否打开
         /// </summary>
@@ -50,17 +42,20 @@ namespace SkeFramework.NetSocket.Net.Udp
         /// </summary>
         public override bool IsParsing { get; protected set; }
 
-
-        public UdpProxyReactor(INode listener,
+        public SerialPortReactor(INode listener,
             IMessageEncoder encoder, IMessageDecoder decoder, IByteBufAllocator allocator,
             int bufferSize = NetworkConstants.DEFAULT_BUFFER_SIZE)
             : base(listener, encoder, decoder, allocator,
                 bufferSize)
         {
-            UdpNodeConfig nodeConfig = listener.nodeConfig as UdpNodeConfig;
-            LocalEndPoint = new IPEndPoint(IPAddress.Parse(nodeConfig.LocalAddress), nodeConfig.LocalPort);
-            RemoteEndPoint = new IPEndPoint(IPAddress.Any, nodeConfig.LocalPort);
-            ListenerSocket = new Socket(LocalEndPoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
+            SerialNodeConfig nodeConfig = listener.nodeConfig as SerialNodeConfig;
+            ListenerSocket = new SerialPort();
+            ListenerSocket.PortName = nodeConfig.PortName;
+            ListenerSocket.BaudRate = nodeConfig.BaudRate;
+            ListenerSocket.DataBits = nodeConfig.DataBits;
+            ListenerSocket.StopBits = nodeConfig.StopBits;
+            ListenerSocket.Parity = nodeConfig.Parity;
+            ListenerSocket.ReceivedBytesThreshold = 1;
         }
 
         /// <summary>
@@ -69,18 +64,10 @@ namespace SkeFramework.NetSocket.Net.Udp
         /// <param name="config"></param>
         public override void Configure(IConnectionConfig config)
         {
-            if (config.HasOption<int>("receiveBufferSize"))
-                ListenerSocket.ReceiveBufferSize = config.GetOption<int>("receiveBufferSize");
-            if (config.HasOption<int>("sendBufferSize"))
-                ListenerSocket.SendBufferSize = config.GetOption<int>("sendBufferSize");
-            if (config.HasOption<bool>("reuseAddress"))
-                ListenerSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress,
-                    config.GetOption<bool>("reuseAddress"));
-            if (config.HasOption<bool>("keepAlive"))
-                ListenerSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive,
-                    config.GetOption<bool>("keepAlive"));
-            if (config.HasOption<bool>("proxiesShareFiber"))
-                ProxiesShareFiber = config.GetOption<bool>("proxiesShareFiber");
+            if (config.HasOption<int>("ReadBufferSize"))
+                ListenerSocket.ReadBufferSize = config.GetOption<int>("ReadBufferSize");
+            if (config.HasOption<int>("WriteBufferSize"))
+                ListenerSocket.WriteBufferSize = config.GetOption<int>("WriteBufferSize");
             else
                 ProxiesShareFiber = true;
         }
@@ -89,20 +76,16 @@ namespace SkeFramework.NetSocket.Net.Udp
         /// </summary>
         protected override void StartInternal()
         {
-            IsActive = true;
-            NetworkState receiveState = CreateNetworkState(Listener, Node.Empty());
+            var receiveState = CreateNetworkState(Listener, Node.Empty());
             if (!SocketMap.ContainsKey(this.LocalEndpoint.nodeConfig.ToString()))
             {
                 RefactorRequestChannel adapter;
-                adapter = new RefactorProxyRequestChannel(this, this.LocalEndpoint, "none");
+                adapter = new RefactorProxyRequestChannel(this, this.LocalEndpoint,"none");
                 SocketMap.Add(this.LocalEndpoint.nodeConfig.ToString(), adapter);
             }
+            ListenerSocket.DataReceived += new SerialDataReceivedEventHandler(PortDataReceived);
+            ListenerSocket.Open();
             IsActive = true;
-            ListenerSocket.Bind(LocalEndPoint);
-            ListenerSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-            ListenerSocket.BeginReceiveFrom(receiveState.RawBuffer, 0, receiveState.RawBuffer.Length, SocketFlags.None,
-                ref RemoteEndPoint, ReceiveCallback, receiveState);
-
         }
         /// <summary>
         /// 关闭监听
@@ -111,25 +94,74 @@ namespace SkeFramework.NetSocket.Net.Udp
         {
             //NO-OP
         }
-        ///// <summary>
+        /// <summary>
+        /// 数据接收
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PortDataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            Thread.Sleep(50);
+            ////禁止接收事件时直接退出
+            //if (OnReceive==null) return;
+            if (this.WasDisposed) return;  //如果正在关闭，忽略操作，直接返回，尽快的完成串口监听线程的一次循环
+            try
+            {
+                IsParsing = true;  //设置标记，说明已经开始处理数据，一会儿要使用系统UI
+                int n = ListenerSocket.BytesToRead;
+                byte[] buf = new byte[n];
+                ListenerSocket.Read(buf, 0, n);
+                int receive_count = n;
+                ReactorConnectionAdapter adapter = ((ReactorConnectionAdapter)ConnectionAdapter);
+                FrameBase frame = adapter.ParsingReceivedData(buf);
+                if (frame != null)
+                {
+                    //触发整条记录的处理
+                    INode node = null;
+                    IConnection connection = adapter.GetConnection(frame);
+                    if (connection != null)
+                    {
+                        connection.RemoteHost.TaskTag = connection.ControlCode;
+                        node = connection.RemoteHost;
+                    }
+                    else
+                    {
+                        node = this.LocalEndpoint;
+                        node.TaskTag = "none";
+                    }
+                    NetworkState state = CreateNetworkState(Listener, node);
+                    state.RawBuffer = frame.FrameBytes;
+                    
+                    this.ReceiveCallback(state);
+                }
+                else
+                {
+                    string log = String.Format("{0}:串口丢弃数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"), this.Encoder.ByteEncode(buf));
+                    Console.WriteLine(log);
+                }
+            }
+            catch (Exception ex)
+            {
+                string enmsg = string.Format("Serial Port {0} Communication Fail\r\n" + ex.ToString(), ListenerSocket.PortName);
+            }
+            finally
+            {
+                IsParsing = false;   //监听完毕， UI可关闭串口
+            }
+        }
+        /// <summary>
         /// 处理数据
         /// </summary>
         /// <param name="receiveState"></param>
-        private void ReceiveCallback(IAsyncResult ar)
+        private void ReceiveCallback(NetworkState receiveState)
         {
-            var receiveState = (NetworkState)ar.AsyncState;
             try
             {
-                var received = ListenerSocket.EndReceiveFrom(ar, ref RemoteEndPoint);
+                var received = receiveState.RawBuffer.Length;
                 if (received == 0)
                 {
                     return;
                 }
-
-                var remoteAddress = (IPEndPoint)RemoteEndPoint;
-
-                receiveState.RemoteHost = remoteAddress.ToNode(ReactorType.Udp);
-
                 INode node = receiveState.RemoteHost;
                 if (SocketMap.ContainsKey(receiveState.RemoteHost.nodeConfig.ToString()))
                 {
@@ -138,17 +170,19 @@ namespace SkeFramework.NetSocket.Net.Udp
                 }
                 else
                 {
-                    RefactorRequestChannel requestChannel = new RefactorProxyRequestChannel(this, node, "none");
-                    SocketMap.Add(node.nodeConfig.ToString(), requestChannel);
+                    RefactorProxyResponseChannel adapter = new RefactorProxyResponseChannel(this, null);
+                    SocketMap.Add(adapter.RemoteHost.nodeConfig.ToString(), adapter.requestChannel);
                 }
                 receiveState.Buffer.WriteBytes(receiveState.RawBuffer, 0, received);
 
-                Decoder.Decode(ConnectionAdapter, receiveState.Buffer, out List<IByteBuf> decoded);
+                List<IByteBuf> decoded;
+                Decoder.Decode(ConnectionAdapter, receiveState.Buffer, out decoded);
 
                 foreach (var message in decoded)
                 {
                     var networkData = NetworkData.Create(receiveState.RemoteHost, message);
-                    LogAgent.Info(String.Format("Socket收到数据-->>{0}", this.Encoder.ByteEncode(networkData.Buffer)));
+                    string log = String.Format("{0}:串口处理数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"), this.Encoder.ByteEncode(networkData.Buffer));
+                    Console.WriteLine(log);
                     if (ConnectionAdapter is ReactorConnectionAdapter)
                     {
                         ((ReactorConnectionAdapter)ConnectionAdapter).networkDataDocker.AddNetworkData(networkData);
@@ -156,19 +190,11 @@ namespace SkeFramework.NetSocket.Net.Udp
                     }
 
                 }
-
-                //清除数据继续接收
-                receiveState.RawBuffer = new byte[receiveState.RawBuffer.Length];
-                ListenerSocket.BeginReceiveFrom(receiveState.RawBuffer, 0, receiveState.RawBuffer.Length, SocketFlags.None,
-    ref RemoteEndPoint, ReceiveCallback, receiveState);
             }
             catch  //node disconnected
             {
-                if (SocketMap.ContainsKey(receiveState.RemoteHost.nodeConfig.ToString()))
-                {
-                    var connection = SocketMap[receiveState.RemoteHost.nodeConfig.ToString()];
-                    CloseConnection(connection);
-                }
+                var connection = SocketMap[receiveState.RemoteHost.nodeConfig.ToString()];
+                CloseConnection(connection);
             }
         }
         /// <summary>
@@ -188,31 +214,24 @@ namespace SkeFramework.NetSocket.Net.Udp
                     CloseConnection(clientSocket);
                     return;
                 }
-
+                
                 var buf = Allocator.Buffer(length);
                 buf.WriteBytes(buffer, index, length);
-                Encoder.Encode(ConnectionAdapter, buf, out List<IByteBuf> encodedMessages);
+                List<IByteBuf> encodedMessages;
+                Encoder.Encode(ConnectionAdapter, buf, out encodedMessages);
                 foreach (var message in encodedMessages)
                 {
-                    var state = CreateNetworkState(clientSocket.Local, destination, message, 0);
-                    ListenerSocket.BeginSendTo(message.ToArray(), 0, message.ReadableBytes, SocketFlags.None,
-                      LocalEndPoint, SendCallback, state);
-                    LogAgent.Info(String.Format("Socket发送数据-->>{0}", this.Encoder.ByteEncode(message.ToArray())));
+                    ListenerSocket.Write(message.ToArray(), message.ReaderIndex, message.ReadableBytes);
+                    string log = String.Format("{0}:串口发送数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"), this.Encoder.ByteEncode(message.ToArray()));
+                    Console.WriteLine(log);
                     clientSocket.Receiving = true;
                 }
             }
             catch (Exception ex)
             {
-                LogAgent.Error(ex.ToString());
                 CloseConnection(ex, clientSocket);
             }
         }
-
-        private void SendCallback(IAsyncResult ar)
-        {
-
-        }
-
         /// <summary>
         /// 关闭连接
         /// </summary>

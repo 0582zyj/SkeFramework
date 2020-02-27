@@ -1,36 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSocket.Net;
-using SkeFramework.Topology;
+using SkeFramework.NetSocket.Protocols.Constants;
 
-namespace SkeFramework.NetSocket.Topology
+namespace SkeFramework.NetSocket.Topology.Nodes
 {
     /// <summary>
     /// 服务节点信息
     /// </summary>
     public class Node : INode
     {
-        private IPEndPoint _endPoint;
 
         public Node()
         {
-            TransportType = TransportType.Tcp;
         }
 
+        public NodeConfig nodeConfig
+        {
+            get;
+            set;
+        }
+
+        //public virtual T ToEndPoint<T>()
+        //{
+        //    return default;
+        //}
         /// <summary>
         /// 节点上次访问的时间戳
         /// </summary>
         public long LastPulse { get; set; }
-
-        /// <summary>
-        /// IP地址
-        /// </summary>
-        public IPAddress Host { get; set; }
-
         /// <summary>
         /// 机器名
         /// </summary>
@@ -43,78 +46,46 @@ namespace SkeFramework.NetSocket.Topology
         /// 版本号
         /// </summary>
         public string ServiceVersion { get; set; }
-
         /// <summary>
         /// Json字节
         /// </summary>
         public string CustomData { get; set; }
-
         /// <summary>
-        /// 节点端口
+        /// 任务唯一标识
         /// </summary>
-        public int Port { get; set; }
-
-
-        public TransportType TransportType { get; set; }
-
-        public IPEndPoint ToEndPoint()
-        {
-            return _endPoint ?? (_endPoint = new IPEndPoint(Host, Port));
-        }
+        public string TaskTag { get; set; }
+        /// <summary>
+        /// 通信类型
+        /// </summary>
+        public ReactorType reactorType { get; set; }
 
         public object Clone()
         {
             return new Node
             {
                 CustomData = CustomData,
-                Host = new IPAddress(Host.GetAddressBytes()),
+                nodeConfig= nodeConfig,
+                TaskTag=TaskTag,
                 MachineName = MachineName,
-                Port = Port,
-                TransportType = TransportType
+                ServiceVersion= ServiceVersion,
+                LastPulse=0,
+                OS= OS,
             };
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null) return false;
-            return GetHashCode() == obj.GetHashCode();
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hashCode = 17;
-                hashCode += 23 * Host.GetHashCode();
-                hashCode += 23 * Port.GetHashCode();
-                return hashCode;
-            }
         }
 
         public override string ToString()
         {
-            return string.Format("{0}:{1}", Host, Port);
+            return string.Format("{0}:{1}", nodeConfig.ToString(), TaskTag==null?"none": TaskTag.ToString());
         }
 
         #region Static methods
 
-        public static INode Loopback(int port = NetworkConstants.InMemoryPort)
-        {
-            return NodeBuilder.BuildNode().Host(IPAddress.Loopback).WithPort(port);
-        }
-
-        private static readonly INode empty = new EmptyNode();
-
         public static INode Empty()
         {
-            return empty;
+            return new Node();
         }
-
-        public static INode Any(int port = 0)
-        {
-            return NodeBuilder.BuildNode().Host(IPAddress.Any).WithPort(port);
-        }
-
         #endregion
+
+
     }
 }

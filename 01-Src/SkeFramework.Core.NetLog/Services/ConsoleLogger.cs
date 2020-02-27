@@ -25,7 +25,7 @@ namespace SkeFramework.Core.NetLog.Services
 
             if (args != null && args.Length > 0)
                 s = string.Format(msg, args);
-            var d = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ttt");
+            var d = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             switch (level)
             {
                 case LogLevel.Info:

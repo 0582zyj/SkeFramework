@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SkeFramework.NetSocket.Net;
+using SkeFramework.NetSocket.Topology.Nodes;
+using SkeFramework.NetSocket.Topology.ExtendNodes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,26 +15,19 @@ namespace SkeFramework.NetSocket.Topology
     /// </summary>
     public static class NodeExtensions
     {
-        public static INode ToNode(this IPEndPoint endPoint, TransportType transportType)
+        public static INode ToNode(this IPEndPoint endPoint, ReactorType transportType)
         {
-            return new Node { Host = endPoint.Address, Port = endPoint.Port, TransportType = transportType };
+            NodeConfig nodeConfig = new UdpNodeConfig() {
+                LocalAddress= endPoint.Address.ToString(),
+                LocalPort= endPoint.Port
+            };
+            return new Node { nodeConfig= nodeConfig, reactorType = transportType };
         }
-
-        public static Uri ToUri(this INode node)
-        {
-            return new NodeUri(node);
-        }
-
-#if !NET35 && !NET40
-        public static INode ToNode(this Uri uri)
-        {
-            return NodeUri.GetNodeFromUri(uri);
-        }
-#endif
+     
 
         public static bool IsEmpty(this INode node)
         {
-            return node is EmptyNode;
+            return node == Node.Empty();
         }
     }
 }
