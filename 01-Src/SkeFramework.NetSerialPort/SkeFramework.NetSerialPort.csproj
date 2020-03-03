@@ -63,7 +63,6 @@
     <Compile Include="Net\Reactor\ProxyReactorBase.cs" />
     <Compile Include="Net\Reactor\ReactorBase.cs" />
     <Compile Include="Net\SerialPorts\SerialPortReactor.cs" />
-    <Compile Include="Net\Udp\UdpProxyReactor.cs" />
     <Compile Include="ProjectVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocols\Configs\DefaultConnectionConfig.cs" />

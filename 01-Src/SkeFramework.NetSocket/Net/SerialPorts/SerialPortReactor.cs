@@ -49,13 +49,15 @@ namespace SkeFramework.NetSocket.Net.SerialPorts
                 bufferSize)
         {
             SerialNodeConfig nodeConfig = listener.nodeConfig as SerialNodeConfig;
-            ListenerSocket = new SerialPort();
-            ListenerSocket.PortName = nodeConfig.PortName;
-            ListenerSocket.BaudRate = nodeConfig.BaudRate;
-            ListenerSocket.DataBits = nodeConfig.DataBits;
-            ListenerSocket.StopBits = nodeConfig.StopBits;
-            ListenerSocket.Parity = nodeConfig.Parity;
-            ListenerSocket.ReceivedBytesThreshold = 1;
+            ListenerSocket = new SerialPort
+            {
+                PortName = nodeConfig.PortName,
+                BaudRate = nodeConfig.BaudRate,
+                DataBits = nodeConfig.DataBits,
+                StopBits = nodeConfig.StopBits,
+                Parity = nodeConfig.Parity,
+                ReceivedBytesThreshold = 1
+            };
         }
 
         /// <summary>

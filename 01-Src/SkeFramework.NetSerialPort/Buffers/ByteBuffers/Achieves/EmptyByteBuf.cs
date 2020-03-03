@@ -21,7 +21,7 @@ namespace SkeFramework.NetSerialPort.Buffers.ByteBuffers.Achieves
         /// </summary>
         public int Capacity
         {
-            get {return _buffer.Length; }
+            get { return _buffer.Length; }
         }
         /// <summary>
         /// 大小端排序
@@ -57,17 +57,17 @@ namespace SkeFramework.NetSerialPort.Buffers.ByteBuffers.Achieves
             set;
         }
 
-        public  int ReadableBytes
+        public int ReadableBytes
         {
             get { return WriterIndex - ReaderIndex; }
         }
 
-        public  int WritableBytes
+        public int WritableBytes
         {
             get { return Capacity - WriterIndex; }
         }
 
-        public  int MaxWritableBytes
+        public int MaxWritableBytes
         {
             get { return MaxCapacity - WriterIndex; }
         }
@@ -79,7 +79,7 @@ namespace SkeFramework.NetSerialPort.Buffers.ByteBuffers.Achieves
 
         public byte[] ToArray()
         {
-            return  _buffer.Take(ReadableBytes).ToArray();
+            return _buffer.Skip(this.ReaderIndex).Take(ReadableBytes).ToArray();
         }
 
 
@@ -123,11 +123,23 @@ namespace SkeFramework.NetSerialPort.Buffers.ByteBuffers.Achieves
             return this;
         }
 
-   
 
-        public IByteBuf ReadBytes(IByteBuf destination)
+
+        public byte[] ReadBytes(int length)
         {
-            return Allocator.Buffer();
+            byte[] result = new byte[length];
+            if (length > this.ReadableBytes)
+                throw new IndexOutOfRangeException(
+                    string.Format("length({0}) over src.readableBytes({1}) ", length,
+                        this.ReadableBytes));
+            result = ToArray().Take(length).ToArray();
+            this.SetReaderIndex(this.ReaderIndex + length);
+            if (this.ReaderIndex >= this.Capacity || this.ReadableBytes == 0)
+            {
+                this.SetReaderIndex(0);
+                this.SetWriterIndex(0);
+            }
+            return result;
         }
 
         public IByteBuf WriteBytes(byte[] buffer, int index, int length)
@@ -137,8 +149,8 @@ namespace SkeFramework.NetSerialPort.Buffers.ByteBuffers.Achieves
                     string.Format("length({0}) exceeds src.readableBytes({1}) where src is: {2}", length,
                         this.WritableBytes, this));
             Array.Copy(buffer, index, this._buffer, WriterIndex, length);
-            this.SetWriterIndex(this.ReaderIndex + length);
-            return this; 
+            this.SetWriterIndex(this.WriterIndex + length);
+            return this;
         }
 
         public int ReferenceCount
