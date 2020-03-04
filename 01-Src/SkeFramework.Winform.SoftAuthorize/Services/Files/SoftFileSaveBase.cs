@@ -1,4 +1,5 @@
-﻿using SkeFramework.Winform.SoftAuthorize.DataUtils;
+﻿using Newtonsoft.Json.Linq;
+using SkeFramework.Winform.SoftAuthorize.DataUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -60,35 +61,29 @@ namespace SkeFramework.Winform.SoftAuthorize.Services.Files
         /// 获取需要保存的数据，需要重写实现
         /// </summary>
         /// <returns>需要存储的信息</returns>
-        public virtual string ToSaveString()
+        public string ToSaveString()
         {
-            return string.Empty;
+            JObject json = new JObject
+            {
+                { TextCode, new JValue(FinalCode) }
+            };
+            return  json.ToString();
         }
 
-
+   
         /// <summary>
         /// 从字符串加载数据，需要重写实现
         /// </summary>
         /// <param name="content">字符串数据</param>
-        public virtual void LoadByString(string content)
+        public void LoadByString(string content)
         {
-
+            JObject json = JObject.Parse(content);
+            FinalCode= SoftBasic.GetValueFromJsonObject(json, TextCode, FinalCode);
         }
 
         #endregion
 
         #region Save Load File
-
-
-        /// <summary>
-        /// 不使用解密方法从文件读取数据
-        /// </summary>
-        public virtual void LoadByFile()
-        {
-            LoadByFile(m => m);
-        }
-
-
 
         /// <summary>
         /// 使用用户自定义的解密方法从文件读取数据
@@ -151,18 +146,17 @@ namespace SkeFramework.Winform.SoftAuthorize.Services.Files
 
         #endregion
 
-
-
         /// <summary>
         /// 文件存储的路径
         /// </summary>
         public string FileSavePath { get; set; }
-
-        ///// <summary>
-        ///// 日志记录类
-        ///// </summary>
-        //public LogNet.ILogNet ILogNet { get; set; }
-
-
+        /// <summary>
+        /// 注册描述字符
+        /// </summary>
+        public string TextCode { get; set; }
+        /// <summary>
+        /// 注册码
+        /// </summary>
+        public string FinalCode { get; set; }
     }
 }

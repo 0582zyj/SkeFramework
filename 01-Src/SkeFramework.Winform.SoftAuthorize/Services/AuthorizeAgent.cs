@@ -15,21 +15,12 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
     /// </summary>
     public class AuthorizeAgent
     {
-        #region Static Members
-
         /// <summary>
         /// 注册码描述文本
         /// </summary>
         public static readonly string TextCode = "Code";
 
-        #endregion
-
-        #region Private Members
-
-        /// <summary>
-        /// 最终的注册秘钥信息，注意是只读的。
-        /// </summary>
-        public string FinalCode { get; private set; } = "";
+        #region 私有成员
         /// <summary>
         /// 是否正式发行版，是的话就取消授权
         /// </summary>
@@ -50,28 +41,30 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
         /// 文件处理
         /// </summary>
         private ISoftFileSaveBase softFileSaveBase;
-
         #endregion
 
-        #region Public Members
+        #region 共有成员
         /// <summary>
         /// 指示系统是否处于试用运行
         /// </summary>
         public bool IsSoftTrial { get; set; } = false;
+        /// <summary>
+        /// 注册码保存地址
+        /// </summary>
+        public string FileSavePath { get { return softFileSaveBase.FileSavePath; } set { softFileSaveBase.FileSavePath = value; } }
         #endregion
 
-
-        #region Constructor
-
+        #region 构造函数
         /// <summary>
         /// 实例化一个软件授权类
         /// </summary>
         /// <param name="UseAdmin">是否使用管理员模式</param>
         public AuthorizeAgent(bool UseAdmin = false)
         {
-            machine_code = SystemUtils.GetInfo(UseAdmin);
+            machine_code = SafeNativeMethods.GetInfo(UseAdmin);
             securityHandle = new MD5SecurityHandle();
             softFileSaveBase = new SoftFileSaveBase();
+            softFileSaveBase.TextCode = TextCode;
         }
 
         #endregion
@@ -89,13 +82,9 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
         /// 获取需要保存的数据内容
         /// </summary>
         /// <returns>实际保存的内容</returns>
-        public  string ToSaveString()
+        public string ToSaveString()
         {
-            JObject json = new JObject
-            {
-                { TextCode, new JValue(FinalCode) }
-            };
-            return json.ToString();
+            return softFileSaveBase.ToSaveString();
         }
         /// <summary>
         /// 从字符串加载数据
@@ -103,8 +92,7 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
         /// <param name="content">文件存储的数据</param>
         public void LoadByString(string content)
         {
-            JObject json = JObject.Parse(content);
-            FinalCode = SoftBasic.GetValueFromJsonObject(json, TextCode, FinalCode);
+            softFileSaveBase.LoadByString(content);
             HasLoadByFile = true;
         }
         /// <summary>
@@ -114,13 +102,7 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
         /// <summary>
         /// 使用特殊解密算法解密数据
         /// </summary>
-        public override void LoadByFile()
-        {
-            LoadByFile(m => securityHandle.Decrypt(m));
-        }
-
-
-
+        public void LoadByFile() => softFileSaveBase.LoadByFile(m => securityHandle.Decrypt(m));
         /// <summary>
         /// 检查该注册码是否是正确的注册码
         /// </summary>
@@ -135,7 +117,7 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
             }
             else
             {
-                FinalCode = code;
+                softFileSaveBase.FinalCode = code;
                 SaveToFile();
                 return true;
             }
@@ -149,20 +131,17 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
         public bool IsAuthorizeSuccess(Func<string, string> encrypt)
         {
             if (IsReleaseVersion) return true;
-
-            if (encrypt(GetMachineCodeString()) == FinalCode)
+            if (encrypt(GetMachineCodeString()) == softFileSaveBase.FinalCode)
             {
                 return true;
             }
             else
             {
-                FinalCode = "";
+                softFileSaveBase.FinalCode = "";
                 SaveToFile();
                 return false;
             }
         }
-
-
         #endregion
 
     }

@@ -17,11 +17,8 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
     /// <summary>
     /// 系统工具
     /// </summary>
-   public class SystemUtils
+    internal class SafeNativeMethods
     {
-   
-
-
         /// <summary>
         /// 执行打开/建立资源的功能。
         /// </summary>
@@ -120,8 +117,6 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
         [Out] IntPtr lpOverlapped);
 
         #region Static Method
-
-
         /// <summary>
         /// 获取本计算机唯一的机器码  
         /// </summary>
@@ -402,4 +397,36 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
             }
         }
     }
+    internal class HWID
+    {
+        public static String BIOS { get { return GetWMIIdent("Win32_BIOS", "Manufacturer", "SerialNumber", "SMBIOSBIOSVersion", "IdentificationCode"); } }
+        public static String CPU { get { return GetWMIIdent("Win32_Processor", "ProcessorId", "UniqueId", "Name"); } }
+        public static String HDD { get { return GetWMIIdent("Win32_DiskDrive", "Model", "TotalHeads"); } }
+        public static String GPU { get { return GetWMIIdent("Win32_VideoController", "DriverVersion", "Name"); } }
+        public static String MAC { get { return GetWMIIdent("Win32_NetworkAdapterConfiguration", "MACAddress"); } }
+        public static String OS { get { return GetWMIIdent("Win32_OperatingSystem", "SerialNumber", "Name"); } }
+        public static String SCSI { get { return GetWMIIdent("Win32_SCSIController", "DeviceID", "Name"); } }
+        public static String BaseBoard { get { return GetWMIIdent("Win32_BaseBoard", "SerialNumber", "PartNumber"); } }
+        public static Boolean IsServer { get { return HDD.Contains("SCSI"); } }
+
+        private static String GetWMIIdent(String Class, String Property)
+        {
+            var ident = "";
+            var objCol = new ManagementClass(Class).GetInstances();
+            foreach (var obj in objCol)
+            {
+                if ((ident = obj.GetPropertyValue(Property) as String) != "")
+                    break;
+            }
+            return ident;
+        }
+
+        private static String GetWMIIdent(String Class, params String[] Propertys)
+        {
+            var ident = "";
+            Array.ForEach(Propertys, prop => ident += GetWMIIdent(Class, prop) + " ");
+            return ident;
+        }
+    }
+
 }

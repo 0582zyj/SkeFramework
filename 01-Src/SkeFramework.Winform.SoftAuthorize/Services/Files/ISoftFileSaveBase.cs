@@ -24,7 +24,7 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
         /// <summary>
         /// 不使用解密方法从文件读取数据
         /// </summary>
-        void LoadByFile();
+        void LoadByFile(Converter<string, string> decrypt);
         /// <summary>
         /// 不使用加密方法保存数据到文件
         /// </summary>
@@ -33,5 +33,13 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
         /// 文件路径的存储
         /// </summary>
         string FileSavePath { get; set; }
+        /// <summary>
+        /// 注册描述字符
+        /// </summary>
+        string TextCode { get; set; }
+        /// <summary>
+        /// 注册码
+        /// </summary>
+        string FinalCode { get; set; }
     }
 }
