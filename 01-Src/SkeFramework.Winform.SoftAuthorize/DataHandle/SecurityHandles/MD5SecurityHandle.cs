@@ -14,6 +14,13 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
     /// </summary>
     public class MD5SecurityHandle : ISecurityHandle
     {
+        public MD5SecurityHandle()
+        {
+        }
+        public MD5SecurityHandle(string password)
+        {
+            this.Password = password;
+        }
         /// <summary>
         /// 密钥，长度为8，英文或数字
         /// </summary>

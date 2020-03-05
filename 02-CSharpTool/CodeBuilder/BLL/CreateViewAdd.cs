@@ -18,7 +18,7 @@ namespace CodeBuilder.BLL
     /// </summary>
     public sealed class CreateViewAdd : CreateBase
     {
-        public const int Type = 13;
+        public const int Type = 53;
 
         public const string Name = "{0}Add";
 

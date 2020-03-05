@@ -17,7 +17,7 @@ namespace CodeBuilder.BLL
     /// </summary>
     public sealed class CreateEntities : CreateBase
     {
-        public const int Type = 6;
+        public const int Type = 21;
 
         public const string Name = "{0}";
 

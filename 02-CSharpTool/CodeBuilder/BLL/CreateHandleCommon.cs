@@ -15,7 +15,7 @@ namespace CodeBuilder.BLL
     /// </summary>
     public sealed class CreateHandleCommon : CreateBase
     {
-        public const int Type = 8;
+        public const int Type = 32;
 
         public const string Name = "{0}HandleCommon";
 

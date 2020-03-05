@@ -15,7 +15,7 @@ namespace CodeBuilder.BLL
     /// </summary>
     public sealed class CreateController : CreateBase
     {
-        public const int Type = 11;
+        public const int Type = 51;
 
         public const string Name = "{0}Controller";
 
