@@ -15,6 +15,25 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
     /// </summary>
     public class AuthorizeAgent : IDisposable
     {
+        #region 单例模式
+        /// <summary>
+        /// 协议管理器
+        /// </summary>
+        private static AuthorizeAgent mSingleInstance;
+        /// <summary>
+        /// 单例模式
+        /// </summary>
+        /// <returns></returns>
+        public static AuthorizeAgent Instance()
+        {
+            if (null == mSingleInstance)
+            {
+                mSingleInstance = new AuthorizeAgent();
+            }
+            return mSingleInstance;
+        }
+        #endregion
+
         /// <summary>
         /// 注册码描述文本
         /// </summary>
@@ -184,6 +203,8 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
         }
 
         #endregion
+
+
 
         #region 释放资源
         /// <summary>

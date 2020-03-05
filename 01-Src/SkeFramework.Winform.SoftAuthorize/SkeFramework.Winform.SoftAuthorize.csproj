@@ -49,11 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppBusiness.cs" />
     <Compile Include="Constants\ConstData.cs" />
+    <Compile Include="DataForm\FormAuthorize.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataForm\FormAuthorize.Designer.cs">
+      <DependentUpon>FormAuthorize.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataUtils\SimpleHybirdLock.cs" />
     <Compile Include="DataUtils\ConvertUtils.cs" />
     <Compile Include="DataUtils\SafeNativeMethods.cs" />
-    <Compile Include="DataHandle\AuthorizeAgent.cs" />
+    <Compile Include="AuthorizeAgent.cs" />
     <Compile Include="DataHandle\FilesHandles\FilesSaveHandles.cs" />
     <Compile Include="DataHandle\FilesHandles\ISaveHandles.cs" />
     <Compile Include="DataHandle\SecurityHandles\ISecurityHandle.cs" />
@@ -63,6 +70,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataEntities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataForm\FormAuthorize.resx">
+      <DependentUpon>FormAuthorize.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
