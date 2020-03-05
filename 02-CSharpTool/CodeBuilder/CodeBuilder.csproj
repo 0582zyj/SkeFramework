@@ -216,7 +216,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\Achieve\CreateBase.cs" />
-    <Compile Include="BLL\CreateIEntity.cs" />
+    <Compile Include="BLL\CommonServices\CreateDataHandleManager.cs" />
+    <Compile Include="BLL\CommonServices\CreateIEntity.cs" />
     <Compile Include="BLL\CreateViewUpdate.cs" />
     <Compile Include="BLL\CreateViewAdd.cs" />
     <Compile Include="BLL\CreateViewList.cs" />

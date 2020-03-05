@@ -190,6 +190,8 @@ namespace CodeBuilder
 
             list.Add(new DataViewNode(6, "06.COMMON", 1));
             list.Add(new DataViewNode(CreateIEntity.Type, CreateIEntity.Name, 6));
+            list.Add(new DataViewNode(CreateDataHandleManager.Type, CreateDataHandleManager.Name, 6));
+            
 
             this.treeListTemplate.Nodes.Clear();
             this.treeListTemplate.ParentFieldName = "ParentID";

@@ -15,8 +15,6 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.FilesHandles
     /// <remarks>
     public class FilesSaveHandles : ISaveHandles
     {
-  
-
         #region 公共属性
 
         /// <summary>

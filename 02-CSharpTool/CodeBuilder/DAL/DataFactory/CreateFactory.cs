@@ -59,6 +59,8 @@ namespace CodeBuilder.DAL.DataFactory
                     return new CreateViewAdd();
                 case CreateIEntity.Type:
                     return new CreateIEntity();
+                case CreateDataHandleManager.Type:
+                    return new CreateDataHandleManager();
             }
             return null;
         }
@@ -81,6 +83,7 @@ namespace CodeBuilder.DAL.DataFactory
                 case CreateViewUpdate.Name:
                 case CreateViewAdd.Name:
                 case CreateIEntity.Name:
+                    case CreateDataHandleManager.Name:
                     return true;
             }
             return false;
