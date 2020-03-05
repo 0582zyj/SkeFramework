@@ -10,10 +10,6 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
     /// <summary>
     /// 一个简单的混合线程同步锁，采用了基元用户加基元内核同步构造实现
     /// </summary>
-    /// <example>
-    /// 以下演示常用的锁的使用方式，还包含了如何优雅的处理异常锁
-    /// <code lang="cs" source="HslCommunication_Net45.Test\Documentation\Samples\Core\ThreadLock.cs" region="SimpleHybirdLockExample1" title="SimpleHybirdLock示例" />
-    /// </example>
     public sealed class SimpleHybirdLock : IDisposable
     {
 
@@ -28,11 +24,9 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
                 {
                     // TODO: 释放托管状态(托管对象)。
                 }
-
                 // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
                 // TODO: 将大型字段设置为 null。
                 m_waiterLock.Close();
-
                 disposedValue = true;
             }
         }

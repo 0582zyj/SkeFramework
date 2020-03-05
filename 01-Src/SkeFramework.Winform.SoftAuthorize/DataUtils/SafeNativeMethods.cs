@@ -1,16 +1,10 @@
-﻿using SkeFramework.Winform.SoftAuthorize.Constants;
-using SkeFramework.Winform.SoftAuthorize.DataEntities;
-using SkeFramework.Winform.SoftAuthorize.DataEntities.Structs;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SkeFramework.Winform.SoftAuthorize.DataUtils
 {
@@ -19,6 +13,17 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
     /// </summary>
     internal class SafeNativeMethods
     {
+        public const uint DFP_GET_VERSION = 0x00074080;
+        public const uint DFP_SEND_DRIVE_COMMAND = 0x0007c084;
+        public const uint DFP_RECEIVE_DRIVE_DATA = 0x0007c088;
+
+        public const uint GENERIC_READ = 0x80000000;
+        public const uint GENERIC_WRITE = 0x40000000;
+        public const uint FILE_SHARE_READ = 0x00000001;
+        public const uint FILE_SHARE_WRITE = 0x00000002;
+        public const uint CREATE_NEW = 1;
+        public const uint OPEN_EXISTING = 3;
+
         /// <summary>
         /// 执行打开/建立资源的功能。
         /// </summary>
@@ -134,7 +139,6 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
             unique += HWID.HDD + "|";
             //主板信息
             unique += HWID.BaseBoard + "|";
-            //mac信息 群主建议取消mac计算 这里建议放弃 mac太玄学了
             //unique += HWID.MAC + "|";
             //是否存在scsi 
             if (HWID.IsServer)
@@ -149,8 +153,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
             dsk.Get();
             unique += dsk["VolumeSerialNumber"].ToString();
             unique += "|";
-
-            //获取SMBIOS的id https://docs.microsoft.com/zh-cn/windows/desktop/CIMWin32Prov/win32-computersystemproduct
+            //获取SMBIOS的id
             ManagementClass cimobject3 = new ManagementClass("Win32_ComputerSystemProduct");
             ManagementObjectCollection moc3 = cimobject3.GetInstances();
             foreach (ManagementObject mo in moc3)
@@ -187,7 +190,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
             }
 
             SHA1CryptoServiceProvider SHA1 = new SHA1CryptoServiceProvider();
-            var md5 = SoftBasic.ByteToHexString(SHA1.ComputeHash(Encoding.Unicode.GetBytes(unique)));
+            var md5 = ConvertUtils.ByteToHexString(SHA1.ComputeHash(Encoding.Unicode.GetBytes(unique)));
             return md5.Substring(0, 25);
         }
 
@@ -252,7 +255,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
             }
             if (0 == DeviceIoControl(
                 hDevice,
-                ConstData.DFP_GET_VERSION,
+                DFP_GET_VERSION,
                 IntPtr.Zero,
                 0,
                 ref vers,
@@ -293,7 +296,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
             inParam.cBufferSize = 512;
             if (0 == DeviceIoControl(
                 hDevice,
-                ConstData.DFP_RECEIVE_DRIVE_DATA,
+                DFP_RECEIVE_DRIVE_DATA,
                 ref inParam,
                 (uint)Marshal.SizeOf(inParam),
                 ref outParam,
@@ -325,7 +328,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
             }
             if (0 == DeviceIoControl(
                 hDevice,
-                ConstData.DFP_GET_VERSION,
+                DFP_GET_VERSION,
                 IntPtr.Zero,
                 0,
                 ref vers,
@@ -368,7 +371,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
 
             if (0 == DeviceIoControl(
                 hDevice,
-                ConstData.DFP_RECEIVE_DRIVE_DATA,
+                DFP_RECEIVE_DRIVE_DATA,
                 ref inParam,
                 (uint)Marshal.SizeOf(inParam),
                 ref outParam,
@@ -397,6 +400,9 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
             }
         }
     }
+    /// <summary>
+    /// 硬件识别代码
+    /// </summary>
     internal class HWID
     {
         public static String BIOS { get { return GetWMIIdent("Win32_BIOS", "Manufacturer", "SerialNumber", "SMBIOSBIOSVersion", "IdentificationCode"); } }
@@ -427,6 +433,136 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
             Array.ForEach(Propertys, prop => ident += GetWMIIdent(Class, prop) + " ");
             return ident;
         }
+
+      
+
+    }
+
+    /// <summary>
+    /// 驱动属性
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct DriverStatus
+    {
+        public byte bDriverError;
+        public byte bIDEStatus;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        public byte[] bReserved;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+        public uint[] dwReserved;
+    }
+
+    /// <summary>
+    /// 版本参数
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct GetVersionOutParams
+    {
+        public byte bVersion;
+        public byte bRevision;
+        public byte bReserved;
+        public byte bIDEDeviceMap;
+        public uint fCapabilities;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        public uint[] dwReserved; // For future use.
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct IdeRegs
+    {
+        public byte bFeaturesReg;
+        public byte bSectorCountReg;
+        public byte bSectorNumberReg;
+        public byte bCylLowReg;
+        public byte bCylHighReg;
+        public byte bDriveHeadReg;
+        public byte bCommandReg;
+        public byte bReserved;
+    }
+    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 512)]
+    internal struct IdSector
+    {
+        public ushort wGenConfig;
+        public ushort wNumCyls;
+        public ushort wReserved;
+        public ushort wNumHeads;
+        public ushort wBytesPerTrack;
+        public ushort wBytesPerSector;
+        public ushort wSectorsPerTrack;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
+        public ushort[] wVendorUnique;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
+        public byte[] sSerialNumber;
+        public ushort wBufferType;
+        public ushort wBufferSize;
+        public ushort wECCSize;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
+        public byte[] sFirmwareRev;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 40)]
+        public byte[] sModelNumber;
+        public ushort wMoreVendorUnique;
+        public ushort wDoubleWordIO;
+        public ushort wCapabilities;
+        public ushort wReserved1;
+        public ushort wPIOTiming;
+        public ushort wDMATiming;
+        public ushort wBS;
+        public ushort wNumCurrentCyls;
+        public ushort wNumCurrentHeads;
+        public ushort wNumCurrentSectorsPerTrack;
+        public uint ulCurrentSectorCapacity;
+        public ushort wMultSectorStuff;
+        public uint ulTotalAddressableSectors;
+        public ushort wSingleWordDMA;
+        public ushort wMultiWordDMA;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
+        public byte[] bReserved;
+    }
+    /// <summary>
+    /// 发送Cmd输入参数
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct SendCmdInParams
+    {
+        public uint cBufferSize;
+        public IdeRegs irDriveRegs;
+        public byte bDriveNumber;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
+        public byte[] bReserved;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        public uint[] dwReserved;
+        public byte bBuffer;
+    }
+    /// <summary>
+    /// 发送Cmd输出参数
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct SendCmdOutParams
+    {
+        public uint cBufferSize;
+        public DriverStatus DriverStatus;
+        public IdSector bBuffer;
+    }
+
+    [Serializable]
+    public struct HardDiskInfo
+    {
+        /// <summary>
+        /// 型号
+        /// </summary>
+        public string ModuleNumber;
+        /// <summary>
+        /// 固件版本
+        /// </summary>
+        public string Firmware;
+        /// <summary>
+        /// 序列号
+        /// </summary>
+        public string SerialNumber;
+        /// <summary>
+        /// 容量，以M为单位
+        /// </summary>
+        public uint Capacity;
     }
 
 }

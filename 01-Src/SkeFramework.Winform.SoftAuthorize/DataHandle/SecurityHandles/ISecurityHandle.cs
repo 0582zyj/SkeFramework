@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.Services.Securitys
+namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
 {
     /// <summary>
     /// 加密接口

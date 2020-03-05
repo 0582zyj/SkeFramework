@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.Services
+namespace SkeFramework.Winform.SoftAuthorize.DataHandle.FilesHandles
 {
     /// <summary>
     /// 支持字符串信息加载存储的接口，定义了几个通用的方法
     /// </summary>
-    public interface ISoftFileSaveBase
+    public interface ISaveHandles
     {
         /// <summary>
         /// 获取需要保存的数据，需要重写实现

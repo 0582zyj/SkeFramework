@@ -50,26 +50,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\ConstData.cs" />
-    <Compile Include="DataEntities\Structs\DriverStatus.cs" />
-    <Compile Include="DataEntities\Structs\GetVersionOutParams.cs" />
-    <Compile Include="DataEntities\Structs\HardDiskInfo.cs" />
-    <Compile Include="DataEntities\Structs\IdeRegs.cs" />
-    <Compile Include="DataEntities\Structs\SendCmdInParams.cs" />
-    <Compile Include="DataEntities\Structs\IdSector.cs" />
-    <Compile Include="DataEntities\Structs\SendCmdOutParams.cs" />
     <Compile Include="DataUtils\SimpleHybirdLock.cs" />
-    <Compile Include="DataUtils\SoftBasic.cs" />
-    <Compile Include="DataUtils\SoftSecurity.cs" />
+    <Compile Include="DataUtils\ConvertUtils.cs" />
     <Compile Include="DataUtils\SafeNativeMethods.cs" />
-    <Compile Include="Services\AuthorizeAgent.cs" />
-    <Compile Include="Services\Files\SoftFileSaveBase.cs" />
-    <Compile Include="Services\Files\ISoftFileSaveBase.cs" />
-    <Compile Include="Services\Securitys\ISecurityHandle.cs" />
-    <Compile Include="Services\Securitys\MD5SecurityHandle.cs" />
+    <Compile Include="DataHandle\AuthorizeAgent.cs" />
+    <Compile Include="DataHandle\FilesHandles\FilesSaveHandles.cs" />
+    <Compile Include="DataHandle\FilesHandles\ISaveHandles.cs" />
+    <Compile Include="DataHandle\SecurityHandles\ISecurityHandle.cs" />
+    <Compile Include="DataHandle\SecurityHandles\MD5SecurityHandle.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DataEntities\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

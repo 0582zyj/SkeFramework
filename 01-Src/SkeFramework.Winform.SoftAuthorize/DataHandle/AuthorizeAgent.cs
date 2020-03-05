@@ -1,19 +1,19 @@
 ﻿using Newtonsoft.Json.Linq;
 using SkeFramework.Winform.SoftAuthorize.DataUtils;
-using SkeFramework.Winform.SoftAuthorize.Services.Files;
-using SkeFramework.Winform.SoftAuthorize.Services.Securitys;
+using SkeFramework.Winform.SoftAuthorize.DataHandle.FilesHandles;
+using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.Services
+namespace SkeFramework.Winform.SoftAuthorize.DataHandle
 {
     /// <summary>
     /// 授权代理
     /// </summary>
-    public class AuthorizeAgent
+    public class AuthorizeAgent : IDisposable
     {
         /// <summary>
         /// 注册码描述文本
@@ -40,7 +40,12 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
         /// <summary>
         /// 文件处理
         /// </summary>
-        private ISoftFileSaveBase softFileSaveBase;
+        private ISaveHandles softFileSaveBase;
+        /// <summary>
+        /// 文件存储的同步锁
+        /// </summary>
+
+        private SimpleHybirdLock HybirdLock;
         #endregion
 
         #region 共有成员
@@ -61,15 +66,16 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
         /// <param name="UseAdmin">是否使用管理员模式</param>
         public AuthorizeAgent(bool UseAdmin = false)
         {
+            HybirdLock = new SimpleHybirdLock();
             machine_code = SafeNativeMethods.GetInfo(UseAdmin);
             securityHandle = new MD5SecurityHandle();
-            softFileSaveBase = new SoftFileSaveBase();
+            softFileSaveBase = new FilesSaveHandles();
             softFileSaveBase.TextCode = TextCode;
         }
 
         #endregion
 
-        #region Public Method
+        #region 授权码操作
         /// <summary>
         /// 获取本机的机器码
         /// </summary>
@@ -98,11 +104,45 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
         /// <summary>
         /// 使用特殊加密算法加密数据
         /// </summary>
-        public void SaveToFile() => softFileSaveBase.SaveToFile(m => securityHandle.Encrypt(m));
+        public void SaveToFile()
+        {
+            HybirdLock.Enter();
+            try
+            {
+                softFileSaveBase.SaveToFile(m => securityHandle.Encrypt(m));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                HybirdLock.Leave();
+            }
+        }
         /// <summary>
         /// 使用特殊解密算法解密数据
         /// </summary>
-        public void LoadByFile() => softFileSaveBase.LoadByFile(m => securityHandle.Decrypt(m));
+        public void LoadByFile()
+        {
+            HybirdLock.Enter();
+            try
+            {
+                softFileSaveBase.LoadByFile(m => securityHandle.Decrypt(m));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                HybirdLock.Leave();
+            }
+        }
+
+        #endregion
+      
+        #region 授权校验
         /// <summary>
         /// 检查该注册码是否是正确的注册码
         /// </summary>
@@ -142,7 +182,46 @@ namespace SkeFramework.Winform.SoftAuthorize.Services
                 return false;
             }
         }
+
         #endregion
 
+        #region 释放资源
+        /// <summary>
+        /// 释放标记
+        /// </summary>
+        private bool disposed;
+        /// <summary>执行与释放或重置非托管资源关联的应用程序定义的任务。</summary>
+        public void Dispose()
+        {
+            //必须为true
+            Dispose(true);
+            //通知垃圾回收器不再调用终结器
+            GC.SuppressFinalize(this);
+        }
+        /// <summary>
+        /// 非必需的，只是为了更符合其他语言的规范，如C++、java
+        /// </summary>
+        public void Close()
+        {
+            Dispose();
+        }
+        /// <summary>
+        /// 非密封类可重写的Dispose方法，方便子类继承时可重写
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+            if (HybirdLock != null)
+            {
+                HybirdLock.Dispose();
+            }
+            //告诉自己已经被释放
+            disposed = true;
+        }
+        #endregion
     }
 }
