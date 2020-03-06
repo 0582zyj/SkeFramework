@@ -10,7 +10,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
     /// <summary>
     /// 一个简单的混合线程同步锁，采用了基元用户加基元内核同步构造实现
     /// </summary>
-    public sealed class SimpleHybirdLock : IDisposable
+    public sealed class ThreadHybirdLock : IDisposable
     {
 
         #region IDisposable Support

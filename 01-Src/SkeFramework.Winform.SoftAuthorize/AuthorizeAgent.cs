@@ -64,7 +64,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
         /// 文件存储的同步锁
         /// </summary>
 
-        private SimpleHybirdLock HybirdLock;
+        private ThreadHybirdLock HybirdLock;
         #endregion
 
         #region 共有成员
@@ -85,7 +85,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
         /// <param name="UseAdmin">是否使用管理员模式</param>
         public AuthorizeAgent(bool UseAdmin = false)
         {
-            HybirdLock = new SimpleHybirdLock();
+            HybirdLock = new ThreadHybirdLock();
             machine_code = SafeNativeMethods.GetInfo(UseAdmin);
             securityHandle = new MD5SecurityHandle();
             softFileSaveBase = new FilesSaveHandles();
