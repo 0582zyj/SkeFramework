@@ -204,8 +204,6 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
 
         #endregion
 
-
-
         #region 释放资源
         /// <summary>
         /// 释放标记
