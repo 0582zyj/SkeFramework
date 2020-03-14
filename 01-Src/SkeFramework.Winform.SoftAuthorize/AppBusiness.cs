@@ -15,6 +15,27 @@ namespace SkeFramework.Winform.SoftAuthorize
     /// </summary>
     public class AppBusiness
     {
+        /// <summary>
+        /// 安全策略
+        /// </summary>
+        private ISecurityHandle SecurityHandle;
+
+        public AppBusiness()
+        {
+            SecurityHandle = new DesSecurityHandle(); 
+        }
+        /// <summary>
+        /// 可注入不同的加密策略
+        /// </summary>
+        /// <param name="security"></param>
+        public AppBusiness(ISecurityHandle security)
+        {
+            SecurityHandle = security;
+        }
+        /// <summary>
+        /// 初始化授权码校验
+        /// </summary>
+        /// <returns></returns>
         public virtual bool InitAuthorize()
         {
             AuthorizeAgent.Instance().FileSavePath = Application.StartupPath + @"\license.key"; // 设置存储激活码的文件，该存储是加密的
@@ -45,8 +66,7 @@ namespace SkeFramework.Winform.SoftAuthorize
         public virtual string AuthorizeEncrypted(string origin)
         {
             // 此处使用了组件支持的DES对称加密技术
-            ISecurityHandle security = new MD5SecurityHandle("12345678");
-            return security.Encrypt(origin);
+            return SecurityHandle.Encrypt(origin);
         }
     }
 }

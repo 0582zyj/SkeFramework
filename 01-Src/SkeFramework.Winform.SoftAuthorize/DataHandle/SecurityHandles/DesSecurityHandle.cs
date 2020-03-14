@@ -10,21 +10,27 @@ using System.Threading.Tasks;
 namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
 {
     /// <summary>
-    /// MD5加密类
+    /// Des加密类
     /// </summary>
-    public class MD5SecurityHandle : ISecurityHandle
+    public class DesSecurityHandle : ISecurityHandle
     {
-        public MD5SecurityHandle()
-        {
-        }
-        public MD5SecurityHandle(string password)
-        {
-            this.Password = password;
-        }
+        /// <summary>
+        /// 默认密钥向量
+        /// </summary>
+        public string Keys = "12345678";
         /// <summary>
         /// 密钥，长度为8，英文或数字
         /// </summary>
         public string Password { get; set; } = "ut123456";
+
+        public DesSecurityHandle()
+        {
+        }
+        public DesSecurityHandle(string password)
+        {
+            this.Password = password;
+        }
+ 
         /// <summary>
         /// 解密
         /// </summary>
@@ -44,9 +50,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
             return DESEncrypt(encryptStr, Password, Keys);
         }
 
-        //默认密钥向量
-        public string Keys = "12345678";
-
+      
 
         #region DES加密和解密
 
