@@ -124,6 +124,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.NetLog", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Winform.SoftAuthorize", "01-Src\SkeFramework.Winform.SoftAuthorize\SkeFramework.Winform.SoftAuthorize.csproj", "{0BD488A3-8157-492A-82CA-86C0938443EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Winform.NetControls", "01-Src\SkeFramework.Winform.NetControls\SkeFramework.Winform.NetControls.csproj", "{0618A2B6-E40B-4087-9E6C-411ECD10EC94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -278,6 +280,10 @@ Global
 		{0BD488A3-8157-492A-82CA-86C0938443EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BD488A3-8157-492A-82CA-86C0938443EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BD488A3-8157-492A-82CA-86C0938443EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0618A2B6-E40B-4087-9E6C-411ECD10EC94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0618A2B6-E40B-4087-9E6C-411ECD10EC94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0618A2B6-E40B-4087-9E6C-411ECD10EC94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0618A2B6-E40B-4087-9E6C-411ECD10EC94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -337,6 +343,7 @@ Global
 		{1420C94D-4ECE-4A05-BBCE-0D2EAC8F675E} = {4F701287-4B9A-4720-B577-29ECBFFB3E8A}
 		{B62BB163-9E25-40D5-BE5E-8D515E5BFE16} = {74CF6593-2629-4303-A881-03D61B249176}
 		{0BD488A3-8157-492A-82CA-86C0938443EC} = {A502E803-43F9-4B23-BEA9-E469299458E2}
+		{0618A2B6-E40B-4087-9E6C-411ECD10EC94} = {A502E803-43F9-4B23-BEA9-E469299458E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}
