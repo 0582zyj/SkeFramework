@@ -177,11 +177,13 @@ namespace SkeFramework.Winform.SoftAuthorize.DataUtils
                 else
                 {
                     //创建启动对象
-                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                    //设置运行文件
-                    startInfo.FileName = System.Windows.Forms.Application.ExecutablePath;
-                    //设置启动动作,确保以管理员身份运行
-                    startInfo.Verb = "runas";
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+                    {
+                        //设置运行文件
+                        FileName = System.Windows.Forms.Application.ExecutablePath,
+                        //设置启动动作,确保以管理员身份运行
+                        Verb = "runas"
+                    };
                     //如果不是管理员，则启动UAC
                     System.Diagnostics.Process.Start(startInfo);
                     //退出

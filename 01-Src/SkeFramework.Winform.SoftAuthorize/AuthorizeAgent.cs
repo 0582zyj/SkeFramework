@@ -86,7 +86,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
         public AuthorizeAgent(bool UseAdmin = false)
         {
             HybirdLock = new ThreadHybirdLock();
-            machine_code = SafeNativeMethods.GetInfo(UseAdmin);
+            machine_code = SystemUtil.Value();
             securityHandle = new DesSecurityHandle();
             softFileSaveBase = new FilesSaveHandles();
             softFileSaveBase.TextCode = TextCode;

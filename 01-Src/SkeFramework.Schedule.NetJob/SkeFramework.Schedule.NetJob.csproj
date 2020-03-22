@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0BD488A3-8157-492A-82CA-86C0938443EC}</ProjectGuid>
+    <ProjectGuid>{BD18821B-E798-49FE-8AC0-FA04F27A0FC5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SkeFramework.Winform.SoftAuthorize</RootNamespace>
-    <AssemblyName>SkeFramework.Winform.SoftAuthorize</AssemblyName>
+    <RootNamespace>SkeFramework.Schedule.NetJob</RootNamespace>
+    <AssemblyName>SkeFramework.Schedule.NetJob</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,15 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Gitlab\ws-cloudlock\ULCloudLockTool\ULCloudLockTool.DAL.DataAccess\Lib\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=2.6.0.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Quartz.2.6.0\lib\net40\Quartz.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,35 +50,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppBusiness.cs" />
-    <Compile Include="DataForm\FormAuthorize.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DataForm\FormAuthorize.Designer.cs">
-      <DependentUpon>FormAuthorize.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DataHandle\FilesHandles\RegistryHandles.cs" />
-    <Compile Include="DataUtils\RegistryUtil.cs" />
-    <Compile Include="DataUtils\SystemUtil.cs" />
-    <Compile Include="DataUtils\ThreadHybirdLock.cs" />
-    <Compile Include="DataUtils\ConvertUtils.cs" />
-    <Compile Include="AuthorizeAgent.cs" />
-    <Compile Include="DataHandle\FilesHandles\FilesSaveHandles.cs" />
-    <Compile Include="DataHandle\FilesHandles\ISaveHandles.cs" />
-    <Compile Include="DataHandle\SecurityHandles\ISecurityHandle.cs" />
-    <Compile Include="DataHandle\SecurityHandles\DesSecurityHandle.cs" />
-    <Compile Include="Version.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="DataForm\FormAuthorize.resx">
-      <DependentUpon>FormAuthorize.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
 </Project>
