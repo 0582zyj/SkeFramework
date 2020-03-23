@@ -31,15 +31,20 @@
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnCannel = new System.Windows.Forms.Button();
+            this.btnRegister = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnRegister = new System.Windows.Forms.Button();
-            this.btnCannel = new System.Windows.Forms.Button();
+            this.radioButtonActivationCode = new System.Windows.Forms.RadioButton();
+            this.radioButtonServer = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rtbFinalCode = new System.Windows.Forms.RichTextBox();
+            this.lblMachineCode = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label3
@@ -53,6 +58,9 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.lblMachineCode);
+            this.panel2.Controls.Add(this.radioButtonServer);
+            this.panel2.Controls.Add(this.radioButtonActivationCode);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 3);
@@ -71,10 +79,30 @@
             this.panel1.Size = new System.Drawing.Size(438, 41);
             this.panel1.TabIndex = 3;
             // 
+            // btnCannel
+            // 
+            this.btnCannel.Location = new System.Drawing.Point(249, 9);
+            this.btnCannel.Name = "btnCannel";
+            this.btnCannel.Size = new System.Drawing.Size(75, 23);
+            this.btnCannel.TabIndex = 17;
+            this.btnCannel.Text = "取 消";
+            this.btnCannel.UseVisualStyleBackColor = true;
+            this.btnCannel.Click += new System.EventHandler(this.btnCannel_Click);
+            // 
+            // btnRegister
+            // 
+            this.btnRegister.Location = new System.Drawing.Point(341, 9);
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.Size = new System.Drawing.Size(75, 23);
+            this.btnRegister.TabIndex = 16;
+            this.btnRegister.Text = "注 册";
+            this.btnRegister.UseVisualStyleBackColor = true;
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
+            // 
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.rtbFinalCode);
+            this.panel3.Controls.Add(this.groupBox1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(3, 50);
             this.panel3.Name = "panel3";
@@ -99,34 +127,56 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(444, 421);
             this.tableLayoutPanel1.TabIndex = 14;
             // 
-            // btnRegister
+            // radioButtonActivationCode
             // 
-            this.btnRegister.Location = new System.Drawing.Point(341, 9);
-            this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(75, 23);
-            this.btnRegister.TabIndex = 16;
-            this.btnRegister.Text = "注 册";
-            this.btnRegister.UseVisualStyleBackColor = true;
-            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
+            this.radioButtonActivationCode.AutoSize = true;
+            this.radioButtonActivationCode.Checked = true;
+            this.radioButtonActivationCode.Location = new System.Drawing.Point(146, 14);
+            this.radioButtonActivationCode.Name = "radioButtonActivationCode";
+            this.radioButtonActivationCode.Size = new System.Drawing.Size(59, 16);
+            this.radioButtonActivationCode.TabIndex = 7;
+            this.radioButtonActivationCode.TabStop = true;
+            this.radioButtonActivationCode.Text = "激活码";
+            this.radioButtonActivationCode.UseVisualStyleBackColor = true;
             // 
-            // btnCannel
+            // radioButtonServer
             // 
-            this.btnCannel.Location = new System.Drawing.Point(249, 9);
-            this.btnCannel.Name = "btnCannel";
-            this.btnCannel.Size = new System.Drawing.Size(75, 23);
-            this.btnCannel.TabIndex = 17;
-            this.btnCannel.Text = "取 消";
-            this.btnCannel.UseVisualStyleBackColor = true;
-            this.btnCannel.Click += new System.EventHandler(this.btnCannel_Click);
+            this.radioButtonServer.AutoSize = true;
+            this.radioButtonServer.Location = new System.Drawing.Point(211, 14);
+            this.radioButtonServer.Name = "radioButtonServer";
+            this.radioButtonServer.Size = new System.Drawing.Size(83, 16);
+            this.radioButtonServer.TabIndex = 8;
+            this.radioButtonServer.Text = "服务器地址";
+            this.radioButtonServer.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rtbFinalCode);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(436, 319);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "请输入激活码";
             // 
             // rtbFinalCode
             // 
             this.rtbFinalCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbFinalCode.Location = new System.Drawing.Point(0, 0);
+            this.rtbFinalCode.Location = new System.Drawing.Point(3, 17);
             this.rtbFinalCode.Name = "rtbFinalCode";
-            this.rtbFinalCode.Size = new System.Drawing.Size(436, 319);
-            this.rtbFinalCode.TabIndex = 10;
+            this.rtbFinalCode.Size = new System.Drawing.Size(430, 299);
+            this.rtbFinalCode.TabIndex = 11;
             this.rtbFinalCode.Text = "";
+            // 
+            // lblMachineCode
+            // 
+            this.lblMachineCode.AutoSize = true;
+            this.lblMachineCode.Location = new System.Drawing.Point(364, 18);
+            this.lblMachineCode.Name = "lblMachineCode";
+            this.lblMachineCode.Size = new System.Drawing.Size(65, 12);
+            this.lblMachineCode.TabIndex = 9;
+            this.lblMachineCode.Text = "查看机器码";
             // 
             // FormAuthorize
             // 
@@ -143,6 +193,7 @@
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -155,6 +206,10 @@
         private System.Windows.Forms.Button btnRegister;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.RadioButton radioButtonServer;
+        private System.Windows.Forms.RadioButton radioButtonActivationCode;
+        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RichTextBox rtbFinalCode;
+        private System.Windows.Forms.Label lblMachineCode;
     }
 }

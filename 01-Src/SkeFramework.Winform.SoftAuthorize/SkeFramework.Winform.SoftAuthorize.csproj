@@ -32,9 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Gitlab\ws-cloudlock\ULCloudLockTool\ULCloudLockTool.DAL.DataAccess\Lib\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppBusiness.cs" />
+    <Compile Include="Bootstrap\ServerBootstrap.cs" />
     <Compile Include="DataForm\FormAuthorize.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,14 +61,16 @@
     <Compile Include="DataUtils\ThreadHybirdLock.cs" />
     <Compile Include="DataUtils\ConvertUtils.cs" />
     <Compile Include="AuthorizeAgent.cs" />
-    <Compile Include="DataHandle\FilesHandles\FilesSaveHandles.cs" />
+    <Compile Include="DataHandle\FilesHandles\FilesHandles.cs" />
     <Compile Include="DataHandle\FilesHandles\ISaveHandles.cs" />
     <Compile Include="DataHandle\SecurityHandles\ISecurityHandle.cs" />
-    <Compile Include="DataHandle\SecurityHandles\DesSecurityHandle.cs" />
+    <Compile Include="DataHandle\SecurityHandles\DesHandle.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DataForm\FormAuthorize.resx">
       <DependentUpon>FormAuthorize.cs</DependentUpon>

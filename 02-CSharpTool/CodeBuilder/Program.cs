@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Forms;
 using DevExpress.LookAndFeel;
 using DevExpress.XtraEditors;
+using SkeFramework.Winform.SoftAuthorize.Bootstrap;
 
 namespace CodeBuilder
 {
@@ -15,14 +16,15 @@ namespace CodeBuilder
         [STAThread]
         static void Main()
         {
-       
 
+        
             //防止程序多开
             var isCreated = false;
             using (var mutex = new Mutex(true, Application.ProductName, out isCreated))
             {
                 if (isCreated)
                 {
+                  
                     RunApplication();
                 }
                 else
@@ -40,6 +42,11 @@ namespace CodeBuilder
 
             DevExpress.Skins.SkinManager.EnableFormSkins();
             DevExpress.UserSkins.BonusSkins.Register();
+            bool isAuth = new ServerBootstrap().InitAuthorize();
+            if (!isAuth)
+            {
+                return;
+            }
             Application.Run(new MainForm());
            
         }

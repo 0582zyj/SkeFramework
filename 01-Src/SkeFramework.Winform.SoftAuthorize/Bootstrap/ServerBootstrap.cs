@@ -8,27 +8,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SkeFramework.Winform.SoftAuthorize
+namespace SkeFramework.Winform.SoftAuthorize.Bootstrap
 {
     /// <summary>
-    /// 验证入口例子
+    /// 启动程序
     /// </summary>
-    public class AppBusiness
+    public class ServerBootstrap
     {
         /// <summary>
         /// 安全策略
         /// </summary>
         private ISecurityHandle SecurityHandle;
 
-        public AppBusiness()
+        public ServerBootstrap()
         {
-            SecurityHandle = new DesSecurityHandle(); 
+            SecurityHandle = new DesHandle(); 
         }
         /// <summary>
         /// 可注入不同的加密策略
         /// </summary>
         /// <param name="security"></param>
-        public AppBusiness(ISecurityHandle security)
+        public ServerBootstrap(ISecurityHandle security)
         {
             SecurityHandle = security;
         }
