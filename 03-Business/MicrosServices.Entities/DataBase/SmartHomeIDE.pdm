@@ -1472,8 +1472,9 @@ Shadow=0</a:DisplayPreferences>
 <c:Symbols>
 <o:TableSymbol Id="o5">
 <a:CreationDate>1583379294</a:CreationDate>
-<a:ModificationDate>1583379393</a:ModificationDate>
-<a:Rect>((-20342,1963), (-7108,7036))</a:Rect>
+<a:ModificationDate>1583976205</a:ModificationDate>
+<a:Rect>((-23790,12450), (-9150,19260))</a:Rect>
+<a:AutoAdjustToText>0</a:AutoAdjustToText>
 <a:LineColor>12615680</a:LineColor>
 <a:FillColor>16570034</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1489,6 +1490,7 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:BrushStyle>6</a:BrushStyle>
 <a:GradientFillMode>65</a:GradientFillMode>
 <a:GradientEndColor>16777215</a:GradientEndColor>
+<a:ManuallyResized>1</a:ManuallyResized>
 <c:Object>
 <o:Table Ref="o6"/>
 </c:Object>
@@ -1541,8 +1543,8 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:TableSymbol>
 <o:TableSymbol Id="o11">
 <a:CreationDate>1583481955</a:CreationDate>
-<a:ModificationDate>1583481958</a:ModificationDate>
-<a:Rect>((8417,-10426), (24355,1246))</a:Rect>
+<a:ModificationDate>1583483842</a:ModificationDate>
+<a:Rect>((-5862,1032), (10076,12704))</a:Rect>
 <a:LineColor>12615680</a:LineColor>
 <a:FillColor>16570034</a:FillColor>
 <a:ShadowColor>12632256</a:ShadowColor>
@@ -1571,11 +1573,11 @@ TableComment 0 新宋体,8,N</a:FontList>
 <c:Tables>
 <o:Table Id="o6">
 <a:ObjectID>7A261080-AFC0-4B1E-9CFE-EB5EC61C7E8B</a:ObjectID>
-<a:Name>region_config</a:Name>
-<a:Code>region_config</a:Code>
+<a:Name>project_region</a:Name>
+<a:Code>project_region</a:Code>
 <a:CreationDate>1583379294</a:CreationDate>
 <a:Creator>zengyingjun</a:Creator>
-<a:ModificationDate>1583379362</a:ModificationDate>
+<a:ModificationDate>1583975514</a:ModificationDate>
 <a:Modifier>zengyingjun</a:Modifier>
 <a:Comment>区域配置表</a:Comment>
 <c:Columns>
