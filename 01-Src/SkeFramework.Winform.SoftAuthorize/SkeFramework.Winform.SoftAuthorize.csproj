@@ -56,9 +56,11 @@
     <Compile Include="DataForm\FormAuthorize.Designer.cs">
       <DependentUpon>FormAuthorize.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataHandle\FilesHandles\RegistryHandles.cs" />
+    <Compile Include="DataUtils\RegistryUtil.cs" />
+    <Compile Include="DataUtils\SystemUtil.cs" />
     <Compile Include="DataUtils\ThreadHybirdLock.cs" />
     <Compile Include="DataUtils\ConvertUtils.cs" />
-    <Compile Include="DataUtils\SafeNativeMethods.cs" />
     <Compile Include="AuthorizeAgent.cs" />
     <Compile Include="DataHandle\FilesHandles\FilesSaveHandles.cs" />
     <Compile Include="DataHandle\FilesHandles\ISaveHandles.cs" />

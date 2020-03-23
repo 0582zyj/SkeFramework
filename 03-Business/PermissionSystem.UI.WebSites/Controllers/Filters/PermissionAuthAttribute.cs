@@ -63,9 +63,11 @@ namespace PermissionSystem.UI.WebSites.Controllers.Filters
             {
                 if (filterContext.HttpContext.Request.IsAjaxRequest())
                 {
-                    JsonResult Json = new JsonResult();
-                    Json.Data = "NoPermission";
-                    Json.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                    JsonResult Json = new JsonResult
+                    {
+                        Data = "NoPermission",
+                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                    };
                     filterContext.Result = Json;
                 }
                 else
