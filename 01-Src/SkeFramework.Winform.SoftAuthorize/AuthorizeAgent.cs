@@ -174,12 +174,9 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
             {
                 return false;
             }
-            else
-            {
-                softFileSaveBase.FinalCode = code;
-                SaveToFile();
-                return true;
-            }
+            softFileSaveBase.FinalCode = code;
+            SaveToFile();
+            return true;
         }
 
         /// <summary>
@@ -194,12 +191,9 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
             {
                 return true;
             }
-            else
-            {
-                softFileSaveBase.FinalCode = "";
-                SaveToFile();
-                return false;
-            }
+            softFileSaveBase.FinalCode = "";
+            SaveToFile();
+            return false;
         }
 
         #endregion

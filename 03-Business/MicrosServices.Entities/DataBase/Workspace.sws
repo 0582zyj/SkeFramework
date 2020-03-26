@@ -5,8 +5,8 @@
 <Workspace>
 	<Local Expanded="Yes">
 		<Model ID="{C03811F4-166C-49F6-B473-C58244851C7A}" Name="SkeCloud" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="SkeCloud.pdb"/>
-		<Model ID="{009FF3C3-43A5-4AE3-A0DE-F96BB8E427D2}" Name="ClockLockDB" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="ClockLockDB.pdm"/>
-		<Model ID="{95DA6493-5C4E-4A1F-AF33-D1EEC9DC7A60}" Name="SmartHomeIDE" Selected="Yes" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="SmartHomeIDE.pdm"/>
+		<Model ID="{009FF3C3-43A5-4AE3-A0DE-F96BB8E427D2}" Loaded="No" Name="ClockLockDB" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="ClockLockDB.pdm"/>
+		<Model Expanded="Yes" ID="{95DA6493-5C4E-4A1F-AF33-D1EEC9DC7A60}" Name="SmartHomeIDE" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="SmartHomeIDE.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>
