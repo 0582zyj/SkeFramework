@@ -13,7 +13,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.FilesHandles
     /// 文件存储功能的基类，包含了文件存储路径，存储方法等
     /// </summary>
     /// <remarks>
-    public class FilesSaveHandles : ISaveHandles
+    public class FilesHandles : ISaveHandles
     {
         #region 公共属性
 
@@ -36,7 +36,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.FilesHandles
         /// <summary>
         /// 实例化一个文件存储的基类
         /// </summary>
-        public FilesSaveHandles()
+        public FilesHandles()
         {
         }
 

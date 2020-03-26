@@ -12,7 +12,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
     /// <summary>
     /// Des加密类
     /// </summary>
-    public class DesSecurityHandle : ISecurityHandle
+    public class DesHandle : ISecurityHandle
     {
         /// <summary>
         /// 默认密钥向量
@@ -23,10 +23,10 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
         /// </summary>
         public string Password { get; set; } = "ut123456";
 
-        public DesSecurityHandle()
+        public DesHandle()
         {
         }
-        public DesSecurityHandle(string password)
+        public DesHandle(string password)
         {
             this.Password = password;
         }

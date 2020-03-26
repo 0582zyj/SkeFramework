@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppBusiness.cs" />
+    <Compile Include="Bootstrap\ServerBootstrap.cs" />
     <Compile Include="DataForm\FormAuthorize.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,10 +65,10 @@
     <Compile Include="DataUtils\ThreadHybirdLock.cs" />
     <Compile Include="DataUtils\ConvertUtils.cs" />
     <Compile Include="AuthorizeAgent.cs" />
-    <Compile Include="DataHandle\FilesHandles\FilesSaveHandles.cs" />
+    <Compile Include="DataHandle\FilesHandles\FilesHandles.cs" />
     <Compile Include="DataHandle\FilesHandles\ISaveHandles.cs" />
     <Compile Include="DataHandle\SecurityHandles\ISecurityHandle.cs" />
-    <Compile Include="DataHandle\SecurityHandles\DesSecurityHandle.cs" />
+    <Compile Include="DataHandle\SecurityHandles\DesHandle.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

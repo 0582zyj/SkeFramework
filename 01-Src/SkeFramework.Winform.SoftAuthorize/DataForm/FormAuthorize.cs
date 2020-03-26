@@ -30,6 +30,8 @@ namespace SkeFramework.Winform.SoftAuthorize.DataForm
         public FormAuthorize()
         {
             InitializeComponent();
+
+          
         }
         /// <summary>
         /// 实例化授权注册窗口
@@ -41,6 +43,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataForm
             InitializeComponent();
             Encrypt = encrypt;
             machineCode = AuthorizeAgent.Instance().GetMachineCodeString();
+            this.lblMachineCode.Tag = machineCode;
         }
         private void FormAuthorize_Load(object sender, EventArgs e)
         {
