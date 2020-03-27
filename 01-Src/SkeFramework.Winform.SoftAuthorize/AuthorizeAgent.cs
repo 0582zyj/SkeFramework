@@ -131,7 +131,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
         /// <returns>是否注册成功</returns>
         public bool CheckAuthorize(string code, Func<string, string> encrypt)
         {
-            if (code != encrypt(GetMachineCodeString()))
+            if (GetMachineCodeString() != encrypt(code))
             {
                 return false;
             }

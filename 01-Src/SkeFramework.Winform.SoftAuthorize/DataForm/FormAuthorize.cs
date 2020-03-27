@@ -1,4 +1,5 @@
 ﻿using SkeFramework.Winform.SoftAuthorize.DataHandle;
+using SkeFramework.Winform.SoftAuthorize.DataHandle.SecurityHandles;
 using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataForm
         {
             InitializeComponent();
 
-          
+
         }
         /// <summary>
         /// 实例化授权注册窗口
@@ -75,7 +76,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataForm
         /// <param name="e"></param>
         private void btnCannel_Click(object sender, EventArgs e)
         {
-            this.DialogResult= DialogResult.Cancel;
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
         #endregion

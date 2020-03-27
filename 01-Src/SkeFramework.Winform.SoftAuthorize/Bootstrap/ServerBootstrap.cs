@@ -1,5 +1,6 @@
 ﻿using SkeFramework.Winform.SoftAuthorize.DataForm;
 using SkeFramework.Winform.SoftAuthorize.DataHandle;
+using SkeFramework.Winform.SoftAuthorize.DataHandle.SecurityHandles;
 using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace SkeFramework.Winform.SoftAuthorize.Bootstrap
 
         public ServerBootstrap()
         {
-            SecurityHandle = new DesHandle(); 
+            SecurityHandle = new JwtHandle(); 
         }
         /// <summary>
         /// 可注入不同的加密策略
@@ -47,7 +48,7 @@ namespace SkeFramework.Winform.SoftAuthorize.Bootstrap
                 using (FormAuthorize form =
                     new FormAuthorize(
                         "请根据机器码联系管理员获取注册码",
-                        AuthorizeEncrypted))
+                        AuthorizeDncrypted))
                 {
                     if (form.ShowDialog() != DialogResult.OK)
                     {
@@ -67,6 +68,12 @@ namespace SkeFramework.Winform.SoftAuthorize.Bootstrap
         {
             // 此处使用了组件支持的DES对称加密技术
             return SecurityHandle.Encrypt(origin);
+        }
+
+        public virtual string AuthorizeDncrypted(string origin)
+        {
+            // 此处使用了组件支持的DES对称加密技术
+            return SecurityHandle.Decrypt(origin);
         }
     }
 }
