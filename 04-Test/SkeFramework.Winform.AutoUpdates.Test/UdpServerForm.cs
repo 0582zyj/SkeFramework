@@ -1,21 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using SkeFramework.NetSocket.Buffers;
-using SkeFramework.NetSocket.Net;
-using SkeFramework.NetSocket.Net.Bootstrap.Server;
-using SkeFramework.NetSocket.Net.Udp;
-using SkeFramework.NetSocket.Ops;
-using SkeFramework.NetSocket.Serialization;
+using SkeFramework.NetSocket.Bootstrap;
+using SkeFramework.NetSocket.Protocols;
+using SkeFramework.NetSocket.Protocols.Constants;
 using SkeFramework.NetSocket.Topology;
-using SkeFramework.Topology;
 
 namespace SkeFramework.Winform.AutoUpdates.Test
 {
@@ -28,28 +18,27 @@ namespace SkeFramework.Winform.AutoUpdates.Test
 
         private void UdpServerForm_Load(object sender, EventArgs e)
         {
-            Port = DEFAULT_PORT;
-            var ip = IPAddress.Any;
+            //Port = DEFAULT_PORT;
+            //var ip = IPAddress.Any;
 
-            Console.WriteLine("Starting echo server...");
-            Console.WriteLine("Will begin listening for requests on {0}:{1}", ip, Port);
-            var bootstrapper =
-                new ServerBootstrap()
-                    .WorkerThreads(2)
-                    .SetTransport(TransportType.Udp)
-                    .Build();
-            var reactor = bootstrapper.NewReactor(NodeBuilder.BuildNode().Host(ip).WithPort(Port));
-            reactor.OnConnection += (node, connection) =>
-            {
-                ServerPrint(node,
-                    string.Format("Accepting connection from... {0}:{1}", node.Host, node.Port));
-                connection.BeginReceive(Receive);
-            };
-            reactor.OnDisconnection += (reason, address) => ServerPrint(address.RemoteHost,
-                string.Format("Closed connection to... {0}:{1} [Reason:{2}]", address.RemoteHost.Host,
-                    address.RemoteHost.Port, reason.Type));
+            //Console.WriteLine("Starting echo server...");
+            //Console.WriteLine("Will begin listening for requests on {0}:{1}", ip, Port);
+            //var bootstrapper =
+            //    new ServerBootstrap()
+            //        .WorkerThreads(2)
+            //        .SetTransport(TransportType.Udp);
+            //var reactor = bootstrapper.NewReactor(NodeBuilder.BuildNode().Host(ip).WithPort(Port));
+            //reactor.OnConnection += (node, connection) =>
+            //{
+            //    ServerPrint(node,
+            //        string.Format("Accepting connection from... {0}:{1}", node.Host, node.Port));
+            //    connection.BeginReceive(Receive);
+            //};
+            //reactor.OnDisconnection += (reason, address) => ServerPrint(address.RemoteHost,
+            //    string.Format("Closed connection to... {0}:{1} [Reason:{2}]", address.RemoteHost.Host,
+            //        address.RemoteHost.Port, reason.Type));
 
-            reactor.Start();
+            //reactor.Start();
         }
 
         private const int DEFAULT_PORT = 1337;
@@ -58,7 +47,7 @@ namespace SkeFramework.Winform.AutoUpdates.Test
 
         private static void ServerPrint(INode node, string message)
         {
-            Console.WriteLine("[{0}] {1}:{2}: {3}", DateTime.UtcNow, node.Host, node.Port, message);
+            //Console.WriteLine("[{0}] {1}:{2}: {3}", DateTime.UtcNow, node.Host, node.ToString(), message);
         }
 
         
@@ -76,9 +65,9 @@ namespace SkeFramework.Winform.AutoUpdates.Test
             }
             ServerPrint(connection.RemoteHost, string.Format("recieved \"{0}\"", str));
             ServerPrint(connection.RemoteHost,
-                string.Format("sending \"{0}\" back to {1}:{2}", str, node.Host, node.Port));
+                string.Format("sending \"{0}\" back to {1}}", str, node.ToString()));
             var sendBytes = Encoding.UTF8.GetBytes(str + Environment.NewLine);
-            connection.Send(new NetworkData { Buffer = sendBytes, Length = sendBytes.Length, RemoteHost = node });
+            //connection.Send(new NetworkData { Buffer = sendBytes, Length = sendBytes.Length, RemoteHost = node });
         }
     }
 }

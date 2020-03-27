@@ -30,7 +30,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
         {
             this.Password = password;
         }
- 
+
         /// <summary>
         /// 解密
         /// </summary>
@@ -50,7 +50,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
             return DESEncrypt(encryptStr, Password, Keys);
         }
 
-      
+
 
         #region DES加密和解密
 
@@ -61,7 +61,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
         /// <param name="Key">密钥</param>
         /// <param name="Vector">向量</param>
         /// <returns>密文</returns>
-        public static string DESEncrypt(string encryptString, String Key, String Vector)
+        public string DESEncrypt(string encryptString, String Key, String Vector)
         {
             byte[] Data = Encoding.UTF8.GetBytes(encryptString);
             //将密钥转为字节数组，取其前8位
@@ -104,51 +104,26 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
         /// <param name="Key">密钥</param>
         /// <param name="Vector">向量</param>
         /// <returns>明文</returns>
-        public static string DESDecrypt(string dncryptString, String Key, String Vector)
+        public string DESDecrypt(string dncryptString, String Key, String Vector)
         {
-            byte[] Data = Encoding.UTF8.GetBytes(dncryptString);
-            Byte[] bKey = new Byte[8];
-            Array.Copy(Encoding.UTF8.GetBytes(Key.PadRight(bKey.Length)), bKey, bKey.Length);
-            Byte[] bVector = new Byte[8];
-            Array.Copy(Encoding.UTF8.GetBytes(Vector.PadRight(bVector.Length)), bVector, bVector.Length);
-
-            Byte[] original = null;
-
-            DESCryptoServiceProvider CryptoProvider = new DESCryptoServiceProvider();
-            CryptoProvider.Mode = CipherMode.CBC;
-            CryptoProvider.Padding = PaddingMode.Zeros;
-
-            try
+            using (DESCryptoServiceProvider CryptoProvider = new DESCryptoServiceProvider
+            { Key = Encoding.UTF8.GetBytes(Key), IV = Encoding.UTF8.GetBytes(Vector) })
             {
-                // 开辟一块内存流，存储密文
-                MemoryStream Memory = new MemoryStream(Data);
-                // 把内存流对象包装成加密流对象
-                using (CryptoStream Decryptor = new CryptoStream(Memory,
-                CryptoProvider.CreateDecryptor(bKey, bVector),
-                CryptoStreamMode.Read))
+                CryptoProvider.Mode = CipherMode.CBC;
+                CryptoProvider.Padding = PaddingMode.Zeros;
+                using (ICryptoTransform ct = CryptoProvider.CreateDecryptor())
                 {
-                    // 明文存储区
-                    using (MemoryStream originalMemory = new MemoryStream())
+                    byte[] byt = Convert.FromBase64String(dncryptString);
+                    var ms = new MemoryStream();
+                    using (var cs = new CryptoStream(ms, ct, CryptoStreamMode.Write))
                     {
-                        Byte[] Buffer = new Byte[1024];
-                        Int32 readBytes = 0;
-                        while ((readBytes = Decryptor.Read(Buffer, 0, Buffer.Length)) > 0)
-                        {
-                            originalMemory.Write(Buffer, 0, readBytes);
-                        }
-
-                        original = originalMemory.ToArray();
+                        cs.Write(byt, 0, byt.Length);
+                        cs.FlushFinalBlock();
                     }
+                    return Encoding.UTF8.GetString(ms.ToArray());
                 }
             }
-            catch
-            {
-                original = null;
-            }
-
-            return Convert.ToBase64String(original.ToArray());
         }
-
         #endregion
 
     }

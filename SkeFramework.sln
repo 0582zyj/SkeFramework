@@ -128,7 +128,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Winform.NetCon
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{57751B14-F2F2-43F6-9E83-7E7245FDF081}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.NetworkUtils", "01-Src\SkeFramework.Core.NetworkUtils\SkeFramework.Core.NetworkUtils.csproj", "{6FEEC4BA-D97C-42F8-8F5F-2379A23E0AA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkeFramework.Core.NetworkUtils", "01-Src\SkeFramework.Core.NetworkUtils\SkeFramework.Core.NetworkUtils.csproj", "{6FEEC4BA-D97C-42F8-8F5F-2379A23E0AA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

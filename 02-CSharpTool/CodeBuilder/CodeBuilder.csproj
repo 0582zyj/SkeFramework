@@ -402,7 +402,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\01-Src\SkeFramework.Winform.SoftAuthorize\SkeFramework.Winform.SoftAuthorize.csproj">
-      <Project>{0bd488a3-8157-492a-82ca-86c0938443ec}</Project>
+      <Project>{0BD488A3-8157-492A-82CA-86C0938443EC}</Project>
       <Name>SkeFramework.Winform.SoftAuthorize</Name>
     </ProjectReference>
   </ItemGroup>

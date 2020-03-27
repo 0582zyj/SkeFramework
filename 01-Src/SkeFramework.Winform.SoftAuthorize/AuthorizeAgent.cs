@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using SkeFramework.Winform.SoftAuthorize.DataUtils;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.FilesHandles;
+using SkeFramework.Winform.SoftAuthorize.DataHandle.StoreHandles;
 using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
 using System;
 using System.Collections.Generic;
@@ -34,11 +34,6 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
         }
         #endregion
 
-        /// <summary>
-        /// 注册码描述文本
-        /// </summary>
-        public static readonly string TextCode = "Code";
-
         #region 私有成员
         /// <summary>
         /// 是否正式发行版，是的话就取消授权
@@ -48,14 +43,6 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
         /// 指示是否加载过文件信息
         /// </summary>
         private bool HasLoadByFile { get; set; } = false;
-        /// <summary>
-        /// 机器码
-        /// </summary>
-        private string machine_code = "";
-        /// <summary>
-        /// 加密处理
-        /// </summary>
-        private ISecurityHandle securityHandle;
         /// <summary>
         /// 文件处理
         /// </summary>
@@ -69,10 +56,6 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
 
         #region 共有成员
         /// <summary>
-        /// 指示系统是否处于试用运行
-        /// </summary>
-        public bool IsSoftTrial { get; set; } = false;
-        /// <summary>
         /// 注册码保存地址
         /// </summary>
         public string FileSavePath { get { return softFileSaveBase.FileSavePath; } set { softFileSaveBase.FileSavePath = value; } }
@@ -82,14 +65,10 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
         /// <summary>
         /// 实例化一个软件授权类
         /// </summary>
-        /// <param name="UseAdmin">是否使用管理员模式</param>
-        public AuthorizeAgent(bool UseAdmin = false)
+        public AuthorizeAgent(bool isSoftTrial = false)
         {
             HybirdLock = new ThreadHybirdLock();
-            machine_code = SystemUtil.Value();
-            securityHandle = new DesHandle();
-            softFileSaveBase = new FilesHandles.FilesHandles();
-            softFileSaveBase.TextCode = TextCode;
+            softFileSaveBase = new FilesHandles();        
         }
 
         #endregion
@@ -101,25 +80,8 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
         /// <returns>机器码字符串</returns>
         public string GetMachineCodeString()
         {
-            return machine_code;
-        }
-        /// <summary>
-        /// 获取需要保存的数据内容
-        /// </summary>
-        /// <returns>实际保存的内容</returns>
-        public string ToSaveString()
-        {
-            return softFileSaveBase.ToSaveString();
-        }
-        /// <summary>
-        /// 从字符串加载数据
-        /// </summary>
-        /// <param name="content">文件存储的数据</param>
-        public void LoadByString(string content)
-        {
-            softFileSaveBase.LoadByString(content);
-            HasLoadByFile = true;
-        }
+            return SystemUtil.Value();
+        }       
         /// <summary>
         /// 使用特殊加密算法加密数据
         /// </summary>
@@ -128,7 +90,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
             HybirdLock.Enter();
             try
             {
-                softFileSaveBase.SaveToFile(m => securityHandle.Encrypt(m));
+                softFileSaveBase.SaveToFile();
             }
             catch (Exception ex)
             {
@@ -147,7 +109,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
             HybirdLock.Enter();
             try
             {
-                softFileSaveBase.LoadByFile(m => securityHandle.Decrypt(m));
+                softFileSaveBase.LoadByFile();
             }
             catch (Exception ex)
             {
@@ -158,7 +120,6 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
                 HybirdLock.Leave();
             }
         }
-
         #endregion
       
         #region 授权校验
@@ -187,12 +148,11 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
         public bool IsAuthorizeSuccess(Func<string, string> encrypt)
         {
             if (IsReleaseVersion) return true;
+            AuthorizeAgent.Instance().LoadByFile();
             if (encrypt(GetMachineCodeString()) == softFileSaveBase.FinalCode)
             {
                 return true;
             }
-            softFileSaveBase.FinalCode = "";
-            SaveToFile();
             return false;
         }
 

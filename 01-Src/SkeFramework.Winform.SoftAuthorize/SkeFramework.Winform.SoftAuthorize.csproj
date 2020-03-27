@@ -58,15 +58,17 @@
     <Compile Include="DataForm\FormAuthorize.Designer.cs">
       <DependentUpon>FormAuthorize.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataHandle\FilesHandles\RegistryHandles.cs" />
+    <Compile Include="DataHandle\StoreHandles\Abstract\ProxySaveBase.cs" />
+    <Compile Include="DataHandle\StoreHandles\Abstract\SaveBaseHandle.cs" />
+    <Compile Include="DataHandle\StoreHandles\RegistryHandles.cs" />
     <Compile Include="DataHandle\SecurityHandles\JwtHandle.cs" />
     <Compile Include="DataUtils\RegistryUtil.cs" />
     <Compile Include="DataUtils\SystemUtil.cs" />
     <Compile Include="DataUtils\ThreadHybirdLock.cs" />
     <Compile Include="DataUtils\ConvertUtils.cs" />
     <Compile Include="AuthorizeAgent.cs" />
-    <Compile Include="DataHandle\FilesHandles\FilesHandles.cs" />
-    <Compile Include="DataHandle\FilesHandles\ISaveHandles.cs" />
+    <Compile Include="DataHandle\StoreHandles\FilesHandles.cs" />
+    <Compile Include="DataHandle\StoreHandles\Abstract\ISaveHandles.cs" />
     <Compile Include="DataHandle\SecurityHandles\ISecurityHandle.cs" />
     <Compile Include="DataHandle\SecurityHandles\DesHandle.cs" />
     <Compile Include="Version.cs" />

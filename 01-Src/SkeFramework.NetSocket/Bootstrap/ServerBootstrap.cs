@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSocket.Buffers;
@@ -33,6 +34,10 @@ namespace SkeFramework.NetSocket.Bootstrap
             Workers = other.Workers;
         }
 
+        public object SetTransport(TransportType udp)
+        {
+            throw new NotImplementedException();
+        }
 
         protected int Workers { get; set; }
 

@@ -39,7 +39,7 @@ namespace SkeFramework.Winform.SoftAuthorize.Bootstrap
         public virtual bool InitAuthorize()
         {
             AuthorizeAgent.Instance().FileSavePath = Application.StartupPath + @"\license.key"; // 设置存储激活码的文件，该存储是加密的
-            AuthorizeAgent.Instance().LoadByFile();
+       
             // 检测激活码是否正确，没有文件，或激活码错误都算作激活失败
             if (!AuthorizeAgent.Instance().IsAuthorizeSuccess(AuthorizeEncrypted))
             {
