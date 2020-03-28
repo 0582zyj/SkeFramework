@@ -49,9 +49,15 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
         {
             return DESEncrypt(encryptStr, Password, Keys);
         }
-
-
-
+        /// <summary>
+        /// 认证
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public bool Validate(string token,string OriginalStr)
+        {
+            return token.Equals(Encrypt(OriginalStr));
+        }
         #region DES加密和解密
 
         /// <summary>
@@ -61,7 +67,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
         /// <param name="Key">密钥</param>
         /// <param name="Vector">向量</param>
         /// <returns>密文</returns>
-        public string DESEncrypt(string encryptString, String Key, String Vector)
+        private string DESEncrypt(string encryptString, String Key, String Vector)
         {
             byte[] Data = Encoding.UTF8.GetBytes(encryptString);
             //将密钥转为字节数组，取其前8位
@@ -104,7 +110,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
         /// <param name="Key">密钥</param>
         /// <param name="Vector">向量</param>
         /// <returns>明文</returns>
-        public string DESDecrypt(string dncryptString, String Key, String Vector)
+        private string DESDecrypt(string dncryptString, String Key, String Vector)
         {
             using (DESCryptoServiceProvider CryptoProvider = new DESCryptoServiceProvider
             { Key = Encoding.UTF8.GetBytes(Key), IV = Encoding.UTF8.GetBytes(Vector) })
@@ -124,6 +130,8 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
                 }
             }
         }
+
+      
         #endregion
 
     }

@@ -23,5 +23,11 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
         /// <param name="decryptStr"></param>
         /// <returns></returns>
         string Decrypt(string decryptStr);
+        /// <summary>
+        /// 认证
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        bool Validate(string token);
     }
 }

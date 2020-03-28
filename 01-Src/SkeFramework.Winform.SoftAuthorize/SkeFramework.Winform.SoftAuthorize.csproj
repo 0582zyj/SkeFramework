@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap\ServerBootstrap.cs" />
+    <Compile Include="DataEntities\JwtEntities.cs" />
     <Compile Include="DataForm\FormAuthorize.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -58,6 +58,10 @@ namespace SkeFramework.Core.NetworkUtils
                 return;
             }
             IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetService(Type.GetType("IHttpContextAccessor")) as IHttpContextAccessor;
+
+
+
+
             hca?.HttpContext?.Session.Remove(key);
         }
     }
