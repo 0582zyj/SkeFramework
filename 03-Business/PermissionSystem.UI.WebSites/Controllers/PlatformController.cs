@@ -142,7 +142,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpGet]
         public JsonResult GetOptionValues()
         {
-            List<OptionValue> optionValues = platformSdk.GetOptionValues();
+            List<OptionValue> optionValues = platformSdk.GetOptionValues(LoginModel.Instance().PlatformNo);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
 

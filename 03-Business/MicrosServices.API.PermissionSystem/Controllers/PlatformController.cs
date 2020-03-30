@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Constants;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.UserCenter.FORM;
 using MicrosServices.Helper.DataUtil.Tree;
@@ -162,9 +163,9 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetOptionValues()
+        public ActionResult<JsonResponses> GetOptionValues([FromForm] long PlatformNo = ConstData.DefaultNo)
         {
-            List<OptionValue> optionValues = DataHandleManager.Instance().PsPlatformHandle.GetOptionValues();
+            List<OptionValue> optionValues = DataHandleManager.Instance().PsPlatformHandle.GetOptionValues( PlatformNo);
             return new JsonResponses(optionValues);
         }
         #endregion
