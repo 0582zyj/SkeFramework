@@ -134,7 +134,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Global\AppBusiness.cs" />
-    <Compile Include="Global\Operator.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\PageResponseView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

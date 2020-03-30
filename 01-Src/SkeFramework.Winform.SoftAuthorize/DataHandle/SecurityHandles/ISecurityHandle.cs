@@ -28,6 +28,6 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        bool Validate(string token);
+        bool Validate(string Token,string OriginalStr,out string Message);
     }
 }

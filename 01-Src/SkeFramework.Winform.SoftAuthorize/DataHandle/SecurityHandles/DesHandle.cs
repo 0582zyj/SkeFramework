@@ -54,8 +54,9 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public bool Validate(string token,string OriginalStr)
+        public bool Validate(string token,string OriginalStr,out string message)
         {
+            message = "";
             return token.Equals(Encrypt(OriginalStr));
         }
         #region DES加密和解密
@@ -77,9 +78,11 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
             Byte[] bVector = new Byte[8];
             Array.Copy(Encoding.UTF8.GetBytes(Vector.PadRight(bVector.Length)), bVector, bVector.Length);
             Byte[] Cryptograph = null; // 加密后的密文
-            DESCryptoServiceProvider EncryptProvider = new DESCryptoServiceProvider();
-            EncryptProvider.Mode = CipherMode.CBC;
-            EncryptProvider.Padding = PaddingMode.Zeros;
+            DESCryptoServiceProvider EncryptProvider = new DESCryptoServiceProvider
+            {
+                Mode = CipherMode.CBC,
+                Padding = PaddingMode.Zeros
+            };
             try
             {
                 // 开辟一块内存流
