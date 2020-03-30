@@ -9,6 +9,7 @@ using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.UserCenter.FORM;
+using MicrosServices.Helper.DataUtil.Tree;
 using MicrosServices.SDK.UserCenter;
 using Newtonsoft.Json;
 using SkeFramework.Core.Network.DataUtility;
@@ -96,6 +97,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 //bool checkResult = true;
                 platform.InputTime = DateTime.Now;
                 platform.PlatformNo = AutoIDWorker.Example.GetAutoSequence();
+                PsPlatform ParentInfo = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(platform.ParentNo.ToString());
+                platform.TreeLevelNo = TreeLevelUtil.GetTreeLevelNo<PsPlatform>(ParentInfo, platform.ParentNo);
                 int result = DataHandleManager.Instance().PsPlatformHandle.Insert(platform);
                 if (result > 0)
                 {
@@ -136,6 +139,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             {
                 //bool checkResult = true;
                 platform.UpdateTime = DateTime.Now;
+                PsPlatform ParentInfo = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(platform.ParentNo.ToString());
+                platform.TreeLevelNo = TreeLevelUtil.GetTreeLevelNo<PsPlatform>(ParentInfo, platform.ParentNo);
                 int result = DataHandleManager.Instance().PsPlatformHandle.Update(platform);
                 if (result > 0)
                 {
