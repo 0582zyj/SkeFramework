@@ -42,11 +42,11 @@ namespace CodeBuilder
 
             DevExpress.Skins.SkinManager.EnableFormSkins();
             DevExpress.UserSkins.BonusSkins.Register();
-            bool isAuth = new ServerBootstrap().InitAuthorize();
-            if (!isAuth)
-            {
-                return;
-            }
+            //bool isAuth = new ServerBootstrap().InitAuthorize();
+            //if (!isAuth)
+            //{
+            //    return;
+            //}
             Application.Run(new MainForm());
            
         }
