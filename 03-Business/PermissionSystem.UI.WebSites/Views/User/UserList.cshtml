@@ -83,7 +83,7 @@
             el: "#section-content",
             data: {
                 roleAssignUrl: "@Url.Action("RolesAssign", "Roles")",
-                addJumpUrl: "@Url.Action("UcUsersAdd", "User")",
+                addJumpUrl: "@Url.Action("UserAdd", "User")",
                 deleteUrl: "@Url.Action("UcUsersDelete", "User")",
                 GetListUrl: "@Url.Action("GetUcUsersList", "User")",
                 orgAssignUrl: "@Url.Action("UserOrgAssign", "User")",
@@ -136,6 +136,9 @@
                 },
                 toOrgAssign: function (_UserNo) {
                     window.location.href = this.orgAssignUrl + '?UserNo=' + _UserNo;
+                },
+                toAdd: function () {
+                    window.location.href = this.addJumpUrl;
                 },
                 toDelete: function (_id) {
                     axios.post(this.deleteUrl, { id: _id })

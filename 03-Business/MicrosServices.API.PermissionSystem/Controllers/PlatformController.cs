@@ -86,7 +86,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
 
         #region 增删改
         /// <summary>
-        /// 新增菜单
+        /// 新增平台
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>

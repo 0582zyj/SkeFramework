@@ -1,9 +1,11 @@
 ﻿using MicrosServices.Entities.Common;
 using MicrosServices.Helper.Core.Form;
+using MicrosServices.Helper.Core.UserCenter.FORM;
 using MicrosServices.Helper.Core.VO;
 using MicrosServices.SDK.PermissionSystem;
 using MicrosServices.SDK.UserCenter;
 using Newtonsoft.Json;
+using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
@@ -29,6 +31,14 @@ namespace PermissionSystem.UI.WebSites.Controllers
         {
             return View();
         }
+        /// <summary>
+        /// 新增页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult UserAdd()
+        {
+            return View();
+        }
         #endregion 
 
         #region Basic GET POST
@@ -44,7 +54,27 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return Json(new PageResponseView<UcUsers>(pageResponse), JsonRequestBehavior.AllowGet);
         }
 
-
+        /// <summary>
+        /// 新增提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult UcUsersAdd(UcUsers model)
+        {
+            model.InputUser = AppBusiness.loginModel.UserNo;
+            RegisterPlatformForm registerPlatform = new RegisterPlatformForm()
+            {
+                UserName = model.UserName,
+                UserNo = model.UserNo,
+                InputUser = model.InputUser,
+                Email = model.Email,
+                Phone = model.Phone,
+                Password = "123456",
+                PlatformNo = AppBusiness.loginModel.PlatformNo
+            };
+            JsonResponses jsonResponses = userSDK.RegisterPlatfrom(registerPlatform);
+            return Json(jsonResponses, JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
         #region 用户机构分配

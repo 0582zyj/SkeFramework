@@ -219,6 +219,7 @@
     <Content Include="Views\User\UserOrgAssign.cshtml" />
     <Content Include="Views\Menu\MenuManagementAssign.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <Content Include="Views\User\UserAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
