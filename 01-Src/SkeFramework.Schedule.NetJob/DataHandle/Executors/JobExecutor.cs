@@ -10,9 +10,18 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.Schedule.NetJob.DataHandle.Executors
 {
+    /// <summary>
+    /// 工作执行器
+    /// </summary>
     public class JobExecutor
     {
+        /// <summary>
+        /// 服务提供者
+        /// </summary>
         private readonly IServiceProvider services;
+        /// <summary>
+        /// 取消标记
+        /// </summary>
         private readonly CancellationToken cancellationToken;
         private readonly JobSchedule[] schedule;
         private readonly TypeInfo type;

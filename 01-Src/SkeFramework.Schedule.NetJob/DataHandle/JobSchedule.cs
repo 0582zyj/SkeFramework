@@ -7,20 +7,37 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.Schedule.NetJob.DataHandle
 {
-     public class JobSchedule
+    /// <summary>
+    /// 工作进度表
+    /// </summary>
+    public class JobSchedule
     {
+        /// <summary>
+        /// 分隔符
+        /// </summary>
         static readonly char[] Separator = { ' ' };
+        private readonly CrontabValueTimeGroup timeGroup;
+        private readonly CrontabValueDateGroup dateGroup;
+        private readonly CronWeekValue week;
+
+        JobSchedule(string value, CrontabValueTimeGroup timeGroup, CrontabValueDateGroup dateGroup, CronWeekValue week)
+        {
+            this.timeGroup = timeGroup;
+            this.dateGroup = dateGroup;
+            this.week = week;
+            this.Value = value;
+        }
 
         /// <summary>
-        /// Try to parse the value for the schedule
+        /// 解析调度的值
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="schedule"></param>
+        /// <param name="value">表达式值</param>
+        /// <param name="schedule">进度表</param>
         /// <returns></returns>
         public static bool TryParse(string value, out JobSchedule schedule)
         {
             schedule = null;
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))//空表达式
             {
                 return false;
             }
@@ -119,12 +136,12 @@ namespace SkeFramework.Schedule.NetJob.DataHandle
 
 
         /// <summary>
-        /// The schedule value
+        /// 任务触发表达式
         /// </summary>
         public string Value { get; }
 
         /// <summary>
-        /// Check the time in the schedule
+        ///检查时间
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
@@ -148,16 +165,6 @@ namespace SkeFramework.Schedule.NetJob.DataHandle
             return true;
         }
 
-        private readonly CrontabValueTimeGroup timeGroup;
-        private readonly CrontabValueDateGroup dateGroup;
-        private readonly CronWeekValue week;
-
-        JobSchedule(string value, CrontabValueTimeGroup timeGroup, CrontabValueDateGroup dateGroup, CronWeekValue week)
-        {
-            this.timeGroup = timeGroup;
-            this.dateGroup = dateGroup;
-            this.week = week;
-            this.Value = value;
-        }
+      
     }
 }

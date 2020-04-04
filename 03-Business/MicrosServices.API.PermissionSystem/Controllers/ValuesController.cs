@@ -21,7 +21,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            string vaule= "";
+            return vaule;
         }
 
         // POST api/values

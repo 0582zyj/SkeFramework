@@ -14,10 +14,16 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.Schedule.NetJob.Bootstrap
 {
+    /// <summary>
+    /// 定时任务Job引导程序
+    /// </summary>
    public class ServerBootstrap : IDisposable
     {
-        readonly Dictionary<string, JobExecutor> executorDict = new Dictionary<string, JobExecutor>();
-        readonly CancellationTokenSource cts = new CancellationTokenSource();
+        /// <summary>
+        /// 定时Job列表
+        /// </summary>
+      private  readonly Dictionary<string, JobExecutor> executorDict = new Dictionary<string, JobExecutor>();
+        private readonly CancellationTokenSource cts = new CancellationTokenSource();
 
         /// <summary>
         /// 
@@ -29,11 +35,7 @@ namespace SkeFramework.Schedule.NetJob.Bootstrap
             {
                 throw new ArgumentNullException(nameof(services));
             }
-            var options = services.GetService(Type.GetType("ServerOptions"));
-            if (options == null)
-            {
-                options = new ServerOptions();
-            }
+            var options = new ServerOptions();
             var types = GetTypeInfos(options as ServerOptions);
             var list = new List<JobExecutor>();
             foreach (var type in types)
@@ -110,7 +112,7 @@ namespace SkeFramework.Schedule.NetJob.Bootstrap
             {
                 return;
             }
-            var list = executorDict.Values.ToList();
+            var list = this.GetExecutors();
             foreach (var item in list)
             {
                 Task.Factory.StartNew(() => {
