@@ -29,23 +29,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group has-feedback">
-                        <img id="captcha_img" src="@Url.Content("~/Content/themes/captcha.html")" alt="验证码" onclick="        refreshCaptcha()">
-                        <a href="javascript:refreshCaptcha()" style="margin-left: 10px">点击刷新</a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group has-feedback">
-                        <input type="text" name="Captcha" id="Captcha" class="form-control" required="" value="hjw3" data-parsley-trigger="blur" placeholder="验证码">
-                        <span class="glyphicon glyphicon-random form-control-feedback"></span>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-xs-8">
                     <div class="form-group ">
@@ -75,35 +58,7 @@
 </div>
 <!-- /.login-box -->
 <script>
-    var captchaUrl = "@Url.Content("~/Content/themes/captcha.html")";
     var LoginUrl= "@Url.Content("~/Login/Login")";
-    Parsley.addMessages('zh-cn', {
-        defaultMessage: "不正确的值",
-        type: {
-            email: "请输入一个有效的电子邮箱地址",
-            url: "请输入一个有效的链接",
-            number: "请输入正确的数字",
-            integer: "请输入正确的整数",
-            digits: "请输入正确的号码",
-            alphanum: "请输入字母或数字"
-        },
-        notblank: "请输入值",
-        required: "必填项",
-        pattern: "格式不正确",
-        min: "输入值请大于或等于 %s",
-        max: "输入值请小于或等于 %s",
-        range: "输入值应该在 %s 到 %s 之间",
-        minlength: "请输入至少 %s 个字符",
-        maxlength: "请输入至多 %s 个字符",
-        length: "字符长度应该在 %s 到 %s 之间",
-        mincheck: "请至少选择 %s 个选项",
-        maxcheck: "请选择不超过 %s 个选项",
-        check: "请选择 %s 到 %s 个选项",
-        equalto: "输入值不同"
-    });
-
-    Parsley.setLocale('zh-cn');
-
     function doSumit() {
         var result = false;
         if ($('#remember_checkbox').prop('checked')) {
@@ -113,10 +68,9 @@
         }
         var UserName = $("#UserName").val();
         var Password = $("#Password").val();
-        var Captcha = $("#Captcha").val();
         $.ajax({
             url: LoginUrl,
-            data: { "UserName": UserName, "Password": Password, "Captcha": Captcha },
+            data: { "UserName": UserName, "Password": Password, "Captcha": "123" },
             async: false,
             type: "POST",
             dataType: "json",
@@ -132,13 +86,5 @@
         });
         return result;
     }
-
-    function refreshCaptcha() {
-        var ts = Date.parse(new Date()) / 1000;
-        $("#captcha_img").attr('src', captchaUrl + "?id=" + ts);
-    }
-    $(function () {
-        $("#user_name").focus();
-    });
 </script>
 
