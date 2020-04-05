@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<RedisConfig>
-  <WriteServerList>127.0.0.1:6379</WriteServerList>
-  <ReadServerList>127.0.0.1:6379</ReadServerList>
-  <MaxWritePoolSize>5</MaxWritePoolSize>
-  <MaxReadPoolSize>5</MaxReadPoolSize>
-  <LocalCacheTime>5</LocalCacheTime>
-  <AutoStart>true</AutoStart>
-</RedisConfig>

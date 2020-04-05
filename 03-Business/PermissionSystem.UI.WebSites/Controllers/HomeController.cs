@@ -1,6 +1,7 @@
 ﻿using MicrosServices.Entities.Constants;
 using MicrosServices.Helper.Core.VO;
 using PermissionSystem.UI.WebSites.Global;
+using SkeFramework.Cache.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     {
         public ActionResult Index()
         {
+            RedisHandleManager.Instance().RedisStringHandle.Set("test1", "123");
             return View();
         }
 

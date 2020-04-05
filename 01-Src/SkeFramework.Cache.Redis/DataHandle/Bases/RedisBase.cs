@@ -19,7 +19,7 @@ namespace SkeFramework.Cache.Redis.DataAccess.Bases
         private bool _disposed = false;
         static RedisBase()
         {
-            redisClient = RedisManager.GetClient();
+            redisClient = RedisProxyAgent.GetClient();
         }
 
         #region Dispose

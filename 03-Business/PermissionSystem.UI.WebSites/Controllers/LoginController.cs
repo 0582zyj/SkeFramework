@@ -10,6 +10,8 @@ using MicrosServices.SDK.UserCenter;
 using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
+using SkeFramework.Cache.Redis;
+using SkeFramework.Cache.Redis.Entities;
 using SkeFramework.Core.Encrypts;
 using SkeFramework.Core.Network.Responses;
 
