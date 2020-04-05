@@ -15,7 +15,6 @@ namespace PermissionSystem.UI.WebSites.Global
     /// </summary>
     public class AppBusiness
     {
-        //public static MenuSdk menuSdk = new MenuSdk();
         public static string PlatformCode = "SkeCloud";
         /// <summary>
         /// 登录信息
@@ -48,9 +47,10 @@ namespace PermissionSystem.UI.WebSites.Global
                     {
                         string UserNo = AppBusiness.loginModel.UserNo;
                         HttpContext.Current.Session["SideBarList"] = new MenuSdk().GetUserMenusList(UserNo);
-                        HttpContext.Current.Session.Timeout = 30 * 1000;
+                        HttpContext.Current.Session.Timeout = 30;
                     }
                 }
+                
                 return (List<PsMenu>)HttpContext.Current.Session["SideBarList"];
             }
             private set { }

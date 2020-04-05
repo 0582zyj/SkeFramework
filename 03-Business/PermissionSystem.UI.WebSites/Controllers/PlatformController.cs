@@ -4,6 +4,7 @@ using MicrosServices.Helper.Core.UserCenter.FORM;
 using MicrosServices.SDK.PermissionSystem;
 using MicrosServices.SDK.UserCenter;
 using Newtonsoft.Json;
+using PermissionSystem.SDK.Redis.Platform;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
 using SkeFramework.Core.Network.DataUtility;
@@ -20,6 +21,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     {
         private PlatformSdk platformSdk = new PlatformSdk();
         private UserSDK userSDK = new UserSDK();
+        private PlatformRedisSDK platformRedisSDK = new PlatformRedisSDK();
 
         #region 页面
         /// <summary>
@@ -142,7 +144,13 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpGet]
         public JsonResult GetOptionValues()
         {
-            List<OptionValue> optionValues = platformSdk.GetOptionValues(LoginModel.Instance().PlatformNo);
+            long PlatformNo = LoginModel.Instance().PlatformNo;
+            List<OptionValue> optionValues = platformRedisSDK.GetPlatformList(PlatformNo);
+            if (optionValues == null)
+            {
+                optionValues = platformSdk.GetOptionValues(LoginModel.Instance().PlatformNo);
+                platformRedisSDK.SetPlatformList(PlatformNo, optionValues);
+            }
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
 

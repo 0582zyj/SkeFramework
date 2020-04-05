@@ -290,6 +290,10 @@
       <Project>{3F3F0673-39D0-4356-8744-936A07A05844}</Project>
       <Name>MicrosServices.SDK.UserCenter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PermissionSystem.SDK.Redis\PermissionSystem.SDK.Redis.csproj">
+      <Project>{8fe3c5e4-3f29-4d4d-9bd4-6b3e63446369}</Project>
+      <Name>PermissionSystem.SDK.Redis</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,4 +1,5 @@
 ﻿using SkeFramework.Cache.Redis.DataAccess;
+using SkeFramework.Cache.Redis.DataHandle;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,6 @@ namespace SkeFramework.Cache.Redis
 
 
         private RedisString redisString;
-
-
         public RedisString RedisStringHandle
         {
             get {
@@ -35,5 +34,29 @@ namespace SkeFramework.Cache.Redis
             }
         }
 
+        private RedisList redisList;
+
+        public RedisList GetRedisListHandle()
+        {
+            if (redisList == null)
+            {
+                redisList = new RedisList();
+            }
+            return redisList;
+        }
+
+        private RedisStore redisStore;
+        public RedisStore RedisStoreHandle
+        {
+            get
+            {
+                if (redisStore == null)
+                {
+                    redisStore = new RedisStore();
+                }
+                return redisStore;
+            }
+        }
+        
     }
 }
