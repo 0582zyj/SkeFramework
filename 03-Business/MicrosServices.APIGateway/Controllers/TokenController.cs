@@ -5,30 +5,49 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.APIGateway.Global;
 using MicrosServices.APIGateway.Services;
+using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Common.ApiGateway;
+using MicrosServices.Helper.Core.Constants;
+using MicrosServices.SDK.UserCenter;
+using SkeFramework.Core.Network.Responses;
 
 namespace MicrosServices.APIGateway.Controllers
 {
     /// <summary>
-    /// 
+    /// Token控制器
     /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class TokenController : Controller
     {
+        private UserSettingSdk userSettingSdk = new UserSettingSdk();
         private ITokenHelper tokenHelper = null;
         public TokenController(ITokenHelper _tokenHelper)
         {
             tokenHelper = _tokenHelper;
         }
+
+        /// <summary>
+        /// 获取Token
+        /// </summary>
+        /// <param name="appToken"></param>
+        /// <returns></returns>
         [HttpGet]
-        public IActionResult Get(string code, string pwd)
+        public JsonResponses Get([FromQuery]AppToken appToken)
         {
-            TokenApp user = TemporaryData.GetUser(code);
-            if (null != user && user.Password.Equals(pwd))
+            JsonResponses responses = JsonResponses.Failed;
+            UcUsersSetting ucUsers = userSettingSdk.GetUserSettingInfo(appToken.UserNo);
+            if (ucUsers == null)
             {
-                return Ok(tokenHelper.CreateToken(user));
+                responses.msg = LoginResultType.ERROR_USER_NOT_EXIST.ToString();
+                return JsonResponses.Failed;
             }
-            return BadRequest();
+            if (!( ucUsers.AppSecret.Equals(appToken.AppSecret) && ucUsers.AppId.Equals(appToken.AppId)))
+            {
+                responses.msg = LoginResultType.ERROR_PASSWORD_TOO_MUCH.ToString();
+                return JsonResponses.Failed;
+            }
+            return new JsonResponses(tokenHelper.CreateAccessToken(appToken));
         }
     }
 }

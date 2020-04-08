@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ApiGateway\AppToken.cs" />
     <Compile Include="Common\UserCenter\UcAuthorizeBlackip.cs" />
     <Compile Include="Common\UserCenter\UcLogLogin.cs" />
     <Compile Include="Common\PermissionSystem\PsManagement.cs" />

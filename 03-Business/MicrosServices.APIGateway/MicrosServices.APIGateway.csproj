@@ -15,4 +15,10 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj" />
+    <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj" />
+    <ProjectReference Include="..\MicrosServices.SDK.UserCenter\MicrosServices.SDK.UserCenter.csproj" />
+  </ItemGroup>
+
 </Project>

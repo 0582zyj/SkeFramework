@@ -31,8 +31,9 @@ namespace MicrosServices.APIGateway
         public void ConfigureServices(IServiceCollection services)
         {
             // important step
-            services.AddNacosAspNetCore(Configuration);
+            //services.AddNacosAspNetCore(Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             #region 读取配置信息
             services.AddSingleton<ITokenHelper, TokenHelper>();
             services.Configure<JWTConfig>(Configuration.GetSection("JWT"));
@@ -72,7 +73,7 @@ namespace MicrosServices.APIGateway
 
             app.UseMvc();
 
-            app.UseNacosAspNetCore();
+            //app.UseNacosAspNetCore();
             //
             app.UseIdentityServer();
 

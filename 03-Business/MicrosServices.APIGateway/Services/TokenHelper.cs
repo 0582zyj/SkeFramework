@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using MicrosServices.APIGateway.Global;
 using MicrosServices.APIGateway.Models;
+using MicrosServices.Entities.Common.ApiGateway;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -25,25 +26,28 @@ namespace MicrosServices.APIGateway.Services
             _options = options;
         }
 
-        public Token CreateAccessToken(TokenApp user)
+        public Token CreateAccessToken(AppToken user)
         {
-            Claim[] claims = new Claim[] { new Claim(ClaimTypes.NameIdentifier, user.Code), new Claim(ClaimTypes.Name, user.Name) };
-
+            Claim[] claims = new Claim[] {
+                new Claim(ClaimTypes.NameIdentifier, user.AppId),
+                new Claim(ClaimTypes.Name, user.UserNo)
+            };
             return CreateToken(claims, TokenType.AccessToken);
         }
 
-        public ComplexToken CreateToken(TokenApp user)
+        public Token RefreshToken(ClaimsPrincipal claimsPrincipal)
         {
-            Claim[] claims = new Claim[] { new Claim(ClaimTypes.NameIdentifier, user.Code), new Claim(ClaimTypes.Name, user.Name) };
-
-            return CreateToken(claims);
+            var code = claimsPrincipal.Claims.FirstOrDefault(m => m.Type.Equals(ClaimTypes.NameIdentifier));
+            if (null != code)
+            {
+                AppToken appToken = new AppToken();
+                return CreateAccessToken(appToken);
+            }
+            else
+            {
+                return null;
+            }
         }
-
-        public ComplexToken CreateToken(Claim[] claims)
-        {
-            return new ComplexToken { AccessToken = CreateToken(claims, TokenType.AccessToken), RefreshToken = CreateToken(claims, TokenType.RefreshToken) };
-        }
-
         /// <summary>
         /// 用于创建AccessToken和RefreshToken。
         /// 这里AccessToken和RefreshToken只是过期时间不同，【实际项目】中二者的claims内容可能会不同。
@@ -65,19 +69,6 @@ namespace MicrosServices.APIGateway.Services
                 expires: expires,
                 signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Value.IssuerSigningKey)), SecurityAlgorithms.HmacSha256));
             return new Token { TokenContent = new JwtSecurityTokenHandler().WriteToken(token), Expires = expires };
-        }
-
-        public Token RefreshToken(ClaimsPrincipal claimsPrincipal)
-        {
-            var code = claimsPrincipal.Claims.FirstOrDefault(m => m.Type.Equals(ClaimTypes.NameIdentifier));
-            if (null != code)
-            {
-                return CreateAccessToken(TemporaryData.GetUser(code.Value.ToString()));
-            }
-            else
-            {
-                return null;
-            }
         }
     }
 }
