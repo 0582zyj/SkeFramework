@@ -31,8 +31,6 @@ namespace SkeFramework.Winform.SoftAuthorize.DataForm
         public FormAuthorize()
         {
             InitializeComponent();
-
-
         }
         /// <summary>
         /// 实例化授权注册窗口

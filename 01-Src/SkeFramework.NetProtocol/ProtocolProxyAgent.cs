@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Bootstrap;
 using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols;
 using SkeFramework.NetSerialPort.Protocols.Connections;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Topology;
-using ULCloudLockTool.BLL.SHProtocol.Constants;
 using ULCloudLockTool.BLL.SHProtocol.DataHandle;
 
 namespace ULCloudLockTool.BLL.SHProtocol

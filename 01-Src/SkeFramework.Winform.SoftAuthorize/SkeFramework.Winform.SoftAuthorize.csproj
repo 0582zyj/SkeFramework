@@ -51,7 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrap\AbstractBootstrap.cs" />
     <Compile Include="Bootstrap\ServerBootstrap.cs" />
+    <Compile Include="BusinessServices\Abstract\AuthorizeBase.cs" />
+    <Compile Include="BusinessServices\Abstract\IAuthorize.cs" />
+    <Compile Include="BusinessServices\DefaultAuthorizeProxy.cs" />
+    <Compile Include="DataEntities\Constant\SecurityTypeEnums.cs" />
     <Compile Include="DataEntities\JwtEntities.cs" />
     <Compile Include="DataForm\FormAuthorize.cs">
       <SubType>Form</SubType>
@@ -67,7 +72,7 @@
     <Compile Include="DataUtils\SystemUtil.cs" />
     <Compile Include="DataUtils\ThreadHybirdLock.cs" />
     <Compile Include="DataUtils\ConvertUtils.cs" />
-    <Compile Include="AuthorizeAgent.cs" />
+    <Compile Include="AuthorizeProxAgent.cs" />
     <Compile Include="DataHandle\StoreHandles\FilesHandles.cs" />
     <Compile Include="DataHandle\StoreHandles\Abstract\ISaveHandles.cs" />
     <Compile Include="DataHandle\SecurityHandles\ISecurityHandle.cs" />
