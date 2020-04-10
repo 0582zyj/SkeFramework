@@ -1,15 +1,15 @@
 ﻿using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
-using SkeFramework.Winform.SoftAuthorize.DataEntities;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
+using SkeFramework.Winform.LicenseAuth.DataEntities;
+using SkeFramework.Winform.LicenseAuth.DataHandle.Securitys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataHandle.SecurityHandles
+namespace SkeFramework.Winform.LicenseAuth.DataHandle.SecurityHandles
 {
     /// <summary>
     /// JWT加密处理
@@ -21,24 +21,24 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.SecurityHandles
         /// </summary>
         const string secret = "smarthome";//
 
-        private Dictionary<string, object> payLoad;
+        //private Dictionary<string, object> payLoad;
 
-        public JwtEntities jwtEntities
-        {
-            get
-            {
-                JwtEntities jwt = new JwtEntities();
-                foreach (var item in payLoad)
-                {
+        //public JwtEntities jwtEntities
+        //{
+        //    get
+        //    {
+        //        JwtEntities jwt = new JwtEntities();
+        //        foreach (var item in payLoad)
+        //        {
 
-                }
-                return jwt;
-            }
-            set
-            {
+        //        }
+        //        return jwt;
+        //    }
+        //    set
+        //    {
 
-            }
-        }
+        //    }
+        //}
 
         public JwtHandle()
         {
@@ -101,7 +101,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.SecurityHandles
             {
                 message = "签名错误！";
             }
-            catch(Exception )
+            catch(Exception)
             {
                 message = "非法密钥";
             }

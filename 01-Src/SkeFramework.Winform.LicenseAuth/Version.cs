@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize
+namespace SkeFramework.Winform.LicenseAuth
 {
     /// <summary>
     /// 创客软件注册授权库

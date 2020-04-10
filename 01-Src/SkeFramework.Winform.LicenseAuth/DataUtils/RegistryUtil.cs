@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataUtils
+namespace SkeFramework.Winform.LicenseAuth.DataUtils
 {
     class RegistryUtil
     {

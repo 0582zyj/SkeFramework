@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataEntities
+namespace SkeFramework.Winform.LicenseAuth.DataEntities
 {
    public class JwtEntities
     {

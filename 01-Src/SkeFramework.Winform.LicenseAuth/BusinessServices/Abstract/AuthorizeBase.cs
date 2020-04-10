@@ -1,13 +1,14 @@
-﻿using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.StoreHandles;
-using SkeFramework.Winform.SoftAuthorize.DataUtils;
+﻿using SkeFramework.Winform.LicenseAuth.DataEntities;
+using SkeFramework.Winform.LicenseAuth.DataHandle.Securitys;
+using SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles;
+using SkeFramework.Winform.LicenseAuth.DataUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.BusinessServices.Abstract
+namespace SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract
 {
     /// <summary>
     /// 授权基类
@@ -94,10 +95,10 @@ namespace SkeFramework.Winform.SoftAuthorize.BusinessServices.Abstract
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public bool CheckAuthorize(string code)
+        public JsonResponse CheckAuthorize(string code)
         {
-            bool result = VerifyCode(code);
-            if (result)
+            JsonResponse result = VerifyCode(code);
+            if (result.ValidateResponses())
             {
                 saveHandles.FinalCode = code;
                 SaveToFile();
@@ -108,7 +109,7 @@ namespace SkeFramework.Winform.SoftAuthorize.BusinessServices.Abstract
         /// 检查本地注册码
         /// </summary>
         /// <returns></returns>
-        public bool CheckLocalAuthorize()
+        public JsonResponse CheckLocalAuthorize()
         {
             LoadByFile();
             return VerifyCode(saveHandles.FinalCode);
@@ -129,13 +130,22 @@ namespace SkeFramework.Winform.SoftAuthorize.BusinessServices.Abstract
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        protected virtual bool VerifyCode(string code)
+        protected virtual JsonResponse VerifyCode(string code)
         {
             if (code == null)
             {
-                return false;
+                return JsonResponse.Failed;
             }
-            return GetMachineCodeString() == securityHandle.Decrypt(code);
+            try
+            {
+                string message = "";
+                bool result= securityHandle.Validate(code, GetMachineCodeString(), out message);
+                return new JsonResponse(result ? JsonResponse.SuccessCode : JsonResponse.FailedCode, message);
+            }
+            catch (Exception)
+            {
+               return JsonResponse.Failed;
+            }
         }
         #endregion
 

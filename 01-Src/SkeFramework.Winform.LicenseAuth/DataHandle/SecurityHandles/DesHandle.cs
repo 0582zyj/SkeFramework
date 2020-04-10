@@ -1,4 +1,4 @@
-﻿using SkeFramework.Winform.SoftAuthorize.DataUtils;
+﻿using SkeFramework.Winform.LicenseAuth.DataUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys
+namespace SkeFramework.Winform.LicenseAuth.DataHandle.Securitys
 {
     /// <summary>
     /// Des加密类

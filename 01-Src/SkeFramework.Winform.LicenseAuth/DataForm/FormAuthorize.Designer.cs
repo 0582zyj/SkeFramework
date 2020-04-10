@@ -1,4 +1,4 @@
-﻿namespace SkeFramework.Winform.SoftAuthorize.DataForm
+﻿namespace SkeFramework.Winform.LicenseAuth.DataForm
 {
     partial class FormAuthorize
     {

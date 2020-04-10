@@ -1,11 +1,12 @@
 ﻿using System;
-using SkeFramework.Winform.SoftAuthorize.BusinessServices;
+using SkeFramework.Winform.LicenseAuth.BusinessServices;
 using System.Windows.Forms;
-using SkeFramework.Winform.SoftAuthorize.Bootstrap;
-using SkeFramework.Winform.SoftAuthorize.DataEntities.Constant;
-using SkeFramework.Winform.SoftAuthorize.DataForm;
+using SkeFramework.Winform.LicenseAuth.Bootstrap;
+using SkeFramework.Winform.LicenseAuth.DataEntities.Constant;
+using SkeFramework.Winform.LicenseAuth.DataForm;
+using SkeFramework.Winform.LicenseAuth.DataEntities;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataHandle
+namespace SkeFramework.Winform.LicenseAuth.DataHandle
 {
     /// <summary>
     /// 授权代理
@@ -50,7 +51,8 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle
         public virtual bool InitAuthorize()
         {
             // 检测激活码是否正确，没有文件，或激活码错误都算作激活失败
-            if (!authorize.CheckLocalAuthorize())
+            JsonResponse response = authorize.CheckLocalAuthorize();
+            if (!response.ValidateResponses())
             {
                 // 显示注册窗口
                 using (FormAuthorize form =

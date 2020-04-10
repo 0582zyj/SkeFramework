@@ -57,6 +57,7 @@
     <Compile Include="BusinessServices\Abstract\IAuthorize.cs" />
     <Compile Include="BusinessServices\DefaultAuthorizeProxy.cs" />
     <Compile Include="DataEntities\Constant\SecurityTypeEnums.cs" />
+    <Compile Include="DataEntities\JsonResponse.cs" />
     <Compile Include="DataEntities\JwtEntities.cs" />
     <Compile Include="DataForm\FormAuthorize.cs">
       <SubType>Form</SubType>

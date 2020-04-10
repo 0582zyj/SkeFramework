@@ -1,6 +1,6 @@
-﻿using SkeFramework.Winform.SoftAuthorize.BusinessServices.Abstract;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.StoreHandles;
+﻿using SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract;
+using SkeFramework.Winform.LicenseAuth.DataHandle.Securitys;
+using SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SkeFramework.Winform.SoftAuthorize.BusinessServices
+namespace SkeFramework.Winform.LicenseAuth.BusinessServices
 {
     /// <summary>
     /// 默认授权实现【采取文件保存方式】

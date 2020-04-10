@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataUtils
+namespace SkeFramework.Winform.LicenseAuth.DataUtils
 {
     /// <summary>
     /// 一个简单的混合线程同步锁，采用了基元用户加基元内核同步构造实现

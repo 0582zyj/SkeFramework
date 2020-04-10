@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataHandle.StoreHandles
+namespace SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles
 {
     /// <summary>
     /// 支持字符串信息加载存储的接口，定义了几个通用的方法

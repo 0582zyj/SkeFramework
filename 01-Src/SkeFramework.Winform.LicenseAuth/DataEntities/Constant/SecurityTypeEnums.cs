@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataEntities.Constant
+namespace SkeFramework.Winform.LicenseAuth.DataEntities.Constant
 {
     /// <summary>
     /// 加密方式

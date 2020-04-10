@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json.Linq;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
+using SkeFramework.Winform.LicenseAuth.DataHandle.Securitys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataHandle.StoreHandles.Abstract
+namespace SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles.Abstract
 {
     public abstract class ProxySaveBase: SaveBaseHandle
     {

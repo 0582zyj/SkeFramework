@@ -1,11 +1,11 @@
-﻿using SkeFramework.Winform.SoftAuthorize.DataHandle.StoreHandles;
+﻿using SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataHandle.StoreHandles.Abstract
+namespace SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles.Abstract
 {
     /// <summary>
     /// 密钥保存基类

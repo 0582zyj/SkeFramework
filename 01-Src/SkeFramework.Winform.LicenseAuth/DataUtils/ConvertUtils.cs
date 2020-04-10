@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataUtils
+namespace SkeFramework.Winform.LicenseAuth.DataUtils
 {
     /// <summary>
     /// 一个软件基础类，提供常用的一些静态方法 ->

@@ -1,10 +1,10 @@
-﻿using SkeFramework.Winform.SoftAuthorize.BusinessServices;
-using SkeFramework.Winform.SoftAuthorize.BusinessServices.Abstract;
-using SkeFramework.Winform.SoftAuthorize.DataEntities.Constant;
-using SkeFramework.Winform.SoftAuthorize.DataForm;
-using SkeFramework.Winform.SoftAuthorize.DataHandle;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.SecurityHandles;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
+﻿using SkeFramework.Winform.LicenseAuth.BusinessServices;
+using SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract;
+using SkeFramework.Winform.LicenseAuth.DataEntities.Constant;
+using SkeFramework.Winform.LicenseAuth.DataForm;
+using SkeFramework.Winform.LicenseAuth.DataHandle;
+using SkeFramework.Winform.LicenseAuth.DataHandle.SecurityHandles;
+using SkeFramework.Winform.LicenseAuth.DataHandle.Securitys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SkeFramework.Winform.SoftAuthorize.Bootstrap
+namespace SkeFramework.Winform.LicenseAuth.Bootstrap
 {
     /// <summary>
     /// 启动程序

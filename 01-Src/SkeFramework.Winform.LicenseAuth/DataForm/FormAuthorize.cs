@@ -1,7 +1,8 @@
-﻿using SkeFramework.Winform.SoftAuthorize.BusinessServices;
-using SkeFramework.Winform.SoftAuthorize.DataHandle;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.SecurityHandles;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
+﻿using SkeFramework.Winform.LicenseAuth.DataEntities;
+using SkeFramework.Winform.LicenseAuth.BusinessServices;
+using SkeFramework.Winform.LicenseAuth.DataHandle;
+using SkeFramework.Winform.LicenseAuth.DataHandle.SecurityHandles;
+using SkeFramework.Winform.LicenseAuth.DataHandle.Securitys;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataForm
+namespace SkeFramework.Winform.LicenseAuth.DataForm
 {
     /// <summary>
     /// 注册窗体
@@ -25,6 +26,8 @@ namespace SkeFramework.Winform.SoftAuthorize.DataForm
         private string machineCode = "";
 
         private IAuthorize Authorize;
+
+        public object JsonResponses { get; private set; }
 
         #region 窗体事件
         public FormAuthorize()
@@ -57,13 +60,14 @@ namespace SkeFramework.Winform.SoftAuthorize.DataForm
         /// <param name="e"></param>
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            if (Authorize.CheckAuthorize(rtbFinalCode.Text.Trim()))
+            JsonResponse response = Authorize.CheckAuthorize(rtbFinalCode.Text.Trim());
+            if (response.ValidateResponses())
             {
                 DialogResult = DialogResult.OK;
             }
             else
             {
-                MessageBox.Show("注册码不正确");
+                MessageBox.Show(response.msg);
             }
         }
         /// <summary>

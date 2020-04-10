@@ -1,4 +1,4 @@
-﻿using SkeFramework.Winform.SoftAuthorize.DataHandle;
+﻿using SkeFramework.Winform.LicenseAuth.DataHandle;
 using System;
 using System.Collections.Generic;
 using System.Linq;

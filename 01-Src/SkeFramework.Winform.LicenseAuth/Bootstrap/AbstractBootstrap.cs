@@ -1,13 +1,13 @@
-﻿using SkeFramework.Winform.SoftAuthorize.BusinessServices;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.SecurityHandles;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
+﻿using SkeFramework.Winform.LicenseAuth.BusinessServices;
+using SkeFramework.Winform.LicenseAuth.DataHandle.SecurityHandles;
+using SkeFramework.Winform.LicenseAuth.DataHandle.Securitys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.Bootstrap
+namespace SkeFramework.Winform.LicenseAuth.Bootstrap
 {
     /// <summary>
     /// 引导程序抽象实现

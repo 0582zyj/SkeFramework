@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
-using SkeFramework.Winform.SoftAuthorize.DataHandle.StoreHandles.Abstract;
-using SkeFramework.Winform.SoftAuthorize.DataUtils;
+using SkeFramework.Winform.LicenseAuth.DataHandle.Securitys;
+using SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles.Abstract;
+using SkeFramework.Winform.LicenseAuth.DataUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Winform.SoftAuthorize.DataHandle.StoreHandles
+namespace SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles
 {
     /// <summary>
     /// 文件存储功能的基类，包含了文件存储路径，存储方法等
