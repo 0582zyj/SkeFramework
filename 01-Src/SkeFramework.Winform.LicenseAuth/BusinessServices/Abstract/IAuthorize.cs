@@ -12,6 +12,10 @@ namespace SkeFramework.Winform.SoftAuthorize.BusinessServices
     public interface IAuthorize
     {
         /// <summary>
+        /// 保存路径
+        /// </summary>
+        string LicensePath { get; set; }
+        /// <summary>
         /// 获取机器码
         /// </summary>
         /// <returns></returns>

@@ -1,5 +1,4 @@
 ﻿using SkeFramework.Cache.Redis.DataAccess;
-using SkeFramework.Cache.Redis.DataHandle;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,18 +44,6 @@ namespace SkeFramework.Cache.Redis
             return redisList;
         }
 
-        private RedisStore redisStore;
-        public RedisStore RedisStoreHandle
-        {
-            get
-            {
-                if (redisStore == null)
-                {
-                    redisStore = new RedisStore();
-                }
-                return redisStore;
-            }
-        }
-        
+       
     }
 }

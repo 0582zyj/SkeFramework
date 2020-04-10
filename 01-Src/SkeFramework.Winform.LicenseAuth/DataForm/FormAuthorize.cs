@@ -1,4 +1,5 @@
-﻿using SkeFramework.Winform.SoftAuthorize.DataHandle;
+﻿using SkeFramework.Winform.SoftAuthorize.BusinessServices;
+using SkeFramework.Winform.SoftAuthorize.DataHandle;
 using SkeFramework.Winform.SoftAuthorize.DataHandle.SecurityHandles;
 using SkeFramework.Winform.SoftAuthorize.DataHandle.Securitys;
 using System;
@@ -19,13 +20,11 @@ namespace SkeFramework.Winform.SoftAuthorize.DataForm
     public partial class FormAuthorize : Form
     {
         /// <summary>
-        /// 加密算法
-        /// </summary>
-        Func<string, string> Encrypt = null;
-        /// <summary>
         /// 机器码
         /// </summary>
         private string machineCode = "";
+
+        private IAuthorize Authorize;
 
         #region 窗体事件
         public FormAuthorize()
@@ -37,11 +36,11 @@ namespace SkeFramework.Winform.SoftAuthorize.DataForm
         /// </summary>
         /// <param name="aboutCode">提示关于怎么获取注册码的信息</param>
         /// <param name="encrypt">加密的方法</param>
-        public FormAuthorize(string aboutCode, Func<string, string> encrypt)
+        public FormAuthorize(string aboutCode, IAuthorize authorize)
         {
             InitializeComponent();
-            Encrypt = encrypt;
-            machineCode = AuthorizeAgent.Instance().GetMachineCodeString();
+            Authorize = authorize;
+            machineCode = Authorize.GetMachineCodeString();
             this.lblMachineCode.Tag = machineCode;
         }
         private void FormAuthorize_Load(object sender, EventArgs e)
@@ -58,7 +57,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataForm
         /// <param name="e"></param>
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            if (AuthorizeAgent.Instance().CheckAuthorize(rtbFinalCode.Text.Trim(), Encrypt))
+            if (Authorize.CheckAuthorize(rtbFinalCode.Text.Trim()))
             {
                 DialogResult = DialogResult.OK;
             }

@@ -22,10 +22,18 @@ namespace SkeFramework.Winform.SoftAuthorize.Bootstrap
         /// <summary>
         /// 加密方式
         /// </summary>
-        public SecurityTypeEnums SecurityType { get; set; }
+        private SecurityTypeEnums SecurityType;
 
         public ServerBootstrap()
         {
+        }
+
+
+        public ServerBootstrap SetSecurityType(SecurityTypeEnums securityType)
+        {
+            if ((int)securityType < 1 || (int)securityType > 2) throw new ArgumentException("SecurityType must be set");
+            SecurityType = securityType;
+            return this;
         }
 
         /// <summary>
@@ -33,7 +41,7 @@ namespace SkeFramework.Winform.SoftAuthorize.Bootstrap
         /// </summary>
         public override void Validate()
         {
-            if (1 <= (int)SecurityType && (int)SecurityType <= 2) throw new ArgumentException("SecurityType must be set");
+            if ( (int)SecurityType< 1 || (int)SecurityType > 2) throw new ArgumentException("SecurityType must be set");
         }
         /// <summary>
         /// 生成授权代理

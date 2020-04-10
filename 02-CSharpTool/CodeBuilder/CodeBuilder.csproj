@@ -400,12 +400,6 @@
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\01-Src\SkeFramework.Winform.SoftAuthorize\SkeFramework.Winform.SoftAuthorize.csproj">
-      <Project>{0BD488A3-8157-492A-82CA-86C0938443EC}</Project>
-      <Name>SkeFramework.Winform.SoftAuthorize</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\System.Data.SQLite.Core.1.0.110.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\..\packages\System.Data.SQLite.Core.1.0.110.0\build\net45\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

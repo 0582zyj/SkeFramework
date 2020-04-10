@@ -7,8 +7,8 @@
     <ProjectGuid>{0BD488A3-8157-492A-82CA-86C0938443EC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SkeFramework.Winform.SoftAuthorize</RootNamespace>
-    <AssemblyName>SkeFramework.Winform.SoftAuthorize</AssemblyName>
+    <RootNamespace>SkeFramework.Winform.LicenseAuth</RootNamespace>
+    <AssemblyName>SkeFramework.Winform.LicenseAuth</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

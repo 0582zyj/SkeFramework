@@ -19,7 +19,7 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.SecurityHandles
         /// <summary>
         /// 签名密钥
         /// </summary>
-        const string secret = "secret";//
+        const string secret = "smarthome";//
 
         private Dictionary<string, object> payLoad;
 
@@ -53,11 +53,10 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.SecurityHandles
             var payload = new Dictionary<string, object>()
             {
                 { "iss","ut"},//发行人
-                { "sub", "jwt" },
-                { "jti", "2fb5bf13-6efb-4ccc-a7d0-62481d8da439" },
+                { "sub", "ideuser" },
+                { "jti", encryptStr},
                 { "iat", seconds },
                 { "exp",  seconds },
-                { "data" ,encryptStr}
             };
             IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();//Base64编解码
             IJsonSerializer serializer = new JsonNetSerializer();//序列化和反序列
@@ -79,9 +78,9 @@ namespace SkeFramework.Winform.SoftAuthorize.DataHandle.SecurityHandles
             IJwtDecoder decoder = new JwtDecoder(serializer, validator, urlEncoder);//用于解析JWT的类
             //token为之前生成的字符串
             Payload = decoder.DecodeToObject<Dictionary<string, object>>(decryptStr, secret, verify: true);
-            if (Payload.ContainsKey("data"))
+            if (Payload.ContainsKey("jti"))
             {
-                return Payload["data"].ToString();
+                return Payload["jti"].ToString();
             }
             return "";
         }

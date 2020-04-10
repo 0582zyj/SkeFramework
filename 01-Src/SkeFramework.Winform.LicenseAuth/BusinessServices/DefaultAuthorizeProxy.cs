@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SkeFramework.Winform.SoftAuthorize.BusinessServices
 {
@@ -17,12 +18,12 @@ namespace SkeFramework.Winform.SoftAuthorize.BusinessServices
 
         public DefaultAuthorizeProxy(ISecurityHandle security):this(new FilesHandles(),security)
         {
-
+          
         }
 
         public DefaultAuthorizeProxy(ISaveHandles save, ISecurityHandle security):base(save,security)
         {
-
+            this.LicensePath = Application.StartupPath + @"\license.key";
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Threading;
 using System.Windows.Forms;
 using DevExpress.LookAndFeel;
 using DevExpress.XtraEditors;
-using SkeFramework.Winform.SoftAuthorize.Bootstrap;
 
 namespace CodeBuilder
 {
@@ -42,11 +41,7 @@ namespace CodeBuilder
 
             DevExpress.Skins.SkinManager.EnableFormSkins();
             DevExpress.UserSkins.BonusSkins.Register();
-            //bool isAuth = new ServerBootstrap().InitAuthorize();
-            //if (!isAuth)
-            //{
-            //    return;
-            //}
+
             Application.Run(new MainForm());
            
         }

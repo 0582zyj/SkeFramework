@@ -12,7 +12,7 @@ namespace SkeFramework.Winform.SoftAuthorize.BusinessServices.Abstract
     /// <summary>
     /// 授权基类
     /// </summary>
-    public abstract class AuthorizeBase : IAuthorize
+    public abstract class AuthorizeBase : IAuthorize,IDisposable
     {
         #region 私有成员
         /// <summary>
@@ -37,7 +37,7 @@ namespace SkeFramework.Winform.SoftAuthorize.BusinessServices.Abstract
         /// <summary>
         /// 注册码保存地址
         /// </summary>
-        public string FileSavePath { get { return saveHandles.FileSavePath; } set { saveHandles.FileSavePath = value; } }
+        public string LicensePath { get => saveHandles.FileSavePath; set => saveHandles.FileSavePath = value; }
         #endregion
 
         public AuthorizeBase(ISaveHandles save, ISecurityHandle  security)
@@ -131,7 +131,50 @@ namespace SkeFramework.Winform.SoftAuthorize.BusinessServices.Abstract
         /// <returns></returns>
         protected virtual bool VerifyCode(string code)
         {
-            return GetMachineCodeString() == securityHandle.Decrypt(saveHandles.FinalCode);
+            if (code == null)
+            {
+                return false;
+            }
+            return GetMachineCodeString() == securityHandle.Decrypt(code);
+        }
+        #endregion
+
+        #region 释放资源
+        /// <summary>
+        /// 释放标记
+        /// </summary>
+        private bool disposed;
+        /// <summary>执行与释放或重置非托管资源关联的应用程序定义的任务。</summary>
+        public void Dispose()
+        {
+            //必须为true
+            Dispose(true);
+            //通知垃圾回收器不再调用终结器
+            GC.SuppressFinalize(this);
+        }
+        /// <summary>
+        /// 非必需的，只是为了更符合其他语言的规范，如C++、java
+        /// </summary>
+        public void Close()
+        {
+            Dispose();
+        }
+        /// <summary>
+        /// 非密封类可重写的Dispose方法，方便子类继承时可重写
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+            if (HybirdLock != null)
+            {
+                HybirdLock.Dispose();
+            }
+            //告诉自己已经被释放
+            disposed = true;
         }
         #endregion
     }
