@@ -2,26 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
-using MicrosServices.Entities.Common;
-using MicrosServices.Entities.Constants;
+using MicrosServices.Entities.Common.PublishDeploy;
 using MicrosServices.Helper.Core.Common;
-using MicrosServices.Helper.Core.UserCenter.FORM;
-using MicrosServices.Helper.DataUtil.Tree;
-using MicrosServices.SDK.UserCenter;
-using Newtonsoft.Json;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 using SkeFramework.Core.SnowFlake;
 
-namespace MicrosServices.API.PermissionSystem.Controllers
+namespace MicrosServices.API.PublishDeploy.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class PlatformController : ControllerBase
+    public class ServerController : ControllerBase
     {
 
         #region 基础查询
@@ -32,12 +25,12 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpGet]
         public ActionResult<JsonResponses> GetList(string keywords = "")
         {
-            Expression<Func<PsPlatform, bool>> where = null;
+            Expression<Func<PdServer, bool>> where = null;
             if (!String.IsNullOrEmpty(keywords))
             {
                 where = (o => o.Name.Contains(keywords));
             }
-            List<PsPlatform> list = DataHandleManager.Instance().PsPlatformHandle.GetList(where).ToList();
+            List<PdServer> list = DataHandleManager.Instance().PdServerHandle.GetList(where).ToList();
             return new JsonResponses(list);
         }
         /// <summary>
@@ -49,14 +42,14 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         {
             try
             {
-                Expression<Func<PsPlatform, bool>> where = null;
+                Expression<Func<PdServer, bool>> where = null;
                 if (!String.IsNullOrEmpty(keywords))
                 {
                     where = (o => o.Name.Contains(keywords));
                 }
-                page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().PsPlatformHandle.Count(where)));//取记录数
-                List<PsPlatform> list = DataHandleManager.Instance().PsPlatformHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
-                PageResponse<PsPlatform> response = new PageResponse<PsPlatform>
+                page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().PdServerHandle.Count(where)));//取记录数
+                List<PdServer> list = DataHandleManager.Instance().PdServerHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
+                PageResponse<PdServer> response = new PageResponse<PdServer>
                 {
                     page = page,
                     dataList = list
@@ -76,35 +69,32 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpGet]
         public ActionResult<JsonResponses> GetInfo(int id)
         {
-            PsPlatform Info = new PsPlatform();
-            Info = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(id.ToString());
+            PdServer Info = new PdServer();
+            Info = DataHandleManager.Instance().PdServerHandle.GetModelByKey(id.ToString());
             return new JsonResponses(Info);
         }
-      
+
         #endregion
 
         #region 增删改
         /// <summary>
-        /// 新增平台
+        /// 新增
         /// </summary>
-        /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> Create([FromForm] PsPlatform platform)
+        public ActionResult<JsonResponses> Create([FromForm] PdServer server)
         {
             try
             {
                 //bool checkResult = true;
-                platform.InputTime = DateTime.Now;
-                platform.PlatformNo = AutoIDWorker.Example.GetAutoSequence();
-                PsPlatform ParentInfo = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(platform.ParentNo.ToString());
-                platform.TreeLevelNo = TreeLevelUtil.GetTreeLevelNo<PsPlatform>(ParentInfo, platform.ParentNo);
-                int result = DataHandleManager.Instance().PsPlatformHandle.Insert(platform);
+                server.ServerNo = AutoIDWorker.Example.GetAutoSequence();
+                server.InputTime = DateTime.Now;
+                int result = DataHandleManager.Instance().PdServerHandle.Insert(server);
                 if (result > 0)
                 {
                     return JsonResponses.Success;
                 }
-               
+
                 return JsonResponses.Failed;
             }
             catch (Exception ex)
@@ -120,7 +110,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
-            int result = DataHandleManager.Instance().PsPlatformHandle.Delete(id);
+            int result = DataHandleManager.Instance().PdServerHandle.Delete(id);
             if (result > 0)
             {
                 return JsonResponses.Success;
@@ -130,18 +120,15 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <summary>
         /// 更新
         /// </summary>
-        /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> Update([FromForm] PsPlatform platform)
+        public ActionResult<JsonResponses> Update([FromForm] PdServer server)
         {
             try
             {
                 //bool checkResult = true;
-                platform.UpdateTime = DateTime.Now;
-                PsPlatform ParentInfo = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(platform.ParentNo.ToString());
-                platform.TreeLevelNo = TreeLevelUtil.GetTreeLevelNo<PsPlatform>(ParentInfo, platform.ParentNo);
-                int result = DataHandleManager.Instance().PsPlatformHandle.Update(platform);
+                server.UpdateTime = DateTime.Now;
+                int result = DataHandleManager.Instance().PdServerHandle.Update(server);
                 if (result > 0)
                 {
                     return JsonResponses.Success;
@@ -162,9 +149,9 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetOptionValues([FromForm] long PlatformNo = ConstData.DefaultNo)
+        public ActionResult<JsonResponses> GetOptionValues()
         {
-            List<OptionValue> optionValues = DataHandleManager.Instance().PsPlatformHandle.GetOptionValues( PlatformNo);
+            List<OptionValue> optionValues = DataHandleManager.Instance().PdServerHandle.GetOptionValues();
             return new JsonResponses(optionValues);
         }
         #endregion

@@ -138,6 +138,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PermissionSystem.SDK.Redis"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Winform.LicenseAuth", "01-Src\SkeFramework.Winform.LicenseAuth\SkeFramework.Winform.LicenseAuth.csproj", "{0BD488A3-8157-492A-82CA-86C0938443EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.API.PublishDeploy", "03-Business\MicrosServices.API.PublishDeploy\MicrosServices.API.PublishDeploy.csproj", "{A8A83048-A9B2-49AF-8D19-0F8DF6984357}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.SDK.PublishDeploy", "03-Business\MicrosServices.SDK.PublishDeploy\MicrosServices.SDK.PublishDeploy.csproj", "{F254B181-1621-4071-9764-BC07E500F502}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -308,6 +312,14 @@ Global
 		{0BD488A3-8157-492A-82CA-86C0938443EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BD488A3-8157-492A-82CA-86C0938443EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BD488A3-8157-492A-82CA-86C0938443EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8A83048-A9B2-49AF-8D19-0F8DF6984357}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8A83048-A9B2-49AF-8D19-0F8DF6984357}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8A83048-A9B2-49AF-8D19-0F8DF6984357}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8A83048-A9B2-49AF-8D19-0F8DF6984357}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F254B181-1621-4071-9764-BC07E500F502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F254B181-1621-4071-9764-BC07E500F502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F254B181-1621-4071-9764-BC07E500F502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F254B181-1621-4071-9764-BC07E500F502}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -374,6 +386,8 @@ Global
 		{BD18821B-E798-49FE-8AC0-FA04F27A0FC5} = {A7D6F9A3-F9D1-432D-A23D-0E437C7630D1}
 		{8FE3C5E4-3F29-4D4D-9BD4-6B3E63446369} = {C7C67878-EE19-4954-B2B8-1A1CC69C1B0A}
 		{0BD488A3-8157-492A-82CA-86C0938443EC} = {A502E803-43F9-4B23-BEA9-E469299458E2}
+		{A8A83048-A9B2-49AF-8D19-0F8DF6984357} = {2C275C9C-3596-45BC-8D0C-C97D69403791}
+		{F254B181-1621-4071-9764-BC07E500F502} = {C7C67878-EE19-4954-B2B8-1A1CC69C1B0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}

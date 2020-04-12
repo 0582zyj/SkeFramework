@@ -114,11 +114,14 @@ namespace SkeFramework.Core.Network.Https
         {
             try
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | 
+                ServicePointManager.SecurityProtocol = 
                                                         SecurityProtocolType.Tls12 |
                                                         SecurityProtocolType.Tls11 | 
                                                         SecurityProtocolType.Tls|
-                                                        (SecurityProtocolType)192 | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+                                                        (SecurityProtocolType)192 |
+                                                        (SecurityProtocolType)768 |
+                                                        SecurityProtocolType.Ssl3 |
+                                                        (SecurityProtocolType)3072;
                 ServicePointManager.ServerCertificateValidationCallback = RemoteCertificateValidate;
                 ServicePointManager.CheckCertificateRevocationList = false;
                 ServicePointManager.DefaultConnectionLimit = 512;
