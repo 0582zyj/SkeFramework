@@ -77,12 +77,21 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.4\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -145,6 +154,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ServerController.cs" />
     <Compile Include="Handles\Filters\PermissionAuthAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -246,6 +256,9 @@
     <Content Include="Views\Menu\MenuManagementAssign.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Views\User\UserAdd.cshtml" />
+    <Content Include="Views\Server\ServerList.cshtml" />
+    <Content Include="Views\Server\ServerUpdate.cshtml" />
+    <Content Include="Views\Server\ServerAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -285,6 +298,10 @@
     <ProjectReference Include="..\MicrosServices.SDK.PermissionSystem\MicrosServices.SDK.PermissionSystem.csproj">
       <Project>{50CABD78-9509-44AF-82E8-21709236C187}</Project>
       <Name>MicrosServices.SDK.PermissionSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.SDK.PublishDeploy\MicrosServices.SDK.PublishDeploy.csproj">
+      <Project>{F254B181-1621-4071-9764-BC07E500F502}</Project>
+      <Name>MicrosServices.SDK.PublishDeploy</Name>
     </ProjectReference>
     <ProjectReference Include="..\MicrosServices.SDK.UserCenter\MicrosServices.SDK.UserCenter.csproj">
       <Project>{3F3F0673-39D0-4356-8744-936A07A05844}</Project>
