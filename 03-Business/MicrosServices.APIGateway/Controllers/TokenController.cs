@@ -21,6 +21,7 @@ namespace MicrosServices.APIGateway.Controllers
     public class TokenController : Controller
     {
         private UserSettingSdk userSettingSdk = new UserSettingSdk();
+        private UserSDK userSDK = new UserSDK();
         private ITokenHelper tokenHelper = null;
         public TokenController(ITokenHelper _tokenHelper)
         {

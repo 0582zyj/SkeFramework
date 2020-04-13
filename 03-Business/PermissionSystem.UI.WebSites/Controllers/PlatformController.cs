@@ -145,12 +145,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult GetOptionValues()
         {
             long PlatformNo = LoginModel.Instance().PlatformNo;
-            List<OptionValue> optionValues = platformRedisSDK.GetPlatformList(PlatformNo);
-            if (optionValues == null)
-            {
-                optionValues = platformSdk.GetOptionValues(LoginModel.Instance().PlatformNo);
-                platformRedisSDK.SetPlatformList(PlatformNo, optionValues);
-            }
+            List<OptionValue> optionValues = platformSdk.GetOptionValues(LoginModel.Instance().PlatformNo);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
 

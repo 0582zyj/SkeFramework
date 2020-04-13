@@ -23,7 +23,6 @@ namespace MicrosServices.API.PermissionSystem.Controllers
     [ApiController]
     public class PlatformController : ControllerBase
     {
-        private UserSDK userSDK = new UserSDK();
 
         #region 基础查询
         /// <summary>

@@ -30,7 +30,6 @@ namespace MicrosServices.SDK.UserCenter
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
                     Method = RequestTypeEnums.GET
                 });
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
