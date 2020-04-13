@@ -138,9 +138,7 @@ namespace SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract
             }
             try
             {
-                string message = "";
-                bool result= securityHandle.Validate(code, GetMachineCodeString(), out message);
-                return new JsonResponse(result ? JsonResponse.SuccessCode : JsonResponse.FailedCode, message);
+                return securityHandle.Validate(code, GetMachineCodeString());
             }
             catch (Exception)
             {

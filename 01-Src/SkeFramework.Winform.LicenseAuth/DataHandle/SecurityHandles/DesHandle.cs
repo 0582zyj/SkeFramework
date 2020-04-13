@@ -1,4 +1,5 @@
-﻿using SkeFramework.Winform.LicenseAuth.DataUtils;
+﻿using SkeFramework.Winform.LicenseAuth.DataEntities;
+using SkeFramework.Winform.LicenseAuth.DataUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -54,10 +55,20 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.Securitys
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public bool Validate(string token,string OriginalStr,out string message)
+        public JsonResponse Validate(string token,string OriginalStr)
         {
-            message = "";
-            return token.Equals(Encrypt(OriginalStr));
+            JsonResponse jsonResponse = JsonResponse.Failed;
+            try
+            {
+                bool isValidted = token.Equals(Encrypt(OriginalStr));
+                jsonResponse.code = JsonResponse.SuccessCode;
+                jsonResponse.msg = "成功";
+            }
+            catch (Exception)
+            {
+                jsonResponse.msg = "过期了！";
+            }
+            return jsonResponse;
         }
         #region DES加密和解密
 

@@ -85,27 +85,29 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.SecurityHandles
             return "";
         }
 
-        public bool Validate(string token,string OriginalStr,out string message)
+        public JsonResponse Validate(string token,string OriginalStr)
         {
+            JsonResponse jsonResponse = JsonResponse.Failed;
             bool isValidted = false;
             try
             {
                isValidted =OriginalStr ==Decrypt(token);
-                message = "成功";
+                jsonResponse.code = JsonResponse.SuccessCode;
+                jsonResponse.msg= "成功";
             }
             catch (TokenExpiredException)//当前时间大于负载过期时间（负荷中的exp），会引发Token过期异常
             {
-                message = "过期了！";
+                jsonResponse.msg = "过期了！";
             }
             catch (SignatureVerificationException)//如果签名不匹配，引发签名验证异常
             {
-                message = "签名错误！";
+                jsonResponse.msg = "签名错误！";
             }
             catch(Exception)
             {
-                message = "非法密钥";
+                jsonResponse.msg = "非法密钥";
             }
-            return isValidted;
+            return jsonResponse;
         }
 
       

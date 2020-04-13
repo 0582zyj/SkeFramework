@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkeFramework.Winform.LicenseAuth.DataEntities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,6 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.Securitys
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        bool Validate(string Token,string OriginalStr,out string Message);
+        JsonResponse Validate(string Token,string OriginalStr);
     }
 }
