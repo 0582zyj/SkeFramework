@@ -143,6 +143,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj">
+      <Project>{f30c0cc5-b760-4ee0-9603-fce8ff5206bc}</Project>
+      <Name>SkeFramework.Core.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.Winform.LicenseAuth\SkeFramework.Winform.LicenseAuth.csproj">
       <Project>{0bd488a3-8157-492a-82ca-86c0938443ec}</Project>
       <Name>SkeFramework.Winform.LicenseAuth</Name>

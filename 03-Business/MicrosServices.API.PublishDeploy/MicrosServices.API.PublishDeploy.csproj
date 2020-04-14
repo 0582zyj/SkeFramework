@@ -26,4 +26,8 @@
     <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="PublishDoc\" />
+  </ItemGroup>
+
 </Project>

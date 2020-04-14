@@ -19,7 +19,7 @@ namespace UDPBroadcast
             Application.SetCompatibleTextRenderingDefault(false);
 
             bool result= AuthorizeAgent.Instance().InitAuthorize();
-            if (result)
+            if (result==false)
             {
                 Application.Run(new MainForm());
             }
