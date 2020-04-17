@@ -62,7 +62,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = menuSdk.GetPsMenuInfo(id);
             if (responses.code == JsonResponses.SuccessCode)
             {
-                Info= responses.data as PsMenu;
+                Info = responses.data as PsMenu;
             }
             return Json(Info, JsonRequestBehavior.AllowGet);
         }
@@ -85,7 +85,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult PsMenuAdd(PsMenu model)
         {
             model.InputUser = AppBusiness.loginModel.UserNo;
-            JsonResponses responses= menuSdk.MenuAdd(model);
+            JsonResponses responses = menuSdk.MenuAdd(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
 
@@ -107,7 +107,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpPost]
         public JsonResult PsMenuDelete(int id)
         {
-            JsonResponses responses = menuSdk.MenuDelete(id );
+            JsonResponses responses = menuSdk.MenuDelete(id);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
 
@@ -199,5 +199,37 @@ namespace PermissionSystem.UI.WebSites.Controllers
         }
         #endregion
 
+
+        /// <summary>
+        /// 给页面提供json格式的节点数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public string GetMenuTreeList()
+        {
+            ///节点类集合
+            List<TreeNodeInfo> myNodes = new List<TreeNodeInfo>();
+            myNodes.Add(new TreeNodeInfo
+            {
+                TreeNo = "1",
+                Name = "首页",
+                ParentNo = "0",
+                Open = false,
+                IsParent = true
+            });
+            myNodes.Add(new TreeNodeInfo
+            {
+                TreeNo = "2",
+                Name = "gon",
+                ParentNo = "0",
+                Open = false,
+            });
+            //将获取的节点集合转换为json格式字符串，并返回
+            string json = JsonConvert.SerializeObject(myNodes);
+            return json;
+        }
     }
+   
+
+ 
 }

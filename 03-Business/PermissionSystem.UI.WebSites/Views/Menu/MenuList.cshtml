@@ -1,7 +1,9 @@
 ﻿@{
     ViewBag.Title = "菜单列表";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutTree.cshtml";
 }
+
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>菜单列表</h1>
@@ -32,7 +34,21 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-2">
+            <!--显示当前的所有的角色信息-->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">菜单树</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="zTreeDemoBackground left">
+                        <ul id="menuTree" class="ztree"></ul>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <div class="col-md-10">
             <div class="box">
                 <!--数据列表页头部-->
                 <div class="box-header with-border">
@@ -202,4 +218,36 @@
             }
         });
 </script>
-
+<script type="text/javascript">
+    //定义接收节点数据的变量
+    var zNodes;
+    //节点配置信息
+    var setting = {
+        data: {
+            key: {
+                name:"Name"
+            },
+            //控制子节点加载时候是加载还是折叠
+            simpleData: {
+                enable: true,
+                idKey: "TreeNo",
+                pIdKey: "ParentNo",
+                rootPId: "0"
+            }
+        },
+        callback: {
+            onClick: function (event, treeId, treeNode) {
+                alert(treeNode.TreeNo + " " + treeNode.Name);
+                return false;
+            }
+        }
+    };
+    $(function () {
+        //获取访问方法获取节点数据
+        $.getJSON("@Url.Action("GetMenuTreeList", "Menu")", function (res) {
+            zNodes = res;
+            //初始化树节点
+            $.fn.zTree.init($("#menuTree"), setting, zNodes);
+        });
+    });
+</script>

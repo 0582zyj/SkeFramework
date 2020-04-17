@@ -189,6 +189,21 @@
     <Content Include="Content\login.min.css" />
     <Content Include="Content\morris.css" />
     <Content Include="Content\themes\captcha.html" />
+    <Content Include="Content\zTreeStyle\img\diy\1_close.png" />
+    <Content Include="Content\zTreeStyle\img\diy\1_open.png" />
+    <Content Include="Content\zTreeStyle\img\diy\2.png" />
+    <Content Include="Content\zTreeStyle\img\diy\3.png" />
+    <Content Include="Content\zTreeStyle\img\diy\4.png" />
+    <Content Include="Content\zTreeStyle\img\diy\5.png" />
+    <Content Include="Content\zTreeStyle\img\diy\6.png" />
+    <Content Include="Content\zTreeStyle\img\diy\7.png" />
+    <Content Include="Content\zTreeStyle\img\diy\8.png" />
+    <Content Include="Content\zTreeStyle\img\diy\9.png" />
+    <Content Include="Content\zTreeStyle\img\line_conn.gif" />
+    <Content Include="Content\zTreeStyle\img\loading.gif" />
+    <Content Include="Content\zTreeStyle\img\zTreeStandard.gif" />
+    <Content Include="Content\zTreeStyle\img\zTreeStandard.png" />
+    <Content Include="Content\zTreeStyle\zTreeStyle.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
@@ -204,6 +219,7 @@
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.cookie.min.js" />
     <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.ztree.core.js" />
     <Content Include="Scripts\morris.min.js" />
     <Content Include="Scripts\parsley.min.js" />
     <Content Include="Scripts\raphael.min.js" />
@@ -259,6 +275,7 @@
     <Content Include="Views\Server\ServerList.cshtml" />
     <Content Include="Views\Server\ServerUpdate.cshtml" />
     <Content Include="Views\Server\ServerAdd.cshtml" />
+    <Content Include="Views\Shared\_LayoutTree.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -286,6 +303,10 @@
     <ProjectReference Include="..\MicrosServices.BLL.Business\MicrosServices.BLL.Business.csproj">
       <Project>{00BAAA1A-D082-4822-981C-D8AD6E8EEB59}</Project>
       <Name>MicrosServices.BLL.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Entities.Common\MicrosServices.Entities.Common.csproj">
+      <Project>{d249d5f8-25c1-4d93-ad7a-b85757d43737}</Project>
+      <Name>MicrosServices.Entities.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj">
       <Project>{F26359E9-2013-44D7-8569-E5533DEC9BA4}</Project>
