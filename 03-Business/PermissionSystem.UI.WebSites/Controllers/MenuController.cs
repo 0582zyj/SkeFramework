@@ -22,6 +22,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     {
         private MenuSdk menuSdk = new MenuSdk();
         private AssignSDK assignSDK = new AssignSDK();
+        private TreeSDK treeSDK = new TreeSDK();
 
         #region 页面
         /// <summary>
@@ -207,26 +208,9 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpGet]
         public string GetMenuTreeList()
         {
-            ///节点类集合
-            List<TreeNodeInfo> myNodes = new List<TreeNodeInfo>();
-            myNodes.Add(new TreeNodeInfo
-            {
-                TreeNo = "1",
-                Name = "首页",
-                ParentNo = "0",
-                Open = false,
-                IsParent = true
-            });
-            myNodes.Add(new TreeNodeInfo
-            {
-                TreeNo = "2",
-                Name = "gon",
-                ParentNo = "0",
-                Open = false,
-            });
+            List<TreeNodeInfo> treeNodes = treeSDK.GetMenuTreeList(AppBusiness.loginModel.PlatformNo);
             //将获取的节点集合转换为json格式字符串，并返回
-            string json = JsonConvert.SerializeObject(myNodes);
-            return json;
+            return JsonConvert.SerializeObject(treeNodes);
         }
     }
    
