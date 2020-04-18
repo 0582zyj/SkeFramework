@@ -118,31 +118,35 @@
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
                 ],
-                search: { keywords: ""}
+                search: { keywords: "", MenuNo:-1}
             },
             filters: {
                 formateEnabled: function (enabled, list) {
                     let result = enabled;
-                    list.map(res => {
-                        if (enabled == res.Value) {
-                            result = res.Name;
-                        }
-                    });
+                    if (list.length > 0) {
+                        list.map(res => {
+                            if (enabled == res.Value) {
+                                result = res.Name;
+                            }
+                        });
+                    }
                     return result;
                 },
                 formatePlatform: function (PlatformNo, list) {
                     let result = PlatformNo;
-                    list.map(res => {
-                        if (PlatformNo == res.Value) {
-                            result = res.Name;
-                        }
-                    });
+                    if (list.length > 0) {
+                        list.map(res => {
+                            if (PlatformNo == res.Value) {
+                                result = res.Name;
+                            }
+                        });
+                    }
                     return result;
                 }
             },
             computed: {
                 prop: function () {
-                    return { keywords: this.search.keywords }
+                    return { keywords: this.search.keywords, MenuNo: this.search.MenuNo }
                 }
             },
             created: function () {
@@ -216,10 +220,8 @@
                     return result;
                 }
             }
-        });
-</script>
-<script type="text/javascript">
-    //定义接收节点数据的变量
+    });
+     //定义接收节点数据的变量
     var zNodes;
     //节点配置信息
     var setting = {
@@ -233,12 +235,17 @@
                 idKey: "TreeNo",
                 pIdKey: "ParentNo",
                 rootPId: "0"
-            }
+            },
+            GetListUrl: "@Url.Action("GetPsMenuList", "Menu")",
         },
         callback: {
             onClick: function (event, treeId, treeNode) {
-                alert(treeNode.TreeNo + " " + treeNode.Name);
-                return false;
+                vm.search.MenuNo = treeNode.TreeNo;
+                //vm.btnSearch();
+                //return true;
+                if (vm.$children.length > 0) {
+                    vm.$children[0].go(1);
+                }
             }
         }
     };
@@ -250,4 +257,7 @@
             $.fn.zTree.init($("#menuTree"), setting, zNodes);
         });
     });
+</script>
+<script type="text/javascript">
+   
 </script>

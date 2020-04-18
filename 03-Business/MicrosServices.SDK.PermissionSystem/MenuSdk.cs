@@ -77,7 +77,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("PageIndex", page.PageIndex);
                 request.SetValue("PageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
-                request.SetValue("MenuNo", MenuNo);
+                request.SetValue("queryNo", MenuNo);
                 request.Url = GetMenuPageUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
