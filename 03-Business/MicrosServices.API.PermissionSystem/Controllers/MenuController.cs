@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Constants;
+using MicrosServices.Entities.Core.DataForm;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.Form;
@@ -42,15 +44,15 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] string keywords = "")
+        public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] QueryBaseFrom query)
         {
             try
             {
+                query.InitQuery();
+                string QueryNo = "_" + query.queryNo;
+                string keywords = query.keywords;
                 Expression<Func<PsMenu, bool>> where = null;
-                if (!String.IsNullOrEmpty(keywords))
-                {
-                    where = (o => o.Name.Contains(keywords));
-                }
+                where = (o => o.Name.Contains(keywords) && (o.TreeLevelNo.Contains(QueryNo)||o.MenuNo==query.queryNo));
                 page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().PsMenuHandle.Count(where)));//取记录数
                 List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
                 PageResponse<PsMenu> response = new PageResponse<PsMenu>

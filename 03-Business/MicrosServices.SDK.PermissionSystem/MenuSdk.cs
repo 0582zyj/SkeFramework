@@ -68,7 +68,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// </summary>
         /// <param name="loginInfo"></param>
         /// <returns></returns>
-        public PageResponse<PsMenu> GetMenuPageList(PageModel page, string keywords = "")
+        public PageResponse<PsMenu> GetMenuPageList(PageModel page, string keywords ,long MenuNo)
         {
             PageResponse<PsMenu> menus = new PageResponse<PsMenu>();
             try
@@ -77,6 +77,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("PageIndex", page.PageIndex);
                 request.SetValue("PageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
+                request.SetValue("MenuNo", MenuNo);
                 request.Url = GetMenuPageUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {

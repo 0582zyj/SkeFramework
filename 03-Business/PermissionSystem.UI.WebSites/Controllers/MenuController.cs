@@ -1,4 +1,5 @@
 ﻿using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Constants;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Form;
 using MicrosServices.Helper.Core.Form.AssignForm;
@@ -72,10 +73,10 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetPsMenuList(int curPage = 1, string keywords = "")
+        public JsonResult GetPsMenuList(int curPage = 1, string keywords = "",long MenuNo=ConstData.DefaultNo)
         {
             PageModel page = new PageModel(curPage);
-            PageResponse<PsMenu> pageResponse = menuSdk.GetMenuPageList(page, keywords);
+            PageResponse<PsMenu> pageResponse = menuSdk.GetMenuPageList(page, keywords, MenuNo);
             return Json(new PageResponseView<PsMenu>(pageResponse), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
