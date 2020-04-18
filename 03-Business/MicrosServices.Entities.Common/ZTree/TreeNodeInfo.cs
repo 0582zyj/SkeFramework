@@ -38,11 +38,12 @@ namespace MicrosServices.Entities.Common
         /// <summary>
         /// 展开
         /// </summary>
-        public bool Open { get; set; }
+        public bool Open { get; set; } = false;
         /// <summary>
         /// 没有子节点
         /// </summary>
-        public bool IsParent { get; set; }
-    
+        public bool IsParent { get; set; } = false;
+        
+
     }
 }

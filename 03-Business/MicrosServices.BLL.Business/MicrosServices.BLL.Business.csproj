@@ -92,6 +92,10 @@
       <Project>{385c7f8e-7318-4cb8-9df6-b61d49805c4e}</Project>
       <Name>MicrosServices.DAL.DataAccess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Entities.Common\MicrosServices.Entities.Common.csproj">
+      <Project>{d249d5f8-25c1-4d93-ad7a-b85757d43737}</Project>
+      <Name>MicrosServices.Entities.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj">
       <Project>{f26359e9-2013-44d7-8569-e5533dec9ba4}</Project>
       <Name>MicrosServices.Entities</Name>
