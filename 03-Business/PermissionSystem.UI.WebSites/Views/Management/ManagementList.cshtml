@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "列表";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutTree.cshtml";
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -31,8 +31,22 @@
         </div>
     </div>
 
-    <div class="row">        
-        <div class="col-md-12">
+    <div class="row">
+        <div class="col-md-2">
+            <!--显示当前的所有的角色信息-->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">权限树</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="zTreeDemoBackground left">
+                        <ul id="managementTree" class="ztree"></ul>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <div class="col-md-10">
             <div class="box">
                 <!--数据列表页头部-->
                 <div class="box-header with-border">
@@ -102,7 +116,7 @@
                     { Name: '操作权限', Value: 1 },
                     { Name: '菜单权限', Value: 2 },
                 ],
-                search: { keywords: ""}
+                search: { keywords: "", ManagementNo: -1 }
             },
             filters: {
                 formateEnabled: function (enabled, list) {
@@ -136,7 +150,7 @@
             },
             computed: {
                 prop: function () {
-                    return { keywords: this.search.keywords }
+                    return { keywords: this.search.keywords, ManagementNo: this.search.ManagementNo }
                 }
             },
             created: function () {
@@ -210,6 +224,39 @@
                     return result;
                 }
             }
+    });
+    //定义接收节点数据的变量
+    var zNodes;
+    //节点配置信息
+    var setting = {
+        data: {
+            key: {
+                name:"Name"
+            },
+            //控制子节点加载时候是加载还是折叠
+            simpleData: {
+                enable: true,
+                idKey: "TreeNo",
+                pIdKey: "ParentNo",
+                rootPId: "0"
+            },
+        },
+        callback: {
+            onClick: function (event, treeId, treeNode) {
+                vm.search.ManagementNo = treeNode.TreeNo;
+                if (vm.$children.length > 0) {
+                    vm.$children[0].go(1);
+                }
+            }
+        }
+    };
+    $(function () {
+        //获取访问方法获取节点数据
+        $.getJSON("@Url.Action("GetManagementTreeList", "Management")", function (res) {
+            zNodes = res;
+            //初始化树节点
+            $.fn.zTree.init($("#managementTree"), setting, zNodes);
         });
+    });
 </script>
 

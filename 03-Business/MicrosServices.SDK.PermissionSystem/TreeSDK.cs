@@ -15,6 +15,8 @@ namespace MicrosServices.SDK.PermissionSystem
    public class TreeSDK
     {
         private  readonly string GetMenuTreeListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Tree/GetMenuTreeList";
+        private readonly string GetManagementTreeListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Tree/GetManagementTreeList";
+        
         /// <summary>
         /// 获取菜单树
         /// </summary>
@@ -28,6 +30,40 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = new RequestBase
                 {
                     Url = GetMenuTreeListUrl
+                };
+                request.SetValue("PlatformNo", PlatformNo);
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.GetReqUrl(),
+                    Method = RequestTypeEnums.GET
+                });
+                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
+                if (responses.code == JsonResponses.SuccessCode)
+                {
+                    object data = responses.data;
+                    return JsonConvert.DeserializeObject<List<TreeNodeInfo>>(JsonConvert.SerializeObject(data));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return menus;
+        }
+
+        /// <summary>
+        /// 获取权限树
+        /// </summary>
+        /// <param name="loginInfo"></param>
+        /// <returns></returns>
+        public List<TreeNodeInfo> GetManagementTreeList(long PlatformNo)
+        {
+            List<TreeNodeInfo> menus = new List<TreeNodeInfo>();
+            try
+            {
+                RequestBase request = new RequestBase
+                {
+                    Url = GetManagementTreeListUrl
                 };
                 request.SetValue("PlatformNo", PlatformNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()

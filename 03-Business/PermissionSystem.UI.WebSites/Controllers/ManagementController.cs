@@ -23,6 +23,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         private ManagementSDK managementSDK = new ManagementSDK();
         private RolesSDK rolesSDK = new RolesSDK();
         private AssignSDK assignSDK = new AssignSDK();
+        private TreeSDK treeSDK = new TreeSDK();
 
         #region 基础页面
         /// <summary>
@@ -72,10 +73,10 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetPsManagementList(int curPage = 1, string keywords = "")
+        public JsonResult GetPsManagementList(int curPage = 1, string keywords = "",long ManagementNo=-1)
         {
             PageModel page = new PageModel(curPage);
-            PageResponse<PsManagement> pageResponse = managementSDK.GetManagementPageList(page, keywords);
+            PageResponse<PsManagement> pageResponse = managementSDK.GetManagementPageList(page, keywords, ManagementNo);
             return Json(new PageResponseView<PsManagement>(pageResponse), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -182,6 +183,18 @@ namespace PermissionSystem.UI.WebSites.Controllers
             string UserNo = AppBusiness.loginModel.UserNo;
             List<ManagementOptionValue > optionValues = managementSDK.GetUserManagementList(UserNo);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 给页面提供json格式的节点数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public string GetManagementTreeList()
+        {
+            List<TreeNodeInfo> treeNodes = treeSDK.GetManagementTreeList(AppBusiness.loginModel.PlatformNo);
+            //将获取的节点集合转换为json格式字符串，并返回
+            return JsonConvert.SerializeObject(treeNodes);
         }
         #endregion
     }
