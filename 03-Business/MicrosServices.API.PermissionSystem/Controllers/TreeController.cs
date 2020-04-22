@@ -25,5 +25,17 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             List<TreeNodeInfo> list = DataHandleManager.Instance().PsMenuHandle.GetPlatformMenuTree(PlatformNo);
             return new JsonResponses(list);
         }
+
+
+        /// <summary>
+        /// 获取权限树信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetManagementTreeList([FromQuery] long PlatformNo)
+        {
+            List<TreeNodeInfo> list = DataHandleManager.Instance().PsManagementHandle.GetPlatformManagementTree(PlatformNo);
+            return new JsonResponses(list);
+        }
     }
 }
