@@ -106,6 +106,7 @@
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 assginUrl: "@Url.Action("OrganizationAssign", "Organization")",
                 GetUserManagementListUrl: "@Url.Action("GetUserManagementList", "Management")",
+                GetTreeListUrl: "@Url.Action("GetOrganizationTreeList", "Organization")",
                 dataList: [],
                 platformList: {},
                 enabledList: [
@@ -118,7 +119,7 @@
                     { Name: '部门', Value: 2 },
                     { Name: '工作组', Value: 3 },
                 ],
-                search: { keywords: ""}
+                search: { keywords: "", OrgNo:-1}
             },
             filters: {
                 formateEnabled: function (enabled, list) {
@@ -152,7 +153,7 @@
             },
             computed: {
                 prop: function () {
-                    return { keywords: this.search.keywords }
+                    return { keywords: this.search.keywords, OrgNo=this.search.OrgNo }
                 }
             },
             created: function () {
@@ -244,7 +245,7 @@
         },
         callback: {
             onClick: function (event, treeId, treeNode) {
-                vm.search.ManagementNo = treeNode.TreeNo;
+                vm.search.OrgNo = treeNode.TreeNo;
                 if (vm.$children.length > 0) {
                     vm.$children[0].go(1);
                 }
@@ -253,7 +254,7 @@
     };
     $(function () {
         //获取访问方法获取节点数据
-        $.getJSON(vm.data.GetListUrl, function (res) {
+        $.getJSON(vm.GetTreeListUrl, function (res) {
             zNodes = res;
             //初始化树节点
             $.fn.zTree.init($("#zTree"), setting, zNodes);

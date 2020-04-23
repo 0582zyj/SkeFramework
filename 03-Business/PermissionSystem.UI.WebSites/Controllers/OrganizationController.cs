@@ -71,10 +71,10 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetPsOrganizationList(int curPage = 1, string keywords = "")
+        public JsonResult GetPsOrganizationList(int curPage = 1, string keywords = "",long OrgNo=-1)
         {
             PageModel page = new PageModel(curPage);
-            PageResponse<PsOrganization> pageResponse = organizationSdk.GetOrganizationPageList(page, keywords);
+            PageResponse<PsOrganization> pageResponse = organizationSdk.GetOrganizationPageList(page, keywords, OrgNo);
             return Json(new PageResponseView<PsOrganization>(pageResponse), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
