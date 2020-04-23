@@ -124,6 +124,9 @@
             filters: {
                 formateEnabled: function (enabled, list) {
                     let result = enabled;
+                    if (list.length == 0) {
+                        return result;
+                    }
                     list.map(res => {
                             if (enabled == res.Value) {
                                 result= res.Name;
@@ -133,6 +136,9 @@
                 },
                 formatePlatform: function (PlatformNo, list) {
                     let result = PlatformNo;
+                    if (list.length == 0) {
+                        return result;
+                    }
                     list.map(res => {
                         if (PlatformNo == res.Value) {
                             result = res.Name;
@@ -142,6 +148,9 @@
                 },
                 formateCategory: function (Category, list) {
                     let result = Category;
+                    if (list.length == 0) {
+                        return result;
+                    }
                     list.map(res => {
                         if (Category == res.Value) {
                             result = res.Name;
