@@ -27,7 +27,6 @@
   <ItemGroup>
     <Folder Include="Gobal\" />
     <Folder Include="Resources\DataBase\" />
-    <Folder Include="Resources\PublishBat\" />
   </ItemGroup>
 
   <ItemGroup>
