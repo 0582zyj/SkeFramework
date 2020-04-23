@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Core.DataForm;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Form;
 using MicrosServices.Helper.Core.VO;
@@ -41,15 +42,15 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] string keywords = "")
+        public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] QueryBaseFrom query)
         {
             try
             {
+                query.InitQuery();
+                string QueryNo = "_" + query.queryNo;
+                string keywords = query.keywords;
                 Expression<Func<PsOrganization, bool>> where = null;
-                if (!String.IsNullOrEmpty(keywords))
-                {
-                    where = (o => o.Name.Contains(keywords));
-                }
+                where = (o => o.Name.Contains(keywords) && (o.TreeLevelNo.Contains(QueryNo) || o.OrgNo == query.queryNo));
                 page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().PsOrganizationHandle.Count(where)));//取记录数
                 List<PsOrganization> list = DataHandleManager.Instance().PsOrganizationHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
                 PageResponse<PsOrganization> response = new PageResponse<PsOrganization>
