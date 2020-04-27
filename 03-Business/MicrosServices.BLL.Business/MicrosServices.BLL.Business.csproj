@@ -64,6 +64,10 @@
     <Compile Include="PermissionSystem\UserRolesHandles\IPsUserRolesHandle.cs" />
     <Compile Include="PermissionSystem\UserRolesHandles\PsUserRolesHandle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublishDeploy\PdProjectHandles\IPdProjectHandle.cs" />
+    <Compile Include="PublishDeploy\PdProjectHandles\PdProjectHandle.cs" />
+    <Compile Include="PublishDeploy\PdPublishHandles\IPdPublishHandle.cs" />
+    <Compile Include="PublishDeploy\PdPublishHandles\PdPublishHandle.cs" />
     <Compile Include="PublishDeploy\PdServerHandles\IPdServerHandle.cs" />
     <Compile Include="PublishDeploy\PdServerHandles\PdServerHandle.cs" />
     <Compile Include="UserCenter\UcUsersSettingHandles\IUcUsersSettingHandle.cs" />

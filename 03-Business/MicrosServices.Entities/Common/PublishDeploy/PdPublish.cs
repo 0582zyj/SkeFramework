@@ -9,29 +9,31 @@ using System.Threading.Tasks;
 namespace MicrosServices.Entities.Common.PublishDeploy
 {
     /// <summary>
-    /// 服务器信息
+    /// 发布信息
     /// </summary>
-    public class PdServer : IEntity
+    public class PdPublish : IEntity
     {
-        public const string TableName = "pd_server";
+        public const string TableName = "pd_publish";
         [KeyAttribute(true)]
         [Description("ID")]
         public Int64 id { get; set; }
-        [Description("编码")]
+        [Description("项目编码")]
+        public Int64 ProjectNo { get; set; }
+        [Description("服务器编号")]
         public Int64 ServerNo { get; set; }
-        [Description("名称")]
-        public string Name { get; set; }
-        [Description("IP")]
-        public string IP { get; set; }
-        [Description("端口")]
-        public int Port { get; set; }
-        [Description("描述")]
-        public string Description { get; set; }
+        [Description("发布命令")]
+        public string PublishCmd { get; set; }
+        [Description("发布配置文件")]
+        public string PublishProfile { get; set; }
+        [Description("项目输出目录")]
+        public string WebProjectOutputDir { get; set; }
+        [Description("输出路径")]
+        public string OutputPath { get; set; }
         [Description("操作员")]
         public string InputUser { get; set; }
         [Description("操作时间")]
         public DateTime InputTime { get; set; }
-        [Description("")]
+        [Description("更新时间")]
         public DateTime UpdateTime { get; set; }
         public string GetTableName()
         {

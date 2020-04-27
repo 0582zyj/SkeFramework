@@ -18,7 +18,7 @@ namespace CodeBuilder.BLL.Achieve
 
         public string fileName = string.Empty;
 
-        public const string namespace_dll = "ULCSharp";
+        public const string namespace_dll = "SkeFramework";
 
         public CreateBase(string fileName,string filter = ".cs")
         {

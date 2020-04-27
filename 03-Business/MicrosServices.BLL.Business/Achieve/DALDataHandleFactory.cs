@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MicrosServices.BLL.Business.PublishDeploy.PdProjectHandles;
+using MicrosServices.BLL.Business.PublishDeploy.PdPublishHandles;
 using MicrosServices.BLL.Business.PublishDeploy.PdServerHandles;
 using MicrosServices.BLL.Business.UserCenter.UcUsersSettingHandles;
 using MicrosServices.BLL.SHBusiness.PsManagementHandles;
@@ -91,7 +93,14 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             {
                 return new PdServerHandle(GetConfigDataSerialer<PdServer>(PdServer.TableName)) as IDataTableHandle;
             }
-            
+            else if (IsSubclassOf(typeof(PdPublish), dataType))
+            {
+                return new PdPublishHandle(GetConfigDataSerialer<PdPublish>(PdPublish.TableName)) as IDataTableHandle;
+            }
+            else if (IsSubclassOf(typeof(PdProject), dataType))
+            {
+                return new PdProjectHandle(GetConfigDataSerialer<PdProject>(PdProject.TableName)) as IDataTableHandle;
+            }
             return null;
         }
 
@@ -136,8 +145,10 @@ namespace ULCloudLockTool.BLL.Business.Achieve
                 //PublishDeploy
                 case PdServer.TableName:
                     return new DBRepository<PdServer, PdServer>() as IRepository<TData>;
-
-
+                case PdPublish.TableName:
+                    return new DBRepository<PdPublish, PdPublish>() as IRepository<TData>;
+                case PdProject.TableName:
+                    return new DBRepository<PdProject, PdProject>() as IRepository<TData>;
             }
             return null;
         }

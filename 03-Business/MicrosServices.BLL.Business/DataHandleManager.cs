@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MicrosServices.BLL.Business.PublishDeploy.PdProjectHandles;
+using MicrosServices.BLL.Business.PublishDeploy.PdPublishHandles;
 using MicrosServices.BLL.Business.PublishDeploy.PdServerHandles;
 using MicrosServices.BLL.Business.UserCenter.UcUsersSettingHandles;
 using MicrosServices.BLL.SHBusiness.PsManagementHandles;
@@ -109,8 +111,17 @@ namespace MicrosServices.BLL.Business
         {
             get { return DataHandleFactory.GetDataHandle<PdServerHandle, PdServer>(); }
         }
+        public IPdProjectHandle PdProjectHandle
+        {
+            get { return DataHandleFactory.GetDataHandle<IPdProjectHandle, PdProject>(); }
+        }
+        public IPdPublishHandle PdPublishHandle
+        {
+            get { return DataHandleFactory.GetDataHandle<IPdPublishHandle, PdPublish>(); }
+        }
 
         
+
         #endregion
     }
 }

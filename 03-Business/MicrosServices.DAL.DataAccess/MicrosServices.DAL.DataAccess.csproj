@@ -67,6 +67,10 @@
     <Compile Include="Repository\PermissionSystem\UserOrgHandles\PsUserOrgHandleCommon.cs" />
     <Compile Include="Repository\PermissionSystem\UserRolesHandles\IPsUserRolesHandleCommon.cs" />
     <Compile Include="Repository\PermissionSystem\UserRolesHandles\PsUserRolesHandleCommon.cs" />
+    <Compile Include="Repository\PublishDeploy\PdProjectHandles\IPdProjectHandleCommon.cs" />
+    <Compile Include="Repository\PublishDeploy\PdProjectHandles\PdProjectHandleCommon.cs" />
+    <Compile Include="Repository\PublishDeploy\PdPublishHandles\IPdPublishHandleCommon.cs" />
+    <Compile Include="Repository\PublishDeploy\PdPublishHandles\PdPublishHandleCommon.cs" />
     <Compile Include="Repository\PublishDeploy\PdServerHandles\IPdServerHandleCommon.cs" />
     <Compile Include="Repository\PublishDeploy\PdServerHandles\PdServerHandleCommon.cs" />
     <Compile Include="Repository\UserCenter\UcUsersSettingHandles\IUcUsersSettingHandleCommon.cs" />

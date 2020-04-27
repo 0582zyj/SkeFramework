@@ -34,7 +34,7 @@ namespace CodeBuilder.BLL
             sb.AppendLine("using System.Data;");
             sb.AppendLine("using System.Collections;");
             sb.AppendLine("using System.Linq;");
-            sb.AppendLine(string.Format("using {0}.DAL.Interfaces;", namespace_dll));
+            sb.AppendLine(string.Format("using {0}.DataBase.Interfaces;", namespace_dll));
             sb.AppendLine(string.Format("using {0}.Entities.Common;", Namespace));
             sb.AppendLine("");
  
