@@ -1,4 +1,5 @@
 ﻿using MicrosServices.Entities.Common.PublishDeploy;
+using MicrosServices.Helper.Core.Common;
 using SkeFramework.DataBase.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,7 @@ namespace MicrosServices.DAL.DataAccess.Repository.PublishDeploy.PdProjectHandle
 {
     public interface IPdProjectHandleCommon : IDataTableHandle<PdProject>
     {
+
+        List<OptionValue> GetOptionValues();
     }
 }
