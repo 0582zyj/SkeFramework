@@ -150,7 +150,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// </summary>
         /// <param name="RoleNo"></param>
         /// <returns></returns>
-        public JsonResponses GetManagementAssign(long RolesNo)
+        public JsonResponses GetManagementAssign(long RolesNo, long ManagementType)
         {
             try
             {
@@ -159,6 +159,7 @@ namespace MicrosServices.SDK.PermissionSystem
                     Url = GetManagementAssignUrl
                 };
                 request.SetValue("RolesNo", RolesNo);
+                request.SetValue("ManagementType", ManagementType); 
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),

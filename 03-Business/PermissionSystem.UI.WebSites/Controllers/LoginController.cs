@@ -10,6 +10,8 @@ using MicrosServices.SDK.UserCenter;
 using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
+using SkeFramework.Cache.Redis;
+using SkeFramework.Cache.Redis.Entities;
 using SkeFramework.Core.Encrypts;
 using SkeFramework.Core.Network.Responses;
 
@@ -18,6 +20,7 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
     public class LoginController : Controller
     {
         private LoginSdk loginSdk = new LoginSdk();
+        private UserSettingSdk userSettingSdk = new UserSettingSdk();
 
         #region 管理后台
         /// <summary>
@@ -67,16 +70,23 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
             if (responses.code == JsonResponses.Success.code)
             {
                 UcUsers users =JsonConvert.DeserializeObject<UcUsers>( responses.data.ToString());
-                //ManagementRoles roles = DataHandleManager.Instance().ManagementRolesHandle.GetModelByKey(RolesID.ToString());
-                string APPKey = "";
-                LoginModel.Instance().UserNo = users.UserNo;
-                LoginModel.Instance().Token = MD5Helper.GetMD5String(users.UserNo + APPKey + DateTime.Now.ToString("yyyyMMddHHmmss"));;
-                LoginModel.Instance().ManagementValue = 1213;// roles.ManagementValue;
-                LoginModel.Instance().UserRolesName = "123";// roles.Name;
-                LoginModel.Instance().UserRule = "123";//DataHandleManager.Instance().UsersRuleHandle.GetUserRoles(UserNo);
-                LoginModel.Instance().PlatformNo = 88073472;
-                AppBusiness.loginModel = LoginModel.Instance();
-               
+                UcUsersSetting usersSetting = userSettingSdk.GetUserSettingInfo(users.UserNo);
+                if (usersSetting != null)
+                {
+                    string APPKey = usersSetting.AppSecret;
+                    LoginModel.Instance().UserNo = users.UserNo;
+                    LoginModel.Instance().Token = MD5Helper.GetMD5String(users.UserNo + APPKey + DateTime.Now.ToString("yyyyMMddHHmmss")); ;
+                    LoginModel.Instance().ManagementValue = 1213;// roles.ManagementValue;
+                    LoginModel.Instance().UserRolesName = "123";// roles.Name;
+                    LoginModel.Instance().UserRule = "123";//DataHandleManager.Instance().UsersRuleHandle.GetUserRoles(UserNo);
+                    LoginModel.Instance().PlatformNo = usersSetting.PlatformNo;
+                    AppBusiness.loginModel = LoginModel.Instance();
+                }
+                else
+                {
+                    responses.code = JsonResponses.FailedCode;
+                    responses.msg = "用户信息缺失";
+                }
             }
             return Json(responses, JsonRequestBehavior.AllowGet);
         }

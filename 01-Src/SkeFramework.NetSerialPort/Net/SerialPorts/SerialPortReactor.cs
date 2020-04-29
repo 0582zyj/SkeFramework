@@ -36,6 +36,10 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
         /// 是否正在解析
         /// </summary>
         public override bool IsParsing { get; protected set; }
+        /// <summary>
+        /// 接受缓存区
+        /// </summary>
+        private NetworkState networkState;
 
         public SerialPortReactor(NodeConfig nodeConfig,
             IMessageEncoder encoder, IMessageDecoder decoder, IByteBufAllocator allocator,
@@ -43,6 +47,7 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
             : base(nodeConfig, encoder, decoder, allocator,
                 bufferSize)
         {
+            networkState = CreateNetworkState(Listener, this.LocalEndpoint, allocator.Buffer(bufferSize), bufferSize);
         }
 
         /// <summary>
@@ -67,7 +72,7 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
             if (!SocketMap.ContainsKey(this.LocalEndpoint.nodeConfig.ToString()))
             {
                 RefactorRequestChannel adapter;
-                adapter = new RefactorProxyRequestChannel(this, this.LocalEndpoint,"none");
+                adapter = new RefactorProxyRequestChannel(this, this.LocalEndpoint, "none");
                 SocketMap.Add(this.LocalEndpoint.nodeConfig.ToString(), adapter);
             }
             Listener.DataReceived += new SerialDataReceivedEventHandler(PortDataReceived);
@@ -96,40 +101,56 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
             {
                 IsParsing = true;  //设置标记，说明已经开始处理数据，一会儿要使用系统UI
                 int n = Listener.BytesToRead;
-                byte[] buf = new byte[n];
-                Listener.Read(buf, 0, n);
-                int receive_count = n;
-                ReactorConnectionAdapter adapter = ((ReactorConnectionAdapter)ConnectionAdapter);
-                FrameBase frame = adapter.ParsingReceivedData(buf);
-                if (frame != null)
+                if (n < 1)
                 {
-                    //触发整条记录的处理
-                    INode node = null;
-                    IConnection connection = adapter.GetConnection(frame);
-                    if (connection != null)
+                    IsParsing = false;
+                    return;
+                }
+                networkState.RawBuffer = new byte[n];
+                Listener.Read(networkState.RawBuffer, 0, n);
+                networkState.Buffer.WriteBytes(networkState.RawBuffer, 0, n);
+                ReactorConnectionAdapter adapter = ((ReactorConnectionAdapter)ConnectionAdapter);
+                while (networkState.Buffer.ReadableBytes > 0)
+                {
+                    FrameBase frame = adapter.ParsingReceivedData(networkState.Buffer.ToArray());
+                    if (frame != null)
                     {
-                        connection.RemoteHost.TaskTag = connection.ControlCode;
-                        node = connection.RemoteHost;
+                        //触发整条记录的处理
+                        INode node = null;
+                        IConnection connection = adapter.GetConnection(frame);
+                        if (connection != null)
+                        {
+                            connection.RemoteHost.TaskTag = connection.ControlCode;
+                            node = connection.RemoteHost;
+                        }
+                        else
+                        {
+                            node = this.LocalEndpoint;
+                            node.TaskTag = "none";
+                        }
+                        NetworkState state = CreateNetworkState(Listener, node);
+                        state.RawBuffer = networkState.Buffer.ReadBytes(frame.FrameBytes.Length);
+                        this.ReceiveCallback(state);
                     }
                     else
                     {
-                        node = this.LocalEndpoint;
-                        node.TaskTag = "none";
+                        string log = String.Format("{0}:串口未处理数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"), this.Encoder.ByteEncode(networkState.Buffer.ToArray()));
+                        Console.WriteLine(log);
+                        break;
                     }
-                    NetworkState state = CreateNetworkState(Listener, node);
-                    state.RawBuffer = frame.FrameBytes;
-                    
-                    this.ReceiveCallback(state);
                 }
-                else
+                if (networkState.Buffer.WritableBytes == 0)
                 {
-                    string log = String.Format("{0}:串口丢弃数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"), this.Encoder.ByteEncode(buf));
+                    string log = String.Format("{0}:串口丢弃数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"),
+                        this.Encoder.ByteEncode(networkState.Buffer.ToArray()));
                     Console.WriteLine(log);
                 }
+
             }
             catch (Exception ex)
             {
                 string enmsg = string.Format("Serial Port {0} Communication Fail\r\n" + ex.ToString(), Listener.PortName);
+                Console.WriteLine(enmsg);
             }
             finally
             {
@@ -162,8 +183,7 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                 }
                 receiveState.Buffer.WriteBytes(receiveState.RawBuffer, 0, received);
 
-                List<IByteBuf> decoded;
-                Decoder.Decode(ConnectionAdapter, receiveState.Buffer, out decoded);
+                Decoder.Decode(ConnectionAdapter, receiveState.Buffer, out List<IByteBuf> decoded);
 
                 foreach (var message in decoded)
                 {
@@ -201,11 +221,10 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                     CloseConnection(clientSocket);
                     return;
                 }
-                
+
                 var buf = Allocator.Buffer(length);
                 buf.WriteBytes(buffer, index, length);
-                List<IByteBuf> encodedMessages;
-                Encoder.Encode(ConnectionAdapter, buf, out encodedMessages);
+                Encoder.Encode(ConnectionAdapter, buf, out List<IByteBuf> encodedMessages);
                 foreach (var message in encodedMessages)
                 {
                     Listener.Write(message.ToArray(), message.ReaderIndex, message.ReadableBytes);

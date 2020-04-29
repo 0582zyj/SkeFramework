@@ -220,7 +220,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// 获取键值对
         /// </summary>
         /// <returns></returns>
-        public List<OptionValue> GetOptionValues()
+        public List<OptionValue> GetOptionValues(long PlatformNo)
         {
             try
             {
@@ -228,6 +228,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetOptionValueUrl
                 };
+                request.SetValue("PlatformNo", PlatformNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.Url,

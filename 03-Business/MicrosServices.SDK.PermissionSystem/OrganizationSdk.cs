@@ -33,7 +33,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// </summary>
         /// <param name="loginInfo"></param>
         /// <returns></returns>
-        public PageResponse<PsOrganization> GetOrganizationPageList(PageModel page, string keywords = "")
+        public PageResponse<PsOrganization> GetOrganizationPageList(PageModel page, string keywords = "",long OrgNo=-1)
         {
             PageResponse<PsOrganization> menus = new PageResponse<PsOrganization>();
             try
@@ -42,6 +42,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("PageIndex", page.PageIndex);
                 request.SetValue("PageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
+                request.SetValue("queryNo", OrgNo);
                 request.Url = GetPageUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {

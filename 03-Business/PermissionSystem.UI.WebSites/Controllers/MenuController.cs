@@ -1,4 +1,5 @@
 ﻿using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Constants;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Form;
 using MicrosServices.Helper.Core.Form.AssignForm;
@@ -22,6 +23,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     {
         private MenuSdk menuSdk = new MenuSdk();
         private AssignSDK assignSDK = new AssignSDK();
+        private TreeSDK treeSDK = new TreeSDK();
 
         #region 页面
         /// <summary>
@@ -62,7 +64,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = menuSdk.GetPsMenuInfo(id);
             if (responses.code == JsonResponses.SuccessCode)
             {
-                Info= responses.data as PsMenu;
+                Info = responses.data as PsMenu;
             }
             return Json(Info, JsonRequestBehavior.AllowGet);
         }
@@ -71,10 +73,10 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetPsMenuList(int curPage = 1, string keywords = "")
+        public JsonResult GetPsMenuList(int curPage = 1, string keywords = "",long MenuNo=ConstData.DefaultNo)
         {
             PageModel page = new PageModel(curPage);
-            PageResponse<PsMenu> pageResponse = menuSdk.GetMenuPageList(page, keywords);
+            PageResponse<PsMenu> pageResponse = menuSdk.GetMenuPageList(page, keywords, MenuNo);
             return Json(new PageResponseView<PsMenu>(pageResponse), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -85,7 +87,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult PsMenuAdd(PsMenu model)
         {
             model.InputUser = AppBusiness.loginModel.UserNo;
-            JsonResponses responses= menuSdk.MenuAdd(model);
+            JsonResponses responses = menuSdk.MenuAdd(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
 
@@ -107,7 +109,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpPost]
         public JsonResult PsMenuDelete(int id)
         {
-            JsonResponses responses = menuSdk.MenuDelete(id );
+            JsonResponses responses = menuSdk.MenuDelete(id);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
 
@@ -199,5 +201,20 @@ namespace PermissionSystem.UI.WebSites.Controllers
         }
         #endregion
 
+
+        /// <summary>
+        /// 给页面提供json格式的节点数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public string GetMenuTreeList()
+        {
+            List<TreeNodeInfo> treeNodes = treeSDK.GetMenuTreeList(AppBusiness.loginModel.PlatformNo);
+            //将获取的节点集合转换为json格式字符串，并返回
+            return JsonConvert.SerializeObject(treeNodes);
+        }
     }
+   
+
+ 
 }

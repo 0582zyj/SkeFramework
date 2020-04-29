@@ -172,6 +172,7 @@ namespace CodeBuilder
 
             list.Add(new DataViewNode(2, "00.Entities", 1));
             list.Add(new DataViewNode(CreateEntities.Type, CreateEntities.Name, 2));
+       
 
             list.Add(new DataViewNode(3, "01.DAL", 1));
             list.Add(new DataViewNode(CreateHandleCommonInterface.Type, CreateHandleCommonInterface.Name, 3));
@@ -187,6 +188,10 @@ namespace CodeBuilder
             list.Add(new DataViewNode(CreateViewAdd.Type, CreateViewAdd.Name, 5));
             list.Add(new DataViewNode(CreateViewUpdate.Type, CreateViewUpdate.Name, 5));
 
+            list.Add(new DataViewNode(6, "06.COMMON", 1));
+            list.Add(new DataViewNode(CreateIEntity.Type, CreateIEntity.Name, 6));
+            list.Add(new DataViewNode(CreateDataHandleManager.Type, CreateDataHandleManager.Name, 6));
+            
 
             this.treeListTemplate.Nodes.Clear();
             this.treeListTemplate.ParentFieldName = "ParentID";
@@ -249,7 +254,7 @@ namespace CodeBuilder
             var TemplateFocusedNode = this.treeListTemplate.FocusedNode;
             int TemplateID = Convert.ToInt32(TemplateFocusedNode.GetValue("ID"));
             string TemplateName = TemplateFocusedNode.GetValue("Name").ToString();
-            if (!TemplateName.Contains("{0}"))
+            if (!CreateFactory.Instance().CheckCreateTemplate( TemplateName))
             {
                 XtraMessageBox.Show(@"请先选择要生成的模板！", @"警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;

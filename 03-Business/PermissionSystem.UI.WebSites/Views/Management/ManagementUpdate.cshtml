@@ -120,7 +120,7 @@
                 listJumpUrl: "@Url.Action("ManagementList", "Management")",
                 updatePostUrl: "@Url.Action("PsManagementUpdate", "Management")",
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
-                getManagementOptionValueUrl: "@Url.Action("GetOptionValues", "Management")",
+                getManagementOptionValueUrl: "@Url.Action("GetManagementOptionValues", "Management",new { ManagementType = (int)MicrosServices.Helper.Core.Constants.ManagementType.MENU_TYPE })",
                 getItemUrl: "@Url.Action("GetPsManagementInfo", "Management")",
                 dataItem: {},
                 platformList: {},

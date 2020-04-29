@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Topology;
+using Newtonsoft.Json;
+using SkeFramework.NetSocket.Net;
+using SkeFramework.NetSocket.Topology.Nodes;
+using SkeFramework.NetSocket.Topology.ExtendNodes;
 
-namespace SkeFramework.Topology
+namespace SkeFramework.NetSocket.Topology
 {
     /// <summary>
     /// 节点构建器类
@@ -20,7 +22,11 @@ namespace SkeFramework.Topology
         /// <returns>A new INode instance</returns>
         public static INode BuildNode()
         {
-            var n = new Node { LastPulse = DateTime.UtcNow.Ticks };
+            var n = new Node
+            {
+                LastPulse = DateTime.UtcNow.Ticks,
+                nodeConfig = new NodeConfig()
+            };
             return n;
         }
 
@@ -29,34 +35,21 @@ namespace SkeFramework.Topology
         /// </summary>
         /// <param name="n">节点对象</param>
         /// <param name="host">IP地址</param>
-        public static INode Host(this INode n, IPAddress host)
+        public static INode Host(this INode n, ReactorType hostType)
         {
-            n.Host = host;
+            n.reactorType = hostType;
+            switch (hostType)
+            {
+                case ReactorType.SerialPorts:
+                    n.nodeConfig = JsonConvert.DeserializeObject<SerialNodeConfig>(n.CustomData);
+                    break;
+                case ReactorType.Udp:
+                    n.nodeConfig = JsonConvert.DeserializeObject<UdpNodeConfig>(n.CustomData);
+                    break;
+            }
             return n;
         }
 
-        /// <summary>
-        /// 注入IP地址
-        /// </summary>
-        /// <param name="n">节点名</param>
-        /// <param name="host">IP地址 String格式</param>
-        public static INode Host(this INode n, string host)
-        {
-            IPAddress parseIp;
-            if (!IPAddress.TryParse(host, out parseIp))
-            {
-                var hostentry = Dns.GetHostEntry(host);
-                parseIp = hostentry.AddressList.FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
-                // first IPv4 address
-                if (parseIp == null)
-                {
-                    parseIp = hostentry.AddressList.First(x => x.AddressFamily == AddressFamily.InterNetworkV6);
-                    // first IPv6 address
-                }
-            }
-
-            return Host(n, parseIp);
-        }
 
         /// <summary>
         ///  注入机器名
@@ -92,24 +85,6 @@ namespace SkeFramework.Topology
         }
 
         /// <summary>
-        ///  注入端口
-        /// </summary>
-        public static INode WithPort(this INode n, int portNum)
-        {
-            n.Port = portNum;
-            return n;
-        }
-
-        /// <summary>
-        /// 注入传输类型
-        /// </summary>
-        public static INode WithTransportType(this INode n, TransportType transportType)
-        {
-            n.TransportType = transportType;
-            return n;
-        }
-
-        /// <summary>
         ///  注入传输数据
         /// </summary>
         public static INode WithCustomData(this INode n, string customData)
@@ -118,13 +93,6 @@ namespace SkeFramework.Topology
             return n;
         }
 
-        /// <summary>
-        /// 根据Socket监听返回节点信息
-        /// </summary>
-        public static INode FromEndpoint(IPEndPoint endPoint)
-        {
-            var n = new Node { Host = endPoint.Address, Port = endPoint.Port };
-            return n;
-        }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "列表";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutTree.cshtml";
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -32,7 +32,21 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-2">
+            <!--显示当前的所有的角色信息-->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">机构树</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="zTreeDemoBackground left">
+                        <ul id="zTree" class="ztree"></ul>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <div class="col-md-10">
             <div class="box">
                 <!--数据列表页头部-->
                 <div class="box-header with-border">
@@ -92,6 +106,7 @@
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 assginUrl: "@Url.Action("OrganizationAssign", "Organization")",
                 GetUserManagementListUrl: "@Url.Action("GetUserManagementList", "Management")",
+                GetTreeListUrl: "@Url.Action("GetOrganizationTreeList", "Organization")",
                 dataList: [],
                 platformList: {},
                 enabledList: [
@@ -104,11 +119,14 @@
                     { Name: '部门', Value: 2 },
                     { Name: '工作组', Value: 3 },
                 ],
-                search: { keywords: ""}
+                search: { keywords: "", OrgNo:-1}
             },
             filters: {
                 formateEnabled: function (enabled, list) {
                     let result = enabled;
+                    if (list.length == 0) {
+                        return result;
+                    }
                     list.map(res => {
                             if (enabled == res.Value) {
                                 result= res.Name;
@@ -118,6 +136,9 @@
                 },
                 formatePlatform: function (PlatformNo, list) {
                     let result = PlatformNo;
+                    if (list.length == 0) {
+                        return result;
+                    }
                     list.map(res => {
                         if (PlatformNo == res.Value) {
                             result = res.Name;
@@ -127,6 +148,9 @@
                 },
                 formateCategory: function (Category, list) {
                     let result = Category;
+                    if (list.length == 0) {
+                        return result;
+                    }
                     list.map(res => {
                         if (Category == res.Value) {
                             result = res.Name;
@@ -138,7 +162,7 @@
             },
             computed: {
                 prop: function () {
-                    return { keywords: this.search.keywords }
+                    return { keywords: this.search.keywords, OrgNo:this.search.OrgNo }
                 }
             },
             created: function () {
@@ -211,6 +235,39 @@
                     return result;
                 }
             }
+    });
+    //定义接收节点数据的变量
+    var zNodes;
+    //节点配置信息
+    var setting = {
+        data: {
+            key: {
+                name:"Name"
+            },
+            //控制子节点加载时候是加载还是折叠
+            simpleData: {
+                enable: true,
+                idKey: "TreeNo",
+                pIdKey: "ParentNo",
+                rootPId: "0"
+            },
+        },
+        callback: {
+            onClick: function (event, treeId, treeNode) {
+                vm.search.OrgNo = treeNode.TreeNo;
+                if (vm.$children.length > 0) {
+                    vm.$children[0].go(1);
+                }
+            }
+        }
+    };
+    $(function () {
+        //获取访问方法获取节点数据
+        $.getJSON(vm.GetTreeListUrl, function (res) {
+            zNodes = res;
+            //初始化树节点
+            $.fn.zTree.init($("#zTree"), setting, zNodes);
         });
+    });
 </script>
 

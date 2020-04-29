@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Constants;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.UserCenter.FORM;
+using MicrosServices.Helper.DataUtil.Tree;
 using MicrosServices.SDK.UserCenter;
 using Newtonsoft.Json;
 using SkeFramework.Core.Network.DataUtility;
@@ -21,7 +23,6 @@ namespace MicrosServices.API.PermissionSystem.Controllers
     [ApiController]
     public class PlatformController : ControllerBase
     {
-        private UserSDK userSDK = new UserSDK();
 
         #region 基础查询
         /// <summary>
@@ -84,7 +85,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
 
         #region 增删改
         /// <summary>
-        /// 新增菜单
+        /// 新增平台
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
@@ -96,6 +97,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 //bool checkResult = true;
                 platform.InputTime = DateTime.Now;
                 platform.PlatformNo = AutoIDWorker.Example.GetAutoSequence();
+                PsPlatform ParentInfo = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(platform.ParentNo.ToString());
+                platform.TreeLevelNo = TreeLevelUtil.GetTreeLevelNo<PsPlatform>(ParentInfo, platform.ParentNo);
                 int result = DataHandleManager.Instance().PsPlatformHandle.Insert(platform);
                 if (result > 0)
                 {
@@ -136,6 +139,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             {
                 //bool checkResult = true;
                 platform.UpdateTime = DateTime.Now;
+                PsPlatform ParentInfo = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(platform.ParentNo.ToString());
+                platform.TreeLevelNo = TreeLevelUtil.GetTreeLevelNo<PsPlatform>(ParentInfo, platform.ParentNo);
                 int result = DataHandleManager.Instance().PsPlatformHandle.Update(platform);
                 if (result > 0)
                 {
@@ -157,9 +162,9 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetOptionValues()
+        public ActionResult<JsonResponses> GetOptionValues([FromForm] long PlatformNo = ConstData.DefaultNo)
         {
-            List<OptionValue> optionValues = DataHandleManager.Instance().PsPlatformHandle.GetOptionValues();
+            List<OptionValue> optionValues = DataHandleManager.Instance().PsPlatformHandle.GetOptionValues( PlatformNo);
             return new JsonResponses(optionValues);
         }
         #endregion

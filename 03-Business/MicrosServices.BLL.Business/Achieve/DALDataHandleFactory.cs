@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MicrosServices.BLL.Business.PublishDeploy.PdProjectHandles;
+using MicrosServices.BLL.Business.PublishDeploy.PdPublishHandles;
+using MicrosServices.BLL.Business.PublishDeploy.PdServerHandles;
 using MicrosServices.BLL.Business.UserCenter.UcUsersSettingHandles;
 using MicrosServices.BLL.SHBusiness.PsManagementHandles;
 using MicrosServices.BLL.SHBusiness.PsManagementRolesHandles;
@@ -16,6 +19,7 @@ using MicrosServices.BLL.SHBusiness.PsUserOrgHandles;
 using MicrosServices.BLL.SHBusiness.PsUserRolesHandles;
 using MicrosServices.BLL.SHBusiness.UsersHandles;
 using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Common.PublishDeploy;
 using SkeFramework.DataBase.DataAccess.DataHandle.Achieve;
 using SkeFramework.DataBase.Interfaces;
 
@@ -84,6 +88,19 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             {
                 return new UcUsersSettingHandle(GetConfigDataSerialer<UcUsersSetting>(UcUsersSetting.TableName)) as IDataTableHandle;
             }
+            //PublishDeploy
+            else if (IsSubclassOf(typeof(PdServer), dataType))
+            {
+                return new PdServerHandle(GetConfigDataSerialer<PdServer>(PdServer.TableName)) as IDataTableHandle;
+            }
+            else if (IsSubclassOf(typeof(PdPublish), dataType))
+            {
+                return new PdPublishHandle(GetConfigDataSerialer<PdPublish>(PdPublish.TableName)) as IDataTableHandle;
+            }
+            else if (IsSubclassOf(typeof(PdProject), dataType))
+            {
+                return new PdProjectHandle(GetConfigDataSerialer<PdProject>(PdProject.TableName)) as IDataTableHandle;
+            }
             return null;
         }
 
@@ -125,6 +142,13 @@ namespace ULCloudLockTool.BLL.Business.Achieve
                     return new DBRepository<UcUsers, UcUsers>() as IRepository<TData>;
                 case UcUsersSetting.TableName:
                     return new DBRepository<UcUsersSetting, UcUsersSetting>() as IRepository<TData>;
+                //PublishDeploy
+                case PdServer.TableName:
+                    return new DBRepository<PdServer, PdServer>() as IRepository<TData>;
+                case PdPublish.TableName:
+                    return new DBRepository<PdPublish, PdPublish>() as IRepository<TData>;
+                case PdProject.TableName:
+                    return new DBRepository<PdProject, PdProject>() as IRepository<TData>;
             }
             return null;
         }

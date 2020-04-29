@@ -8,8 +8,17 @@
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="2.5.3" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="nacos-sdk-csharp-unofficial.AspNetCore" Version="0.1.5" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj" />
+    <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj" />
+    <ProjectReference Include="..\MicrosServices.SDK.UserCenter\MicrosServices.SDK.UserCenter.csproj" />
   </ItemGroup>
 
 </Project>

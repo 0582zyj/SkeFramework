@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSocket.Buffers;
-using SkeFramework.NetSocket.Channels;
-using SkeFramework.NetSocket.Net;
-using SkeFramework.NetSocket.Serialization;
+using SkeFramework.NetSocket.Buffers.Allocators;
+using SkeFramework.NetSocket.Protocols;
+using SkeFramework.NetSocket.Protocols.Configs;
 using SkeFramework.NetSocket.Topology;
 
-namespace SkeFramework.NetSocket.Reactor
+namespace SkeFramework.NetSocket.Net.Reactor
 {
     /// <summary>
     /// 网络连接接口
@@ -19,22 +20,22 @@ namespace SkeFramework.NetSocket.Reactor
     public interface IReactor : IDisposable
     {
         #region 反射事件
-        /// <summary>
-        /// 连接事件
-        /// </summary>
-        event ConnectionEstablishedCallback OnConnection;
+        ///// <summary>
+        ///// 连接事件
+        ///// </summary>
+        //event ConnectionEstablishedCallback OnConnection;
         /// <summary>
         /// 接受事件
         /// </summary>
         event ReceivedDataCallback OnReceive;
-        /// <summary>
-        /// 连接终止事件
-        /// </summary>
-        event ConnectionTerminatedCallback OnDisconnection;
-        /// <summary>
-        /// 连接异常事件
-        /// </summary>
-        event ExceptionCallback OnError;
+        ///// <summary>
+        ///// 连接终止事件
+        ///// </summary>
+        //event ConnectionTerminatedCallback OnDisconnection;
+        ///// <summary>
+        ///// 连接异常事件
+        ///// </summary>
+        //event ExceptionCallback OnError;
         #endregion
 
         #region 字节操作
@@ -55,16 +56,15 @@ namespace SkeFramework.NetSocket.Reactor
         /// <summary>
         /// 连接适配器
         /// </summary>
-        IConnection ConnectionAdapter { get; }
-        NetworkEventLoop EventLoop { get; }
-        /// <summary>
-        /// 挂起连接的积压允许底层传输
-        /// </summary>
-        int Backlog { get; set; }
+        IConnection ConnectionAdapter { get; set; }
         /// <summary>
         /// 连接是否活跃
         /// </summary>
         bool IsActive { get; }
+        /// <summary>
+        /// 是否解析数据
+        /// </summary>
+        bool IsParsing { get; }
         /// <summary>
         /// 是否释放
         /// </summary>
@@ -72,23 +72,21 @@ namespace SkeFramework.NetSocket.Reactor
         /// <summary>
         /// 本地连接
         /// </summary>
-        IPEndPoint LocalEndpoint { get; }
-        /// <summary>
-        /// 连接类型
-        /// </summary>
-        TransportType Transport { get; }
+        INode LocalEndpoint { get; }
 
+        #region 配置
         /// <summary>
         /// 连接参数配置
         /// </summary>
         /// <param name="config"></param>
         void Configure(IConnectionConfig config);
+        #endregion
         #region Socket发送接收数据
-        /// <summary>
-        /// 发送数据
-        /// </summary>
-        /// <param name="data"></param>
-        void Send(NetworkData data);
+        ///// <summary>
+        ///// 发送数据
+        ///// </summary>
+        ///// <param name="data"></param>
+        //void Send(NetworkData data);
         /// <summary>
         /// 发送数据
         /// </summary>
@@ -108,10 +106,12 @@ namespace SkeFramework.NetSocket.Reactor
         /// </summary>
         void Stop();
         #endregion
+        #region 释放资源
         /// <summary>
         /// 释放资源
         /// </summary>
         /// <param name="disposing"></param>
         void Dispose(bool disposing);
+        #endregion
     }
 }

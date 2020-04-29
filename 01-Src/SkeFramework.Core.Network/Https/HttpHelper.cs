@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
-using System.IO.Compression;
-using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SkeFramework.Core.Enums;
 using SkeFramework.Core.Network.Commom;
@@ -114,11 +110,14 @@ namespace SkeFramework.Core.Network.Https
         {
             try
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | 
+                ServicePointManager.SecurityProtocol = 
                                                         SecurityProtocolType.Tls12 |
                                                         SecurityProtocolType.Tls11 | 
                                                         SecurityProtocolType.Tls|
-                                                        (SecurityProtocolType)192 | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+                                                        (SecurityProtocolType)192 |
+                                                        (SecurityProtocolType)768 |
+                                                        SecurityProtocolType.Ssl3 |
+                                                        (SecurityProtocolType)3072;
                 ServicePointManager.ServerCertificateValidationCallback = RemoteCertificateValidate;
                 ServicePointManager.CheckCertificateRevocationList = false;
                 ServicePointManager.DefaultConnectionLimit = 512;

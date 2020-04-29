@@ -1,0 +1,382 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0049)index.html -->
+<html style="height: auto; min-height: 100%;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <title>@ViewBag.Title-SkeCloud框架</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/bootstrap.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/font-awesome.min.css")">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/ionicons.min.css")">
+    <!-- Morris charts -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/morris.css")">
+    <!--&lt;!&ndash;jquery-ui&ndash;&gt;-->
+    <link rel="stylesheet" href="@Url.Content("~/Content/jquery-ui.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/AdminLTE.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/common.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/alert.css")">
+    <link href="@Url.Content("~/Content/zTreeStyle/zTreeStyle.css")" rel="stylesheet" />
+
+    <!--jQuery 3 &ndash;&gt;-->
+    <script src="@Url.Content("~/Scripts/jquery.min.js")"></script>
+    <!--vue-->
+    <script src="@Url.Content("~/Scripts/vue/vue.js")"></script>
+    <script src="@Url.Content("~/Scripts/vue/router/vue-router.js")"></script>
+    <!--axios-->
+    <script src="@Url.Content("~/Scripts/vue/axios/axios.js")"></script>
+    <!--ztree-->
+    <script src="@Url.Content("~/Scripts/jquery.ztree.core.js")"></script>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="skin-blue sidebar-mini">
+    @{Html.RenderPartial("Component/_LayoutPage");}
+    @{Html.RenderPartial("Component/_LayoutLoading");}
+    @{Html.RenderPartial("Component/_LayoutAlert");}
+    <div class="wrapper" id="content">
+        <header class="main-header">
+            <!-- Logo -->
+            <a class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>SKE</b>管理后台</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b></b>SkeCloud-框架</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <!--<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">-->
+                <!--<span class="sr-only">切换导航</span>-->
+                <!--</a>-->
+                <a href="index.html#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">切换导航</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="index.html#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="@Url.Content("~/Content/images/avatar.png")" class="user-image" alt="User Image">
+                                <span class="hidden-xs">@PermissionSystem.UI.WebSites.Global.AppBusiness.loginModel.UserRolesName</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img src="@Url.Content("~/Content/images/avatar.png")" class="img-circle" alt="User Image">
+                                    <p>@PermissionSystem.UI.WebSites.Global.AppBusiness.loginModel.UserRolesName<small>@PermissionSystem.UI.WebSites.Global.AppBusiness.loginModel.UserNo</small></p>
+                                </li>
+                                <!-- Menu Body -->
+                                <li class="user-body">
+                                    <div class="row">
+                                        <div class="col-xs-4 text-center">
+                                            <a href="index.html#"></a>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <a href="index.html#"></a>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <a href="index.html#"></a>
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="profile.html" class="btn btn-default btn-flat">个人资料</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="@Url.Action("Logout","Login")" class="btn btn-default btn-flat" onclick="return logout();">退出</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar" id="sidebar">
+                <!--Sidebar user panel-->
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="@Url.Content("~/Content/images/avatar.png")" class="img-circle" alt="User Image">
+                        >
+                    </div>
+                    <div class="pull-left info">
+                        <p></p>
+                        <a><i class="fa fa-circle text-success"></i> 正常</a>
+                    </div>
+                </div>
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu tree" data-widget="tree">
+                    <li v-for="item in rootList" v-if="item.url!=null &&item.url!='#' &&item.url!=''">
+                        <a v-bind:href="item.url">
+                            <i v-bind:class="item.icon"></i><span>{{item.Name}}</span>
+                        </a>
+                    </li>
+                    <li class="treeview" v-else>
+                        <a v-bind:href="item.url">
+                            <i v-bind:class="item.icon"></i><span>{{item.Name}}</span>
+                            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li v-for="itemS in childList" v-if="itemS.ParentNo == item.MenuNo">
+                                <a v-bind:href="itemS.url">
+                                    <i v-bind:class="itemS.icon"></i>
+                                    <span>{{itemS.Name}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="min-height: 484px;">
+            @RenderBody()
+        </div>
+        <!--删除操作modal-->
+        <div class="modal fade" id="modal">
+            <div class="modal-dialog" style="top:30%;min-width:400px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">提示</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="modal_message">您确认执行本次操作吗？</p>
+                        <input name="modal_do_url" id="modal_do_url" value="" placeholder="modal_do_url" type="hidden">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default" id="btnConfirm">确认</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!--/.删除操作modal-->
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>V</b> 1.0
+            </div>
+            <strong>Copyright © 2018 <a></a>.</strong> All rights
+            reserved.
+        </footer>
+    </div>
+    <!--通用警告框-->
+    <!-- ./wrapper -->
+    <!--Bootstrap 3.3.7-->
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    <!--jquery-ui-->
+    <script src="@Url.Content("~/Scripts/jquery-ui.min.js")"></script>
+    <!--parsley-->
+    <script src="@Url.Content("~/Scripts/parsley.min.js")"></script>
+    <!--morris-->
+    <script src="@Url.Content("~/Scripts/raphael.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/common.js")"></script>
+    <script src="@Url.Content("~/Scripts/morris.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.cookie.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/AdminLTE.js")"></script>
+    <script>
+        $(function () {
+            var error_msg = $('#public-error_message');
+            if (typeof msg != undefined) {
+                error_msg.delay(500).fadeIn();
+                error_msg.delay(2000).fadeOut("slow");
+            }
+            var succe_msg = $('#public-success_message');
+            if (typeof msg1 != undefined) {
+                succe_msg.delay(500).fadeIn();
+                succe_msg.delay(2000).fadeOut("slow");
+            }
+
+        });
+        //登出
+        function logout() {
+            var result = false;
+            $("#modal_message").text("确定退出本系统吗?");
+            $("#btnConfirm").bind("click", function () {
+                window.location.href = "@Url.Content("~/Login/Logout")";
+            });
+            $("#modal").modal("show");
+            return result;
+        };
+
+    </script>
+    <script type="text/javascript">
+        var vm_sidebar = new Vue({
+            el: "#sidebar",
+            data: {
+                rootList: [],
+                childList: [],
+                url: "@Url.Content("~/Home/GetSideBarList")",
+
+            },
+            created: function () {
+                this.go();
+            },
+            methods: {
+                go: function () {
+                    this.getsidebar();
+                },
+                getsidebar: function () {
+                    var _self = this;
+                    axios.get(this.url).then(function (response) {
+                        if (response.status == 200) {
+                            _self.rootList = response.data.root;
+                            _self.childList = response.data.child;
+                        }
+                    });
+                }
+
+            }
+        });
+    </script>
+    @*<script type="text/javascript">
+        var vm_websocket = new Vue({
+            data: {
+                websocketclient: null,
+                url: "@(System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].Trim())" + "@PermissionSystem.UI.WebSites.Global.AppBusiness.loginModel.UserNo",
+                timestampDiff: 0,
+                timeStamp:0,
+                reconnectTimes:0,
+            },
+            created: function () {
+                this.websocketreconect();
+            },
+            methods: {
+                initWebSocket: function () { //初始化weosocket
+                    try{
+                        const wsuri = this.url;//ws地址
+                        this.websocketclient = new WebSocket(wsuri);
+                        this.websocketclient.onopen = this.websocketonopen;
+                        this.websocketclient.onerror = this.websocketonerror;
+                        this.websocketclient.onmessage = this.websocketonmessage;
+                        this.websocketclient.onclose = this.websocketclose;
+                    } catch (exection) {
+                        console.error(exection);
+                    }
+                },
+                websocketonopen: function () {
+                    console.log("WebSocket连接成功");
+                },
+                websocketonerror: function (e) { //错误
+                    console.log("WebSocket连接发生错误");
+                },
+                websocketsend: function (agentData) {//数据发送
+                    this.websock.send(agentData);
+                },
+                websocketclose: function (e) { //关闭
+                    console.log("connection closed (" + e.code + ")");
+                },
+                websocketreconect: function () {
+                    var SleepTime = 7000;
+                    var timestampC = Date.parse(new Date()) / 1000;
+                    if ((timestampC - this.timeStamp+ this.timestampDiff >= 14)|| 
+                        (this.websocketclient.readyState == 2
+                        || this.websocketclient.readyState == 3)) {
+                        this.reconnectTimes = this.reconnectTimes>4 ? 4: this.reconnectTimes + 1;
+                        console.info(timestampC+" reconnect start...");
+                        this.initWebSocket();
+                        SleepTime = SleepTime - 1000 * this.reconnectTimes;
+                        }else{
+                        this.reconnectTimes=0;
+                    }
+                    setTimeout(this.websocketreconect, SleepTime);
+                },
+                websocketonmessage: function (e) { //数据接收
+                    const redata = JSON.parse(e.data);
+                    var msg = "失败";
+                    if (redata.ResultCode == 1) {
+                        msg = "成功";
+                    }
+                    switch (redata.ResultType) {
+                        case "HostLogin":
+                            vm_content.$children[1].loading = false;
+                            vm_alert.alert('', '登录' + msg);
+                            break;
+                        case "HostCompile":
+                            vm_content.$children[1].loading = false;
+                            vm_alert.alert('', '编译' + msg);
+                            break;
+                        case "HeartBeatInit":
+                            var timestampC = Date.parse(new Date()) / 1000;
+                            this.timeStamp = redata.TimeStamp;
+                            this.timestampDiff = this.timeStamp - timestampC;
+                            this.websocketclient.send("IsHERE**");
+
+                            console.info(this.timeStamp + " " + timestampC + " " + this.timestampDiff);
+                            break;
+                        case "HeartBeat":
+                            this.timeStamp = redata.TimeStamp;
+                            console.info(this.timeStamp);
+                            this.websocketclient.send("IsHERE**");
+                            break;
+                    }
+                },
+            }
+        });
+    </script>*@
+    <script type="text/javascript">
+        var vm_alert = new Vue({
+            data: {
+                width: $(window).width() * 0.6,
+                height: 172,
+            },
+            created: function () {
+            },
+            methods: {
+                close: function () {
+                    $('.win iframe').fadeOut();
+                    $('.win').fadeOut("fast");
+                    setTimeout(function () {
+                        $('.win iframe').remove();
+                        $('.win').remove();
+                    }, 200);
+                },
+                alert: function (title, message, ico) {
+                    var icon = "";
+                    var html = '<div class="alert win" ><div class="mask-layer"></div><div class="window-panel">'
+                        + '<iframe class="title-panel" frameborder="0" marginheight="0" marginwidth="0" scrolling="no"></iframe>'
+                        + '<div class="title"><h3></h3></div><div class="body-panel">'
+                        + icon + '<p class="content"></p><p class="btns">'
+                        + '<button class="w-btn" tabindex="1" data-dismiss="alert">确定</button></p></div></div></div>';
+                    this.messageBox(html, title, message);
+                },
+                messageBox: function (html, title, message) {
+                    var jq = $(html);
+                    jq.find(".window-panel").width(this.width).css("margin-left", -this.width / 2).css("margin-top", -this.height / 2 - 36);
+                    if (title == "") {
+                        jq.find(".title").remove();
+                        jq.find(".window-panel .body-panel").css("border-radius", "4px");
+                    } else {
+                        jq.find(".title").find(":header").html(title);
+                    }
+                    jq.find(".content").html(message.replace('\r\n', '<br/>'));
+                    jq.appendTo('body').fadeIn("fast");
+                    $(".win .w-btn:first").focus();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

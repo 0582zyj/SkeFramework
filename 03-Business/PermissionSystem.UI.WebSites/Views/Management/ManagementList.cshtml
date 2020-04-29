@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "列表";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutTree.cshtml";
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -30,23 +30,35 @@
             </div>
         </div>
     </div>
-
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-2">
+            <!--显示当前的所有的角色信息-->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">权限树</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="zTreeDemoBackground left">
+                        <ul id="managementTree" class="ztree"></ul>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <div class="col-md-10">
             <div class="box">
                 <!--数据列表页头部-->
                 <div class="box-header with-border">
-                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()" v-if="checkAssign('managementAdd',menuManagementList)==true" >新增</a>
+                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()" v-if="checkAssign('managementAdd',menuManagementList)==true">新增</a>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
-                    <table id="j-alert-table" class="table table-hover table-bordered datatable" >
+                    <table id="j-alert-table" class="table table-hover table-bordered datatable">
                         <thead>
                             <tr class="show-datatable-list-title">
                                 <th>ID</th>
                                 <th>父节点</th>
                                 <th>名称</th>
-                                <th>Description</th>
                                 <th>权限值</th>
                                 <th>权限类型</th>
                                 <th>排序</th>
@@ -56,11 +68,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in dataList" >
+                            <tr v-for="item in dataList">
                                 <td>{{item.id}}</td>
                                 <td>{{item.ParentNo}}</td>
                                 <td>{{item.Name}}</td>
-                                <td>{{item.Description}}</td>
                                 <td>{{item.Value}}</td>
                                 <td>{{item.Type|formateMenuType(typeList)}}</td>
                                 <td>{{item.Sort}}</td>
@@ -69,7 +80,7 @@
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)" v-if="checkAssign('managementUpdate',menuManagementList)==true">修改</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)" v-if="checkAssign('managementDelete',menuManagementList)==true">删除</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.ManagementNo)" v-if="item.Type==2 || checkAssign('managementMenuAssign',menuManagementList)==true">菜单分配</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.ManagementNo)" v-if="item.Type==2 && checkAssign('managementMenuAssign',menuManagementList)==true">菜单分配</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -104,7 +115,7 @@
                     { Name: '操作权限', Value: 1 },
                     { Name: '菜单权限', Value: 2 },
                 ],
-                search: { keywords: ""}
+                search: { keywords: "", ManagementNo: -1 }
             },
             filters: {
                 formateEnabled: function (enabled, list) {
@@ -138,7 +149,7 @@
             },
             computed: {
                 prop: function () {
-                    return { keywords: this.search.keywords }
+                    return { keywords: this.search.keywords, ManagementNo: this.search.ManagementNo }
                 }
             },
             created: function () {
@@ -212,6 +223,39 @@
                     return result;
                 }
             }
+    });
+    //定义接收节点数据的变量
+    var zNodes;
+    //节点配置信息
+    var setting = {
+        data: {
+            key: {
+                name:"Name"
+            },
+            //控制子节点加载时候是加载还是折叠
+            simpleData: {
+                enable: true,
+                idKey: "TreeNo",
+                pIdKey: "ParentNo",
+                rootPId: "0"
+            },
+        },
+        callback: {
+            onClick: function (event, treeId, treeNode) {
+                vm.search.ManagementNo = treeNode.TreeNo;
+                if (vm.$children.length > 0) {
+                    vm.$children[0].go(1);
+                }
+            }
+        }
+    };
+    $(function () {
+        //获取访问方法获取节点数据
+        $.getJSON("@Url.Action("GetManagementTreeList", "Management")", function (res) {
+            zNodes = res;
+            //初始化树节点
+            $.fn.zTree.init($("#managementTree"), setting, zNodes);
         });
+    });
 </script>
 

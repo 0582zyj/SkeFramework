@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Constants;
+using MicrosServices.Entities.Core.DataForm;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.Extends;
@@ -42,15 +43,15 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] string keywords = "")
+        public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] QueryBaseFrom query)
         {
             try
             {
+                query.InitQuery();
+                string QueryNo = "_" + query.queryNo;
+                string keywords = query.keywords;
                 Expression<Func<PsManagement, bool>> where = null;
-                if (!String.IsNullOrEmpty(keywords))
-                {
-                    where = (o => o.Name.Contains(keywords));
-                }
+                where = (o => o.Name.Contains(keywords) && (o.TreeLevelNo.Contains(QueryNo) || o.ManagementNo == query.queryNo));
                 page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().PsManagementHandle.Count(where)));//取记录数
                 List<PsManagement> list = DataHandleManager.Instance().PsManagementHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
                 PageResponse<PsManagement> response = new PageResponse<PsManagement>
@@ -151,7 +152,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name="ManagementType">权限类型</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetManagementOptionValues([FromQuery]long PlatformNo, long ManagementType)
+        public ActionResult<JsonResponses> GetManagementOptionValues([FromQuery]long PlatformNo, [FromQuery] long ManagementType)
         {
             List<ManagementOptionValue> optionValues = DataHandleManager.Instance().PsManagementHandle.GetManagementOptions(PlatformNo, ManagementType);
             return new JsonResponses(optionValues);

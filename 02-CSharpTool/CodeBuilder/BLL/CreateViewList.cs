@@ -19,7 +19,7 @@ namespace CodeBuilder.BLL
     /// </summary>
     public sealed class CreateViewList : CreateBase
     {
-        public const int Type = 12;
+        public const int Type = 52;
 
         public const string Name = "{0}List";
 

@@ -51,6 +51,7 @@
     <Compile Include="Enums\RequestTypeEnums.cs" />
     <Compile Include="Https\BrowserPara.cs" />
     <Compile Include="Https\HttpHelper.cs" />
+    <Compile Include="Https\InternetUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\RequestBase.cs" />
     <Compile Include="Responses\JsonResponses.cs" />

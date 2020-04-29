@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkeFramework.Winform.LicenseAuth.DataHandle;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,12 @@ namespace UDPBroadcast
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+
+            bool result= AuthorizeAgent.Instance().InitAuthorize();
+            if (result==false)
+            {
+                Application.Run(new MainForm());
+            }
         }
     }
 }

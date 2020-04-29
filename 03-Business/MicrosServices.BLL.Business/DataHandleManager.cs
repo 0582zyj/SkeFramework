@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MicrosServices.BLL.Business.PublishDeploy.PdProjectHandles;
+using MicrosServices.BLL.Business.PublishDeploy.PdPublishHandles;
+using MicrosServices.BLL.Business.PublishDeploy.PdServerHandles;
 using MicrosServices.BLL.Business.UserCenter.UcUsersSettingHandles;
 using MicrosServices.BLL.SHBusiness.PsManagementHandles;
 using MicrosServices.BLL.SHBusiness.PsManagementRolesHandles;
@@ -16,6 +19,7 @@ using MicrosServices.BLL.SHBusiness.PsUserOrgHandles;
 using MicrosServices.BLL.SHBusiness.PsUserRolesHandles;
 using MicrosServices.BLL.SHBusiness.UsersHandles;
 using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Common.PublishDeploy;
 using SkeFramework.DataBase.DataAccess.DataHandle.Achieve;
 using ULCloudLockTool.BLL.Business.Achieve;
 
@@ -99,7 +103,25 @@ namespace MicrosServices.BLL.Business
         {
             get { return DataHandleFactory.GetDataHandle<UcUsersSettingHandle, UcUsersSetting>(); }
         }
+
+        #endregion
+
+        #region PublishDeploy
+        public IPdServerHandle PdServerHandle
+        {
+            get { return DataHandleFactory.GetDataHandle<PdServerHandle, PdServer>(); }
+        }
+        public IPdProjectHandle PdProjectHandle
+        {
+            get { return DataHandleFactory.GetDataHandle<IPdProjectHandle, PdProject>(); }
+        }
+        public IPdPublishHandle PdPublishHandle
+        {
+            get { return DataHandleFactory.GetDataHandle<IPdPublishHandle, PdPublish>(); }
+        }
+
         
+
         #endregion
     }
 }

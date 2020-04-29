@@ -56,28 +56,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\Bases\RedisBase.cs" />
-    <Compile Include="DataAccess\RedisHash.cs" />
-    <Compile Include="DataAccess\RedisList.cs" />
-    <Compile Include="DataAccess\RedisPublish.cs" />
-    <Compile Include="DataAccess\RedisSet.cs" />
-    <Compile Include="DataAccess\RedisString.cs" />
-    <Compile Include="Entities\RedisConfig.cs" />
-    <Compile Include="Helpers\CommonUnitity.cs" />
-    <Compile Include="Common\RedisManager.cs" />
+    <Compile Include="DataConfig\RedisConfig.cs" />
+    <Compile Include="DataHandle\Bases\RedisBase.cs" />
+    <Compile Include="DataHandle\RedisHash.cs" />
+    <Compile Include="DataHandle\RedisList.cs" />
+    <Compile Include="DataHandle\RedisSet.cs" />
+    <Compile Include="DataHandle\RedisString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RedisHandleManager.cs" />
+    <Compile Include="DataConfig\RedisProxyAgent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="RedisConfig.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Business\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -30,10 +30,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Cache.Redis\SkeFramework.Cache.Redis.csproj" />
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.ApiCommons\SkeFramework.Core.ApiCommons.csproj" />
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj" />
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Schedule.NetJob\SkeFramework.Schedule.NetJob.csproj" />
     <ProjectReference Include="..\MicrosServices.BLL.Business\MicrosServices.BLL.Business.csproj" />
     <ProjectReference Include="..\MicrosServices.DAL.DataAccess\MicrosServices.DAL.DataAccess.csproj" />
+    <ProjectReference Include="..\MicrosServices.Entities.Common\MicrosServices.Entities.Common.csproj" />
+    <ProjectReference Include="..\MicrosServices.Entities.Core\MicrosServices.Entities.Core.csproj" />
     <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj" />
     <ProjectReference Include="..\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj" />
     <ProjectReference Include="..\MicrosServices.SDK.UserCenter\MicrosServices.SDK.UserCenter.csproj" />

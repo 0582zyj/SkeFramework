@@ -20,6 +20,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     {
         private OrganizationSdk organizationSdk = new OrganizationSdk();
         private AssignSDK assignSDK = new AssignSDK();
+        private TreeSDK treeSDK = new TreeSDK();
 
         #region 页面
         /// <summary>
@@ -70,10 +71,10 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetPsOrganizationList(int curPage = 1, string keywords = "")
+        public JsonResult GetPsOrganizationList(int curPage = 1, string keywords = "",long OrgNo=-1)
         {
             PageModel page = new PageModel(curPage);
-            PageResponse<PsOrganization> pageResponse = organizationSdk.GetOrganizationPageList(page, keywords);
+            PageResponse<PsOrganization> pageResponse = organizationSdk.GetOrganizationPageList(page, keywords, OrgNo);
             return Json(new PageResponseView<PsOrganization>(pageResponse), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -124,6 +125,17 @@ namespace PermissionSystem.UI.WebSites.Controllers
             List<OptionValue> optionValues = organizationSdk.GetOptionValues();
             optionValues.Insert(0, OptionValue.Default);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 给页面提供json格式的节点数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public string GetOrganizationTreeList()
+        {
+            List<TreeNodeInfo> treeNodes = treeSDK.GetOrganizationTreeList(AppBusiness.loginModel.PlatformNo);
+            //将获取的节点集合转换为json格式字符串，并返回
+            return JsonConvert.SerializeObject(treeNodes);
         }
 
         #region 机构角色分配

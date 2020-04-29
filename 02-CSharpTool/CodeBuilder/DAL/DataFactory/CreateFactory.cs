@@ -30,6 +30,11 @@ namespace CodeBuilder.DAL.DataFactory
             return _simpleInstance;
         }
 
+        /// <summary>
+        /// 返回对应生成类
+        /// </summary>
+        /// <param name="CreateType"></param>
+        /// <returns></returns>
         public ICreate GetCreateHandle(int CreateType)
         {
             switch (CreateType)
@@ -52,8 +57,36 @@ namespace CodeBuilder.DAL.DataFactory
                     return new CreateViewUpdate();
                 case CreateViewAdd.Type:
                     return new CreateViewAdd();
+                case CreateIEntity.Type:
+                    return new CreateIEntity();
+                case CreateDataHandleManager.Type:
+                    return new CreateDataHandleManager();
             }
             return null;
+        }
+        /// <summary>
+        /// 检查模板名称是否可以生成
+        /// </summary>
+        /// <param name="TemplateName"></param>
+        /// <returns></returns>
+        public bool CheckCreateTemplate(string TemplateName)
+        {
+            switch (TemplateName)
+            {
+                case CreateEntities.Name:
+                case CreateHandleCommonInterface.Name:
+                case CreateHandleCommon.Name:
+                case CreateHandleInterface.Name:
+                case CreateHandles.Name:
+                case CreateController.Name:
+                case CreateViewList.Name:
+                case CreateViewUpdate.Name:
+                case CreateViewAdd.Name:
+                case CreateIEntity.Name:
+                    case CreateDataHandleManager.Name:
+                    return true;
+            }
+            return false;
         }
     }
 }

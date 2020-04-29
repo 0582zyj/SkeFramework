@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0BD488A3-8157-492A-82CA-86C0938443EC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SkeFramework.Winform.LicenseAuth</RootNamespace>
+    <AssemblyName>SkeFramework.Winform.LicenseAuth</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JWT, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JWT.3.0.1\lib\net35\JWT.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bootstrap\AbstractBootstrap.cs" />
+    <Compile Include="Bootstrap\ServerBootstrap.cs" />
+    <Compile Include="BusinessServices\Abstract\AuthorizeBase.cs" />
+    <Compile Include="BusinessServices\Abstract\IAuthorize.cs" />
+    <Compile Include="BusinessServices\DefaultAuthorizeProxy.cs" />
+    <Compile Include="DataEntities\Constant\SecurityTypeEnums.cs" />
+    <Compile Include="DataEntities\JsonResponse.cs" />
+    <Compile Include="DataEntities\JwtEntities.cs" />
+    <Compile Include="DataForm\FormAuthorize.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataForm\FormAuthorize.Designer.cs">
+      <DependentUpon>FormAuthorize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataHandle\StoreHandles\Abstract\ProxySaveBase.cs" />
+    <Compile Include="DataHandle\StoreHandles\Abstract\SaveBaseHandle.cs" />
+    <Compile Include="DataHandle\StoreHandles\RegistryHandles.cs" />
+    <Compile Include="DataHandle\SecurityHandles\JwtHandle.cs" />
+    <Compile Include="DataUtils\RegistryUtil.cs" />
+    <Compile Include="DataUtils\SystemUtil.cs" />
+    <Compile Include="DataUtils\ThreadHybirdLock.cs" />
+    <Compile Include="DataUtils\ConvertUtils.cs" />
+    <Compile Include="AuthorizeProxAgent.cs" />
+    <Compile Include="DataHandle\StoreHandles\FilesHandles.cs" />
+    <Compile Include="DataHandle\StoreHandles\Abstract\ISaveHandles.cs" />
+    <Compile Include="DataHandle\SecurityHandles\ISecurityHandle.cs" />
+    <Compile Include="DataHandle\SecurityHandles\DesHandle.cs" />
+    <Compile Include="Version.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataForm\FormAuthorize.resx">
+      <DependentUpon>FormAuthorize.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>

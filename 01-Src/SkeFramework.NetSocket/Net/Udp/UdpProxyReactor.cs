@@ -1,142 +1,186 @@
-﻿using System;
+﻿using SkeFramework.NetSocket.Buffers;
+using SkeFramework.NetSocket.Buffers.Allocators;
+using SkeFramework.NetSocket.Net.Constants;
+using SkeFramework.NetSocket.Net.Reactor;
+using SkeFramework.NetSocket.Protocols;
+using SkeFramework.NetSocket.Protocols.Configs;
+using SkeFramework.NetSocket.Protocols.Connections;
+using SkeFramework.NetSocket.Protocols.Constants;
+using SkeFramework.NetSocket.Protocols.Requests;
+using SkeFramework.NetSocket.Protocols.Response;
+using SkeFramework.NetSocket.Topology;
+using SkeFramework.NetSocket.Topology.Nodes;
+using SkeFramework.NetSocket.Topology.ExtendNodes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Buffers;
-using SkeFramework.NetSocket.Channels;
-using SkeFramework.NetSocket.Exceptions;
-using SkeFramework.NetSocket.Net.Response;
-using SkeFramework.NetSocket.Serialization;
-using SkeFramework.NetSocket.Topology;
+using SkeFramework.NetSocket.Protocols.DataFrame;
+using SkeFramework.Core.NetLog;
 
 namespace SkeFramework.NetSocket.Net.Udp
 {
+    /// <summary>
+    /// UDP协议通信
+    /// </summary>
     public class UdpProxyReactor : ProxyReactorBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        private Socket ListenerSocket;
+        /// <summary>
+        /// 当前监听点
+        /// </summary>
+        protected EndPoint LocalEndPoint;
+        /// <summary>
+        /// 远程监听点
+        /// </summary>
         protected EndPoint RemoteEndPoint;
+        /// <summary>
+        /// 是否打开
+        /// </summary>
+        public override bool IsActive { get; protected set; }
+        /// <summary>
+        /// 是否正在解析
+        /// </summary>
+        public override bool IsParsing { get; protected set; }
 
-        public UdpProxyReactor(IPAddress localAddress, int localPort, NetworkEventLoop eventLoop,
+
+        public UdpProxyReactor(INode listener,
             IMessageEncoder encoder, IMessageDecoder decoder, IByteBufAllocator allocator,
             int bufferSize = NetworkConstants.DEFAULT_BUFFER_SIZE)
-            : base(
-                localAddress, localPort, eventLoop, encoder, decoder, allocator, SocketType.Dgram, ProtocolType.Udp,
+            : base(listener, encoder, decoder, allocator,
                 bufferSize)
         {
-            LocalEndpoint = new IPEndPoint(localAddress, localPort);
-            RemoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
+            UdpNodeConfig nodeConfig = listener.nodeConfig as UdpNodeConfig;
+            LocalEndPoint = new IPEndPoint(IPAddress.Parse(nodeConfig.LocalAddress), nodeConfig.LocalPort);
+            RemoteEndPoint = new IPEndPoint(IPAddress.Any, nodeConfig.LocalPort);
+            ListenerSocket = new Socket(LocalEndPoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
         }
 
-
-
-        public override bool IsActive { get; protected set; }
-
+        /// <summary>
+        /// 默认配置
+        /// </summary>
+        /// <param name="config"></param>
         public override void Configure(IConnectionConfig config)
         {
             if (config.HasOption<int>("receiveBufferSize"))
-                Listener.ReceiveBufferSize = config.GetOption<int>("receiveBufferSize");
+                ListenerSocket.ReceiveBufferSize = config.GetOption<int>("receiveBufferSize");
             if (config.HasOption<int>("sendBufferSize"))
-                Listener.SendBufferSize = config.GetOption<int>("sendBufferSize");
+                ListenerSocket.SendBufferSize = config.GetOption<int>("sendBufferSize");
             if (config.HasOption<bool>("reuseAddress"))
-                Listener.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress,
+                ListenerSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress,
                     config.GetOption<bool>("reuseAddress"));
             if (config.HasOption<bool>("keepAlive"))
-                Listener.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive,
+                ListenerSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive,
                     config.GetOption<bool>("keepAlive"));
             if (config.HasOption<bool>("proxiesShareFiber"))
                 ProxiesShareFiber = config.GetOption<bool>("proxiesShareFiber");
             else
                 ProxiesShareFiber = true;
         }
-
+        /// <summary>
+        /// 开始监听
+        /// </summary>
         protected override void StartInternal()
         {
             IsActive = true;
-            var receiveState = CreateNetworkState(Listener, Node.Empty());
-            Listener.BeginReceiveFrom(receiveState.RawBuffer, 0, receiveState.RawBuffer.Length, SocketFlags.None,
+            NetworkState receiveState = CreateNetworkState(Listener, Node.Empty());
+            if (!SocketMap.ContainsKey(this.LocalEndpoint.nodeConfig.ToString()))
+            {
+                RefactorRequestChannel adapter;
+                adapter = new RefactorProxyRequestChannel(this, this.LocalEndpoint, "none");
+                SocketMap.Add(this.LocalEndpoint.nodeConfig.ToString(), adapter);
+            }
+            IsActive = true;
+            ListenerSocket.Bind(LocalEndPoint);
+            ListenerSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+            ListenerSocket.BeginReceiveFrom(receiveState.RawBuffer, 0, receiveState.RawBuffer.Length, SocketFlags.None,
                 ref RemoteEndPoint, ReceiveCallback, receiveState);
-        }
 
+        }
+        /// <summary>
+        /// 关闭监听
+        /// </summary>
+        protected override void StopInternal()
+        {
+            //NO-OP
+        }
+        ///// <summary>
+        /// 处理数据
+        /// </summary>
+        /// <param name="receiveState"></param>
         private void ReceiveCallback(IAsyncResult ar)
         {
             var receiveState = (NetworkState)ar.AsyncState;
             try
             {
-                var received = receiveState.Socket.EndReceiveFrom(ar, ref RemoteEndPoint);
+                var received = ListenerSocket.EndReceiveFrom(ar, ref RemoteEndPoint);
                 if (received == 0)
                 {
-                    if (SocketMap.ContainsKey(receiveState.RemoteHost))
-                    {
-                        var connection = SocketMap[receiveState.RemoteHost];
-                        CloseConnection(connection);
-                    }
                     return;
                 }
 
                 var remoteAddress = (IPEndPoint)RemoteEndPoint;
 
-                if (receiveState.RemoteHost.IsEmpty())
-                    receiveState.RemoteHost = remoteAddress.ToNode(TransportType.Udp);
+                receiveState.RemoteHost = remoteAddress.ToNode(ReactorType.Udp);
 
-                ReactorResponseChannel adapter;
-                if (SocketMap.ContainsKey(receiveState.RemoteHost))
+                INode node = receiveState.RemoteHost;
+                if (SocketMap.ContainsKey(receiveState.RemoteHost.nodeConfig.ToString()))
                 {
-                    adapter = SocketMap[receiveState.RemoteHost];
+                    var connection = SocketMap[receiveState.RemoteHost.nodeConfig.ToString()];
+                    node = connection.RemoteHost;
                 }
                 else
                 {
-                    adapter = new ReactorProxyResponseChannel(this, receiveState.Socket, remoteAddress,
-                        EventLoop.Clone(ProxiesShareFiber));
-                    ;
-                    SocketMap.Add(adapter.RemoteHost, adapter);
-                    NodeConnected(adapter.RemoteHost, adapter);
+                    RefactorRequestChannel requestChannel = new RefactorProxyRequestChannel(this, node, "none");
+                    SocketMap.Add(node.nodeConfig.ToString(), requestChannel);
                 }
-
                 receiveState.Buffer.WriteBytes(receiveState.RawBuffer, 0, received);
 
-                List<IByteBuf> decoded;
-                Decoder.Decode(ConnectionAdapter, receiveState.Buffer, out decoded);
+                Decoder.Decode(ConnectionAdapter, receiveState.Buffer, out List<IByteBuf> decoded);
 
                 foreach (var message in decoded)
                 {
                     var networkData = NetworkData.Create(receiveState.RemoteHost, message);
-                    ReceivedData(networkData, adapter);
+                    LogAgent.Info(String.Format("Socket收到数据-->>{0}", this.Encoder.ByteEncode(networkData.Buffer)));
+                    if (ConnectionAdapter is ReactorConnectionAdapter)
+                    {
+                        ((ReactorConnectionAdapter)ConnectionAdapter).networkDataDocker.AddNetworkData(networkData);
+                        ((EventWaitHandle)((ReactorConnectionAdapter)ConnectionAdapter).protocolEvents[(int)ProtocolEvents.PortReceivedData]).Set();
+                    }
+
                 }
 
-                //reuse the buffer
-                if (receiveState.Buffer.ReadableBytes == 0)
-                    receiveState.Buffer.SetIndex(0, 0);
-                else
-                    receiveState.Buffer.CompactIfNecessary();
-
-                receiveState.Socket.BeginReceiveFrom(receiveState.RawBuffer, 0, receiveState.RawBuffer.Length,
-                    SocketFlags.None, ref RemoteEndPoint, ReceiveCallback, receiveState); //receive more messages
+                //清除数据继续接收
+                receiveState.RawBuffer = new byte[receiveState.RawBuffer.Length];
+                ListenerSocket.BeginReceiveFrom(receiveState.RawBuffer, 0, receiveState.RawBuffer.Length, SocketFlags.None,
+    ref RemoteEndPoint, ReceiveCallback, receiveState);
             }
-            catch (SocketException ex) //node disconnected
+            catch  //node disconnected
             {
-                var connection = SocketMap[receiveState.RemoteHost];
-                CloseConnection(ex, connection);
-            }
-            catch (ObjectDisposedException ex)
-            {
-                if (SocketMap.ContainsKey(receiveState.RemoteHost))
+                if (SocketMap.ContainsKey(receiveState.RemoteHost.nodeConfig.ToString()))
                 {
-                    var connection = SocketMap[receiveState.RemoteHost];
-                    CloseConnection(ex, connection);
+                    var connection = SocketMap[receiveState.RemoteHost.nodeConfig.ToString()];
+                    CloseConnection(connection);
                 }
-            }
-            catch (Exception ex)
-            {
-                var connection = SocketMap[receiveState.RemoteHost];
-                OnErrorIfNotNull(ex, connection);
             }
         }
-
+        /// <summary>
+        /// 发送数据
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="index"></param>
+        /// <param name="length"></param>
+        /// <param name="destination"></param>
         public override void Send(byte[] buffer, int index, int length, INode destination)
         {
-            var clientSocket = SocketMap[destination];
+            var clientSocket = SocketMap[destination.nodeConfig.ToString()];
             try
             {
                 if (clientSocket.WasDisposed)
@@ -147,83 +191,59 @@ namespace SkeFramework.NetSocket.Net.Udp
 
                 var buf = Allocator.Buffer(length);
                 buf.WriteBytes(buffer, index, length);
-                List<IByteBuf> encodedMessages;
-                Encoder.Encode(ConnectionAdapter, buf, out encodedMessages);
+                Encoder.Encode(ConnectionAdapter, buf, out List<IByteBuf> encodedMessages);
                 foreach (var message in encodedMessages)
                 {
-                    var state = CreateNetworkState(clientSocket.Socket, destination, message, 0);
-                    clientSocket.Socket.BeginSendTo(message.ToArray(), 0, message.ReadableBytes, SocketFlags.None,
-                        destination.ToEndPoint(),
-                        SendCallback, state);
+                    var state = CreateNetworkState(clientSocket.Local, destination, message, 0);
+                    ListenerSocket.BeginSendTo(message.ToArray(), 0, message.ReadableBytes, SocketFlags.None,
+                      LocalEndPoint, SendCallback, state);
+                    LogAgent.Info(String.Format("Socket发送数据-->>{0}", this.Encoder.ByteEncode(message.ToArray())));
+                    clientSocket.Receiving = true;
                 }
-            }
-            catch (SocketException ex)
-            {
-                CloseConnection(ex, clientSocket);
             }
             catch (Exception ex)
             {
-                OnErrorIfNotNull(ex, clientSocket);
+                LogAgent.Error(ex.ToString());
+                CloseConnection(ex, clientSocket);
             }
         }
 
         private void SendCallback(IAsyncResult ar)
         {
-            var receiveState = (NetworkState)ar.AsyncState;
-            try
-            {
-                var bytesSent = receiveState.Socket.EndSend(ar);
-                receiveState.Buffer.SkipBytes(bytesSent);
 
-                if (receiveState.Buffer.ReadableBytes > 0) //need to send again
-                    receiveState.Socket.BeginSendTo(receiveState.Buffer.ToArray(), 0, receiveState.Buffer.ReadableBytes,
-                        SocketFlags.None, receiveState.RemoteHost.ToEndPoint(),
-                        SendCallback, receiveState);
-            }
-            catch (SocketException ex) //node disconnected
-            {
-                if (SocketMap.ContainsKey(receiveState.RemoteHost))
-                {
-                    var connection = SocketMap[receiveState.RemoteHost];
-                    CloseConnection(ex, connection);
-                }
-            }
-            catch (Exception ex)
-            {
-                if (SocketMap.ContainsKey(receiveState.RemoteHost))
-                {
-                    var connection = SocketMap[receiveState.RemoteHost];
-                    OnErrorIfNotNull(ex, connection);
-                }
-            }
         }
 
+        /// <summary>
+        /// 关闭连接
+        /// </summary>
+        /// <param name="remoteHost"></param>
         internal override void CloseConnection(IConnection remoteHost)
         {
+            Console.WriteLine("CloseConnection-->>" + remoteHost.ToString());
             CloseConnection(null, remoteHost);
         }
-
+        /// <summary>
+        /// 关闭连接
+        /// </summary>
+        /// <param name="reason"></param>
+        /// <param name="remoteConnection"></param>
         internal override void CloseConnection(Exception reason, IConnection remoteConnection)
         {
+            Console.WriteLine("CloseConnection-->>" + reason.ToString() + remoteConnection.ToString());
             //NO-OP (no connections in UDP)
-            try
-            {
-                NodeDisconnected(new SocketConnectionException(ExceptionType.Closed, reason), remoteConnection);
-            }
-            catch (Exception innerEx)
-            {
-                OnErrorIfNotNull(innerEx, remoteConnection);
-            }
-            finally
-            {
-                if (SocketMap.ContainsKey(remoteConnection.RemoteHost))
-                    SocketMap.Remove(remoteConnection.RemoteHost);
-            }
-        }
-
-        protected override void StopInternal()
-        {
-            //NO-OP
+            //try
+            //{
+            //    NodeDisconnected(new SocketConnectionException(ExceptionType.Closed, reason), remoteConnection);
+            //}
+            //catch (Exception innerEx)
+            //{
+            //    OnErrorIfNotNull(innerEx, remoteConnection);
+            //}
+            //finally
+            //{
+            //    if (SocketMap.ContainsKey(remoteConnection.RemoteHost))
+            //        SocketMap.Remove(remoteConnection.RemoteHost);
+            //}
         }
 
         #region IDisposable Members
@@ -233,8 +253,7 @@ namespace SkeFramework.NetSocket.Net.Udp
             if (!WasDisposed && disposing && Listener != null)
             {
                 Stop();
-                Listener.Dispose();
-                EventLoop.Dispose();
+                ListenerSocket.Dispose();
             }
             IsActive = false;
             WasDisposed = true;
