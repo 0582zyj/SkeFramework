@@ -25,6 +25,21 @@
  - ----------------CodeBuilder：数据库通用层代码生成工具；
  - ----------------ConnectionPool：数据库链接应用池DEMO；
  - ----------------CreateXmlTools:检查更新库自动生成版本工具；
+ - ---03-Business：框架对应的业务系统
+ - ----------01-Entities         通用数据模型层
+ - ----------------MicrosServices.Entities          数据实体与对应的枚举
+ - ----------------MicrosServices.Entities.Common   公共基础数据
+ - ----------------MicrosServices.Entities.Core     数据交互核心层
+ - ----------02-DAL              数据访问层 
+ - ----------------MicrosServices.DAL.DataAccess    数据交互核心层，支持SQLite、MySQL和SQLServer的数据库支持
+ - ----------03-BLL              业务逻辑层
+ - ----------------MicrosServices.BLL.Business      业务处理
+ - ----------04-Helper           工具库
+ - ----------05-SDK              第三方API的SDK
+ - ----------06-UI               展示层UI
+ - ----------07-Cache            缓存层
+ - ----------08-MicrosServices   微服务-WebAPI接口
+ - ----------
  - ---04-Test：框架对应测试DEMO
 ##  版本更新说明
 - 2019-06-11：新增流文件类库,完成ByteBuffer操作帮助类
