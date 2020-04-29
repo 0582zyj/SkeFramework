@@ -154,6 +154,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ServerController.cs" />
     <Compile Include="Handles\Filters\PermissionAuthAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -276,6 +277,9 @@
     <Content Include="Views\Server\ServerUpdate.cshtml" />
     <Content Include="Views\Server\ServerAdd.cshtml" />
     <Content Include="Views\Shared\_LayoutTree.cshtml" />
+    <Content Include="Views\Project\ProjectList.cshtml" />
+    <Content Include="Views\Project\ProjectUpdate.cshtml" />
+    <Content Include="Views\Project\ProjectAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

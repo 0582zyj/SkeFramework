@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataUtil\NetwordConstants.cs" />
+    <Compile Include="ProjectSdk.cs" />
     <Compile Include="ServerSdk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
