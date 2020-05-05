@@ -60,7 +60,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Push", "Push", "{20F0A03B-1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Push.Core", "01-Src\SkeFramework.Push.Core\SkeFramework.Push.Core.csproj", "{FDE47477-16B9-49C6-8D4F-8918D8BFA7B0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicrosServices", "MicrosServices", "{2C275C9C-3596-45BC-8D0C-C97D69403791}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "08-MicrosServices", "08-MicrosServices", "{2C275C9C-3596-45BC-8D0C-C97D69403791}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicrosServices.APIGateway", "03-Business\MicrosServices.APIGateway\MicrosServices.APIGateway.csproj", "{B5F7C518-EF35-40F5-82BF-22DB4ACC9E9D}"
 EndProject
