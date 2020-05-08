@@ -6,8 +6,8 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.Core.NetLog;
 using SkeFramework.DataBase.Common.DataFactory;
-using SkeFramework.DataBase.Common.Interfaces;
 
 namespace SkeFramework.DataBase.Common.DataCommon
 {
@@ -16,24 +16,7 @@ namespace SkeFramework.DataBase.Common.DataCommon
     /// </summary>
     public class RepositoryHelper
     {
-        private static  ISQLLog Log;
-        public static ISQLLog SQLLog
-        {
-            get
-            {
-                if (Log == null)
-                {
-                    Log = new ConsoleLog();
-                }
-                return Log;
-            }
-            set
-            {
-                Log = value;
-            }
-        }
-
-
+     
         public static int ExecuteNonQuery(CommandType cmdType, string cmdText, params DbParameter[] commParemeters)
         {
             using (IDbConnection conn = DbFactory.Instance().CreateDbConnection())
@@ -194,7 +177,7 @@ namespace SkeFramework.DataBase.Common.DataCommon
             {
                 sSQLResult = "Export SQL Error";
             }
-            RepositoryHelper.SQLLog.OutputLog(sSQLResult);
+            LogAgent.Info(String.Format("[SQL]:{0}", sSQLResult));
             return sSQLResult;
         }
     }
