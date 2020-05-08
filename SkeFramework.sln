@@ -146,6 +146,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.Entities.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.Entities.Core", "03-Business\MicrosServices.Entities.Core\MicrosServices.Entities.Core.csproj", "{04550189-5D0E-46BE-B6F8-D8AC82A044BC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exceptionless", "Exceptionless", "{57CDDE1E-C338-4E99-BCAC-3D4D19CB5C13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Exceptionless.CoreApi", "SkeFramework.Exceptionless.CoreApi\SkeFramework.Exceptionless.CoreApi.csproj", "{AC135606-2A2C-4D06-85CF-2573341E9EE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -332,6 +336,10 @@ Global
 		{04550189-5D0E-46BE-B6F8-D8AC82A044BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04550189-5D0E-46BE-B6F8-D8AC82A044BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04550189-5D0E-46BE-B6F8-D8AC82A044BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC135606-2A2C-4D06-85CF-2573341E9EE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC135606-2A2C-4D06-85CF-2573341E9EE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC135606-2A2C-4D06-85CF-2573341E9EE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC135606-2A2C-4D06-85CF-2573341E9EE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -402,6 +410,8 @@ Global
 		{F254B181-1621-4071-9764-BC07E500F502} = {C7C67878-EE19-4954-B2B8-1A1CC69C1B0A}
 		{D249D5F8-25C1-4D93-AD7A-B85757D43737} = {B4016C34-1643-46EE-A87F-ABF084303EAF}
 		{04550189-5D0E-46BE-B6F8-D8AC82A044BC} = {B4016C34-1643-46EE-A87F-ABF084303EAF}
+		{57CDDE1E-C338-4E99-BCAC-3D4D19CB5C13} = {3FDB3E18-D8E8-4B6C-9611-C7A47CE5E321}
+		{AC135606-2A2C-4D06-85CF-2573341E9EE9} = {57CDDE1E-C338-4E99-BCAC-3D4D19CB5C13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}
