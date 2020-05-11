@@ -66,6 +66,10 @@
       <Project>{6440AC15-B390-4C92-BB11-9C2661EE162F}</Project>
       <Name>SkeFramework.Core.Enums</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SkeFramework.Core.NetLog\SkeFramework.Core.NetLog.csproj">
+      <Project>{B62BB163-9E25-40D5-BE5E-8D515E5BFE16}</Project>
+      <Name>SkeFramework.Core.NetLog</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

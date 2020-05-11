@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using SkeFramework.Core.Enums;
+using SkeFramework.Core.NetLog;
 using SkeFramework.Core.Network.Commom;
 using SkeFramework.Core.Network.Enums;
 using SkeFramework.Core.Network.Requests;
@@ -110,6 +111,7 @@ namespace SkeFramework.Core.Network.Https
         {
             try
             {
+                LogAgent.Info("[Request]->Url:{0};Parameter:{1};Method:{2}", bPara.Uri, bPara.PostData,bPara.Method.ToString());
                 ServicePointManager.SecurityProtocol = 
                                                         SecurityProtocolType.Tls12 |
                                                         SecurityProtocolType.Tls11 | 
@@ -174,7 +176,9 @@ namespace SkeFramework.Core.Network.Https
                 returnStream.Close();
                 myResponse.Close();
                 Regex reg = new Regex(@"(?i)\\[uU]([0-9a-f]{4})");
-                return reg.Replace(html, delegate (Match m) { return ((char)Convert.ToInt32(m.Groups[1].Value, 16)).ToString(); });
+                string resultData= reg.Replace(html, delegate (Match m) { return ((char)Convert.ToInt32(m.Groups[1].Value, 16)).ToString(); });
+                LogAgent.Info("[Response]->Url:{0};{1}", bPara.Uri, resultData);
+                return resultData;
             }
             catch (System.Exception ex)
             {
@@ -188,11 +192,11 @@ namespace SkeFramework.Core.Network.Https
             string result = "";
             try
             {
+                LogAgent.Info("[Request][HttpPost]->Url:{0};Request:{1}", Url, JsonConvert.SerializeObject(postData));
                 HttpWebRequest request = WebRequest.CreateHttp(Url);
                 request.Method = "post";
                 request.ContentType = "application/x-www-form-urlencoded";
                 //request.CookieContainer = cookie;
-
                 StringBuilder stringBuilder = new StringBuilder();
                 foreach (string key in postData.ParameterValue.Keys)
                 {
@@ -205,7 +209,9 @@ namespace SkeFramework.Core.Network.Https
 
                 WebResponse response = request.GetResponse();
                 StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
-                return reader.ReadToEnd();
+                string postDataResult= reader.ReadToEnd();
+                LogAgent.Info("[Response][HttpPost]->Url:{0};{1}", Url, postDataResult);
+                return postDataResult;
             }
             catch (Exception ex)
             {
