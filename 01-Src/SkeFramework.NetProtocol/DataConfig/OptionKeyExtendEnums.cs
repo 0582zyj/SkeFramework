@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ULCloudLockTool.BLL.SHProtocol.DataConfig
+namespace SkeFramework.NetProtocol.DataConfig
 {
     /// <summary>
     /// 键值对枚举

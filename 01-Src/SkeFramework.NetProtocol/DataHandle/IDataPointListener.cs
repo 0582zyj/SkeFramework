@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 
-namespace ULCloudLockTool.BLL.SHProtocol.DataHandle
+namespace SkeFramework.NetProtocol.DataHandle
 {
     /// <summary>
     /// 点量状态变化监听

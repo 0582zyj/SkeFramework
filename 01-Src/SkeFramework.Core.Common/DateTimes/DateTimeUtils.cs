@@ -23,50 +23,6 @@ namespace SkeFramework.Core.Common.DateTimes
             var shanghaiZone = DateTimeZoneProviders.Tzdb["Asia/Shanghai"];
             return now.InZone(shanghaiZone).ToDateTimeUnspecified();
         }
-
-        /// <summary>
-        /// 获取系统当前时间格式化字符串 24小时制 被格式化为 (yyyy-MM-dd HH:mm:ss.fff)
-        /// </summary>
-        /// <returns>系统当前格式化的时间字符串(yyyy-MM-dd HH:mm:ss.fff)</returns>
-        public static string GetSysDateTimeNowStringYMD24HMSF()
-        {
-            return GetSysDateTimeNow().ToStringYMD24HMSF();
-        }
-
-        /// <summary>
-        /// 获取系统当前时间格式化字符串 12小时制 被格式化为 (yyyy-MM-dd hh:mm:ss.fff)
-        /// </summary>
-        /// <returns>系统当前格式化的时间字符串(yyyy-MM-dd hh:mm:ss.fff)</returns>
-        public static string GetSysDateTimeNowStringYMD12HMSF(this DateTime time)
-        {
-            return GetSysDateTimeNow().ToStringYMD12HMSF();
-        }
-
-        /// <summary>
-        /// 获取系统当前时间格式化字符串 24小时制 被格式化为 (yyyy-MM-dd HH:mm:ss)
-
-        /// </summary>
-        /// <returns>系统当前格式化的时间字符串(yyyy-MM-dd HH:mm:ss)</returns>
-        public static string GetSysDateTimeNowStringYMD24HMS(this DateTime time)
-        {
-            return GetSysDateTimeNow().ToStringYMD24HMS();
-        }
-        /// <summary>
-        /// 获取系统当前时间格式化字符串 12小时制 被格式化为 (yyyy-MM-dd hh:mm:ss)
-        /// </summary>
-        /// <returns>系统当前格式化的时间字符串(yyyy-MM-dd hh:mm:ss)</returns>
-        public static string GetSysDateTimeNowStringYMD12HMS(this DateTime time)
-        {
-            return GetSysDateTimeNow().ToStringYMD12HMS();
-        }
-        /// <summary>
-        /// 获取系统当前时间格式化字符串  被格式化为 (yyyy-MM-dd)
-        /// </summary>
-        /// <returns>系统当前格式化的时间字符串(yyyy-MM-dd)</returns>
-        public static string GetSysDateTimeNowStringYMD(this DateTime time)
-        {
-            return GetSysDateTimeNow().ToStringYMD();
-        }
         #endregion
 
         #region DateTime 扩展几个 格式方法

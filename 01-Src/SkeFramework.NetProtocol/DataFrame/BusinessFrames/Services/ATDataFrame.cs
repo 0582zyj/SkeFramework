@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ULCloudLockTool.BLL.SHProtocol.DataFrame.Interfaces;
+using SkeFramework.NetProtocol.DataFrame.Interfaces;
 
-namespace ULCloudLockTool.BLL.SHProtocol.DataFrame.Services
+namespace SkeFramework.NetProtocol.DataFrame.Services
 {
     /// <summary>
     /// AT帧报文

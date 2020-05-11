@@ -9,9 +9,9 @@ using SkeFramework.NetSerialPort.Protocols.Connections;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Protocols.Requests;
 using SkeFramework.NetSerialPort.Topology;
-using ULCloudLockTool.BLL.SHProtocol.Constants;
+using SkeFramework.NetProtocol.Constants;
 
-namespace ULCloudLockTool.BLL.SHProtocol.BusinessCase.Requests
+namespace SkeFramework.NetProtocol.BusinessCase.Requests
 {
     /// <summary>
     /// 搜索指令

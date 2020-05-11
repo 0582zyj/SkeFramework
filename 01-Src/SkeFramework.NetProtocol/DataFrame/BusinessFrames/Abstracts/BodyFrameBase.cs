@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ULCloudLockTool.BLL.SHProtocol.DataFrame
+namespace SkeFramework.NetProtocol.DataFrame
 {
     public class DataFrameBase
     {

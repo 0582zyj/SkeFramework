@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ULCloudLockTool.BLL.SHProtocol.DataFrame.Interfaces
+namespace SkeFramework.NetProtocol.DataFrame.Interfaces
 {
     /// <summary>
     /// 帧报文接口

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ULCloudLockTool.BLL.SHProtocol.Constants
+namespace SkeFramework.NetProtocol.Constants
 {
     /// <summary>
     /// 协议任务类型

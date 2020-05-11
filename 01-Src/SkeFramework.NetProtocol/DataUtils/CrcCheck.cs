@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ULCloudLockTool.BLL.SHProtocol.DataFrame.DataUtil
+namespace SkeFramework.NetProtocol.DataFrame.DataUtil
 {
     /// <summary>
     /// CRC校验通用计算类，可计算8位、16位或32位CRC校验值

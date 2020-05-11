@@ -5,10 +5,10 @@ using SkeFramework.NetSerialPort.Protocols.DataFrame;
 using SkeFramework.NetSerialPort.Protocols.Requests;
 using System;
 using System.Text;
-using ULCloudLockTool.BLL.SHProtocol.BusinessCase.Requests;
-using ULCloudLockTool.BLL.SHProtocol.Constants;
+using SkeFramework.NetProtocol.BusinessCase.Requests;
+using SkeFramework.NetProtocol.Constants;
 
-namespace ULCloudLockTool.BLL.SHProtocol
+namespace SkeFramework.NetProtocol
 {
     public sealed class ProtocolUT : ReactorConnectionAdapter
     {

@@ -6,9 +6,9 @@ using SkeFramework.NetSerialPort.Protocols;
 using SkeFramework.NetSerialPort.Protocols.Connections;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Topology;
-using ULCloudLockTool.BLL.SHProtocol.DataHandle;
+using SkeFramework.NetProtocol.DataHandle;
 
-namespace ULCloudLockTool.BLL.SHProtocol
+namespace SkeFramework.NetProtocol
 {
     /// <summary>
     /// 协议代理商

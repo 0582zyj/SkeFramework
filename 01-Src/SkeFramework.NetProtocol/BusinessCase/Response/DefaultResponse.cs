@@ -9,11 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ULCloudLockTool.BLL.SHProtocol.Constants;
-using ULCloudLockTool.BLL.SHProtocol.DataFrame.Interfaces;
-using ULCloudLockTool.BLL.SHProtocol.DataFrame.Services;
+using SkeFramework.NetProtocol.Constants;
+using SkeFramework.NetProtocol.DataFrame.Interfaces;
+using SkeFramework.NetProtocol.DataFrame.Services;
 
-namespace ULCloudLockTool.BLL.SHProtocol.BusinessCase.Response
+namespace SkeFramework.NetProtocol.BusinessCase.Response
 {
     /// <summary>
     /// 默认响应
