@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncTasks\AsyncTaskUtil.cs" />
+    <Compile Include="Collections\CollectionUtils.cs" />
     <Compile Include="DateTimes\DateTimeUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Randoms\RandomUtils.cs" />
