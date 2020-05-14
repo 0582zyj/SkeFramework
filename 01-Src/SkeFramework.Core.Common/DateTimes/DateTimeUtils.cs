@@ -17,7 +17,7 @@ namespace SkeFramework.Core.Common.DateTimes
         /// 获取系统当前时间
         /// </summary>
         /// <returns>系统当前时间</returns>
-        public static DateTime GetSysDateTimeNow()
+        public static DateTime GetNodaTimeNow()
         {
             Instant now = SystemClock.Instance.GetCurrentInstant();
             var shanghaiZone = DateTimeZoneProviders.Tzdb["Asia/Shanghai"];
@@ -83,7 +83,7 @@ namespace SkeFramework.Core.Common.DateTimes
         public static long GetSecondTimestamp()
         {
             // 以1970-1-1 为时间开始 同系统当前时间的秒差值即为秒时间戳
-            TimeSpan ts = GetSysDateTimeNow() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            TimeSpan ts = GetNodaTimeNow() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return Convert.ToInt64(ts.TotalSeconds);
         }
         /// <summary>
@@ -93,7 +93,7 @@ namespace SkeFramework.Core.Common.DateTimes
         public static long GetMilliSecondTimestamp()
         {
             // 以1970-1-1 为时间开始 同系统当前时间的毫秒差值即为毫秒时间戳
-            TimeSpan ts = GetSysDateTimeNow() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            TimeSpan ts = GetNodaTimeNow() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return Convert.ToInt64(ts.TotalMilliseconds);
         }
         #endregion
@@ -104,13 +104,8 @@ namespace SkeFramework.Core.Common.DateTimes
         /// </summary>
         /// <param name="secondTimestamp">秒时间戳</param>
         /// <returns>转换后的时间</returns>
-        public static DateTime? SecondStampToDateTime(long secondTimestamp)
+        public static DateTime SecondStampToDateTime(long secondTimestamp)
         {
-            //  做一个简单的判断
-            if (secondTimestamp <= 0)
-            {
-                return null;
-            }
             // 以1970-1-1 为时间开始，通过计算与之的时间差，来计算其对应的时间
             DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             dateTime = dateTime.AddSeconds(secondTimestamp).ToLocalTime();
@@ -122,13 +117,8 @@ namespace SkeFramework.Core.Common.DateTimes
         /// </summary>
         /// <param name="secondTimestampStr">字符串秒时间戳</param>
         /// <returns>转换后的时间</returns>
-        public static DateTime? SecondStampToDateTime(string secondTimestampStr)
+        public static DateTime SecondStampToDateTime(string secondTimestampStr)
         {
-            // 如果为空，那么直接返回null
-            if (string.IsNullOrEmpty(secondTimestampStr))
-            {
-                return null;
-            }
             // 首先将字符串时间戳转换为数字
             long secondTimestamp = 0;
             long.TryParse(secondTimestampStr, out secondTimestamp);
@@ -140,13 +130,8 @@ namespace SkeFramework.Core.Common.DateTimes
         /// </summary>
         /// <param name="secondTimestampStr">字符串毫秒时间戳</param>
         /// <returns>转换后的时间</returns>
-        public static DateTime? MilliSecondStampToDateTime(long secondTimestamp)
+        public static DateTime MilliSecondStampToDateTime(long secondTimestamp)
         {
-            //  做一个简单的判断
-            if (secondTimestamp <= 0)
-            {
-                return null;
-            }
             // 以1970-1-1 为时间开始，通过计算与之的时间差，来计算其对应的时间
             DateTime dateTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
             dateTime = dateTime.AddMilliseconds(secondTimestamp).ToLocalTime();
@@ -158,13 +143,8 @@ namespace SkeFramework.Core.Common.DateTimes
         /// </summary>
         /// <param name="milliSecondStampStr">毫秒时间戳</param>
         /// <returns>转换后的时间</returns>
-        public static DateTime? MilliSecondStampToDateTime(string milliSecondStampStr)
+        public static DateTime MilliSecondStampToDateTime(string milliSecondStampStr)
         {
-            // 如果为空，那么直接返回null
-            if (string.IsNullOrEmpty(milliSecondStampStr))
-            {
-                return null;
-            }
             // 首先将字符串时间戳转换为数字
             long milliSecondStamp = 0;
             long.TryParse(milliSecondStampStr, out milliSecondStamp);
