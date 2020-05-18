@@ -79,7 +79,6 @@
     <Compile Include="DataCommon\PropertiesHelper.cs" />
     <Compile Include="DataCommon\RepositoryHelper.cs" />
     <Compile Include="DataFactory\DbFactory.cs" />
-    <Compile Include="Interfaces\ISQLLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +89,15 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SkeFramework.Core.NetLog\SkeFramework.Core.NetLog.csproj">
+      <Project>{B62BB163-9E25-40D5-BE5E-8D515E5BFE16}</Project>
+      <Name>SkeFramework.Core.NetLog</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\System.Data.SQLite.Core.1.0.110.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\..\packages\System.Data.SQLite.Core.1.0.110.0\build\net45\System.Data.SQLite.Core.targets')" />
