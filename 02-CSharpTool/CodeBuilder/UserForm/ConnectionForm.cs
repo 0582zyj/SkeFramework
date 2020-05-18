@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using CodeBuilder.DataFactory;
 using CodeBuilder.Global;
 using CodeBuilder.Model;
-using CodeBuilder.Model.Entities;
 using DevExpress.XtraEditors;
 
 namespace CodeBuilder.UserForm

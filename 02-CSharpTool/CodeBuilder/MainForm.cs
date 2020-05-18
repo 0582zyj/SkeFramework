@@ -14,7 +14,6 @@ using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraBars.Helpers;
 using CodeBuilder.Model;
 using CodeBuilder.UserForm;
-using CodeBuilder.Model.Entities;
 using CodeBuilder.DataFactory;
 using CodeBuilder.Global;
 using DevExpress.XtraEditors;
@@ -23,7 +22,8 @@ using CodeBuilder.BLL;
 using CodeBuilder.Common;
 using CodeBuilder.BLL.Interfaces;
 using CodeBuilder.DAL.Repositorys;
-
+using SkeFramework.Core.CodeBuilder;
+using SkeFramework.Core.CodeBuilder.DataEntities;
 
 namespace CodeBuilder
 {

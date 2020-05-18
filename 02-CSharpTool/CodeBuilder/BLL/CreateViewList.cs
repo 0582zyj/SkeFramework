@@ -9,8 +9,7 @@ using CodeBuilder.BLL.Interfaces;
 using CodeBuilder.Common;
 using CodeBuilder.DAL.Repositorys;
 using CodeBuilder.DataFactory;
-using CodeBuilder.Model.Entities;
-
+using SkeFramework.Core.CodeBuilder;
 
 namespace CodeBuilder.BLL
 {

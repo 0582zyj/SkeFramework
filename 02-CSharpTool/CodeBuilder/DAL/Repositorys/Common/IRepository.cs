@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CodeBuilder.Model.Entities;
+using SkeFramework.Core.CodeBuilder;
+using SkeFramework.Core.CodeBuilder.DataEntities;
 
 namespace CodeBuilder.DAL.Repository
 {

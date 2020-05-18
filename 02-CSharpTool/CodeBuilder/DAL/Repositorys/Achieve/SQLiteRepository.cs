@@ -7,9 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using CodeBuilder.DAL.Repository;
 using CodeBuilder.DataFactory;
-using CodeBuilder.Model.Entities;
 using CodeBuilder.Repositorys;
 using Newtonsoft.Json;
+using SkeFramework.Core.CodeBuilder;
+using SkeFramework.Core.CodeBuilder.DataEntities;
 
 namespace CodeBuilder.DAL.Repositorys.Achieve
 {

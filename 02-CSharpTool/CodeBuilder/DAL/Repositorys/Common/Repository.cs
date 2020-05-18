@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SkeFramework.Core.CodeBuilder;
+using SkeFramework.Core.CodeBuilder.DataEntities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,12 +20,12 @@ namespace CodeBuilder.DAL.Repository.Common
             this._mSerialProxy=serialer;
         }
 
-        public List<Model.Entities.TableEntities> GetTableList(string database)
+        public List<TableEntities> GetTableList(string database)
         {
             return this._mSerialProxy.GetTableList(database);
         }
 
-        public List<Model.Entities.ColumnsEntities> GetColumnsList(string database, string tableName)
+        public List<ColumnsEntities> GetColumnsList(string database, string tableName)
         {
             return this._mSerialProxy.GetColumnsList(database, tableName);
         }
