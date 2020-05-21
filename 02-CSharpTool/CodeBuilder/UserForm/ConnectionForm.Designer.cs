@@ -1,4 +1,4 @@
-﻿namespace CodeBuilder.UserForm
+﻿namespace SkeFramework.Core.CodeBuilder.UserForm
 {
     partial class ConnectionForm
     {

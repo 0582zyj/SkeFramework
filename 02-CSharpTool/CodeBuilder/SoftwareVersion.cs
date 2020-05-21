@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeBuilder
+namespace SkeFramework.Core.CodeBuilder
 {
     /// <summary>
     /// 软件系统信息

@@ -7,12 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CodeBuilder.DataFactory;
-using CodeBuilder.Global;
-using CodeBuilder.Model;
+using SkeFramework.Core.CodeBuilder.Global;
+using SkeFramework.Core.CodeBuilder.Model;
 using DevExpress.XtraEditors;
+using SkeFramework.Core.CodeBuilder.DataFactory;
 
-namespace CodeBuilder.UserForm
+namespace SkeFramework.Core.CodeBuilder.UserForm
 {
     public partial class ConnectionForm : XtraForm
     {

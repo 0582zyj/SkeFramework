@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeBuilder.Properties {
+namespace SkeFramework.Core.CodeBuilder.Properties {
     using System;
     
     

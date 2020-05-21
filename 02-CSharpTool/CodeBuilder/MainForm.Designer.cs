@@ -1,4 +1,4 @@
-﻿namespace CodeBuilder
+﻿namespace SkeFramework.Core.CodeBuilder
 {
     partial class MainForm
     {
@@ -385,7 +385,7 @@
             // toolStripButtonCreateCode
             // 
             this.toolStripButtonCreateCode.Enabled = false;
-            this.toolStripButtonCreateCode.Image = global::CodeBuilder.Properties.Resources.Drafts_16x16;
+            this.toolStripButtonCreateCode.Image = global::SkeFramework.Core.CodeBuilder.Properties.Resources.Drafts_16x16;
             this.toolStripButtonCreateCode.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCreateCode.Name = "toolStripButtonCreateCode";
             this.toolStripButtonCreateCode.Size = new System.Drawing.Size(76, 22);
@@ -400,7 +400,7 @@
             // toolStripButtonSave
             // 
             this.toolStripButtonSave.Enabled = false;
-            this.toolStripButtonSave.Image = global::CodeBuilder.Properties.Resources.Ribbon_Save_32x32;
+            this.toolStripButtonSave.Image = global::SkeFramework.Core.CodeBuilder.Properties.Resources.Ribbon_Save_32x32;
             this.toolStripButtonSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSave.Name = "toolStripButtonSave";
             this.toolStripButtonSave.Size = new System.Drawing.Size(88, 22);
@@ -415,7 +415,7 @@
             // toolStripButtonCreateAll
             // 
             this.toolStripButtonCreateAll.Enabled = false;
-            this.toolStripButtonCreateAll.Image = global::CodeBuilder.Properties.Resources.Ribbon_Bold_16x16;
+            this.toolStripButtonCreateAll.Image = global::SkeFramework.Core.CodeBuilder.Properties.Resources.Ribbon_Bold_16x16;
             this.toolStripButtonCreateAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCreateAll.Name = "toolStripButtonCreateAll";
             this.toolStripButtonCreateAll.Size = new System.Drawing.Size(76, 22);
@@ -599,7 +599,7 @@
             // barButtonItemDBOpen
             // 
             this.barButtonItemDBOpen.Caption = "新建连接";
-            this.barButtonItemDBOpen.Glyph = global::CodeBuilder.Properties.Resources.connection;
+            this.barButtonItemDBOpen.Glyph = global::SkeFramework.Core.CodeBuilder.Properties.Resources.connection;
             this.barButtonItemDBOpen.Id = 1;
             this.barButtonItemDBOpen.Name = "barButtonItemDBOpen";
             this.barButtonItemDBOpen.RibbonStyle = ((DevExpress.XtraBars.Ribbon.RibbonItemStyles)(((DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large | DevExpress.XtraBars.Ribbon.RibbonItemStyles.SmallWithText) 
@@ -653,7 +653,7 @@
             // barButtonItem1
             // 
             this.barButtonItem1.Caption = "执行SQL";
-            this.barButtonItem1.Glyph = global::CodeBuilder.Properties.Resources.rerun_24;
+            this.barButtonItem1.Glyph = global::SkeFramework.Core.CodeBuilder.Properties.Resources.rerun_24;
             this.barButtonItem1.Id = 7;
             this.barButtonItem1.Name = "barButtonItem1";
             this.barButtonItem1.RibbonStyle = ((DevExpress.XtraBars.Ribbon.RibbonItemStyles)(((DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large | DevExpress.XtraBars.Ribbon.RibbonItemStyles.SmallWithText) 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeBuilder.Global
+namespace SkeFramework.Core.CodeBuilder.Global
 {
     public class StatusBarManager
     {

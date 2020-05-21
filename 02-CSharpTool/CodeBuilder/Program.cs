@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using DevExpress.LookAndFeel;
 using DevExpress.XtraEditors;
 
-namespace CodeBuilder
+namespace SkeFramework.Core.CodeBuilder
 {
     static class Program
     {

@@ -1,4 +1,4 @@
-﻿namespace CodeBuilder.UserForm
+﻿namespace SkeFramework.Core.CodeBuilder.UserForm
 {
     partial class CodeBuilderForm
     {
@@ -43,7 +43,7 @@
             this.simpleButtonDVAdds = new DevExpress.XtraEditors.SimpleButton();
             this.listBoxDataViewDes = new System.Windows.Forms.ListBox();
             this.groupControl3 = new DevExpress.XtraEditors.GroupControl();
-            this.ucTemplateTV1 = new CodeBuilder.UserControls.UcTemplateTV();
+            this.ucTemplateTV1 = new SkeFramework.Core.CodeBuilder.UserControls.UcTemplateTV();
             this.simpleButtonTpRemoves = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonTpRemove = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButtonTpAdd = new DevExpress.XtraEditors.SimpleButton();

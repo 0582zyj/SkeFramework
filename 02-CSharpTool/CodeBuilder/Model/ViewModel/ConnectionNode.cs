@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeBuilder.Model
+namespace SkeFramework.Core.CodeBuilder.Model
 {
     public class ConnectionNode
     {

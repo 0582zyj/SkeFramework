@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CodeBuilder.Model;
-using CodeBuilder.BLL;
+using SkeFramework.Core.CodeBuilder.Model;
+using SkeFramework.Core.CodeBuilder.DataServices;
 
-namespace CodeBuilder.UserControls
+namespace SkeFramework.Core.CodeBuilder.UserControls
 {
     public partial class UcTemplateTV : UserControl
     {

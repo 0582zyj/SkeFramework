@@ -12,20 +12,19 @@ using DevExpress.UserSkins;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraBars.Helpers;
-using CodeBuilder.Model;
-using CodeBuilder.UserForm;
-using CodeBuilder.DataFactory;
-using CodeBuilder.Global;
+using SkeFramework.Core.CodeBuilder.Model;
+using SkeFramework.Core.CodeBuilder.UserForm;
+using SkeFramework.Core.CodeBuilder.Global;
 using DevExpress.XtraEditors;
-using CodeBuilder.DAL.DataFactory;
-using CodeBuilder.BLL;
-using CodeBuilder.Common;
-using CodeBuilder.BLL.Interfaces;
-using CodeBuilder.DAL.Repositorys;
+using SkeFramework.Core.CodeBuilder.DataServices;
+using SkeFramework.Core.CodeBuilder.DataCommon;
+using SkeFramework.Core.CodeBuilder.DataServices.Interfaces;
+using SkeFramework.Core.CodeBuilder.DAL.Repositorys;
 using SkeFramework.Core.CodeBuilder;
 using SkeFramework.Core.CodeBuilder.DataEntities;
+using SkeFramework.Core.CodeBuilder.DataFactory;
 
-namespace CodeBuilder
+namespace SkeFramework.Core.CodeBuilder
 {
     public partial class MainForm : RibbonForm
     {

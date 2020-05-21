@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Core.CodeBuilder
+namespace SkeFramework.Core.CodeBuilder.DataEntities
 {
     /// <summary>
     /// 列属性

@@ -1,4 +1,4 @@
-﻿namespace CodeBuilder.UserControls
+﻿namespace SkeFramework.Core.CodeBuilder.UserControls
 {
     partial class UcTemplateTV
     {
