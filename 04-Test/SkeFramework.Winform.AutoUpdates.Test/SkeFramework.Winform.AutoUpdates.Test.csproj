@@ -87,6 +87,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Common\SkeFramework.Core.Common.csproj">
+      <Project>{37DE7F92-5446-4200-87A6-43C36D1C1650}</Project>
+      <Name>SkeFramework.Core.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.NetSocket\SkeFramework.NetSocket.csproj">
       <Project>{e8fda6ec-46bf-4915-8bbe-de8ef38b11f0}</Project>
       <Name>SkeFramework.NetSocket</Name>
