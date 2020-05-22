@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text;
 using System.Windows.Forms;
+using SkeFramework.Core.Common.Enums;
 using SkeFramework.NetSocket.Bootstrap;
 using SkeFramework.NetSocket.Protocols;
 using SkeFramework.NetSocket.Protocols.Constants;
@@ -39,6 +40,9 @@ namespace SkeFramework.Winform.AutoUpdates.Test
             //        address.RemoteHost.Port, reason.Type));
 
             //reactor.Start();
+
+            KK k = EnumUtils.ConvertEnumAttribute<KK>("2");
+
         }
 
         private const int DEFAULT_PORT = 1337;

@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using SkeFramework.Core.Common.Enums;
+using SkeFramework.Core.Common.ExtendAttributes;
 using SkeFramework.Winform.AutoUpdates.DAL.Interfaces;
 using SkeFramework.Winform.AutoUpdates.DAL.Services;
 
@@ -36,6 +38,7 @@ namespace SkeFramework.Winform.AutoUpdates.Test
 
         private void btnCheck_Click(object sender, EventArgs e)
         {
+           
             MessageBox.Show("检查更新");
             InitCheckUpdate();
         }
@@ -97,4 +100,11 @@ namespace SkeFramework.Winform.AutoUpdates.Test
         }
 
     }
+
+    public enum KK
+    {
+        [EnumAttribute("123","1")]
+        HJK=2,
+    }
+
 }
