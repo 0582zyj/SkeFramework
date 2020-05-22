@@ -47,7 +47,7 @@ namespace SkeFramework.Winform.AutoUpdates.Test
 
         private const int DEFAULT_PORT = 1337;
 
-        private static int Port;
+        //private static int Port;
 
         private static void ServerPrint(INode node, string message)
         {
