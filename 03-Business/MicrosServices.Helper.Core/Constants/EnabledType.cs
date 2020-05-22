@@ -1,4 +1,4 @@
-﻿using SkeFramework.Core.Enums.ExtendAttribute;
+﻿using SkeFramework.Core.Common.ExtendAttributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace MicrosServices.Helper.Core.Constants
     /// </summary>
     public enum EnabledType
     {
-        [EnumAttribute(1, "启用")] ACTIVE = 1,
-        [EnumAttribute(0, "停用")] INACTIVE = 0,
+        [EnumAttribute( "启用", "1")] ACTIVE = 1,
+        [EnumAttribute( "停用", "0")] INACTIVE = 0,
     }
 }

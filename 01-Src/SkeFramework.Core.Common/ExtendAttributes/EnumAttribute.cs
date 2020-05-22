@@ -22,6 +22,11 @@ namespace SkeFramework.Core.Common.ExtendAttributes
         public object ExtraValue { get; }
 
 
+        public EnumAttribute(string desc) : this(desc, "", null)
+        {
+
+        }
+
         public EnumAttribute(string desc, string code) : this(desc, code, null)
         {
 

@@ -7,12 +7,12 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using SkeFramework.Core.Enums;
 using SkeFramework.Core.NetLog;
 using SkeFramework.Core.Network.Commom;
 using SkeFramework.Core.Network.Enums;
 using SkeFramework.Core.Network.Requests;
 using SkeFramework.Core.Network.Responses;
+using SkeFramework.Core.Common.Enums;
 
 namespace SkeFramework.Core.Network.Https
 {
@@ -146,18 +146,18 @@ namespace SkeFramework.Core.Network.Https
                 myRequest.Method = EnumsHelper.ValueOfRequestType(bPara.Method);
                 if (bPara.Method == RequestTypeEnums.GET)
                 {
-                    myRequest.ContentType = EnumUtil.GetEnumExtendAttribute<ContentTypeEnums>(ContentTypeEnums.GETFORM).Desc;
+                    myRequest.ContentType = ContentTypeEnums.GETFORM.GetEnumDescription();
                 }
                 else
                 {
                     if(bPara.Method == RequestTypeEnums.POST_FORM)
                     {
                         var boundary = "---------------" + DateTime.Now.Ticks.ToString("x");
-                        myRequest.ContentType = EnumUtil.GetEnumExtendAttribute<ContentTypeEnums>(ContentTypeEnums.POSTFORM).Desc + "boundary = " + boundary;
+                        myRequest.ContentType = ContentTypeEnums.POSTFORM.GetEnumDescription() + "boundary = " + boundary;
                     }
                     else
                     {
-                        myRequest.ContentType = EnumUtil.GetEnumExtendAttribute<ContentTypeEnums>(ContentTypeEnums.POSTJSON).Desc;
+                        myRequest.ContentType = ContentTypeEnums.POSTJSON.GetEnumDescription() ;
                     }
                     myRequest.MediaType = bPara.MediaType;
                     byte[] byteRequest = Encoding.UTF8.GetBytes(bPara.PostData);

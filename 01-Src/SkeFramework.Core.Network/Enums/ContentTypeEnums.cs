@@ -1,4 +1,4 @@
-﻿using SkeFramework.Core.Enums.ExtendAttribute;
+﻿using SkeFramework.Core.Common.ExtendAttributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +12,8 @@ namespace SkeFramework.Core.Network.Enums
     /// </summary>
     public enum ContentTypeEnums
     {
-        [EnumAttribute(810, "application/json")] POSTJSON,
-        [EnumAttribute(811, "application/x-www-form-urlencoded")] GETFORM,
-        [EnumAttribute(811, "application/x-www-form-urlencoded;")] POSTFORM,
+        [EnumAttribute( "application/json")] POSTJSON= 810,
+        [EnumAttribute( "application/x-www-form-urlencoded")] GETFORM= 811,
+        [EnumAttribute( "application/x-www-form-urlencoded;")] POSTFORM= 812,
     }
 }

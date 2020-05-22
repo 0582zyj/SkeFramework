@@ -1,4 +1,4 @@
-﻿using SkeFramework.Core.Enums.ExtendAttribute;
+﻿using SkeFramework.Core.Common.ExtendAttributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace MicrosServices.Helper.Core.Constants
    /// </summary>
     public enum ManagementType
     {
-        [EnumAttribute(1, "操作权限")] OPERATE_TYPE=1,
-        [EnumAttribute(2, "菜单权限")] MENU_TYPE=2,
+        [EnumAttribute( "操作权限")] OPERATE_TYPE=1,
+        [EnumAttribute( "菜单权限")] MENU_TYPE=2,
     }
 }

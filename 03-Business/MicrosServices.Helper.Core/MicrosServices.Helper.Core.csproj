@@ -72,10 +72,6 @@
       <Project>{37de7f92-5446-4200-87a6-43c36d1c1650}</Project>
       <Name>SkeFramework.Core.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Enums\SkeFramework.Core.Enums.csproj">
-      <Project>{6440AC15-B390-4C92-BB11-9C2661EE162F}</Project>
-      <Name>SkeFramework.Core.Enums</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj">
       <Project>{F26359E9-2013-44D7-8569-E5533DEC9BA4}</Project>
       <Name>MicrosServices.Entities</Name>
