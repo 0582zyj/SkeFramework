@@ -12,7 +12,11 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.Push.Core.Services.Brokers
 {
-    public class PushBroker<TNotification> : IPushBroker<TNotification> where TNotification : INotification
+    /// <summary>
+    /// 服务端推送反应堆
+    /// </summary>
+    /// <typeparam name="TNotification"></typeparam>
+    public abstract class PushBroker<TNotification> : IPushBroker<TNotification> where TNotification : INotification
     {
         static PushBroker()
         {
@@ -37,10 +41,13 @@ namespace SkeFramework.Push.Core.Services.Brokers
         public event NotificationSuccessDelegate<TNotification> OnNotificationSucceeded;
         public event NotificationFailureDelegate<TNotification> OnNotificationFailed;
 
-        //public bool AutoScale { get; set; }
-        //public int AutoScaleMaxSize { get; set; }
+        /// <summary>
+        /// 推送工作线程数量
+        /// </summary>
         public int ScaleSize { get; private set; }
-
+        /// <summary>
+        /// 推送链接工厂
+        /// </summary>
         public IPushConnectionFactory<TNotification> ServiceConnectionFactory { get; set; }
 
         BlockingCollection<TNotification> notifications;
@@ -63,15 +70,22 @@ namespace SkeFramework.Push.Core.Services.Brokers
             get { return notifications.IsCompleted; }
         }
 
+        #region 启动和关闭
+        /// <summary>
+        /// 启动服务端
+        /// </summary>
         public void Start()
         {
             if (running)
                 return;
-
+            PushServerStart();
             running = true;
             ChangeScale(ScaleSize);
         }
-
+        /// <summary>
+        /// 关闭服务端
+        /// </summary>
+        /// <param name="immediately"></param>
         public void Stop(bool immediately = false)
         {
             if (!running)
@@ -98,7 +112,18 @@ namespace SkeFramework.Push.Core.Services.Brokers
 
                 workers.Clear();
             }
+            PushServerStop();
         }
+        /// <summary>
+        /// 服务端启动实际实现
+        /// </summary>
+        protected abstract void PushServerStart();
+        /// <summary>
+        /// 服务端关闭实际实现
+        /// </summary>
+        protected abstract void PushServerStop();
+
+        #endregion
 
         public void ChangeScale(int newScaleSize)
         {
@@ -132,6 +157,7 @@ namespace SkeFramework.Push.Core.Services.Brokers
             }
         }
 
+        #region 推送通知
         public void RaiseNotificationSucceeded(TNotification notification)
         {
             var evt = OnNotificationSucceeded;
@@ -145,6 +171,6 @@ namespace SkeFramework.Push.Core.Services.Brokers
             if (evt != null)
                 evt(notification, exception);
         }
+        #endregion
     }
-
 }

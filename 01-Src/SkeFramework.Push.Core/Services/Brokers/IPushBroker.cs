@@ -10,12 +10,12 @@ namespace SkeFramework.Core.Push.Interfaces
     /// <summary>
     /// 推送代理接口
     /// </summary>
-   public interface IPushBroker<TNotification> where TNotification : INotification
+    public interface IPushBroker<TNotification> where TNotification : INotification
     {
         event NotificationSuccessDelegate<TNotification> OnNotificationSucceeded;
         event NotificationFailureDelegate<TNotification> OnNotificationFailed;
         /// <summary>
-        /// 接收链接
+        /// 接收链接列表
         /// </summary>
         /// <returns></returns>
         IEnumerable<TNotification> TakeMany();

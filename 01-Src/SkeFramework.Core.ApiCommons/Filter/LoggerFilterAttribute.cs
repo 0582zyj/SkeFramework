@@ -28,7 +28,7 @@ namespace SkeFramework.Core.ApiCommons.Filter
             {
                 
             }
-            catch (Exception ex)
+            catch //(Exception ex)
             {
             }
         }
