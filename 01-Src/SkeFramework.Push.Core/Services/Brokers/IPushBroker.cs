@@ -1,4 +1,5 @@
-﻿using SkeFramework.Push.Core.Interfaces;
+﻿using SkeFramework.Push.Core.Configs;
+using SkeFramework.Push.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,5 +44,10 @@ namespace SkeFramework.Core.Push.Interfaces
         /// </summary>
         /// <param name="immediately"></param>
         void Stop(bool immediately = false);
+        /// <summary>
+        /// 设置启动参数
+        /// </summary>
+        /// <param name="connectionConfig"></param>
+        void SetupParamOptions(IConnectionConfig connectionConfig);
     }
 }

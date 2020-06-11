@@ -3,10 +3,16 @@ using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using SkeFramework.Core.Common.Enums;
+using SkeFramework.Core.Push.Interfaces;
 using SkeFramework.NetSocket.Bootstrap;
 using SkeFramework.NetSocket.Protocols;
 using SkeFramework.NetSocket.Protocols.Constants;
 using SkeFramework.NetSocket.Topology;
+using SkeFramework.Push.Core.Configs;
+using SkeFramework.Push.WebSocket;
+using SkeFramework.Push.WebSocket.Constants;
+using SkeFramework.Push.WebSocket.DataEntities;
+using SuperWebSocket;
 
 namespace SkeFramework.Winform.AutoUpdates.Test
 {
@@ -40,9 +46,11 @@ namespace SkeFramework.Winform.AutoUpdates.Test
             //        address.RemoteHost.Port, reason.Type));
 
             //reactor.Start();
-
-            KK k = EnumUtils.ConvertEnumAttribute<KK>("2");
-
+            IConnectionConfig connectionConfig = new DefaultConnectionConfig();
+            connectionConfig.SetOption(WebSocketParamEumns.Port.ToString(), 8088);
+            IPushBroker<WebSocketNotifications> pushBroker = new WebSocketPushBroker<WebSocketNotifications>(null);
+            pushBroker.SetupParamOptions(connectionConfig);
+            pushBroker.Start();
         }
 
         private const int DEFAULT_PORT = 1337;

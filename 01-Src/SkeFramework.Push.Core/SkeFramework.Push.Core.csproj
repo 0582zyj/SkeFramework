@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap\IPushConnectionFactory.cs" />
+    <Compile Include="Configs\DefaultConnectionConfig.cs" />
+    <Compile Include="Configs\IConnectionConfig.cs" />
     <Compile Include="Services\Brokers\PushBroker.cs" />
     <Compile Include="Services\Notifications\INotification.cs" />
     <Compile Include="Services\Brokers\IPushBroker.cs" />

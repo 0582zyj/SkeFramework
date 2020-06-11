@@ -1,6 +1,7 @@
 ﻿using SkeFramework.Core.NetLog;
 using SkeFramework.Core.Push.Interfaces;
 using SkeFramework.Push.Core.Bootstrap;
+using SkeFramework.Push.Core.Configs;
 using SkeFramework.Push.Core.Interfaces;
 using System;
 using System.Collections.Concurrent;
@@ -71,6 +72,11 @@ namespace SkeFramework.Push.Core.Services.Brokers
         }
 
         #region 启动和关闭
+        /// <summary>
+        /// 参数设置
+        /// </summary>
+        /// <param name="connectionConfig"></param>
+        public abstract void SetupParamOptions(IConnectionConfig connectionConfig);
         /// <summary>
         /// 启动服务端
         /// </summary>
@@ -171,6 +177,8 @@ namespace SkeFramework.Push.Core.Services.Brokers
             if (evt != null)
                 evt(notification, exception);
         }
+
+      
         #endregion
     }
 }

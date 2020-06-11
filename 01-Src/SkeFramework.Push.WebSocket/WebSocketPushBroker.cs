@@ -1,8 +1,10 @@
 ﻿using SkeFramework.Core.NetLog;
 using SkeFramework.Core.Push.Interfaces;
 using SkeFramework.Push.Core.Bootstrap;
+using SkeFramework.Push.Core.Configs;
 using SkeFramework.Push.Core.Interfaces;
 using SkeFramework.Push.Core.Services.Brokers;
+using SkeFramework.Push.WebSocket.Constants;
 using SkeFramework.Push.WebSocket.DataEntities;
 using SuperSocket.SocketBase;
 using SuperSocket.SocketBase.Config;
@@ -33,8 +35,43 @@ namespace SkeFramework.Push.WebSocket
         public WebSocketPushBroker(IPushConnectionFactory<TNotification> connectionFactory):base(connectionFactory)
         {
         }
-        
+
         #region 启动和关闭
+        /// <summary>
+        /// 启动参数设置
+        /// </summary>
+        /// <param name="connectionConfig"></param>
+        public override void SetupParamOptions(IConnectionConfig connectionConfig)
+        {
+            if (connectionConfig.Options.Count > 0)
+            {
+                SocketParam = new WebSocketParam();
+                if (connectionConfig.HasOption(WebSocketParamEumns.IsUseCertificate.ToString()))
+                {
+                    SocketParam.IsUseCertificate = Convert.ToBoolean(connectionConfig.GetOption(WebSocketParamEumns.IsUseCertificate.ToString()));
+                }
+                else if (connectionConfig.HasOption(WebSocketParamEumns.Port.ToString()))
+                {
+                    SocketParam.Port = Convert.ToInt32(connectionConfig.GetOption(WebSocketParamEumns.Port.ToString()));
+                }
+                else if (connectionConfig.HasOption(WebSocketParamEumns.ServerName.ToString()))
+                {
+                    SocketParam.ServerName = Convert.ToString(connectionConfig.GetOption(WebSocketParamEumns.ServerName.ToString()));
+                }
+                else if (connectionConfig.HasOption(WebSocketParamEumns.ServerSecurity.ToString()))
+                {
+                    SocketParam.ServerSecurity = Convert.ToString(connectionConfig.GetOption(WebSocketParamEumns.ServerSecurity.ToString()));
+                }
+                else if (connectionConfig.HasOption(WebSocketParamEumns.ServerStoreName.ToString()))
+                {
+                    SocketParam.ServerStoreName = Convert.ToString(connectionConfig.GetOption(WebSocketParamEumns.ServerStoreName.ToString()));
+                }
+                else if (connectionConfig.HasOption(WebSocketParamEumns.ServerThumbprint.ToString()))
+                {
+                    SocketParam.ServerThumbprint = Convert.ToString(connectionConfig.GetOption(WebSocketParamEumns.ServerThumbprint.ToString()));
+                }
+            }
+        }
         /// <summary>
         /// 启动WebSocket
         /// </summary>
@@ -122,7 +159,14 @@ namespace SkeFramework.Push.WebSocket
         /// <param name="value"></param>
         private void WebSocket_SessionClosed(WebSocketSession session, CloseReason value)
         {
-            throw new NotImplementedException();
+            try
+            {
+                LogAgent.Info(Websocket.Name + string.Format(" Session Close:{0}, Path:{1}, IP:{2}", value.ToString(), session.Path, session.RemoteEndPoint));
+            }
+            catch (Exception e)
+            {
+                LogAgent.Info(string.Format("{0} Websocket_SessionClosed()", e.ToString()));
+            }
         }
         /// <summary>
         /// 新消息收到事件
@@ -131,7 +175,14 @@ namespace SkeFramework.Push.WebSocket
         /// <param name="value"></param>
         private void WebSocket_NewMessageReceived(WebSocketSession session, string value)
         {
-            throw new NotImplementedException();
+            try
+            {
+                LogAgent.Info(Websocket.Name + " ClientIP:" + session.RemoteEndPoint + "Receive:" + value.ToString());
+            }
+            catch (Exception e)
+            {
+                LogAgent.Info(string.Format("{0} Websocket_NewMessageReceived()", e.ToString()));
+            }
         }
         /// <summary>
         /// 客户端新链接事件
@@ -139,8 +190,17 @@ namespace SkeFramework.Push.WebSocket
         /// <param name="session"></param>
         private void WebSocket_NewSessionConnected(WebSocketSession session)
         {
-            throw new NotImplementedException();
+            try
+            {
+                LogAgent.Info(string.Format(Websocket.Name + " New Session Connected:{0}, Path:{1}, Host:{2}, IP:{3}",
+                    session.SessionID.ToString(), session.Path, session.Host, session.RemoteEndPoint));
+            }
+            catch (Exception e)
+            {
+                LogAgent.Info(string.Format("{0} Websocket_NewSessionConnected()", e.ToString()));
+            }
         }
 
+       
     }
 }

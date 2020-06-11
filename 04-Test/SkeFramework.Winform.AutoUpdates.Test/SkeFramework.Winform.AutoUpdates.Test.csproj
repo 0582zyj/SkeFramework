@@ -32,6 +32,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.Common, Version=1.6.0.4, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SuperWebSocket.0.9.0.2\lib\net40\SuperSocket.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketBase, Version=1.6.0.4, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SuperWebSocket.0.9.0.2\lib\net40\SuperSocket.SocketBase.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketEngine, Version=1.6.0.4, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SuperWebSocket.0.9.0.2\lib\net40\SuperSocket.SocketEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperWebSocket, Version=0.9.0.0, Culture=neutral, PublicKeyToken=7ba53b9a7cef5d1c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SuperWebSocket.0.9.0.2\lib\net40\SuperWebSocket.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -73,6 +91,7 @@
     <EmbeddedResource Include="UdpServerForm.resx">
       <DependentUpon>UdpServerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -94,6 +113,14 @@
     <ProjectReference Include="..\..\01-Src\SkeFramework.NetSocket\SkeFramework.NetSocket.csproj">
       <Project>{e8fda6ec-46bf-4915-8bbe-de8ef38b11f0}</Project>
       <Name>SkeFramework.NetSocket</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Push.Core\SkeFramework.Push.Core.csproj">
+      <Project>{fde47477-16b9-49c6-8d4f-8918d8bfa7b0}</Project>
+      <Name>SkeFramework.Push.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Push.WebSocket\SkeFramework.Push.WebSocket.csproj">
+      <Project>{5b7215ea-97f4-403e-af9e-82bde2a0604c}</Project>
+      <Name>SkeFramework.Push.WebSocket</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.Winform.AutoUpdates\SkeFramework.Winform.AutoUpdates.csproj">
       <Project>{a214b1ac-a8ff-4cf1-b951-329557bca980}</Project>
