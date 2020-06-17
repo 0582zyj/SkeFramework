@@ -50,6 +50,7 @@
     <Compile Include="Services\Connections\IPushConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ServiceWorkerAdapter.cs" />
+    <Compile Include="Services\Workers\WorkDocker.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -13,7 +13,7 @@ namespace SkeFramework.Push.WebSocket.DataEntities
         /// <summary>
         /// 客户端连接属性
         /// </summary>
-        private WebSocketSession session;
+        public WebSocketSession session;
         /// <summary>
         /// 标识
         /// </summary>
@@ -25,6 +25,16 @@ namespace SkeFramework.Push.WebSocket.DataEntities
         public bool IsDeviceRegistrationIdValid()
         {
             return true;
+        }
+
+        /// <summary>
+        /// 发送内容
+        /// </summary>
+        public string Message { get; set; }
+
+        public WebSocketNotifications(WebSocketSession socketSession)
+        {
+            session = socketSession;
         }
     }
 }

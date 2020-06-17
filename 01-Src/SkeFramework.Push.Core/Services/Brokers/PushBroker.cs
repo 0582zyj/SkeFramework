@@ -3,6 +3,7 @@ using SkeFramework.Core.Push.Interfaces;
 using SkeFramework.Push.Core.Bootstrap;
 using SkeFramework.Push.Core.Configs;
 using SkeFramework.Push.Core.Interfaces;
+using SkeFramework.Push.Core.Services.Workers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -25,51 +26,29 @@ namespace SkeFramework.Push.Core.Services.Brokers
             ServicePointManager.Expect100Continue = false;
         }
 
-        public PushBroker(IPushConnectionFactory<TNotification> connectionFactory)
+        public PushBroker(IPushConnectionFactory connectionFactory)
         {
-            ServiceConnectionFactory = connectionFactory;
-
-            lockWorkers = new object();
-            workers = new List<ServiceWorkerAdapter<TNotification>>();
             running = false;
-
-            notifications = new BlockingCollection<TNotification>();
-            ScaleSize = 1;
-            //AutoScale = true;
-            //AutoScaleMaxSize = 20;
+            ServiceConnectionFactory = connectionFactory;
         }
 
         public event NotificationSuccessDelegate<TNotification> OnNotificationSucceeded;
         public event NotificationFailureDelegate<TNotification> OnNotificationFailed;
+        public event NotificationConnectionDelegate<TNotification> OnNewConnection; 
 
-        /// <summary>
-        /// 推送工作线程数量
-        /// </summary>
-        public int ScaleSize { get; private set; }
         /// <summary>
         /// 推送链接工厂
         /// </summary>
-        public IPushConnectionFactory<TNotification> ServiceConnectionFactory { get; set; }
+        public IPushConnectionFactory ServiceConnectionFactory { get; set; }
+        /// <summary>
+        /// 推送线程容器管理
+        /// </summary>
+        protected WorkDocker<TNotification> WorkDocker;
+        /// <summary>
+        /// 是否运行
+        /// </summary>
+        private bool running;
 
-        BlockingCollection<TNotification> notifications;
-        List<ServiceWorkerAdapter<TNotification>> workers;
-        object lockWorkers;
-        bool running;
-
-        public virtual void QueueNotification(TNotification notification)
-        {
-            notifications.Add(notification);
-        }
-
-        public IEnumerable<TNotification> TakeMany()
-        {
-            return notifications.GetConsumingEnumerable();
-        }
-
-        public bool IsCompleted
-        {
-            get { return notifications.IsCompleted; }
-        }
 
         #region 启动和关闭
         /// <summary>
@@ -86,7 +65,8 @@ namespace SkeFramework.Push.Core.Services.Brokers
                 return;
             PushServerStart();
             running = true;
-            ChangeScale(ScaleSize);
+            WorkDocker = new WorkDocker<TNotification>(this,ServiceConnectionFactory);
+            WorkDocker.ChangeScale(1);
         }
         /// <summary>
         /// 关闭服务端
@@ -96,28 +76,8 @@ namespace SkeFramework.Push.Core.Services.Brokers
         {
             if (!running)
                 throw new OperationCanceledException("ServiceBroker has already been signaled to Stop");
-
             running = false;
-
-            notifications.CompleteAdding();
-
-            lock (lockWorkers)
-            {
-                // Kill all workers right away
-                if (immediately)
-                    workers.ForEach(sw => sw.Cancel());
-
-                var all = (from sw in workers
-                           select sw.WorkerTask).ToArray();
-
-                LogAgent.Info("Stopping: Waiting on Tasks");
-
-                Task.WaitAll(all);
-
-                LogAgent.Info("Stopping: Done Waiting on Tasks");
-
-                workers.Clear();
-            }
+            WorkDocker.StopWorker(immediately);
             PushServerStop();
         }
         /// <summary>
@@ -128,57 +88,18 @@ namespace SkeFramework.Push.Core.Services.Brokers
         /// 服务端关闭实际实现
         /// </summary>
         protected abstract void PushServerStop();
-
         #endregion
-
-        public void ChangeScale(int newScaleSize)
-        {
-            if (newScaleSize <= 0)
-                throw new ArgumentOutOfRangeException("newScaleSize", "Must be Greater than Zero");
-
-            ScaleSize = newScaleSize;
-
-            if (!running)
-                return;
-
-            lock (lockWorkers)
-            {
-
-                // Scale down
-                while (workers.Count > ScaleSize)
-                {
-                    workers[0].Cancel();
-                    workers.RemoveAt(0);
-                }
-
-                // Scale up
-                while (workers.Count < ScaleSize)
-                {
-                    var worker = new ServiceWorkerAdapter<TNotification>(this, ServiceConnectionFactory.Create());
-                    workers.Add(worker);
-                    worker.Start();
-                }
-
-                LogAgent.Debug("Scaled Changed to: " + workers.Count);
-            }
-        }
-
+   
         #region 推送通知
         public void RaiseNotificationSucceeded(TNotification notification)
         {
-            var evt = OnNotificationSucceeded;
-            if (evt != null)
-                evt(notification);
+            OnNotificationSucceeded?.Invoke(notification);
         }
 
         public void RaiseNotificationFailed(TNotification notification, AggregateException exception)
         {
-            var evt = OnNotificationFailed;
-            if (evt != null)
-                evt(notification, exception);
+            OnNotificationFailed?.Invoke(notification, exception);
         }
-
-      
         #endregion
     }
 }

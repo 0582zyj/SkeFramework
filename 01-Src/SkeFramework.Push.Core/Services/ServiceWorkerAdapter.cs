@@ -1,7 +1,9 @@
 ﻿using SkeFramework.Core.NetLog;
 using SkeFramework.Core.Push.Interfaces;
+using SkeFramework.Push.Core.Bootstrap;
 using SkeFramework.Push.Core.Interfaces;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,20 +18,23 @@ namespace SkeFramework.Push.Core.Services
     /// <typeparam name="TNotification"></typeparam>
     public class ServiceWorkerAdapter<TNotification> where TNotification : INotification
     {
-        public ServiceWorkerAdapter(IPushBroker<TNotification> broker, IPushConnection<TNotification> connection)
+
+        public ServiceWorkerAdapter(IPushBroker<TNotification> broker, IPushConnection<INotification> connection)
         {
             Broker = broker;
             Connection = connection;
             CancelTokenSource = new CancellationTokenSource();
+            notifications = new BlockingCollection<TNotification>();
         }
         /// <summary>
-        /// 推送接口
+        /// 推送服务器接口
         /// </summary>
         public IPushBroker<TNotification> Broker { get; private set; }
         /// <summary>
         /// 推送链接
         /// </summary>
-        public IPushConnection<TNotification> Connection { get; private set; }
+        public IPushConnection<INotification> Connection  { get; private set; }
+        #region 开始和关闭推送线程
         /// <summary>
         /// 取消发送【多线程】
         /// </summary>
@@ -44,12 +49,13 @@ namespace SkeFramework.Push.Core.Services
         public void Start()
         {
             WorkerTask = Task.Factory.StartNew(async delegate {
-                while (!CancelTokenSource.IsCancellationRequested && !Broker.IsCompleted)
+                while (!CancelTokenSource.IsCancellationRequested && !this.IsCompleted)
                 {
                     try
                     {
+                        //发送任务列表
                         var toSend = new List<Task>();
-                        foreach (var n in Broker.TakeMany())
+                        foreach (var n in this.TakeMany())
                         {
                             var t = Connection.Send(n);
                             // Keep the continuation
@@ -87,13 +93,14 @@ namespace SkeFramework.Push.Core.Services
 
                 if (CancelTokenSource.IsCancellationRequested)
                     LogAgent.Info("Cancellation was requested");
-                if (Broker.IsCompleted)
+                if (this.IsCompleted)
                     LogAgent.Info("Broker IsCompleted");
-
                 LogAgent.Debug("Broker Task Ended");
+
             }, CancelTokenSource.Token, TaskCreationOptions.LongRunning
             | TaskCreationOptions.DenyChildAttach, TaskScheduler.Default).Unwrap();
 
+            //工作任务异常的延续任务
             WorkerTask.ContinueWith(t => {
                 var ex = t.Exception;
                 if (ex != null)
@@ -105,7 +112,39 @@ namespace SkeFramework.Push.Core.Services
         /// </summary>
         public void Cancel()
         {
+            notifications.CompleteAdding();
             CancelTokenSource.Cancel();
         }
+        #endregion
+
+        #region 通知任务队列
+        /// <summary>
+        /// 通知消息列表
+        /// </summary>
+        BlockingCollection<TNotification> notifications;
+        /// <summary>
+        /// 新增一个通知
+        /// </summary>
+        /// <param name="notification"></param>
+        public virtual void QueueNotification(TNotification notification)
+        {
+            notifications.Add(notification);
+        }
+        /// <summary>
+        /// 获取可消费的通知列表
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<TNotification> TakeMany()
+        {
+            return notifications.GetConsumingEnumerable();
+        }
+        /// <summary>
+        /// 判断生产者线程是否已经完成添加并且没有元素被消费
+        /// </summary>
+        public bool IsCompleted
+        {
+            get { return notifications.IsCompleted; }
+        }
+        #endregion
     }
 }

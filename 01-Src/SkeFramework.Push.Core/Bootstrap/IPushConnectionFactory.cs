@@ -11,12 +11,12 @@ namespace SkeFramework.Push.Core.Bootstrap
     /// 推送链接工厂
     /// </summary>
     /// <typeparam name="TNotification"></typeparam>
-    public interface IPushConnectionFactory<TNotification> where TNotification : INotification
+    public interface IPushConnectionFactory
     {
         /// <summary>
         /// 生成一个推送链接
         /// </summary>
         /// <returns></returns>
-        IPushConnection<TNotification> Create();
+        IPushConnection<INotification> Create();
     }
 }

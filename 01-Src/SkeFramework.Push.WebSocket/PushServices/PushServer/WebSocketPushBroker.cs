@@ -20,19 +20,18 @@ namespace SkeFramework.Push.WebSocket
     /// <summary>
     /// WebSocker服务端推送
     /// </summary>
-    public class WebSocketPushBroker<TNotification> : PushBroker<TNotification>, IPushBroker<TNotification>
-        where TNotification : INotification
+    public class WebSocketPushBroker : PushBroker<WebSocketNotifications>, IPushBroker<WebSocketNotifications>
     {
         /// <summary>
         /// 服务端类
         /// </summary>
-        private SuperWebSocket.WebSocketServer Websocket;
+        private WebSocketServer Websocket;
         /// <summary>
         /// 启动参数
         /// </summary>
         private WebSocketParam SocketParam;
 
-        public WebSocketPushBroker(IPushConnectionFactory<TNotification> connectionFactory):base(connectionFactory)
+        public WebSocketPushBroker(IPushConnectionFactory connectionFactory) : base(connectionFactory)
         {
         }
 
@@ -152,6 +151,7 @@ namespace SkeFramework.Push.WebSocket
         }
         #endregion
 
+        #region WebSocketServer事件
         /// <summary>
         /// 客户端关闭触发事件
         /// </summary>
@@ -194,13 +194,19 @@ namespace SkeFramework.Push.WebSocket
             {
                 LogAgent.Info(string.Format(Websocket.Name + " New Session Connected:{0}, Path:{1}, Host:{2}, IP:{3}",
                     session.SessionID.ToString(), session.Path, session.Host, session.RemoteEndPoint));
+                WebSocketNotifications notifications= new WebSocketNotifications(session)
+                {
+                    Message = "123"
+                };
+                //OnNewConnection?.Invoke(notifications);
+                
             }
             catch (Exception e)
             {
                 LogAgent.Info(string.Format("{0} Websocket_NewSessionConnected()", e.ToString()));
             }
         }
+        #endregion
 
-       
     }
 }

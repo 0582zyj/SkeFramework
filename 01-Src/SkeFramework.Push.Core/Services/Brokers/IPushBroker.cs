@@ -15,15 +15,7 @@ namespace SkeFramework.Core.Push.Interfaces
     {
         event NotificationSuccessDelegate<TNotification> OnNotificationSucceeded;
         event NotificationFailureDelegate<TNotification> OnNotificationFailed;
-        /// <summary>
-        /// 接收链接列表
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<TNotification> TakeMany();
-        /// <summary>
-        /// 是否完成
-        /// </summary>
-        bool IsCompleted { get; }
+        event NotificationConnectionDelegate<TNotification> OnNewConnection;
         /// <summary>
         /// 通知成功
         /// </summary>

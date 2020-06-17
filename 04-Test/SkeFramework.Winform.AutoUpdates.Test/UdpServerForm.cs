@@ -8,10 +8,13 @@ using SkeFramework.NetSocket.Bootstrap;
 using SkeFramework.NetSocket.Protocols;
 using SkeFramework.NetSocket.Protocols.Constants;
 using SkeFramework.NetSocket.Topology;
+using SkeFramework.Push.Core.Bootstrap;
 using SkeFramework.Push.Core.Configs;
+using SkeFramework.Push.Core.Interfaces;
 using SkeFramework.Push.WebSocket;
 using SkeFramework.Push.WebSocket.Constants;
 using SkeFramework.Push.WebSocket.DataEntities;
+using SkeFramework.Push.WebSocket.PushServices.PushFactorys;
 using SuperWebSocket;
 
 namespace SkeFramework.Winform.AutoUpdates.Test
@@ -48,7 +51,8 @@ namespace SkeFramework.Winform.AutoUpdates.Test
             //reactor.Start();
             IConnectionConfig connectionConfig = new DefaultConnectionConfig();
             connectionConfig.SetOption(WebSocketParamEumns.Port.ToString(), 8088);
-            IPushBroker<WebSocketNotifications> pushBroker = new WebSocketPushBroker<WebSocketNotifications>(null);
+            IPushConnectionFactory pushConnectionFactory = new PushConnectionFactory();
+            IPushBroker<WebSocketNotifications> pushBroker = new WebSocketPushBroker(pushConnectionFactory);
             pushBroker.SetupParamOptions(connectionConfig);
             pushBroker.Start();
         }

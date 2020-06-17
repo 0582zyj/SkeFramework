@@ -8,8 +8,9 @@ namespace SkeFramework.Push.Core.Interfaces
 {
     public delegate void NotificationSuccessDelegate<TNotification>(TNotification notification) where TNotification : INotification;
     public delegate void NotificationFailureDelegate<TNotification>(TNotification notification, AggregateException exception) where TNotification : INotification;
+    public delegate void NotificationConnectionDelegate<TNotification>(TNotification notification) where TNotification : INotification;
     /// <summary>
-    /// 发送推送接口
+    /// 推送链接接口
     /// </summary>
     /// <typeparam name="TNotification"></typeparam>
     public interface IPushConnection<TNotification> where TNotification : INotification

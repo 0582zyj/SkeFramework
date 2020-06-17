@@ -20,5 +20,9 @@ namespace SkeFramework.Push.Core.Interfaces
         /// 设备标识
         /// </summary>
         object Tag { get;  }
+        /// <summary>
+        /// 发送内容
+        /// </summary>
+        string Message { get; set; }
     }
 }
