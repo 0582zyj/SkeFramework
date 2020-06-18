@@ -59,9 +59,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\PushTypeEumns.cs" />
     <Compile Include="Constants\WebSocketParamEumns.cs" />
     <Compile Include="DataEntities\WebSocketNotifications.cs" />
     <Compile Include="DataEntities\WebSocketParam.cs" />
+    <Compile Include="PushServices\Bootstrap\PushBootstrap.cs" />
     <Compile Include="PushServices\PushClients\PushClientConnection.cs" />
     <Compile Include="PushServices\PushFactorys\PushConnectionFactory.cs" />
     <Compile Include="PushServices\PushServer\WebSocketPushBroker.cs" />

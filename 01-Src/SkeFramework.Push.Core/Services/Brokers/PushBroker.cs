@@ -34,12 +34,12 @@ namespace SkeFramework.Push.Core.Services.Brokers
 
         public event NotificationSuccessDelegate<TNotification> OnNotificationSucceeded;
         public event NotificationFailureDelegate<TNotification> OnNotificationFailed;
-        public event NotificationConnectionDelegate<TNotification> OnNewConnection; 
+        public event NotificationConnectionDelegate<TNotification> OnConnection;
 
         /// <summary>
         /// 推送链接工厂
         /// </summary>
-        public IPushConnectionFactory ServiceConnectionFactory { get; set; }
+        private IPushConnectionFactory ServiceConnectionFactory { get; set; }
         /// <summary>
         /// 推送线程容器管理
         /// </summary>
@@ -48,7 +48,10 @@ namespace SkeFramework.Push.Core.Services.Brokers
         /// 是否运行
         /// </summary>
         private bool running;
-
+        /// <summary>
+        /// 默认工作线程数
+        /// </summary>
+        public int DefaultWorks;
 
         #region 启动和关闭
         /// <summary>
@@ -91,15 +94,32 @@ namespace SkeFramework.Push.Core.Services.Brokers
         #endregion
    
         #region 推送通知
+        /// <summary>
+        /// 推送成功通知
+        /// </summary>
+        /// <param name="notification"></param>
         public void RaiseNotificationSucceeded(TNotification notification)
         {
             OnNotificationSucceeded?.Invoke(notification);
         }
-
+        /// <summary>
+        /// 推送失败通知
+        /// </summary>
+        /// <param name="notification"></param>
+        /// <param name="exception"></param>
         public void RaiseNotificationFailed(TNotification notification, AggregateException exception)
         {
             OnNotificationFailed?.Invoke(notification, exception);
         }
+        /// <summary>
+        /// 新链接到达通知
+        /// </summary>
+        /// <param name="notification"></param>
+        public void RaiseNewConnection(TNotification notification)
+        {
+            OnConnection?.Invoke(notification);
+        }
+
         #endregion
     }
 }

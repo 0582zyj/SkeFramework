@@ -10,6 +10,9 @@ namespace SkeFramework.Push.WebSocket.DataEntities
 {
     public class WebSocketNotifications : INotification
     {
+
+       
+
         /// <summary>
         /// 客户端连接属性
         /// </summary>
@@ -32,6 +35,10 @@ namespace SkeFramework.Push.WebSocket.DataEntities
         /// </summary>
         public string Message { get; set; }
 
+        public WebSocketNotifications()
+        {
+
+        }
         public WebSocketNotifications(WebSocketSession socketSession)
         {
             session = socketSession;

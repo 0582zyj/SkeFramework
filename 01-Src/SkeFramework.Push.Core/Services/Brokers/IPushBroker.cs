@@ -15,7 +15,7 @@ namespace SkeFramework.Core.Push.Interfaces
     {
         event NotificationSuccessDelegate<TNotification> OnNotificationSucceeded;
         event NotificationFailureDelegate<TNotification> OnNotificationFailed;
-        event NotificationConnectionDelegate<TNotification> OnNewConnection;
+        event NotificationConnectionDelegate<TNotification> OnConnection;
         /// <summary>
         /// 通知成功
         /// </summary>
@@ -27,6 +27,11 @@ namespace SkeFramework.Core.Push.Interfaces
         /// <param name="notification"></param>
         /// <param name="ex"></param>
         void RaiseNotificationFailed(TNotification notification, AggregateException ex);
+        /// <summary>
+        /// 新链接到达
+        /// </summary>
+        /// <param name="notification"></param>
+        void RaiseNewConnection(TNotification notification);
         /// <summary>
         /// 开始
         /// </summary>

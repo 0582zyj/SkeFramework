@@ -10,7 +10,11 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.Push.Core.Services.Workers
 {
-   public class WorkDocker<TNotification> where TNotification : INotification
+    /// <summary>
+    /// 工作线程管理
+    /// </summary>
+    /// <typeparam name="TNotification"></typeparam>
+    public class WorkDocker<TNotification> where TNotification : INotification
     {
         private readonly IPushBroker<TNotification> PushBroker;
         private readonly IPushConnectionFactory ConnectionFactory;

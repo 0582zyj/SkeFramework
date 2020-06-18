@@ -20,7 +20,7 @@ namespace SkeFramework.Push.WebSocket
     /// <summary>
     /// WebSocker服务端推送
     /// </summary>
-    public class WebSocketPushBroker : PushBroker<WebSocketNotifications>, IPushBroker<WebSocketNotifications>
+    public class WebSocketPushBroker : PushBroker<WebSocketNotifications>, IPushBroker<WebSocketNotifications> 
     {
         /// <summary>
         /// 服务端类
@@ -31,7 +31,7 @@ namespace SkeFramework.Push.WebSocket
         /// </summary>
         private WebSocketParam SocketParam;
 
-        public WebSocketPushBroker(IPushConnectionFactory connectionFactory) : base(connectionFactory)
+        public WebSocketPushBroker(IPushServerFactory<WebSocketNotifications> connectionFactory) : base(connectionFactory)
         {
         }
 
@@ -194,12 +194,7 @@ namespace SkeFramework.Push.WebSocket
             {
                 LogAgent.Info(string.Format(Websocket.Name + " New Session Connected:{0}, Path:{1}, Host:{2}, IP:{3}",
                     session.SessionID.ToString(), session.Path, session.Host, session.RemoteEndPoint));
-                WebSocketNotifications notifications= new WebSocketNotifications(session)
-                {
-                    Message = "123"
-                };
-                //OnNewConnection?.Invoke(notifications);
-                
+                RaiseNewConnection(new WebSocketNotifications(session));
             }
             catch (Exception e)
             {
