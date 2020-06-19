@@ -11,9 +11,15 @@ namespace MicrosServices.Helper.Core.UserCenter.FORM
     /// </summary>
     public class LoginInfoForm
     {
+        
         public string UserName { get; set; }
         public string Password { get; set; }
         public string LoginerInfo { get; set; }
         public string Platform { get; set; }
+
+        public string MdfPas { get; set; }
+        public string UserNo { get; set; }
+
+
     }
 }

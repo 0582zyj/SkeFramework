@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -70,6 +73,8 @@
     <Compile Include="PublishDeploy\PdPublishHandles\PdPublishHandle.cs" />
     <Compile Include="PublishDeploy\PdServerHandles\IPdServerHandle.cs" />
     <Compile Include="PublishDeploy\PdServerHandles\PdServerHandle.cs" />
+    <Compile Include="UserCenter\UcLoginLogHandles\IUcLoginLogHandle.cs" />
+    <Compile Include="UserCenter\UcLoginLogHandles\UcLoginLogHandle.cs" />
     <Compile Include="UserCenter\UcUsersSettingHandles\IUcUsersSettingHandle.cs" />
     <Compile Include="UserCenter\UcUsersSettingHandles\UcUsersSettingHandle.cs" />
     <Compile Include="UserCenter\UsersHandles\IUcUsersHandle.cs" />
@@ -113,6 +118,8 @@
       <Name>MicrosServices.Helper.DataUtil</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -73,12 +73,18 @@
     <Compile Include="Repository\PublishDeploy\PdPublishHandles\PdPublishHandleCommon.cs" />
     <Compile Include="Repository\PublishDeploy\PdServerHandles\IPdServerHandleCommon.cs" />
     <Compile Include="Repository\PublishDeploy\PdServerHandles\PdServerHandleCommon.cs" />
+    <Compile Include="Repository\UserCenter\UcLoginLogHandles\IUcLoginLogHandleCommon.cs" />
+    <Compile Include="Repository\UserCenter\UcLoginLogHandles\UcLoginLogHandleCommon.cs" />
     <Compile Include="Repository\UserCenter\UcUsersSettingHandles\IUcUsersSettingHandleCommon.cs" />
     <Compile Include="Repository\UserCenter\UcUsersSettingHandles\UcUsersSettingHandleCommon.cs" />
     <Compile Include="Repository\UserCenter\UsersHandles\IUcUsersHandleCommon.cs" />
     <Compile Include="Repository\UserCenter\UsersHandles\UcUsersHandleCommon.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Common\SkeFramework.Core.Common.csproj">
+      <Project>{37de7f92-5446-4200-87a6-43c36d1c1650}</Project>
+      <Name>SkeFramework.Core.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.Common\SkeFramework.DataBase.Common.csproj">
       <Project>{43dfa23c-87ae-49cd-868a-801ead42be74}</Project>
       <Name>SkeFramework.DataBase.Common</Name>

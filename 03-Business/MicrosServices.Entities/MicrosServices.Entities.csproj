@@ -46,7 +46,7 @@
     <Compile Include="Common\PublishDeploy\PdPublish.cs" />
     <Compile Include="Common\PublishDeploy\PdServer.cs" />
     <Compile Include="Common\UserCenter\UcAuthorizeBlackip.cs" />
-    <Compile Include="Common\UserCenter\UcLogLogin.cs" />
+    <Compile Include="Common\UserCenter\UcLoginLog.cs" />
     <Compile Include="Common\PermissionSystem\PsManagement.cs" />
     <Compile Include="Common\PermissionSystem\PsManagementRoles.cs" />
     <Compile Include="Common\PermissionSystem\PsMenu.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="Common\UserCenter\UcUsers.cs" />
     <Compile Include="Common\UserCenter\UcUsersSetting.cs" />
     <Compile Include="Constants\ConstData.cs" />
+    <Compile Include="Constants\LogTypeEumns.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

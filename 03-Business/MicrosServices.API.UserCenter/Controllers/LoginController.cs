@@ -20,10 +20,9 @@ namespace MicrosServices.API.UserCenter.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> Login([FromForm]LoginInfoForm loginInfoForm)
         {
-            string MdfPas = MD5Helper.GetMD5String(loginInfoForm.Password);
+            loginInfoForm.MdfPas = MD5Helper.GetMD5String(loginInfoForm.Password);
             UcUsers users=new UcUsers();
-            LoginResultType LoginResult = DataHandleManager.Instance().UcUsersHandle.Login(loginInfoForm.UserName, MdfPas, loginInfoForm.LoginerInfo,
-                loginInfoForm.Platform, ref users);
+            LoginResultType LoginResult = DataHandleManager.Instance().UcUsersHandle.PlatformLogin(loginInfoForm, ref users);
             if(LoginResult== LoginResultType.SUCCESS_LOGIN)
             {
                 return new JsonResponses(JsonResponses.Success.code,LoginResult.ToString(), users);
