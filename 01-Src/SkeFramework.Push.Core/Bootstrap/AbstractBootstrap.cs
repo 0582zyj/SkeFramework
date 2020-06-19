@@ -1,5 +1,6 @@
 ﻿using SkeFramework.Core.Push.Interfaces;
 using SkeFramework.Push.Core.Configs;
+using SkeFramework.Push.Core.Constants;
 using SkeFramework.Push.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,30 +11,50 @@ using System.Threading.Tasks;
 namespace SkeFramework.Push.Core.Bootstrap
 {
     /// <summary>
-    /// 引导程序
+    /// 引导程序抽象基类
     /// </summary>
     public abstract class AbstractBootstrap
     {
         /// <summary>
+        /// 数据工厂实例延迟绑定，由应用层进行操作
+        /// </summary>
+        private static AbstractBootstrap _staticInstance = null;
+
+        public static void SetDataHandleFactory(AbstractBootstrap factory)
+        {
+            _staticInstance = factory;
+        }
+
+        /// <summary>
         /// 初始工作线程
         /// </summary>
-        private int Workers;
+        protected int Workers;
         /// <summary>
         /// 连接配置
         /// </summary>
-        private IConnectionConfig connectionConfig;
+        protected IConnectionConfig connectionConfig;
 
         #region 引导程序参数设置
+        /// <summary>
+        /// 设置服务端启用参数配置
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
         public AbstractBootstrap SetConfig(IConnectionConfig config)
         {
             connectionConfig = config;
             return this;
         }
-
+        /// <summary>
+        /// 设置初始工作线程
+        /// </summary>
+        /// <param name="workerThreadCount"></param>
+        /// <returns></returns>
         public AbstractBootstrap WorkerThreads(int workerThreadCount)
         {
             if (workerThreadCount < 1) throw new ArgumentException("Can't be below 1", "workerThreadCount");
             Workers = workerThreadCount;
+            connectionConfig.SetOption(DefaultConfigTypeEumns.Workers.ToString(), Workers);
             return this;
         }
         #endregion
@@ -81,7 +102,7 @@ namespace SkeFramework.Push.Core.Bootstrap
         /// <param name="tableName"></param>
         /// <param name="controlerManager"></param>
         /// <returns></returns>
-        public abstract IPushServerFactory<TData> BuildPushServerFactory<TData>(string tableName = "") where TData : INotification, new();
+        public abstract IPushServerFactory<TData> BuildPushServerFactory<TData>() where TData : INotification, new();
         #endregion
 
 

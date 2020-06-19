@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SkeFramework.Push.Core.Bootstrap
 {
     /// <summary>
-    /// 推送链接工厂
+    /// 推送链接
     /// </summary>
     /// <typeparam name="TNotification"></typeparam>
     public interface IPushConnectionFactory

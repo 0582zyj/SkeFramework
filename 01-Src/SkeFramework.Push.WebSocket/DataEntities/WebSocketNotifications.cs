@@ -11,8 +11,6 @@ namespace SkeFramework.Push.WebSocket.DataEntities
     public class WebSocketNotifications : INotification
     {
 
-       
-
         /// <summary>
         /// 客户端连接属性
         /// </summary>

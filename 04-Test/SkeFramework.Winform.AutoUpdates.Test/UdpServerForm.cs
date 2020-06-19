@@ -52,11 +52,10 @@ namespace SkeFramework.Winform.AutoUpdates.Test
             //reactor.Start();
             IConnectionConfig connectionConfig = new DefaultConnectionConfig();
             connectionConfig.SetOption(WebSocketParamEumns.Port.ToString(), 8088);
-            var bootstrapper =
-                new PushBootstrap()
-                    .SetPushType(PushTypeEumns.WebSocket)
-                    .WorkerThreads(2)
-                    .BuildPushServerFactory<WebSocketNotifications>();
+            var bootstrapper =new PushBootstrap()
+                                .SetPushType(PushTypeEumns.WebSocket)
+                                .WorkerThreads(2)
+                                .BuildPushServerFactory<WebSocketNotifications>();
             IPushBroker<WebSocketNotifications> pushBroker = bootstrapper.NewPushBroker(connectionConfig) as IPushBroker<WebSocketNotifications>;
             pushBroker.OnConnection += PushBroker_OnNewConnection;
             pushBroker.Start();

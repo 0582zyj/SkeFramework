@@ -11,6 +11,9 @@ namespace SkeFramework.Push.Core.Configs
     /// </summary>
     public interface IConnectionConfig
     {
+        /// <summary>
+        /// 键值对值列表
+        /// </summary>
         IList<KeyValuePair<string, object>> Options { get; }
 
         /// <summary>

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace SkeFramework.Push.Core.Bootstrap
 {
     /// <summary>
-    /// 服务端工厂
+    /// 推送服务端
     /// </summary>
     public interface IPushServerFactory<TNotification> : IPushConnectionFactory where TNotification:INotification
     {

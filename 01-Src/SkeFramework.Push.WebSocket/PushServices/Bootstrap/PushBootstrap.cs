@@ -1,6 +1,7 @@
 ﻿using SkeFramework.Core.Push.Interfaces;
 using SkeFramework.Push.Core.Bootstrap;
 using SkeFramework.Push.Core.Bootstrap.Factorys;
+using SkeFramework.Push.Core.Configs;
 using SkeFramework.Push.Core.Interfaces;
 using SkeFramework.Push.WebSocket.Constants;
 using SkeFramework.Push.WebSocket.DataEntities;
@@ -13,24 +14,27 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.Push.WebSocket.PushServices.Bootstrap
 {
+    /// <summary>
+    /// 推送引导程序
+    /// </summary>
     public class PushBootstrap: AbstractBootstrap 
     {
-        /// <summary>
-        /// 数据工厂实例延迟绑定，由应用层进行操作
-        /// </summary>
-        private static AbstractBootstrap _staticInstance = null;
-
-        public static void SetDataHandleFactory(AbstractBootstrap factory)
-        {
-            _staticInstance = factory;
-        }
-
         /// <summary>
         /// 推送类型
         /// </summary>
         private PushTypeEumns PushType=PushTypeEumns.None;
 
+        public PushBootstrap()
+        {
+            this.connectionConfig = new DefaultConnectionConfig();
+        }
+
         #region 引导程序参数设置
+        /// <summary>
+        /// 设置服务端类型
+        /// </summary>
+        /// <param name="pushType"></param>
+        /// <returns></returns>
         public AbstractBootstrap SetPushType(PushTypeEumns pushType)
         {
             PushType = pushType;
@@ -38,6 +42,10 @@ namespace SkeFramework.Push.WebSocket.PushServices.Bootstrap
         }
         #endregion
 
+        #region 服务端和链接设置
+        /// <summary>
+        /// 检查参数
+        /// </summary>
         public override void Validate()
         {
             if (PushType == PushTypeEumns.None)
@@ -45,26 +53,36 @@ namespace SkeFramework.Push.WebSocket.PushServices.Bootstrap
                 throw new ArgumentException("Can't be none", "PushType");
             }
         }
-
-
-        protected override IPushBroker GetDataHandleCommon<IPushBroker, TData>()
-        {
-            var dataType = typeof(TData);
-            if (IsSubclassOf(typeof(WebSocketNotifications), dataType))
-            {
-                return new WebSocketPushBroker(BuildPushServerFactory<WebSocketNotifications>(PushType.ToString())) as IPushBroker;
-            }
-            return base.GetDataHandleCommon<IPushBroker, TData>();
-        }
-
-        public override IPushServerFactory<TData> BuildPushServerFactory<TData>(string tableName)
+        /// <summary>
+        /// 创建服务端具体实现
+        /// </summary>
+        /// <typeparam name="IPushBroker"></typeparam>
+        /// <typeparam name="TNotification"></typeparam>
+        /// <returns></returns>
+        protected override IPushBroker GetDataHandleCommon<IPushBroker, TNotification>()
         {
             switch (PushType)
             {
                 case PushTypeEumns.WebSocket:
-                    return new PushConnectionFactory() as IPushServerFactory<TData>;
+                    return new WebSocketPushBroker(BuildPushServerFactory<WebSocketNotifications>()) as IPushBroker;
+            }
+            return base.GetDataHandleCommon<IPushBroker, TNotification>();
+        }
+        /// <summary>
+        /// 创建服务端链接
+        /// </summary>
+        /// <typeparam name="TNotification"></typeparam>
+        /// <returns></returns>
+        public override IPushServerFactory<TNotification> BuildPushServerFactory<TNotification>()
+        {
+            var dataType = typeof(TNotification);
+            if (IsSubclassOf(typeof(WebSocketNotifications), dataType))
+            {
+                return new PushConnectionFactory() as IPushServerFactory<TNotification>;
             }
             return null;
         }
+        #endregion
+
     }
 }

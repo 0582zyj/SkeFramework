@@ -15,6 +15,11 @@ namespace SkeFramework.Push.Core.Interfaces
     /// <typeparam name="TNotification"></typeparam>
     public interface IPushConnection<TNotification> where TNotification : INotification
     {
+        /// <summary>
+        /// 发送接口
+        /// </summary>
+        /// <param name="notification"></param>
+        /// <returns></returns>
         Task Send(TNotification notification);
     }
 }
