@@ -10,7 +10,7 @@ namespace MicrosServices.SDK.UserCenter
 {
     public class LoginSdk
     {
-        //private static string LoginPostUrl = NetwordConstants.BASE_URL_USERCENTER + "/api/Login/LoginPost";
+        private static string LoginPostUrl = NetwordConstants.BASE_URL_USERCENTER + "/api/Login/LoginPost";
         private static string LoginUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Login/Login";
         /// <summary>
         /// 登录
@@ -22,15 +22,14 @@ namespace MicrosServices.SDK.UserCenter
             try
             {
                 RequestBase request = new RequestBase();
-                request.Url = LoginUrl;
+                request.Url = LoginPostUrl;
                 request.SetValue("UserName", loginInfo.UserName);
                 request.SetValue("Password", loginInfo.Password);
                 request.SetValue("LoginerInfo", loginInfo.LoginerInfo);
                 request.SetValue("Platform", loginInfo.Platform);
-
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
-                    Uri = LoginUrl,
+                    Uri = request.Url,
                     PostData = request.GetRequestData(),
                     Method = RequestTypeEnums.POST_FORM
                 });
