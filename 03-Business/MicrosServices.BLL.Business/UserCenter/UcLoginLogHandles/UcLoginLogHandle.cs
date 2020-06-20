@@ -35,14 +35,13 @@ namespace MicrosServices.BLL.Business.UserCenter.UcLoginLogHandles
         {
             Dictionary<string, object> keyValuePairs = new Dictionary<string, object>();
             keyValuePairs.Add("UserName", loginForm.UserName);
-            keyValuePairs.Add("Password", loginForm.Password);
+            keyValuePairs.Add("MdfPas", loginForm.MdfPas);
             keyValuePairs.Add("LoginerInfo", loginForm.LoginerInfo);
             keyValuePairs.Add("Platform", loginForm.Platform);
-            keyValuePairs.Add("LoginResultType", loginResultType.ToString());
             string message = JsonConvert.SerializeObject(keyValuePairs);
             UcLoginLog loginLog = new UcLoginLog()
             {
-                id= AutoIDWorker.Example.GetAutoSequence(),
+                id = AutoIDWorker.Example.GetAutoSequence(),
                 Titile = LogTypeEumns.Login.GetEnumDescription(),
                 Message = message,
                 LogType = LogTypeEumns.Login.ToString(),
@@ -50,10 +49,12 @@ namespace MicrosServices.BLL.Business.UserCenter.UcLoginLogHandles
                 RequestTime = DateTime.Now,
                 InputTime = DateTime.Now,
                 InputUser = loginForm.UserNo,
-                Status = (int)loginResultType,
+                Status = 0,
+                HandleResult = (int)loginResultType,
                 HandleMessage = loginResultType.GetEnumDescription(),
                 HandleTime = DateTime.Now,
                 HandleUser = loginForm.Platform,
+                ExpiresIn = 60 * 60 * 1000,
             };
             return this.Insert(loginLog)>0;
         }

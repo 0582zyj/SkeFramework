@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MicrosServices.BLL.Business.PublishDeploy.PdProjectHandles;
 using MicrosServices.BLL.Business.PublishDeploy.PdPublishHandles;
 using MicrosServices.BLL.Business.PublishDeploy.PdServerHandles;
+using MicrosServices.BLL.Business.UserCenter.UcLoginLogHandles;
 using MicrosServices.BLL.Business.UserCenter.UcUsersSettingHandles;
 using MicrosServices.BLL.SHBusiness.PsManagementHandles;
 using MicrosServices.BLL.SHBusiness.PsManagementRolesHandles;
@@ -84,6 +85,10 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             {
                 return new UcUsersHandle(GetConfigDataSerialer<UcUsers>(UcUsers.TableName)) as IDataTableHandle;
             }
+            else if (IsSubclassOf(typeof(UcLoginLog), dataType))
+            {
+                return new UcLoginLogHandle(GetConfigDataSerialer<UcLoginLog>(UcLoginLog.TableName)) as IDataTableHandle;
+            }
             else if (IsSubclassOf(typeof(UcUsersSetting), dataType))
             {
                 return new UcUsersSettingHandle(GetConfigDataSerialer<UcUsersSetting>(UcUsersSetting.TableName)) as IDataTableHandle;
@@ -142,6 +147,8 @@ namespace ULCloudLockTool.BLL.Business.Achieve
                     return new DBRepository<UcUsers, UcUsers>() as IRepository<TData>;
                 case UcUsersSetting.TableName:
                     return new DBRepository<UcUsersSetting, UcUsersSetting>() as IRepository<TData>;
+                case UcLoginLog.TableName:
+                    return new DBRepository<UcLoginLog, UcLoginLog>() as IRepository<TData>;
                 //PublishDeploy
                 case PdServer.TableName:
                     return new DBRepository<PdServer, PdServer>() as IRepository<TData>;
