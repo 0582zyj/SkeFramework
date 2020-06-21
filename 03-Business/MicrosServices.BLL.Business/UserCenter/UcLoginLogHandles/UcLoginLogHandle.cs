@@ -45,7 +45,7 @@ namespace MicrosServices.BLL.Business.UserCenter.UcLoginLogHandles
                 Titile = LogTypeEumns.Login.GetEnumDescription(),
                 Message = message,
                 LogType = LogTypeEumns.Login.ToString(),
-                RequestUser = loginForm.UserName,
+                RequestUser = loginForm.UserNo,
                 RequestTime = DateTime.Now,
                 InputTime = DateTime.Now,
                 InputUser = loginForm.UserNo,

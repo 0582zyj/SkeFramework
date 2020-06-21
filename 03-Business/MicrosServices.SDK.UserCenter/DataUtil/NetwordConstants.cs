@@ -12,7 +12,7 @@ namespace MicrosServices.SDK.UserCenter
     public class NetwordConstants
     {
         public const string BASE_URL_USERCENTER = "http://localhost/UserCenterApi";
-        public const string BASE_URL_PERMISSION = "http://localhost:5001";
+        public const string BASE_URL_PERMISSION = "https://localhost:5001";
 
         #region 单例模式
         /// <summary>
