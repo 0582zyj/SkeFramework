@@ -8,6 +8,9 @@ using System.Web.Mvc;
 
 namespace PermissionSystem.UI.WebSites.Controllers.Filters
 {
+    /// <summary>
+    /// 权限拦截
+    /// </summary>
     public class PermissionAuthAttribute : AuthorizeAttribute
     {
         public int Situation { get; set; }
