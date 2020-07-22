@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DataBase\SkeCloud.pdb" />
+    <Content Include="DataBase\skecloud.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DataBase\SkeCloud.pdm" />
