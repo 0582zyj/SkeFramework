@@ -13,6 +13,7 @@ using SkeFramework.NetSerialPort.Net.Constants;
 using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols;
 using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Configs.Enums;
 using SkeFramework.NetSerialPort.Protocols.Connections;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Protocols.DataFrame;
@@ -56,10 +57,12 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
         /// <param name="config"></param>
         public override void Configure(IConnectionConfig config)
         {
-            if (config.HasOption<int>("ReadBufferSize"))
-                Listener.ReadBufferSize = config.GetOption<int>("ReadBufferSize");
-            if (config.HasOption<int>("WriteBufferSize"))
-                Listener.WriteBufferSize = config.GetOption<int>("WriteBufferSize");
+            if (config.HasOption(OptionKeyEnums.ReadBufferSize.ToString()))
+                Listener.ReadBufferSize = Convert.ToInt32(config.GetOption(OptionKeyEnums.ReadBufferSize.ToString()));
+            if (config.HasOption(OptionKeyEnums.WriteBufferSize.ToString()))
+                Listener.WriteBufferSize = Convert.ToInt32( config.GetOption(OptionKeyEnums.WriteBufferSize.ToString()));
+            if (config.HasOption(OptionKeyEnums.ParseTimeOut.ToString()))
+                networkState.TimeOutSeconds = Convert.ToInt64(config.GetOption(OptionKeyEnums.ParseTimeOut.ToString()));
             else
                 ProxiesShareFiber = true;
         }
@@ -85,6 +88,7 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
         protected override void StopInternal()
         {
             //NO-OP
+            this.Dispose();
         }
         /// <summary>
         /// 数据接收
@@ -106,12 +110,21 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                     IsParsing = false;
                     return;
                 }
+                string log = "";
                 networkState.RawBuffer = new byte[n];
                 Listener.Read(networkState.RawBuffer, 0, n);
                 networkState.Buffer.WriteBytes(networkState.RawBuffer, 0, n);
                 ReactorConnectionAdapter adapter = ((ReactorConnectionAdapter)ConnectionAdapter);
                 while (networkState.Buffer.ReadableBytes > 0)
                 {
+                    if(networkState.TimeOutSeconds>0 && networkState.CheckPraseTimeOut())
+                    {
+                        byte[] removeByte = networkState.Buffer.ReadBytes(networkState.Buffer.ReadableBytes);
+                        log = String.Format("{0}:串口超时丢弃数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"),
+                                this.Encoder.ByteEncode(removeByte));
+                        Console.WriteLine(log);
+                        return;
+                    }
                     FrameBase frame = adapter.ParsingReceivedData(networkState.Buffer.ToArray());
                     if (frame != null)
                     {
@@ -129,19 +142,30 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                             node.TaskTag = "none";
                         }
                         NetworkState state = CreateNetworkState(Listener, node);
-                        state.RawBuffer = networkState.Buffer.ReadBytes(frame.FrameBytes.Length);
-                        this.ReceiveCallback(state);
+                        if (frame.MatchOffset != 0)
+                        {
+                            byte[] removeByte = networkState.Buffer.ReadBytes(frame.MatchOffset);
+                            log = String.Format("{0}:串口丢弃数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"),
+                                    this.Encoder.ByteEncode(removeByte));
+                            Console.WriteLine(log);
+
+                        }
+                        if (frame.FrameBytes!=null&&frame.FrameBytes.Length > 0)
+                        {
+                            state.RawBuffer = networkState.Buffer.ReadBytes(frame.FrameBytes.Length);
+                            this.ReceiveCallback(state);
+                        }
                     }
                     else
                     {
-                        string log = String.Format("{0}:串口未处理数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"), this.Encoder.ByteEncode(networkState.Buffer.ToArray()));
+                        log = String.Format("{0}:串口未处理数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"), this.Encoder.ByteEncode(networkState.Buffer.ToArray()));
                         Console.WriteLine(log);
                         break;
                     }
                 }
                 if (networkState.Buffer.WritableBytes == 0)
                 {
-                    string log = String.Format("{0}:串口丢弃数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"),
+                    log = String.Format("{0}:串口丢弃数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"),
                         this.Encoder.ByteEncode(networkState.Buffer.ToArray()));
                     Console.WriteLine(log);
                 }
@@ -277,7 +301,7 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
         {
             if (!WasDisposed && disposing && Listener != null)
             {
-                Stop();
+                Listener.Close();
                 Listener.Dispose();
             }
             IsActive = false;

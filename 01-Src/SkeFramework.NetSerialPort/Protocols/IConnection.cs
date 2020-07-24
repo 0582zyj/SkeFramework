@@ -15,12 +15,18 @@ namespace SkeFramework.NetSerialPort.Protocols
     /// <summary>
     /// 用于处理接收数据的委托
     /// </summary>
-    /// <param name="incomingData">a <see cref="NetworkData"/> instance that contains information that's arrived over the network</param>
+    /// <param name="incomingData"></param>
     public delegate void ReceivedDataCallback(NetworkData incomingData, IConnection responseChannel);
+    /// <summary>
+    /// 用于处理发送数据的委托
+    /// </summary>
+    /// <param name="incomingData"></param>
+    public delegate void SendDataCallback(NetworkData incomingData, IConnection requestChannel);
 
     public interface IConnection : IDisposable
     {
         event ReceivedDataCallback Receive;
+        event SendDataCallback SendCallback;
 
         /// <summary>
         /// 消息编码

@@ -85,6 +85,10 @@ namespace SkeFramework.NetSerialPort.Protocols.DataFrame
             set { frameBytes = value; }
         }
         /// <summary>
+        /// 匹配的偏移地址
+        /// </summary>
+        public int MatchOffset { get; set; }
+        /// <summary>
         /// 同步头
         /// </summary>
         protected List<byte> SyncHead;
@@ -97,15 +101,35 @@ namespace SkeFramework.NetSerialPort.Protocols.DataFrame
             get { return Convert.ToInt32(this.cmdByte).ToString(); }
             set { cmdByte = Convert.ToByte( value); }
         }
+        /// <summary>
+        /// 生成一个偏移地址的丢弃帧
+        /// </summary>
+        /// <param name="matchOffset"></param>
+        public FrameBase(int matchOffset) : this(new byte[0], new byte[0], matchOffset)
+        {
+            this.MatchOffset = matchOffset;
+        }
+        /// <summary>
+        /// 生成一个带同步头的偏移地址帧
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="syncHead"></param>
+        /// <param name="matchOffset"></param>
+        public FrameBase(byte[] data, byte[] syncHead,int matchOffset=0):this(data,syncHead)
+        {
+            this.MatchOffset = matchOffset;
+        }
+        /// <summary>
+        /// 生成一个同步头的帧
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="syncHead"></param>
         public FrameBase(byte[] data,byte[] syncHead)
         {
             this.frameBytes = data;
             this.SyncHead = syncHead == null?new List<byte>(): syncHead.ToList();
+            this.MatchOffset = 0;
         }
-
-        
-
-
         /// <summary>
         /// 校验帧数据
         /// </summary>
@@ -132,21 +156,11 @@ namespace SkeFramework.NetSerialPort.Protocols.DataFrame
 
         public virtual ResultOfParsingFrame ParseToFrame(NetworkData data)
         {
-            ResultOfParsingFrame re = ResultOfParsingFrame.FormatNotMatched;
-            frameBytes = data.Buffer;
-            //这里可以校验同步头
-            if (SyncHead != null && SyncHead.Count > 0)
+            if (data == null)
             {
-                for (int i = 0; i < SyncHead.Count; i++)
-                {
-                    if (data.Buffer[i] != SyncHead[i])
-                    {
-                        return ResultOfParsingFrame.SyncHeadError;
-                    }
-                }
+                return ResultOfParsingFrame.FormatNotMatched;
             }
-            re = ResultOfParsingFrame.ReceivingCompleted;
-            return re;
+            return ParseToFrame(data.Buffer);
         }
 
     }

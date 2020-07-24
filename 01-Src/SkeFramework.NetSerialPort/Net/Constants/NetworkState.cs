@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
+using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Topology;
 
 namespace SkeFramework.NetSerialPort.Net.Constants
@@ -15,12 +16,14 @@ namespace SkeFramework.NetSerialPort.Net.Constants
     /// </summary>
     public class NetworkState
     {
+
         public NetworkState(SerialPort socket, INode remoteHost, IByteBuf buffer, int rawBufferLength)
         {
             Buffer = buffer;
             RemoteHost = remoteHost;
             Socket = socket;
             RawBuffer = new byte[rawBufferLength];
+            TimeOutSeconds = NetworkConstants.DefaultPraseTimeOut;
         }
         /// <summary>
         /// Socket对象
@@ -38,5 +41,24 @@ namespace SkeFramework.NetSerialPort.Net.Constants
         /// 原始缓冲区
         /// </summary>
         public byte[] RawBuffer { get;  set; }
+        /// <summary>
+        /// 过期时间戳【s】
+        /// </summary>
+        public long TimeOutSeconds { get; set; }
+        /// <summary>
+        /// 检查是否超时
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckPraseTimeOut()
+        {
+            TimeSpan tss = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            long NowTimeSpan = Convert.ToInt64(tss.TotalMilliseconds);
+            long TimeOutSpan = this.Buffer.ReceiveTimeSpan + TimeOutSeconds * 1000;
+            if (TimeOutSpan < NowTimeSpan)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

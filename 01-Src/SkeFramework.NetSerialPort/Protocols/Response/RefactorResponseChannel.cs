@@ -63,6 +63,13 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
             // ReSharper disable once ValueParameterNotUsed
             remove { ReceiveList -= value; }
         }
+        protected event SendDataCallback SendList;
+        public event SendDataCallback SendCallback
+        {
+            add { SendList += value; }
+            // ReSharper disable once ValueParameterNotUsed
+            remove { SendList -= value; }
+        }
         #endregion
 
         public IMessageEncoder Encoder { get; set; }
@@ -131,11 +138,20 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
         public virtual void Send(NetworkData data)
         {
             _reactor.Send(data);
+            if (SendList != null)
+            {
+                SendList(data, this);
+            }
         }
 
         public void Send(byte[] buffer, int index, int length, INode destination)
         {
-            _reactor.Send(buffer, index, length, destination);
+            if (destination == null)
+            {
+                destination = this._reactor.LocalEndpoint;
+            }
+            NetworkData data = NetworkData.Create(destination, buffer, length);
+            this.Send(data);
         }
 
         protected abstract void BeginReceiveInternal();

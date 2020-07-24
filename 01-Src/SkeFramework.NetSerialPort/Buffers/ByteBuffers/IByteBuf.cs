@@ -8,6 +8,9 @@ using SkeFramework.NetSerialPort.Buffers.Constants;
 
 namespace SkeFramework.NetSerialPort.Buffers
 {
+    /// <summary>
+    /// 字节接口
+    /// </summary>
     public interface IByteBuf : IReferenceCounted
     {
         int Capacity { get; }
@@ -43,7 +46,10 @@ namespace SkeFramework.NetSerialPort.Buffers
         /// 最大可写入的字节数
         /// </summary>
         int MaxWritableBytes { get; }
-
+        /// <summary>
+        /// 当前消息接受时间
+        /// </summary>
+        long ReceiveTimeSpan { get; set; }
         /// <summary>
         /// 标志，指示这个是否由字节数组支持
         /// </summary>
@@ -53,9 +59,19 @@ namespace SkeFramework.NetSerialPort.Buffers
         /// </summary>
         /// <returns></returns>
         byte[] ToArray();
-
+        /// <summary>
+        /// 读取指令长度的字节
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
         byte[] ReadBytes(int length);
-
+        /// <summary>
+        /// 写入指定长度的字节
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="index"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
         IByteBuf WriteBytes(byte[] buffer, int index, int length);
     }
 }

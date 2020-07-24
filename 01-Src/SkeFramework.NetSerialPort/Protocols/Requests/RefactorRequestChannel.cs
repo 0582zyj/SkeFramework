@@ -43,6 +43,13 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             remove { ReceiveList -= value; }
         }
 
+        protected event SendDataCallback SendList;
+        public event SendDataCallback SendCallback
+        {
+            add { SendList += value; }
+            // ReSharper disable once ValueParameterNotUsed
+            remove { SendList -= value; }
+        }
         #region 构造函数
         protected RefactorRequestChannel(ReactorBase reactor, string controlCode)
             : this(reactor, reactor.LocalEndpoint, controlCode)
@@ -145,6 +152,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         public virtual void Send(NetworkData data)
         {
             _reactor.Send(data);
+            if (SendList != null)
+            {
+                SendList(data, this);  
+            }
         }
 
         public void Send(byte[] buffer, int index, int length, INode destination)
@@ -153,7 +164,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             {
                 destination = this._reactor.LocalEndpoint;
             }
-            _reactor.Send(buffer, index, length, destination);
+            //_reactor.Send(buffer, index, length, destination);
+            NetworkData data = NetworkData.Create(destination, buffer, length);
+            this.Send(data);
         }
       
         /// <summary>

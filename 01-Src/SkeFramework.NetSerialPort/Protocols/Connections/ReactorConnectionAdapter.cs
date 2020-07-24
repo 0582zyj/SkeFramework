@@ -30,14 +30,18 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             add { _reactor.OnReceive += value; }
             remove { _reactor.OnReceive -= value; }
         }
+
+        public event SendDataCallback SendCallback
+        {
+            add { _reactor.OnSend += value; }
+            remove { _reactor.OnSend -= value; }
+        }
+
         /// <summary>
         /// 通信
         /// </summary>
         protected ReactorBase _reactor;
-        /// <summary>
-        /// 是否等待停止
-        /// </summary>
-        private bool waitForStop = false;
+    
 
         public ReactorConnectionAdapter(ReactorBase reactor)
         {
@@ -151,27 +155,14 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             if (this.ThreadProtocol != null)
             {
                 ((EventWaitHandle)protocolEvents[(int)ProtocolEvents.ProtocolExit]).Set();
-                if (waitForStop)
+                if (this.ThreadProtocol != null)
                 {
-                    if (this.ThreadProtocol != null)
+                    if (!this.ThreadProtocol.Join(3000))
                     {
-                        if (!this.ThreadProtocol.Join(20000))
-                        {
-                            if (_reactor != null)
-                            {
-                                _reactor.Stop();
-                                //ProtocolStateAccessor = ProtocolState._reactorDisconnected;
-                            }
-                            this.ThreadProtocol.Abort(); // 强行退出线程。
-                            this.ThreadProtocol.Join();  // 若线程还未退出，可能是线程函数中catch到了Abort扔出的ThreadAbortException异常后，让线程继续运行所致。
-                        }
+                        this.ThreadProtocol.Abort(); // 强行退出线程。
+                        this.ThreadProtocol.Join();  // 若线程还未退出，可能是线程函数中catch到了Abort扔出的ThreadAbortException异常后，让线程继续运行所致。
                     }
                 }
-            }
-            // 2、关闭通讯端口（关闭端口放在下面，那么关闭协议时的UnInitialize函数就可以通过端口发送消息）
-            if (_reactor != null)
-            {
-                _reactor.Stop();
             }
         }
         #endregion
@@ -205,19 +196,19 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
 
         public void StopReceive()
         {
-            Receive += (data, channel) => { };
+            Receive -= (data, channel) => { };
         }
         #endregion
 
         #region 发送数据
         public void Send(NetworkData data)
         {
-            _reactor.Send(data);
+            this.Send(data.Buffer, 0, data.Length, data.RemoteHost);
         }
 
         public void Send(byte[] buffer, int index, int length)
         {
-            _reactor.Send(buffer, index, length, _reactor.LocalEndpoint);
+            this.Send(buffer, index, length, _reactor.LocalEndpoint);
         }
 
         public void Send(byte[] buffer, int index, int length, INode destination)
@@ -259,6 +250,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// 数据处理缓冲区
         /// </summary>
         public NetworkDataDocker networkDataDocker;
+
         #endregion
 
         #region 协议线程的处理过程
@@ -298,7 +290,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                 }
             } while (this.ProtocolThreadIsAlive);
             UnInitialize();
-            this.ThreadProtocol = null;
         }
         /// <summary>
         /// 轮询处理
@@ -517,6 +508,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             //触发整条记录的处理
             return frameBase;
         }
+
         #endregion
 
         #region IDisposable methods

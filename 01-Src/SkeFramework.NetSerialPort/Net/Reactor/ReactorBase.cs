@@ -32,6 +32,12 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             // ReSharper disable once ValueParameterNotUsed
             remove { }
         }
+        public event SendDataCallback OnSend
+        {
+            add { }
+            // ReSharper disable once ValueParameterNotUsed
+            remove { }
+        }
 
         #endregion
 
@@ -43,15 +49,13 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             Encoder = encoder;
             Allocator = allocator;
 
-            Listener = new SerialPort
-            {
-                PortName = nodeConfig.PortName,
-                BaudRate = nodeConfig.BaudRate,
-                DataBits = nodeConfig.DataBits,
-                StopBits = nodeConfig.StopBits,
-                Parity = nodeConfig.Parity,
-                ReceivedBytesThreshold = 1
-            };
+            Listener = new SerialPort();
+            Listener.PortName = nodeConfig.PortName;
+            Listener.BaudRate = nodeConfig.BaudRate;
+            Listener.DataBits = nodeConfig.DataBits;
+            Listener.StopBits = nodeConfig.StopBits;
+            Listener.Parity = nodeConfig.Parity;
+            Listener.ReceivedBytesThreshold = 1;
 
             //LocalEndpoint = new IPEndPoint(localAddress, localPort);      
             Backlog = NetworkConstants.DefaultBacklog;
@@ -87,7 +91,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             CheckWasDisposed();
             IsActive = true;
             this.ConnectionAdapter.Open();
-            StartInternal();            
+            StartInternal();
         }
 
         public void Stop()
@@ -95,12 +99,13 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             CheckWasDisposed();
             try
             {
+                IsActive = false;
                 Listener.Close();
+                ConnectionAdapter.Close();
             }
             catch
             {
             }
-            IsActive = false;
             StopInternal();
         }
 
@@ -134,7 +139,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         #region ReactorConnectionAdapter
         protected NetworkState CreateNetworkState(SerialPort socket, INode remotehost)
         {
-            IByteBuf byteBuf = Allocator?.Buffer();
+            IByteBuf byteBuf = Allocator == null ? null : Allocator.Buffer();
             return CreateNetworkState(socket, remotehost, byteBuf, BufferSize);
         }
 

@@ -13,7 +13,7 @@ namespace SkeFramework.NetSerialPort.Buffers.ByteBuffers.Achieves
     {
 
         /// <summary>
-        ///     The buffer itself
+        /// The buffer itself
         /// </summary>
         private readonly byte[] _buffer;
         /// <summary>
@@ -134,7 +134,7 @@ namespace SkeFramework.NetSerialPort.Buffers.ByteBuffers.Achieves
                         this.ReadableBytes));
             result = ToArray().Take(length).ToArray();
             this.SetReaderIndex(this.ReaderIndex + length);
-            if (this.ReaderIndex >= this.Capacity || this.ReadableBytes == 0)
+            if (this.ReaderIndex >= this.Capacity || this.ReadableBytes==0)
             {
                 this.SetReaderIndex(0);
                 this.SetWriterIndex(0);
@@ -150,13 +150,14 @@ namespace SkeFramework.NetSerialPort.Buffers.ByteBuffers.Achieves
                         this.WritableBytes, this));
             Array.Copy(buffer, index, this._buffer, WriterIndex, length);
             this.SetWriterIndex(this.WriterIndex + length);
+            TimeSpan tss = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            this.ReceiveTimeSpan = Convert.ToInt64(tss.TotalMilliseconds);
             return this;
         }
 
-        public int ReferenceCount
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public int ReferenceCount { get; }
+
+        public long ReceiveTimeSpan { get;  set; }
 
         public IReferenceCounted Retain()
         {
