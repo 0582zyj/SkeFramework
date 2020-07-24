@@ -10,6 +10,7 @@
   <ItemGroup>
     <Compile Remove="Gobal\ExceptionHandlerMiddleWare.cs" />
     <Compile Remove="Gobal\i18MiddlewareExtension.cs" />
+    <Compile Remove="Handles\ScheduleJob\DemoJob.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Gobal\" />
+    <Folder Include="Handles\ScheduleJob\" />
     <Folder Include="Resources\DataBase\" />
   </ItemGroup>
 
@@ -33,7 +35,6 @@
     <ProjectReference Include="..\..\01-Src\SkeFramework.Cache.Redis\SkeFramework.Cache.Redis.csproj" />
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.ApiCommons\SkeFramework.Core.ApiCommons.csproj" />
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj" />
-    <ProjectReference Include="..\..\01-Src\SkeFramework.Schedule.NetJob\SkeFramework.Schedule.NetJob.csproj" />
     <ProjectReference Include="..\MicrosServices.BLL.Business\MicrosServices.BLL.Business.csproj" />
     <ProjectReference Include="..\MicrosServices.DAL.DataAccess\MicrosServices.DAL.DataAccess.csproj" />
     <ProjectReference Include="..\MicrosServices.Entities.Common\MicrosServices.Entities.Common.csproj" />

@@ -12,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SkeFramework.Core.ApiCommons.Middlewares;
-using SkeFramework.Schedule.NetJob.DataHandle;
 
 namespace MicrosServices.API.PermissionSystem
 {
@@ -34,7 +33,7 @@ namespace MicrosServices.API.PermissionSystem
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //添加定时任务
-            services.AddCrontabJob();
+            //services.AddCrontabJob();
             //
         }
 
@@ -57,8 +56,8 @@ namespace MicrosServices.API.PermissionSystem
             }
             //异常业务处理中间件
             app.UseMiddleware(typeof(ExceptionMiddleWare));
-            //配置定时任务
-            app.UseCrontabJob();
+            ////配置定时任务
+            //app.UseCrontabJob();
             //配置Http重定向
             app.UseHttpsRedirection();
             //配置MVC路由规则
