@@ -124,6 +124,21 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
 
+        
 
+        /// <summary>
+        /// 发布方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult ProjectPublish(int id)
+        {
+            JsonResponses responses = serverSdk.GetInfo(id);
+            if (responses.ValidateResponses())
+            {
+                //responses = serverSdk.Delete(id);
+            }
+            return Json(responses, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -23,13 +23,13 @@ namespace MicrosServices.Entities.Common.PublishDeploy
         public string Name { get; set; }
         [Description("版本控制类型[Git/SVN]")]
         public string VersionType { get; set; }
-        [Description("版本地址")]
+        [Description("版本管理地址")]
         public string VersionUrl { get; set; }
-        [Description("源代码地址")]
+        [Description("源代码路径")]
         public string SourcePath { get; set; }
         [Description("打包程序路径")]
         public string MSBuildPath { get; set; }
-        [Description("项目文件")]
+        [Description("打包命令文件路径")]
         public string ProjectFile { get; set; }
         [Description("通知邮箱列表")]
         public string notifyEmails { get; set; }

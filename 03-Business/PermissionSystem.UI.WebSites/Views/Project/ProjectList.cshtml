@@ -46,9 +46,6 @@
                                 <th>ID</th>
                                 <th>编码</th>
                                 <th>名称</th>
-                                <th>版本控制类型[Git/SVN]</th>
-                                <th>版本地址</th>
-                                <th>项目文件</th>
                                 <th>通知邮箱列表</th>
                                 <th class="operation">操作</th>
                             </tr>
@@ -58,13 +55,11 @@
                                 <td>{{item.id}}</td>
                                 <td>{{item.ProjectNo}}</td>
                                 <td>{{item.Name}}</td>
-                                <td>{{item.VersionType}}</td>
-                                <td>{{item.VersionUrl}}</td>
-                                <td>{{item.ProjectFile}}</td>
                                 <td>{{item.notifyEmails}}</td>
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toPublish(item.id)">立即发布</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -86,6 +81,7 @@
                 addJumpUrl: "@Url.Action("ProjectAdd", "Project")",
                 deleteUrl: "@Url.Action("PdProjectDelete", "Project")",
                 GetListUrl: "@Url.Action("GetPdProjectList", "Project")",
+                publishUrl: "@Url.Action("ProjectPublish", "Project")",
                 dataList: [],
                 search: { keywords: ""}
             },
@@ -118,6 +114,20 @@
                          console.log(error);
                      });
                 },
+                toPublish: function (_id) {
+                    axios.post(this.publishUrl, { id: _id })
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                alert(response.data.msg);
+                                if (response.data.code == 200) {
+                                    window.location.reload();
+                                }
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },                
                 btnSearch: function () {
                     if (this.$children.length > 0) {
                         this.$children[0].go(1);
