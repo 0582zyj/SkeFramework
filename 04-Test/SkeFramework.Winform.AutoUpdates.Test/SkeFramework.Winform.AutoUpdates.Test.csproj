@@ -62,6 +62,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GitForm.Designer.cs">
+      <DependentUpon>GitForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +82,9 @@
     <Compile Include="UdpServerForm.Designer.cs">
       <DependentUpon>UdpServerForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="GitForm.resx">
+      <DependentUpon>GitForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -109,6 +118,10 @@
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Common\SkeFramework.Core.Common.csproj">
       <Project>{37DE7F92-5446-4200-87A6-43C36D1C1650}</Project>
       <Name>SkeFramework.Core.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.NetGit\SkeFramework.NetGit.csproj">
+      <Project>{24d57fd7-f4e1-49de-915c-2a044ccfbc48}</Project>
+      <Name>SkeFramework.NetGit</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.NetSocket\SkeFramework.NetSocket.csproj">
       <Project>{e8fda6ec-46bf-4915-8bbe-de8ef38b11f0}</Project>

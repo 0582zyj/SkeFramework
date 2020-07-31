@@ -16,7 +16,7 @@ namespace SkeFramework.Winform.AutoUpdates.Test
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new UdpServerForm());
+            Application.Run(new GitForm());
         }
     }
 }
