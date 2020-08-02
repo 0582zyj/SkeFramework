@@ -26,7 +26,7 @@ namespace SkeFramework.NetGit.DataHandle.ProcessHandle
         /// <summary>
         /// 工作路径
         /// </summary>
-        private string workingDirectoryRoot;
+        public string workingDirectoryRoot;
         /// <summary>
         /// Git代码路径
         /// </summary>
@@ -116,9 +116,6 @@ namespace SkeFramework.NetGit.DataHandle.ProcessHandle
 
         #region InvokeGit
 
-
-
-
         public Result InvokeGitInWorkingDirectoryRoot(string command,bool fetchMissingObjects,Action<StreamWriter> writeStdIn = null,Action<string> parseStdOutLine = null,bool userInteractive = true)
         {
             return this.InvokeGitImpl(command,workingDirectory: this.workingDirectoryRoot,dotGitDirectory: null,fetchMissingObjects: fetchMissingObjects,
@@ -137,11 +134,7 @@ namespace SkeFramework.NetGit.DataHandle.ProcessHandle
             return this.InvokeGitOutsideEnlistment(command, null, null);
         }
 
-        private Result InvokeGitOutsideEnlistment(
-    string command,
-    Action<StreamWriter> writeStdIn,
-    Action<string> parseStdOutLine,
-    int timeout = -1)
+        public Result InvokeGitOutsideEnlistment(string command, Action<StreamWriter> writeStdIn,Action<string> parseStdOutLine,int timeout = -1)
         {
             return this.InvokeGitImpl(
                 command,
@@ -196,10 +189,10 @@ namespace SkeFramework.NetGit.DataHandle.ProcessHandle
            string gitObjectsDirectory = null,
            bool userInteractive = true)
         {
-            if (writeStdIn != null)
-            {
-                return new Result(string.Empty, "Attempting to use to stdin, but the process does not have the right input encodings set.", Result.GenericFailureCode);
-            }
+            //if (writeStdIn != null)
+            //{
+            //    return new Result(string.Empty, "Attempting to use to stdin, but the process does not have the right input encodings set.", Result.GenericFailureCode);
+            //}
 
             try
             {

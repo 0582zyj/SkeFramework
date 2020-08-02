@@ -1,6 +1,9 @@
 ﻿using SkeFramework.NetGit.DataCommon;
 using SkeFramework.NetGit.DataConfig;
 using SkeFramework.NetGit.DataHandle.ProcessHandle;
+using SkeFramework.NetGit.DataService;
+using SkeFramework.NetGit.DataService.CredentialServices;
+using SkeFramework.NetGit.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,17 +25,29 @@ namespace SkeFramework.Winform.AutoUpdates.Test
 
         private void GitForm_Load(object sender, EventArgs e)
         {
-            string enlistmentRoot = @"E:\JProject\GitRepository\Work";
+            string enlistmentRoot = @"D:\JProject\GitRepository\Work";
             string workingDirectory = @"E:\JProject\GitRepository\Work\developmentdocs";
-            string repoUrl = "http://192.168.104.43/netProject/developmentdocs.git";
-            string gitBinPath = @"D:\Program Files\Git\cmd\git.exe";
-            GitConfig authConfig = new GitAuthConfig(enlistmentRoot, workingDirectory, repoUrl, gitBinPath);
-            GitProcess gitProcess = authConfig.CreateGitProcess();
-            //Result result = gitProcess.InvokeGitOutsideEnlistment("version");
-            //string version = result.Output;
+            string repoUrl = "https://gitee.com/SkeCloud/SkeFramework.git";
+            string gitBinPath = @"C:\Program Files\Git\cmd\git.exe";
 
-            Result result = gitProcess.InvokeGitInWorkingDirectoryRoot("init", false);
-            string version = result.Output;
+            GitConfig authConfig = new GitAuthConfig(enlistmentRoot, workingDirectory, repoUrl, gitBinPath);
+            IGitCommand command = new GitCommandService(authConfig.CreateGitProcess());
+            //Result result = gitProcess.InvokeGitOutsideEnlistment("version");
+            string version = command.GitVersion();
+
+            version = command.GitInit();
+            string error = "";
+            string originUrl = "";
+             string username = "502525164@qq.com";
+            string password = "jun502525164";
+            ICredentialStore credentialStore = new CredentialService(authConfig.CreateGitProcess());
+            credentialStore.TryStoreCredential(repoUrl,  username,  password, out error);
+            credentialStore.TryGetCredential(repoUrl, out username, out password, out error);
+
         }
+
+
+        
+
     }
 }

@@ -47,15 +47,19 @@
     <Compile Include="DataCommon\Result.cs" />
     <Compile Include="DataConfig\GitAuthConfig.cs" />
     <Compile Include="DataConfig\GitConfig.cs" />
+    <Compile Include="DataConfig\GitConfigSetting.cs" />
     <Compile Include="DataHandle\FileStreamHandle\FlushToDiskFileStream.cs" />
     <Compile Include="DataHandle\FileSystemHandle\DirectoryItemInfo.cs" />
     <Compile Include="DataHandle\FileSystemHandle\PhysicalFileSystem.cs" />
     <Compile Include="DataHandle\ProcessHandle\GitProcess.cs" />
-    <Compile Include="Interfaces\ICredentialStore.cs" />
-    <Compile Include="Interfaces\IGitCommand.cs" />
+    <Compile Include="DataService\Abstracts\GitCommandService.cs" />
+    <Compile Include="DataService\CredentialServices\CredentialService.cs" />
+    <Compile Include="DataService\CredentialServices\ICredentialStore.cs" />
+    <Compile Include="DataService\Abstracts\IGitCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DataService\Interfaces\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
