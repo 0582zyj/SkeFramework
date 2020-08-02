@@ -42,6 +42,8 @@ namespace SkeFramework.Winform.AutoUpdates.Test
             string password = "jun502525164";
             ICredentialStore credentialStore = new CredentialService(authConfig.CreateGitProcess());
             credentialStore.TryStoreCredential(repoUrl,  username,  password, out error);
+            username = "";
+            password = "";
             credentialStore.TryGetCredential(repoUrl, out username, out password, out error);
 
         }

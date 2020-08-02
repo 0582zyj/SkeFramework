@@ -56,6 +56,7 @@
     <Compile Include="DataService\CredentialServices\CredentialService.cs" />
     <Compile Include="DataService\CredentialServices\ICredentialStore.cs" />
     <Compile Include="DataService\Abstracts\IGitCommand.cs" />
+    <Compile Include="DataUtils\Serialization\MessageDecoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
