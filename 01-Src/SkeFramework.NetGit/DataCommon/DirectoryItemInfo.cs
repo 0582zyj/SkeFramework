@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetGit.DataHandle.FileSystemHandle
+namespace SkeFramework.NetGit.DataCommon
 {
+    /// <summary>
+    /// 文件信息
+    /// </summary>
     public class DirectoryItemInfo
     {
         public string Name { get; set; }

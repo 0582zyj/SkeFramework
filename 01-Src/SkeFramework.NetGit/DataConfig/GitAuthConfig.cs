@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.NetGit.DataConfig
 {
-    public class GitAuthConfig : GitConfig
+    public class GitAuthConfig : GitBaseConfig
     {
 
         public GitAuthConfig(string enlistmentRoot, string workingDirectory, string repoUrl, string gitBinPath )

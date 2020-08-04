@@ -9,7 +9,7 @@ namespace SkeFramework.NetGit.DataService.CredentialServices
     /// <summary>
     /// 认证存储
     /// </summary>
-    public interface ICredentialStore
+    public interface ICredentialService
     {
         /// <summary>
         /// 获取用户和密码

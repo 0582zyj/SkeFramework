@@ -55,9 +55,10 @@ namespace SkeFramework.NetGit.DataHandle.ProcessHandle
         public bool LowerPriority { get; set; }
 
         #region 构造函数
-        public GitProcess(GitConfig authConfig)
+        public GitProcess(GitBaseConfig authConfig)
        : this(authConfig.GitBinPath, authConfig.WorkingDirectoryRoot)
         {
+            stopping = false;
         }
 
         public GitProcess(string gitBinPath, string workingDirectoryRoot)
@@ -75,7 +76,6 @@ namespace SkeFramework.NetGit.DataHandle.ProcessHandle
                 this.dotGitRoot = Path.Combine(this.workingDirectoryRoot, GitConstant.DotGit.Root);
             }
         }
-
         #endregion
 
         #region Command
@@ -239,7 +239,7 @@ namespace SkeFramework.NetGit.DataHandle.ProcessHandle
                         {
                             if (this.stopping)
                             {
-                                return new Result(string.Empty, nameof(GitProcess) + " is stopping", Result.GenericFailureCode);
+                                return new Result(string.Empty, nameof(GitProcess) + " is stopping", Result.FailureCode);
                             }
 
                             this.executingProcess.Start();
@@ -273,7 +273,7 @@ namespace SkeFramework.NetGit.DataHandle.ProcessHandle
                             {
                                 this.executingProcess.Kill();
 
-                                return new Result(output.ToString(), "Operation timed out: " + errors.ToString(), Result.GenericFailureCode);
+                                return new Result(output.ToString(), "Operation timed out: " + errors.ToString(), Result.FailureCode);
                             }
                         }
 
@@ -283,7 +283,7 @@ namespace SkeFramework.NetGit.DataHandle.ProcessHandle
             }
             catch (Win32Exception e)
             {
-                return new Result(string.Empty, e.Message, Result.GenericFailureCode);
+                return new Result(string.Empty, e.Message, Result.FailureCode);
             }
             finally
             {

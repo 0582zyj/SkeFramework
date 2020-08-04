@@ -12,6 +12,7 @@ namespace SkeFramework.NetGit.Constants
     /// </summary>
    public class GitConstant
     {
+        public const string GitIsNotInstalledError = "Could not find git.exe.  Ensure that Git is installed.";
 
         public static class DotGit
         {

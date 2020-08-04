@@ -13,13 +13,13 @@ namespace SkeFramework.NetGit.DataService.CredentialServices
     /// <summary>
     /// 认证
     /// </summary>
-    public class CredentialService : ICredentialStore
+    public class CredentialService : ICredentialService
     {
         private GitProcess Process;
 
-        public CredentialService(GitProcess gitProcess)
+        public CredentialService(GitBaseConfig config)
         {
-            Process = gitProcess;
+            Process = config.CreateGitProcess();
         }
         /// <summary>
         /// 删除用户名和密码

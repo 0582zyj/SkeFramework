@@ -14,9 +14,9 @@ namespace SkeFramework.NetGit.DataConfig
     /// <summary>
     /// 授权链接配置
     /// </summary>
-    public abstract class GitConfig
+    public abstract class GitBaseConfig
     {
-        protected GitConfig(string enlistmentRoot,string workingDirectoryRoot, string repoUrl,string gitBinPath, bool flushFileBuffersForPacks)
+        protected GitBaseConfig(string enlistmentRoot,string workingDirectoryRoot, string repoUrl,string gitBinPath, bool flushFileBuffersForPacks)
         {
             if (string.IsNullOrWhiteSpace(gitBinPath))
             {
