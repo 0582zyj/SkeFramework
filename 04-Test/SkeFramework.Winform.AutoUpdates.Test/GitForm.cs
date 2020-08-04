@@ -41,15 +41,16 @@ namespace SkeFramework.Winform.AutoUpdates.Test
             string originUrl = "http://192.168.104.43/netProject/developmentdocs.git";
             string username = "zengyingjun@ut.cn";
             string password = "ut502525164";
-            ICredentialService credentialStore = new CredentialService(authConfig);
-            credentialStore.TryStoreCredential(repoUrl,  username,  password, out error);
-            username = "";
-            password = "";
-            credentialStore.TryGetCredential(repoUrl, out username, out password, out error);
+            //ICredentialService credentialStore = new CredentialService(authConfig);
+            //credentialStore.TryStoreCredential(repoUrl,  username,  password, out error);
+            //username = "";
+            //password = "";
+            //credentialStore.TryGetCredential(repoUrl, out username, out password, out error);
 
             CloneService cloneService = new CloneService(authConfig);
             Result result= cloneService.GitClone(originUrl, "master");
-
+            result = cloneService.GitPull();
+ 
         }
 
 

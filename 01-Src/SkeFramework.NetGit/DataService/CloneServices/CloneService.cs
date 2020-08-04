@@ -20,12 +20,11 @@ namespace SkeFramework.NetGit.DataService.CloneServices
     public class CloneService: GitCommandService, IGitCommandService
     {
         private bool FullClone = false;
-        public TextWriter Output { get; set; }
-        public bool Unattended { get; private set; }
+
 
         public CloneService(GitBaseConfig config):base(config)
         {
-      
+            this.Output = Console.Out;
         }
         /// <summary>
         /// 克隆项目
@@ -89,7 +88,6 @@ namespace SkeFramework.NetGit.DataService.CloneServices
             }
             return new Result("","",Result.SuccessCode);
         }
-
         /// <summary>
         /// 签出
         /// </summary>
@@ -103,17 +101,16 @@ namespace SkeFramework.NetGit.DataService.CloneServices
             }
             return config.CreateGitProcess().InvokeGitInWorkingDirectoryRoot("sparse-checkout init --cone", fetchMissingObjects: true);
         }
-
-
-        protected bool ShowStatusWhileRunning(Func<bool> action,string message)
+        /// <summary>
+        /// 拉取命令
+        /// </summary>
+        /// <returns></returns>
+        public Result GitPull()
         {
-            return ConsoleUtil.ShowStatusWhileRunning(
-                action,
-                message,
-                this.Output,
-                showSpinner: !this.Unattended && this.Output == Console.Out,
-                initialDelayMs: 0);
+            return this.Process.InvokeGitInWorkingDirectoryRoot("pull", fetchMissingObjects: true);
         }
+
+        
 
     }
 }

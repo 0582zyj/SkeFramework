@@ -1,6 +1,5 @@
 ﻿using SkeFramework.NetGit.Constants;
 using SkeFramework.NetGit.DataCommon;
-using SkeFramework.NetGit.DataHandle.FileSystemHandle;
 using SkeFramework.NetGit.DataHandle.ProcessHandle;
 using System;
 using System.Collections.Generic;

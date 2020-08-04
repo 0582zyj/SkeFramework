@@ -78,42 +78,6 @@ namespace SkeFramework.NetGit.DataHandle.ProcessHandle
         }
         #endregion
 
-        #region Command
-        /// <summary>
-        /// 获取远程Git地址
-        /// </summary>
-        /// <returns></returns>
-        public ConfigResult GetOriginUrl()
-        {
-            return new ConfigResult(this.InvokeGitAgainstDotGitFolder("config --local remote.origin.url"), "remote.origin.url");
-        }
-
-        public bool TryGetRemotes(out string[] remotes, out string error)
-        {
-            Result result = this.InvokeGitInWorkingDirectoryRoot("remote", fetchMissingObjects: false);
-
-            if (result.ExitCodeIsFailure)
-            {
-                remotes = null;
-                error = result.Errors;
-                return false;
-            }
-
-            remotes = result.Output
-                            .Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            error = null;
-            return true;
-        }
-
-        public ConfigResult GetFromLocalConfig(string settingName)
-        {
-            return new ConfigResult(this.InvokeGitAgainstDotGitFolder("config --local " + settingName), settingName);
-        }
-
-
-
-        #endregion
-
         #region InvokeGit
 
         public Result InvokeGitInWorkingDirectoryRoot(string command,bool fetchMissingObjects,Action<StreamWriter> writeStdIn = null,Action<string> parseStdOutLine = null,bool userInteractive = true)

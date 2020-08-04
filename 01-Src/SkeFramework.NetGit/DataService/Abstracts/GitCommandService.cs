@@ -5,6 +5,7 @@ using SkeFramework.NetGit.DataUtils;
 using SkeFramework.NetGit.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,10 @@ namespace SkeFramework.NetGit.DataService
 {
     public class GitCommandService : IGitCommandService
     {
+        /// <summary>
+        /// 日志输出
+        /// </summary>
+        public TextWriter Output { get; set; }
         /// <summary>
         /// Git配置
         /// </summary>
@@ -118,6 +123,11 @@ namespace SkeFramework.NetGit.DataService
                 userInteractive: false);
         }
 
-     
+        protected bool ShowStatusWhileRunning(Func<bool> action, string message)
+        {
+            return ConsoleUtil.ShowStatusWhileRunning(
+                action,message,this.Output,
+                showSpinner: this.Output == Console.Out, initialDelayMs: 0);
+        }
     }
 }
