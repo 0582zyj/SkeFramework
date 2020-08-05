@@ -24,7 +24,8 @@ namespace MicrosServices.SDK.PublishDeploy
         private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/Delete";
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/Update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/GetOptionValues";
-
+        private static readonly string PublishDeployUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/PublishDeploy";
+        
 
         /// <summary>
         /// 获取所有列表
@@ -255,6 +256,31 @@ namespace MicrosServices.SDK.PublishDeploy
             }
             return new List<OptionValue>();
         }
-
+        /// <summary>
+        /// 立即发布
+        /// </summary>
+        /// <param name="menu"></param>
+        /// <returns></returns>
+        public JsonResponses PublishDeploy(int id)
+        {
+            try
+            {
+                RequestBase request = new RequestBase();
+                request.SetValue("id", id);
+                request.Url = PublishDeployUrl;
+                string result = HttpHelper.Example.GetWebData(new BrowserPara()
+                {
+                    Uri = request.Url,
+                    PostData = request.GetRequestData(),
+                    Method = RequestTypeEnums.POST_FORM
+                });
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
     }
 }

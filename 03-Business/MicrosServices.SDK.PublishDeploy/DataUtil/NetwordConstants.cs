@@ -9,7 +9,7 @@ namespace MicrosServices.SDK.PublishDeploy.DataUtil
     public class NetwordConstants
     {
         public const string BASE_URL_PUBLISHDEPLOY_LOCAL = "http://localhost/PublishDeployApi";
-        public const string BASE_URL_PUBLISHDEPLOY = "https://localhost:5001";
+        public const string BASE_URL_PUBLISHDEPLOY = "https://localhost:44397";
 
         #region 单例模式
         /// <summary>

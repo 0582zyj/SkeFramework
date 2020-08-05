@@ -136,7 +136,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = serverSdk.GetInfo(id);
             if (responses.ValidateResponses())
             {
-                //responses = serverSdk.Delete(id);
+                responses = serverSdk.PublishDeploy(id);
             }
             return Json(responses, JsonRequestBehavior.AllowGet);
         }

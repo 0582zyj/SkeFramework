@@ -166,9 +166,9 @@ namespace MicrosServices.API.PublishDeploy.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> PublishDeploy([FromForm] int ProjectId)
+        public ActionResult<JsonResponses> PublishDeploy([FromForm] int id)
         {
-            PdProject project = DataHandleManager.Instance().PdProjectHandle.GetProject(ProjectId);
+            PdProject project = DataHandleManager.Instance().PdProjectHandle.GetProject(id);
             if (project!=null)
             {
                 bool result= gitHandle.GitProjectSourceCode(project);
