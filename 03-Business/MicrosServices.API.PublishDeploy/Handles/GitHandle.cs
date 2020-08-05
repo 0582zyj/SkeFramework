@@ -25,7 +25,7 @@ namespace MicrosServices.API.PublishDeploy.Handles
             string enlistmentRoot = project.SourcePath;
             string workingDirectory = project.SourcePath;
             string repoUrl = project.VersionUrl;
-            string gitBinPath = project.MSBuildPath;
+            string gitBinPath = project.GitBinPath;
             GitBaseConfig config = new GitAuthConfig(enlistmentRoot, workingDirectory, repoUrl, gitBinPath);
             CloneService cloneService = new CloneService(config);
             ConfigResult configResult= cloneService.GetFromLocalConfig(GitConstant.GitCommandConfig.RemoteOriginUrl);
@@ -38,8 +38,7 @@ namespace MicrosServices.API.PublishDeploy.Handles
             }
             else
             {
-                cloneService.GitInit();
-                result = cloneService.GitClone(project.VersionUrl, "master");
+                result = cloneService.GitClone(project.VersionUrl, project.GitBranch);
             }
 
             Console.WriteLine(result.Errors + " " + result.Output);

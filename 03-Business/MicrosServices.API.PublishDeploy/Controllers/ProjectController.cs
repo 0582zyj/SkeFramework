@@ -172,7 +172,10 @@ namespace MicrosServices.API.PublishDeploy.Controllers
             if (project!=null)
             {
                 bool result= gitHandle.GitProjectSourceCode(project);
+                if (result)
+                {
 
+                }
                 return JsonResponses.Success;
             }
             return JsonResponses.Failed;

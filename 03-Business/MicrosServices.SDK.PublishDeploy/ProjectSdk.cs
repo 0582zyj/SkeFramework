@@ -129,21 +129,23 @@ namespace MicrosServices.SDK.PublishDeploy
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
-        public JsonResponses Add(PdProject menu)
+        public JsonResponses Add(PdProject model)
         {
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("ProjectNo", menu.ProjectNo);
-                request.SetValue("Name", menu.Name);
-                request.SetValue("VersionType", menu.VersionType);
-                request.SetValue("VersionUrl", menu.VersionUrl);
-                request.SetValue("SourcePath", menu.SourcePath);
-                request.SetValue("MSBuildPath", menu.MSBuildPath);
-                request.SetValue("ProjectFile", menu.ProjectFile);
-                request.SetValue("notifyEmails", menu.notifyEmails);
-                request.SetValue("InputUser", menu.InputUser);
-                request.SetValue("InputTime", menu.InputTime);
+                request.SetValue("ProjectNo", model.ProjectNo);
+                request.SetValue("Name", model.Name);
+                request.SetValue("VersionType", model.VersionType);
+                request.SetValue("VersionUrl", model.VersionUrl);
+                request.SetValue("GitBranch", model.GitBranch);
+                request.SetValue("GitBinPath", model.GitBinPath);
+                request.SetValue("SourcePath", model.SourcePath);
+                request.SetValue("MSBuildPath", model.MSBuildPath);
+                request.SetValue("ProjectFile", model.ProjectFile);
+                request.SetValue("notifyEmails", model.notifyEmails);
+                request.SetValue("InputUser", model.InputUser);
+                request.SetValue("InputTime", model.InputTime);
                 request.Url = AddUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -174,6 +176,8 @@ namespace MicrosServices.SDK.PublishDeploy
                 request.SetValue("Name", model.Name);
                 request.SetValue("VersionType", model.VersionType);
                 request.SetValue("VersionUrl", model.VersionUrl);
+                request.SetValue("GitBranch", model.GitBranch);
+                request.SetValue("GitBinPath", model.GitBinPath);
                 request.SetValue("SourcePath", model.SourcePath);
                 request.SetValue("MSBuildPath", model.MSBuildPath);
                 request.SetValue("ProjectFile", model.ProjectFile);
