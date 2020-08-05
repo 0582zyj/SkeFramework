@@ -22,10 +22,12 @@ namespace SkeFramework.NetGit.Interfaces
         /// </summary>
         /// <returns></returns>
         string GitInit();
-
+        /// <summary>
+        /// 获取某个全局设置结果
+        /// </summary>
+        /// <param name="settingName"></param>
+        /// <returns></returns>
         ConfigResult GetFromGlobalConfig(string settingName);
-
-        bool TryGetRemotes(out string[] remotes, out string error);
         /// <summary>
         /// 设置本地配置项
         /// </summary>
@@ -40,8 +42,11 @@ namespace SkeFramework.NetGit.Interfaces
         /// <param name="settingName"></param>
         /// <returns></returns>
         Result DeleteFromLocalConfig(string settingName);
-
-
+        /// <summary>
+        /// 强制签出某个分支
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
         Result ForceCheckout(string target);
        
         Result ForegroundFetch(string remote);

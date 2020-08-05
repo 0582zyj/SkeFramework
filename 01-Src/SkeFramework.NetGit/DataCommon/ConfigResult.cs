@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.NetGit.DataCommon
 {
+    /// <summary>
+    /// 配置结果
+    /// </summary>
     public class ConfigResult
     {
         private readonly Result result;

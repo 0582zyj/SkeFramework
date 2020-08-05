@@ -22,6 +22,9 @@ namespace SkeFramework.NetGit.DataService
         /// Git配置
         /// </summary>
         protected GitBaseConfig gitConfig;
+        /// <summary>
+        /// Git进程
+        /// </summary>
         protected GitProcess Process;
 
         public GitCommandService(GitBaseConfig config)
@@ -57,14 +60,28 @@ namespace SkeFramework.NetGit.DataService
             }
             return "";
         }
-
+        
+        #region Git配置
+        /// <summary>
+        /// 获取某个全局设置结果
+        /// </summary>
+        /// <param name="settingName"></param>
+        /// <returns></returns>
         public  ConfigResult GetFromGlobalConfig(string settingName)
         {
             return new ConfigResult(
                 Process.InvokeGitOutsideEnlistment("config --global " + settingName),
                 settingName);
         }
-
+        /// <summary>
+        /// 获取本地配置
+        /// </summary>
+        /// <param name="settingName"></param>
+        /// <returns></returns>
+        public ConfigResult GetFromLocalConfig(string settingName)
+        {
+            return new ConfigResult(this.Process.InvokeGitAgainstDotGitFolder("config --local " + settingName), settingName);
+        }
         /// <summary>
         /// 设置本地配置
         /// </summary>
@@ -80,27 +97,17 @@ namespace SkeFramework.NetGit.DataService
                  settingName,
                  value));
         }
+        /// <summary>
+        /// 删除本地配置
+        /// </summary>
+        /// <param name="settingName"></param>
+        /// <returns></returns>
         public Result DeleteFromLocalConfig(string settingName)
         {
             return this.Process.InvokeGitAgainstDotGitFolder("config --local --unset-all " + settingName);
         }
+        #endregion
 
-        public bool TryGetRemotes(out string[] remotes, out string error)
-        {
-            Result result = Process.InvokeGitInWorkingDirectoryRoot("remote", fetchMissingObjects: false);
-
-            if (result.ExitCodeIsFailure)
-            {
-                remotes = null;
-                error = result.Errors;
-                return false;
-            }
-
-            remotes = result.Output
-                            .Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            error = null;
-            return true;
-        }
         /// <summary>
         /// 强制签出某个分支
         /// </summary>
@@ -122,7 +129,12 @@ namespace SkeFramework.NetGit.DataService
                 fetchMissingObjects: true,
                 userInteractive: false);
         }
-
+        /// <summary>
+        /// 显示运行状态结果
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         protected bool ShowStatusWhileRunning(Func<bool> action, string message)
         {
             return ConsoleUtil.ShowStatusWhileRunning(

@@ -36,11 +36,10 @@ namespace SkeFramework.Winform.AutoUpdates.Test
             //Result result = gitProcess.InvokeGitOutsideEnlistment("version");
             string version = command.GitVersion();
 
-            version = command.GitInit();
-            string error = "";
+            //string error = "";
             string originUrl = "http://192.168.104.43/netProject/developmentdocs.git";
-            string username = "zengyingjun@ut.cn";
-            string password = "ut502525164";
+            //string username = "zengyingjun@ut.cn";
+            //string password = "ut502525164";
             //ICredentialService credentialStore = new CredentialService(authConfig);
             //credentialStore.TryStoreCredential(repoUrl,  username,  password, out error);
             //username = "";
