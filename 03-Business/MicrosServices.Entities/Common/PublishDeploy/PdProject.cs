@@ -25,6 +25,10 @@ namespace MicrosServices.Entities.Common.PublishDeploy
         public string VersionType { get; set; }
         [Description("版本管理地址")]
         public string VersionUrl { get; set; }
+        [Description("代码分支")]
+        public string GitBranch { get; set; }
+        [Description("Git程序路径")]
+        public string GitBinPath { get; set; }
         [Description("源代码路径")]
         public string SourcePath { get; set; }
         [Description("打包程序路径")]

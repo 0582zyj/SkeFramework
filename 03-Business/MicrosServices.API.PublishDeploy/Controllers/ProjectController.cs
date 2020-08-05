@@ -5,12 +5,14 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MicrosServices.API.PublishDeploy.Handles;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common.PublishDeploy;
 using MicrosServices.Helper.Core.Common;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 using SkeFramework.Core.SnowFlake;
+using SkeFramework.NetGit.DataConfig;
 
 namespace MicrosServices.API.PublishDeploy.Controllers
 {
@@ -18,6 +20,8 @@ namespace MicrosServices.API.PublishDeploy.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
+        private GitHandle gitHandle = new GitHandle();
+
         #region 基础查询
         /// <summary>
         /// 获取列表信息
@@ -153,6 +157,25 @@ namespace MicrosServices.API.PublishDeploy.Controllers
         {
             List<OptionValue> optionValues = DataHandleManager.Instance().PdProjectHandle.GetOptionValues();
             return new JsonResponses(optionValues);
+        }
+        #endregion
+
+        #region 发布
+        /// <summary>
+        /// 删除提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> PublishDeploy([FromForm] int ProjectId)
+        {
+            PdProject project = DataHandleManager.Instance().PdProjectHandle.GetProject(ProjectId);
+            if (project!=null)
+            {
+                bool result= gitHandle.GitProjectSourceCode(project);
+
+                return JsonResponses.Success;
+            }
+            return JsonResponses.Failed;
         }
         #endregion
 

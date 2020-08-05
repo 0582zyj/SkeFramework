@@ -15,8 +15,15 @@ namespace MicrosServices.BLL.Business.PublishDeploy.PdProjectHandles
             : base(dataSerialer)
         {
         }
+        /// <summary>
+        /// 根据ID获取项目信息
+        /// </summary>
+        /// <param name="ProjectId"></param>
+        /// <returns></returns>
+        public PdProject GetProject(int ProjectId)
+        {
+           return this.GetModelByKey(ProjectId.ToString());
+        }
 
-
-         
     }
 }

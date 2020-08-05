@@ -123,5 +123,10 @@ namespace SkeFramework.NetGit.Constants
             public const string UseGvfsHelper = "core.useGvfsHelper";
         }
 
+        public static class GitCommandConfig
+        {
+            public const string RemoteOriginUrl = "remote.origin.url";
+        }
+
     }
 }

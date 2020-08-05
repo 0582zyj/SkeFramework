@@ -46,6 +46,18 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="GitBranch" class="col-sm-2 control-label">Git分支</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="GitBranch" id="GitBranch" v-model="dataItem.GitBranch" required maxlength="512" placeholder="Git分支">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="GitBinPath" class="col-sm-2 control-label">Git程序路径</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="GitBinPath" id="GitBinPath" v-model="dataItem.GitBinPath" required maxlength="512" placeholder="Git程序路径">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="SourcePath" class="col-sm-2 control-label">源代码路径</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="SourcePath" id="SourcePath" v-model="dataItem.SourcePath" required maxlength="200" placeholder="源代码路径">
@@ -70,7 +82,7 @@
                                 </div>
                             </div>
                             <input type="hidden" name="token" value="5cbd303f221a626ce0f404cec31b4ea4">
-                            <input type="hidden" name="id" id="id" v-model="dataItem.id" >
+                            <input type="hidden" name="id" id="id" v-model="dataItem.id">
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <button type="button" class="btn btn-default" v-on:click="submit()">保存</button>
