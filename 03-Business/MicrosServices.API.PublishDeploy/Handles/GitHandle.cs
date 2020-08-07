@@ -2,9 +2,12 @@
 using SkeFramework.NetGit.Constants;
 using SkeFramework.NetGit.DataCommon;
 using SkeFramework.NetGit.DataConfig;
+using SkeFramework.NetGit.DataHandle.ProcessHandle;
 using SkeFramework.NetGit.DataService.CloneServices;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,7 +37,16 @@ namespace MicrosServices.API.PublishDeploy.Handles
             Result result;
             if (configResult.TryParseAsString(out value, out error))
             {
-                result = cloneService.GitPull();
+               ConfigResult configResult1= cloneService.GetFromLocalConfig($"branch.{project.GitBranch}.remote");
+                if(configResult1.TryParseAsString(out value, out error) && !String.IsNullOrEmpty(value))
+                {
+                    result = cloneService.GitPull();
+                }
+                else
+                {
+                    result = cloneService.ForceCheckout(project.GitBranch);
+                }   
+              
             }
             else
             {
@@ -45,5 +57,81 @@ namespace MicrosServices.API.PublishDeploy.Handles
 
             return result.ExitCodeIsSuccess;
         }
+
+        public bool RunPublishBat(PdProject project)
+        {
+            if (project == null)
+            {
+                return false;
+            }
+            string batPath = project.SourcePath+ project.ProjectFile;
+            if (File.Exists(batPath))
+            {
+         
+                FileInfo fileInfo = new FileInfo(batPath);
+                if (!fileInfo.Exists)
+                {
+                    return false;
+                }
+         
+                string enlistmentRoot = project.SourcePath;
+                string workingDirectory = fileInfo.Directory.ToString();
+                string repoUrl = project.VersionUrl;
+                string gitBinPath = project.MSBuildPath;
+                GitBaseConfig config = new GitAuthConfig(enlistmentRoot, workingDirectory, repoUrl, gitBinPath);
+                GitProcess process = config.CreateGitProcess();
+                int exitCode = -1;
+                List<string> reulit= this.Shell(fileInfo.Name, " ",60*1000, fileInfo.Directory.ToString(), out  exitCode);
+                if (exitCode==0 && reulit.Contains("    0 个错误"))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private List<string> Shell(string exeFile, string command, int timeout, string workingDir, out int exitCode)
+        {
+            List<string> response = new List<string>();
+            List<string> output = new List<string>();
+            List<string> error = new List<string>();
+            Process process = new Process();
+
+            process.StartInfo.FileName = exeFile; //设置要启动的应用程序，如：fastboot
+            process.StartInfo.Arguments = command; // 设置应用程序参数，如： flash boot0 "A_Debug/boot0.img"
+
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardInput = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.CreateNoWindow = true;
+            process.EnableRaisingEvents = true;  // 获取或设置在进程终止时是否应激发 Exited 事件；不论是正常退出还是异常退出。
+            process.StartInfo.WorkingDirectory = workingDir; // **重点**，工作目录，必须是 bat 批处理文件所在的目录
+            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => Redirected(output, sender, e);
+            process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => Redirected(error, sender, e);
+            process.Start();
+            process.BeginOutputReadLine();  // 开启异步读取输出操作
+            process.BeginErrorReadLine();  // 开启异步读取错误操作
+
+
+            bool exited = process.WaitForExit(timeout);
+            if (!exited)
+            {
+                process.Kill();  // 通过超时判断是否执行失败，极可能为假死状态。
+                                 // 记录日志
+                response.Add("Error: timed out");
+            }
+
+            response.AddRange(output);
+            response.AddRange(error);
+            exitCode = process.ExitCode; // 0 为正常退出。
+            return response;
+        }
+
+        private void Redirected(List<string> dataList, object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data != null) { dataList.Add(e.Data); }
+        }
+
     }
 }

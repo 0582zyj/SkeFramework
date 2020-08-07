@@ -169,16 +169,21 @@ namespace MicrosServices.API.PublishDeploy.Controllers
         public ActionResult<JsonResponses> PublishDeploy([FromForm] int id)
         {
             PdProject project = DataHandleManager.Instance().PdProjectHandle.GetProject(id);
-            if (project!=null)
+            if (project==null)
             {
-                bool result= gitHandle.GitProjectSourceCode(project);
-                if (result)
-                {
-
-                }
-                return JsonResponses.Success;
+                return JsonResponses.Failed;
             }
-            return JsonResponses.Failed;
+            bool result = gitHandle.GitProjectSourceCode(project);
+            if (!result)
+            {
+                return JsonResponses.Failed;
+            }
+            result = gitHandle.RunPublishBat(project);
+            if (!result)
+            {
+                return JsonResponses.Failed;
+            }
+            return JsonResponses.Success;
         }
         #endregion
 
