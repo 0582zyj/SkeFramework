@@ -14,7 +14,6 @@ namespace PermissionSystem.UI.WebSites.Controllers
     {
         public ActionResult Index()
         {
-            RedisHandleManager.Instance().RedisStringHandle.Set("test1", "123");
             return View();
         }
 

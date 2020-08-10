@@ -73,8 +73,8 @@
     <Compile Include="PublishDeploy\PdPublishHandles\PdPublishHandle.cs" />
     <Compile Include="PublishDeploy\PdServerHandles\IPdServerHandle.cs" />
     <Compile Include="PublishDeploy\PdServerHandles\PdServerHandle.cs" />
-    <Compile Include="UserCenter\UcLoginLogHandles\IUcLoginLogHandle.cs" />
-    <Compile Include="UserCenter\UcLoginLogHandles\UcLoginLogHandle.cs" />
+    <Compile Include="LogSystem\UcLoginLogHandles\IUcLoginLogHandle.cs" />
+    <Compile Include="LogSystem\UcLoginLogHandles\UcLoginLogHandle.cs" />
     <Compile Include="UserCenter\UcUsersSettingHandles\IUcUsersSettingHandle.cs" />
     <Compile Include="UserCenter\UcUsersSettingHandles\UcUsersSettingHandle.cs" />
     <Compile Include="UserCenter\UsersHandles\IUcUsersHandle.cs" />

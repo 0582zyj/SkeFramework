@@ -1,4 +1,4 @@
-﻿using MicrosServices.DAL.DataAccess.Repository.UserCenter.UcLoginLogHandles;
+﻿using MicrosServices.DAL.DataAccess.Repository.LogSystem.UcLoginLogHandles;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.UserCenter.FORM;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MicrosServices.BLL.Business.UserCenter.UcLoginLogHandles
+namespace MicrosServices.BLL.Business.LogSystem.UcLoginLogHandles
 {
     public interface IUcLoginLogHandle : IUcLoginLogHandleCommon
     {

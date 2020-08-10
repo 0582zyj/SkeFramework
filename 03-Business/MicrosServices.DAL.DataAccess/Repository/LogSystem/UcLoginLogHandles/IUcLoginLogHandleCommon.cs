@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MicrosServices.DAL.DataAccess.Repository.UserCenter.UcLoginLogHandles
+namespace MicrosServices.DAL.DataAccess.Repository.LogSystem.UcLoginLogHandles
 {
     public interface IUcLoginLogHandleCommon : IDataTableHandle<UcLoginLog>
     {

@@ -72,8 +72,8 @@
     <Compile Include="Repository\PublishDeploy\PdPublishHandles\PdPublishHandleCommon.cs" />
     <Compile Include="Repository\PublishDeploy\PdServerHandles\IPdServerHandleCommon.cs" />
     <Compile Include="Repository\PublishDeploy\PdServerHandles\PdServerHandleCommon.cs" />
-    <Compile Include="Repository\UserCenter\UcLoginLogHandles\IUcLoginLogHandleCommon.cs" />
-    <Compile Include="Repository\UserCenter\UcLoginLogHandles\UcLoginLogHandleCommon.cs" />
+    <Compile Include="Repository\LogSystem\UcLoginLogHandles\IUcLoginLogHandleCommon.cs" />
+    <Compile Include="Repository\LogSystem\UcLoginLogHandles\UcLoginLogHandleCommon.cs" />
     <Compile Include="Repository\UserCenter\UcUsersSettingHandles\IUcUsersSettingHandleCommon.cs" />
     <Compile Include="Repository\UserCenter\UcUsersSettingHandles\UcUsersSettingHandleCommon.cs" />
     <Compile Include="Repository\UserCenter\UsersHandles\IUcUsersHandleCommon.cs" />

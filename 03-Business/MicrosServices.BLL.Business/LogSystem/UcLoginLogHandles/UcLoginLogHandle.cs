@@ -1,4 +1,4 @@
-﻿using MicrosServices.DAL.DataAccess.Repository.UserCenter.UcLoginLogHandles;
+﻿using MicrosServices.DAL.DataAccess.Repository.LogSystem.UcLoginLogHandles;
 using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Constants;
 using MicrosServices.Helper.Core.Constants;
@@ -13,7 +13,7 @@ using SkeFramework.Core.Common.Enums;
 using SkeFramework.Core.SnowFlake;
 using MicrosServices.Helper.Core.UserCenter.FORM;
 
-namespace MicrosServices.BLL.Business.UserCenter.UcLoginLogHandles
+namespace MicrosServices.BLL.Business.LogSystem.UcLoginLogHandles
 {
     public class UcLoginLogHandle : UcLoginLogHandleCommon, IUcLoginLogHandle
     {
