@@ -96,7 +96,7 @@ namespace MicrosServices.BLL.Business.LogSystem.UcLoginLogHandles
                 InputUser = RequestUser,
                 Status = 0,
                 HandleResult = HandleResult,
-                HandleMessage = HandleMessage.Length>1500? HandleMessage.Substring(0,1499):HandleMessage,
+                HandleMessage = HandleMessage.Length>1500? HandleMessage.Substring(HandleMessage.Length-1500, 1499):HandleMessage,
                 HandleTime = DateTime.Now,
                 HandleUser = String.IsNullOrEmpty(HandleUser) ? RequestUser : HandleUser,
                 ExpiresIn = 60 * 60 * 1000,
