@@ -1,14 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     <UserSecretsId>98b48599-2b25-4e80-a06f-4d9eaacb29fa</UserSecretsId>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <ApplicationIcon />
-    <OutputType>Exe</OutputType>
-    <StartupObject>MicrosServices.API.PublishDeploy.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

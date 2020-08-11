@@ -52,7 +52,7 @@
             <div class="box">
                 <!--数据列表页头部-->
                 <div class="box-header with-border">
-                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()" v-if="checkAssign('menuAdd',menuManagementList)==true">新增</a>
+                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()" v-if="checkAssign('menu.add',menuManagementList)==true">新增</a>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
@@ -85,9 +85,9 @@
                                 <td>{{item.PlatformNo|formatePlatform(platformList)}}</td>
                                 <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
                                 <td class="operation">
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)" v-if="checkAssign('menuUpdate',menuManagementList)==true">修改</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)" v-if="checkAssign('menuDelete',menuManagementList)==true">删除</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.MenuNo)" v-if="checkAssign('menuManagementAssign',menuManagementList)==true">操作权限授权</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)" v-if="checkAssign('menu.update',menuManagementList)==true">修改</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)" v-if="checkAssign('menu.delete',menuManagementList)==true">删除</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.MenuNo)" v-if="checkAssign('menu.management.assign',menuManagementList)==true">操作权限授权</a>
                                 </td>
                             </tr>
                         </tbody>

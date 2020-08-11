@@ -49,7 +49,7 @@
             <div class="box">
                 <!--数据列表页头部-->
                 <div class="box-header with-border">
-                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()" v-if="checkAssign('managementAdd',menuManagementList)==true">新增</a>
+                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()" v-if="checkAssign('management.add',menuManagementList)==true">新增</a>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
@@ -78,9 +78,9 @@
                                 <td>{{item.PlatformNo|formatePlatform(platformList)}}</td>
                                 <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
                                 <td class="operation">
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)" v-if="checkAssign('managementUpdate',menuManagementList)==true">修改</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)" v-if="checkAssign('managementDelete',menuManagementList)==true">删除</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.ManagementNo)" v-if="item.Type==2 && checkAssign('managementMenuAssign',menuManagementList)==true">菜单分配</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)" v-if="checkAssign('management.update',menuManagementList)==true">修改</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)" v-if="checkAssign('management.delete',menuManagementList)==true">删除</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.ManagementNo)" v-if="item.Type==2 && checkAssign('management.menu.assign',menuManagementList)==true">菜单分配</a>
                                 </td>
                             </tr>
                         </tbody>

@@ -82,8 +82,8 @@
                                 <td>{{item.Email}}</td>
                                 <td>{{item.Signature}}</td>
                                 <td class="operation">
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toRoleAssign(item.UserNo)" v-if="checkAssign('userRoleAssign',menuManagementList)==true">角色授权</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toOrgAssign(item.UserNo)" v-if="checkAssign('userOrgAssign',menuManagementList)==true">机构授权</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toRoleAssign(item.UserNo)" v-if="checkAssign('user.role.assign',menuManagementList)==true">角色授权</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toOrgAssign(item.UserNo)" v-if="checkAssign('user.org.assign',menuManagementList)==true">机构授权</a>
                                 </td>
                             </tr>
                         </tbody>
