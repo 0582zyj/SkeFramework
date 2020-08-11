@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "列表";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutTree.cshtml";
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -36,17 +36,12 @@
             <!--显示当前的所有的角色信息-->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">平台列表</h3>
+                    <h3 class="box-title">机构树</h3>
                 </div>
                 <div class="box-body no-padding">
-                    <ul class="nav nav-pills nav-stacked">
-                        <li>
-                            <a href="#" onclick="QueryForRole('abcd1')">
-                                <i class="fa fa-rocket"></i> 车间组长
-                                <span class="label label-primary pull-right"> 2</span>
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="zTreeDemoBackground left">
+                        <ul id="zTree" class="ztree"></ul>
+                    </div>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -107,6 +102,7 @@
                 GetListUrl: "@Url.Action("GetUcUsersList", "User")",
                 orgAssignUrl: "@Url.Action("UserOrgAssign", "User")",
                 GetUserManagementListUrl: "@Url.Action("GetUserManagementList", "Management")",
+                GetTreeListUrl: "@Url.Action("GetOrganizationTreeList", "Organization")",
                 dataList: [],
                 enabledList: [
                     { Name: '启用', Value: 1 },
@@ -190,6 +186,39 @@
                     return result;
                 }
             }
+    });
+    //定义接收节点数据的变量
+    var zNodes;
+    //节点配置信息
+    var setting = {
+        data: {
+            key: {
+                name: "Name"
+            },
+            //控制子节点加载时候是加载还是折叠
+            simpleData: {
+                enable: true,
+                idKey: "TreeNo",
+                pIdKey: "ParentNo",
+                rootPId: "0"
+            },
+        },
+        callback: {
+            onClick: function (event, treeId, treeNode) {
+                vm.search.OrgNo = treeNode.TreeNo;
+                if (vm.$children.length > 0) {
+                    vm.$children[0].go(1);
+                }
+            }
+        }
+    };
+    $(function () {
+        //获取访问方法获取节点数据
+        $.getJSON(vm.GetTreeListUrl, function (res) {
+            zNodes = res;
+            //初始化树节点
+            $.fn.zTree.init($("#zTree"), setting, zNodes);
         });
+    });
 </script>
 

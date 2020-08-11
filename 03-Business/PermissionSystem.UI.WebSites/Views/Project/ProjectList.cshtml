@@ -36,7 +36,7 @@
             <div class="box">
                 <!--数据列表页头部-->
                 <div class="box-header with-border">
-                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()">新增</a>
+                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()" v-if="checkAssign('project.add',menuManagementList)==true">新增</a>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
@@ -57,9 +57,9 @@
                                 <td>{{item.Name}}</td>
                                 <td>{{item.notifyEmails}}</td>
                                 <td class="operation">
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toPublish(item.id)">立即发布</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)"  v-if="checkAssign('project.update',menuManagementList)==true">修改</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)"  v-if="checkAssign('project.delete',menuManagementList)==true">删除</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toPublish(item.id)"  v-if="checkAssign('project.publish',menuManagementList)==true">立即发布</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -82,6 +82,7 @@
                 deleteUrl: "@Url.Action("PdProjectDelete", "Project")",
                 GetListUrl: "@Url.Action("GetPdProjectList", "Project")",
                 publishUrl: "@Url.Action("ProjectPublish", "Project")",
+                GetUserManagementListUrl: "@Url.Action("GetUserManagementList", "Management")",
                 dataList: [],
                 search: { keywords: ""}
             },
@@ -90,7 +91,23 @@
                     return { keywords: this.search.keywords }
                 }
             },
+            created: function () {
+                this.Init();
+            },
             methods: {
+                Init: function () {
+                    var _self = this;
+                    _self.menuManagementList = {};
+                    axios.get(this.GetUserManagementListUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.menuManagementList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
                 GetList: function (data) {
                     this.dataList = data;
                 },
@@ -132,6 +149,17 @@
                     if (this.$children.length > 0) {
                         this.$children[0].go(1);
                     }
+                },
+                checkAssign: function (value, list) {
+                    let result = false;
+                    if (list.length > 0) {
+                        list.map(res => {
+                            if (value == res.Code) {
+                                result = true;
+                            }
+                        });
+                    }
+                    return result;
                 }
             }
         });

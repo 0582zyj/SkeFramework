@@ -29,7 +29,7 @@
                                     <label for="Name">菜单名称</label>
                                     <input type="text" name="Name" class="form-control" id="Name" v-model="dataItem.MenuInfo.Name" placeholder="权限名称" readonly="readonly">
                                 </div>
-                                <label for="exampleInputPassword1">权限列表</label>
+                                <label>权限列表</label>
                                 <div class="form-group" v-for="(option,index) in dataItem.optionValues">
                                     <div class="checkbox">
                                         <label>
@@ -77,7 +77,7 @@
                 Init: function () {
                     var _self = this;
                     _self.dataItem = {};
-                    axios.get(this.getItemUrl, { params: { MenuNo: this.postData.MenuNo } } )
+                    axios.get(this.getItemUrl, { params: { MenuNo: _self.postData.MenuNo } } )
                      .then(function (response) {
                          if (response.status == 200) {
                              _self.dataItem = response.data;
