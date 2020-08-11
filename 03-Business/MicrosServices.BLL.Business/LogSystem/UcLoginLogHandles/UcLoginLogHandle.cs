@@ -59,6 +59,50 @@ namespace MicrosServices.BLL.Business.LogSystem.UcLoginLogHandles
             return this.Insert(loginLog)>0;
         }
 
+        /// <summary>
+        /// 拉取代码日志
+        /// </summary>
+        /// <param name="RequestUser">请求人</param>
+        /// <param name="message">参数</param>
+        /// <param name="HandleUser">处理人</param>
+        /// <param name="HandleResult">处理结果</param>
+        /// <param name="HandleMessage">处理消息</param>
+        /// <returns></returns>
+        public bool InsertPublishDeployGitLog(string RequestUser, string message,string HandleUser="", int HandleResult = 0, string HandleMessage = "")
+        {
+           return this.InsertCommonLog( RequestUser,  message, LogTypeEumns.PublishGit,  HandleUser,  HandleResult,  HandleMessage);
+        }
+
+        /// <summary>
+        /// 插入基础日志
+        /// </summary>
+        /// <param name="RequestUser">请求人</param>
+        /// <param name="message">参数</param>
+        /// <param name="HandleUser">处理人</param>
+        /// <param name="HandleResult">处理结果</param>
+        /// <param name="HandleMessage">处理消息</param>
+        /// <returns></returns>
+        public bool InsertCommonLog(string RequestUser, string message, LogTypeEumns logType, string HandleUser = "", int HandleResult = 0, string HandleMessage = "")
+        {
+            UcLoginLog loginLog = new UcLoginLog()
+            {
+                id = AutoIDWorker.Example.GetAutoSequence(),
+                Titile = logType.GetEnumDescription(),
+                Message = message,
+                LogType = logType.ToString(),
+                RequestUser = RequestUser,
+                RequestTime = DateTime.Now,
+                InputTime = DateTime.Now,
+                InputUser = RequestUser,
+                Status = 0,
+                HandleResult = HandleResult,
+                HandleMessage = HandleMessage.Length>1500? HandleMessage.Substring(0,1499):HandleMessage,
+                HandleTime = DateTime.Now,
+                HandleUser = String.IsNullOrEmpty(HandleUser) ? RequestUser : HandleUser,
+                ExpiresIn = 60 * 60 * 1000,
+            };
+            return this.Insert(loginLog) > 0;
+        }
 
     }
 }

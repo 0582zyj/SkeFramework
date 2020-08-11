@@ -32,5 +32,9 @@ namespace MicrosServices.Helper.Core.Constants
         [EnumAttribute("注销成功")] SUCCESS_CANCEL = 203,
         [EnumAttribute("注销失败")] FAILED_CANCEL = 402,
 
+
+        [EnumAttribute("代码拉取成功")] SUCCESS_PUBLISHGIT = 204,
+        [EnumAttribute("发布成功")] SUCCESS_PUBLISHCMD = 205,
+
     }
 }

@@ -173,12 +173,13 @@ namespace MicrosServices.API.PublishDeploy.Controllers
             {
                 return JsonResponses.Failed;
             }
-            bool result = gitHandle.GitProjectSourceCode(project);
+            string RequestUser = "999999";
+            bool result = gitHandle.GitProjectSourceCode(project,RequestUser);
             if (!result)
             {
                 return JsonResponses.Failed;
             }
-            result = gitHandle.RunPublishBat(project);
+            result = gitHandle.RunPublishBat(project, RequestUser);
             if (!result)
             {
                 return JsonResponses.Failed;

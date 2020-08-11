@@ -14,5 +14,9 @@ namespace MicrosServices.Entities.Constants
     {
         [Description("登录类型")]
         Login=100,
+        [Description("拉取代码")]
+        PublishGit =800,
+        [Description("发布服务")]
+        PublishCmd = 801,
     }
 }

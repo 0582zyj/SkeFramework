@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Common\SkeFramework.Core.Common.csproj" />
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj" />
     <ProjectReference Include="..\..\01-Src\SkeFramework.NetGit\SkeFramework.NetGit.csproj" />
     <ProjectReference Include="..\MicrosServices.BLL.Business\MicrosServices.BLL.Business.csproj" />

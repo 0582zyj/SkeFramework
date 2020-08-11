@@ -1,4 +1,10 @@
-﻿using MicrosServices.Entities.Common.PublishDeploy;
+﻿using MicrosServices.API.PublishDeploy.Constants;
+using MicrosServices.BLL.Business;
+using MicrosServices.Entities.Common.PublishDeploy;
+using MicrosServices.Entities.Constants;
+using MicrosServices.Helper.Core.Constants;
+using SkeFramework.Core.Common.Enums;
+using Newtonsoft.Json;
 using SkeFramework.NetGit.Constants;
 using SkeFramework.NetGit.DataCommon;
 using SkeFramework.NetGit.DataConfig;
@@ -23,7 +29,7 @@ namespace MicrosServices.API.PublishDeploy.Handles
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        public bool GitProjectSourceCode(PdProject project)
+        public bool GitProjectSourceCode(PdProject project,string RequestUser)
         {
             string enlistmentRoot = project.SourcePath;
             string workingDirectory = project.SourcePath;
@@ -46,19 +52,26 @@ namespace MicrosServices.API.PublishDeploy.Handles
                 {
                     result = cloneService.ForceCheckout(project.GitBranch);
                 }   
-              
             }
             else
             {
                 result = cloneService.GitClone(project.VersionUrl, project.GitBranch);
             }
-
-            Console.WriteLine(result.Errors + " " + result.Output);
-
+            string message = JsonConvert.SerializeObject(project);
+            string HandleUser = ServerConstData.ServerName;
+            LoginResultType resultType = result.ExitCode == 0 ? LoginResultType.SUCCESS_PUBLISHGIT : LoginResultType.FAILED;
+            int HandleResult = (int)resultType;
+            DataHandleManager.Instance().UcLoginLogHandle.
+                InsertPublishDeployGitLog(RequestUser, message, HandleUser, HandleResult, result.Output);
             return result.ExitCodeIsSuccess;
         }
-
-        public bool RunPublishBat(PdProject project)
+        /// <summary>
+        /// 执行发布命令
+        /// </summary>
+        /// <param name="project"></param>
+        /// <param name="RequestUser"></param>
+        /// <returns></returns>
+        public bool RunPublishBat(PdProject project,string RequestUser)
         {
             if (project == null)
             {
@@ -67,13 +80,11 @@ namespace MicrosServices.API.PublishDeploy.Handles
             string batPath = project.SourcePath+ project.ProjectFile;
             if (File.Exists(batPath))
             {
-         
                 FileInfo fileInfo = new FileInfo(batPath);
                 if (!fileInfo.Exists)
                 {
                     return false;
                 }
-         
                 string enlistmentRoot = project.SourcePath;
                 string workingDirectory = fileInfo.Directory.ToString();
                 string repoUrl = project.VersionUrl;
@@ -82,6 +93,13 @@ namespace MicrosServices.API.PublishDeploy.Handles
                 GitProcess process = config.CreateGitProcess();
                 int exitCode = -1;
                 List<string> reulit= this.Shell(fileInfo.Name, " ",60*1000, fileInfo.Directory.ToString(), out  exitCode);
+                LoginResultType resultType = exitCode == 0 && reulit.Contains("    0 个错误") ? LoginResultType.SUCCESS_PUBLISHCMD : LoginResultType.FAILED;
+                string message = JsonConvert.SerializeObject(project);
+                string HandleUser = ServerConstData.ServerName;
+                int HandleResult = (int)resultType;
+                string HandleMessage = resultType== LoginResultType.SUCCESS_PUBLISHCMD?resultType.GetEnumDescription(): String.Join(";", reulit);
+                DataHandleManager.Instance().UcLoginLogHandle.
+                InsertCommonLog(RequestUser, message,LogTypeEumns.PublishCmd, HandleUser, HandleResult, HandleMessage);
                 if (exitCode==0 && reulit.Contains("    0 个错误"))
                 {
                     return true;
@@ -90,6 +108,7 @@ namespace MicrosServices.API.PublishDeploy.Handles
             return false;
         }
 
+        #region Cmd执行某个Bat文件
         private List<string> Shell(string exeFile, string command, int timeout, string workingDir, out int exitCode)
         {
             List<string> response = new List<string>();
@@ -127,11 +146,10 @@ namespace MicrosServices.API.PublishDeploy.Handles
             exitCode = process.ExitCode; // 0 为正常退出。
             return response;
         }
-
         private void Redirected(List<string> dataList, object sender, DataReceivedEventArgs e)
         {
             if (e.Data != null) { dataList.Add(e.Data); }
         }
-
+        #endregion
     }
 }
