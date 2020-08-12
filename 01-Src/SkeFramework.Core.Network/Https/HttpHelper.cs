@@ -128,6 +128,7 @@ namespace SkeFramework.Core.Network.Https
                 myRequest.Accept = bPara.Accept;
                 myRequest.UserAgent = bPara.UserAgent;
                 myRequest.Referer = bPara.Referer;
+                myRequest.Timeout = 60000;
                 if (bPara.Cookies != null)
                 {
                     foreach (var cookie in bPara.Cookies)
@@ -153,7 +154,7 @@ namespace SkeFramework.Core.Network.Https
                     if(bPara.Method == RequestTypeEnums.POST_FORM)
                     {
                         var boundary = "---------------" + DateTime.Now.Ticks.ToString("x");
-                        myRequest.ContentType = ContentTypeEnums.POSTFORM.GetEnumDescription() + "boundary = " + boundary;
+                        myRequest.ContentType = ContentTypeEnums.POSTFORM.GetEnumDescription() + ";boundary = " + boundary;
                     }
                     else
                     {
@@ -189,12 +190,11 @@ namespace SkeFramework.Core.Network.Https
 
         public string HttpPost(string Url, RequestBase postData)
         {
-            string result = "";
             try
             {
                 LogAgent.Info("[Request][HttpPost]->Url:{0};Request:{1}", Url, JsonConvert.SerializeObject(postData));
                 HttpWebRequest request = WebRequest.CreateHttp(Url);
-                request.Method = "post";
+                request.Method = "POST";
                 request.ContentType = "application/x-www-form-urlencoded";
                 //request.CookieContainer = cookie;
                 StringBuilder stringBuilder = new StringBuilder();
@@ -215,9 +215,9 @@ namespace SkeFramework.Core.Network.Https
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                JsonResponses responses = new JsonResponses(JsonResponses.Failed.code, ex.Message);
+                return JsonConvert.SerializeObject(responses);
             }
-            return result;
         }
 
 

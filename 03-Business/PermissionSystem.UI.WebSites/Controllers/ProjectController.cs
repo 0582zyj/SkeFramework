@@ -134,7 +134,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult ProjectPublish(int id)
         {
             JsonResponses responses = serverSdk.GetInfo(id);
-            if (responses.ValidateResponses())
+            if (responses.ValidateResponses()&& responses.data!=null)
             {
                 responses = serverSdk.PublishDeploy(id);
             }

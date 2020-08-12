@@ -126,7 +126,7 @@ namespace MicrosServices.SDK.PublishDeploy
             return JsonResponses.Failed;
         }
         /// <summary>
-        /// 新增菜单
+        /// 新增
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
@@ -199,9 +199,8 @@ namespace MicrosServices.SDK.PublishDeploy
             }
             return JsonResponses.Failed;
         }
-
         /// <summary>
-        /// 删除菜单
+        /// 删除
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
