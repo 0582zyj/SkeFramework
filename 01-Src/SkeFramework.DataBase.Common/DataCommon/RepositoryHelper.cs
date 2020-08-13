@@ -170,12 +170,20 @@ namespace SkeFramework.DataBase.Common.DataCommon
                 foreach (var propertyInfo in cmdParms)
                 {
                     DbParameter obj = (DbParameter)propertyInfo;
-                    sSQLResult = sSQLResult.Replace(obj.ParameterName, obj.Value.ToString());
+                    if(obj==null || obj.Value == null)
+                    {
+                        sSQLResult = sSQLResult.Replace(obj.ParameterName, "null");
+                    }
+                    else
+                    {
+                        sSQLResult = sSQLResult.Replace(obj.ParameterName, obj.Value.ToString());
+                    }
+                    
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                sSQLResult = "Export SQL Error";
+                sSQLResult = "Export SQL Error:"+ex.ToString();
             }
             LogAgent.Info(String.Format("[SQL]:{0}", sSQLResult));
             return sSQLResult;

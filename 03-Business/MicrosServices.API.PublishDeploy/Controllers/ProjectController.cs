@@ -168,24 +168,47 @@ namespace MicrosServices.API.PublishDeploy.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> Publish([FromForm]int id)
         {
+            try
+            {
+                PdProject project = DataHandleManager.Instance().PdProjectHandle.GetProject(id);
+                if (project == null)
+                {
+                    return JsonResponses.Failed;
+                }
+                string RequestUser = "999999";
+                bool result = gitHandle.GitProjectSourceCode(project, RequestUser);
+                if (!result)
+                {
+                    return JsonResponses.Failed;
+                }
+                result = gitHandle.RunPublishBat(project, RequestUser);
+                if (!result)
+                {
+                    return JsonResponses.Failed;
+                }
+                return JsonResponses.Success;
+
+            }
+            catch (Exception ex)
+            {
+                return new JsonResponses(ex.ToString());
+            }
+        }
+        /// <summary>
+        /// 删除提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> Publish1([FromForm]int id)
+        {
             PdProject project = DataHandleManager.Instance().PdProjectHandle.GetProject(id);
-            if (project==null)
-            {
-                return JsonResponses.Failed;
-            }
-            string RequestUser = "999999";
-            bool result = gitHandle.GitProjectSourceCode(project,RequestUser);
-            if (!result)
-            {
-                return JsonResponses.Failed;
-            }
-            result = gitHandle.RunPublishBat(project, RequestUser);
-            if (!result)
+            if (project == null)
             {
                 return JsonResponses.Failed;
             }
             return JsonResponses.Success;
         }
+
         #endregion
 
     }
