@@ -125,6 +125,7 @@ namespace SkeFramework.Core.Network.Https
                 ServicePointManager.DefaultConnectionLimit = 512;
                 ServicePointManager.Expect100Continue = false;
                 var myRequest = (HttpWebRequest)WebRequest.Create(bPara.Uri);
+                myRequest.ContentType = "text/xml";
                 myRequest.Accept = bPara.Accept;
                 myRequest.UserAgent = bPara.UserAgent;
                 myRequest.Referer = bPara.Referer;
@@ -145,21 +146,27 @@ namespace SkeFramework.Core.Network.Https
                 }
                 myRequest.CookieContainer = cookieContainer;
                 myRequest.Method = EnumsHelper.ValueOfRequestType(bPara.Method);
+                switch (bPara.Method)
+                {
+                    case RequestTypeEnums.GET:
+                        myRequest.ContentType = ContentTypeEnums.GETFORM.GetEnumDescription();
+                        break;
+                    case RequestTypeEnums.POST_FORM:                        
+                        myRequest.ContentType = ContentTypeEnums.POSTFORM.GetEnumDescription();
+                        break;
+                    case RequestTypeEnums.POST_DATA:
+                        var boundary = "---------------" + DateTime.Now.Ticks.ToString("x");
+                        myRequest.ContentType = ContentTypeEnums.POSTDATA.GetEnumDescription() + ";boundary = " + boundary;
+                        break;
+                    case RequestTypeEnums.POST_JSON:
+                        myRequest.ContentType = ContentTypeEnums.POSTJSON.GetEnumDescription();
+                        break;
+                }
                 if (bPara.Method == RequestTypeEnums.GET)
                 {
-                    myRequest.ContentType = ContentTypeEnums.GETFORM.GetEnumDescription();
                 }
                 else
                 {
-                    if(bPara.Method == RequestTypeEnums.POST_FORM)
-                    {
-                        var boundary = "---------------" + DateTime.Now.Ticks.ToString("x");
-                        myRequest.ContentType = ContentTypeEnums.POSTFORM.GetEnumDescription() + ";boundary = " + boundary;
-                    }
-                    else
-                    {
-                        myRequest.ContentType = ContentTypeEnums.POSTJSON.GetEnumDescription() ;
-                    }
                     myRequest.MediaType = bPara.MediaType;
                     byte[] byteRequest = Encoding.UTF8.GetBytes(bPara.PostData);
                     Stream rs = myRequest.GetRequestStream();

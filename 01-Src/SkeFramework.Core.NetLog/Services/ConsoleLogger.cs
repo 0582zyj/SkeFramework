@@ -29,13 +29,13 @@ namespace SkeFramework.Core.NetLog.Services
             switch (level)
             {
                 case LogLevel.Info:
-                    Console.Out.WriteLine(d + " [INFO] " + s);
+                    System.Diagnostics.Debug.WriteLine(d + " [INFO] " + s);
                     break;
                 case LogLevel.Debug:
-                    Console.Out.WriteLine(d + " [DEBUG] " + s);
+                    System.Diagnostics.Debug.WriteLine(d + " [DEBUG] " + s);
                     break;
                 case LogLevel.Error:
-                    Console.Error.WriteLine(d + " [ERROR] " + s);
+                    System.Diagnostics.Debug.WriteLine(d + " [ERROR] " + s);
                     break;
             }
         }

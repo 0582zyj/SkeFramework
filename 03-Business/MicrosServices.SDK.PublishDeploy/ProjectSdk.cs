@@ -24,7 +24,7 @@ namespace MicrosServices.SDK.PublishDeploy
         private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/Delete";
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/Update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/GetOptionValues";
-        private static readonly string PublishDeployUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/PublishDeploy";
+        private static readonly string PublishDeployUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/Publish";
         
 
         /// <summary>

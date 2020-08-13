@@ -166,7 +166,7 @@ namespace MicrosServices.API.PublishDeploy.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> PublishDeploy([FromForm]int id)
+        public ActionResult<JsonResponses> Publish([FromForm]int id)
         {
             PdProject project = DataHandleManager.Instance().PdProjectHandle.GetProject(id);
             if (project==null)

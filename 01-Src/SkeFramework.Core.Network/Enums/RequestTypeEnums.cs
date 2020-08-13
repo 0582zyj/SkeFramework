@@ -14,6 +14,7 @@ namespace SkeFramework.Core.Network.Enums
     {
         GET,
         POST_JSON,
-        POST_FORM
+        POST_FORM,
+        POST_DATA
     }
 }
