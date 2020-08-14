@@ -37,7 +37,7 @@ namespace SkeFramework.Core.Network.Responses
 
         public JsonResponses() { }
 
-        public JsonResponses(string ErrorMsg) : this(Success.code, Success.msg) { }
+        public JsonResponses(string ErrorMsg) : this(Failed.code, ErrorMsg) { }
         public JsonResponses(object obj) : this(Success.code, Success.msg, obj) { }
         public JsonResponses(int code, string msg) : this(code, msg, null)
         {

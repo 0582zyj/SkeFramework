@@ -92,6 +92,8 @@ namespace MicrosServices.API.PublishDeploy.Handles
                 GitBaseConfig config = new GitAuthConfig(enlistmentRoot, workingDirectory, repoUrl, gitBinPath);
                 GitProcess process = config.CreateGitProcess();
                 int exitCode = -1;
+                DataHandleManager.Instance().UcLoginLogHandle.
+                InsertPublishDeployGitLog(RequestUser, "batPath:" + batPath, ServerConstData.ServerName, 200, "开始执行发布命令:"+ fileInfo.Name+" "+fileInfo.Directory.ToString());
                 List<string> reulit= this.Shell(fileInfo.Name, " ",60*1000, fileInfo.Directory.ToString(), out  exitCode);
                 LoginResultType resultType = exitCode == 0 && reulit.Contains("    0 个错误") ? LoginResultType.SUCCESS_PUBLISHCMD : LoginResultType.FAILED;
                 string message = JsonConvert.SerializeObject(project);
@@ -104,6 +106,11 @@ namespace MicrosServices.API.PublishDeploy.Handles
                 {
                     return true;
                 }
+            }
+            else
+            {
+                DataHandleManager.Instance().UcLoginLogHandle.
+               InsertPublishDeployGitLog(RequestUser, "batPath:"+ batPath, ServerConstData.ServerName, 400, "文件不存在;");
             }
             return false;
         }
@@ -128,6 +135,13 @@ namespace MicrosServices.API.PublishDeploy.Handles
             process.StartInfo.WorkingDirectory = workingDir; // **重点**，工作目录，必须是 bat 批处理文件所在的目录
             process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => Redirected(output, sender, e);
             process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => Redirected(error, sender, e);
+
+            string msg= process.StartInfo.WorkingDirectory + "/" + process.StartInfo.FileName ;
+            DataHandleManager.Instance().UcLoginLogHandle.
+              InsertPublishDeployGitLog("123", msg, ServerConstData.ServerName, 400, "");
+
+         
+
             process.Start();
             process.BeginOutputReadLine();  // 开启异步读取输出操作
             process.BeginErrorReadLine();  // 开启异步读取错误操作
@@ -144,6 +158,8 @@ namespace MicrosServices.API.PublishDeploy.Handles
             response.AddRange(output);
             response.AddRange(error);
             exitCode = process.ExitCode; // 0 为正常退出。
+
+            Process.Start(msg);
             return response;
         }
         private void Redirected(List<string> dataList, object sender, DataReceivedEventArgs e)

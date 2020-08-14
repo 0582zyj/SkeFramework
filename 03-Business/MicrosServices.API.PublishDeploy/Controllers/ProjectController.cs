@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MicrosServices.API.PublishDeploy.Constants;
 using MicrosServices.API.PublishDeploy.Handles;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common.PublishDeploy;
@@ -168,6 +169,7 @@ namespace MicrosServices.API.PublishDeploy.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> Publish([FromForm]int id)
         {
+            string RequestUser = "999999";
             try
             {
                 PdProject project = DataHandleManager.Instance().PdProjectHandle.GetProject(id);
@@ -175,7 +177,6 @@ namespace MicrosServices.API.PublishDeploy.Controllers
                 {
                     return JsonResponses.Failed;
                 }
-                string RequestUser = "999999";
                 bool result = gitHandle.GitProjectSourceCode(project, RequestUser);
                 if (!result)
                 {
@@ -191,6 +192,9 @@ namespace MicrosServices.API.PublishDeploy.Controllers
             }
             catch (Exception ex)
             {
+                DataHandleManager.Instance().UcLoginLogHandle.
+               InsertPublishDeployGitLog(RequestUser, "系统错误" , ServerConstData.ServerName, 400, ex.ToString());
+
                 return new JsonResponses(ex.ToString());
             }
         }
