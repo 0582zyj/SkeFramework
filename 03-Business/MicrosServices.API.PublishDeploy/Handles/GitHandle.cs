@@ -29,7 +29,7 @@ namespace MicrosServices.API.PublishDeploy.Handles
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        public bool GitProjectSourceCode(PdProject project,string RequestUser)
+        public bool GitProjectSourceCode(PdProject project, string RequestUser)
         {
             string enlistmentRoot = project.SourcePath;
             string workingDirectory = project.SourcePath;
@@ -37,21 +37,21 @@ namespace MicrosServices.API.PublishDeploy.Handles
             string gitBinPath = project.GitBinPath;
             GitBaseConfig config = new GitAuthConfig(enlistmentRoot, workingDirectory, repoUrl, gitBinPath);
             CloneService cloneService = new CloneService(config);
-            ConfigResult configResult= cloneService.GetFromLocalConfig(GitConstant.GitCommandConfig.RemoteOriginUrl);
+            ConfigResult configResult = cloneService.GetFromLocalConfig(GitConstant.GitCommandConfig.RemoteOriginUrl);
             string value = "";
             string error = "";
             Result result;
             if (configResult.TryParseAsString(out value, out error))
             {
-               ConfigResult configResult1= cloneService.GetFromLocalConfig($"branch.{project.GitBranch}.remote");
-                if(configResult1.TryParseAsString(out value, out error) && !String.IsNullOrEmpty(value))
+                ConfigResult configResult1 = cloneService.GetFromLocalConfig($"branch.{project.GitBranch}.remote");
+                if (configResult1.TryParseAsString(out value, out error) && !String.IsNullOrEmpty(value))
                 {
                     result = cloneService.GitPull();
                 }
                 else
                 {
                     result = cloneService.ForceCheckout(project.GitBranch);
-                }   
+                }
             }
             else
             {
@@ -71,13 +71,13 @@ namespace MicrosServices.API.PublishDeploy.Handles
         /// <param name="project"></param>
         /// <param name="RequestUser"></param>
         /// <returns></returns>
-        public bool RunPublishBat(PdProject project,string RequestUser)
+        public bool RunPublishBat(PdProject project, string RequestUser)
         {
             if (project == null)
             {
                 return false;
             }
-            string batPath = project.SourcePath+ project.ProjectFile;
+            string batPath = project.SourcePath + project.ProjectFile;
             if (File.Exists(batPath))
             {
                 FileInfo fileInfo = new FileInfo(batPath);
@@ -94,17 +94,16 @@ namespace MicrosServices.API.PublishDeploy.Handles
                 int exitCode = -1;
 
                 List<string> commandList = new List<string>();
-                commandList.Add(fileInfo.Name);
-                List<string> reulit= this.Shell("cmd.exe", "/k", 5*60*1000, fileInfo.Directory.ToString(), out  exitCode, commandList.ToArray());
+                List<string> reulit = this.Shell("cmd.exe", "/c " + fileInfo.Name, 5 * 60 * 1000, fileInfo.Directory.ToString(), out exitCode, commandList.ToArray());
 
                 LoginResultType resultType = exitCode == 0 && reulit.Contains("    0 个错误") ? LoginResultType.SUCCESS_PUBLISHCMD : LoginResultType.FAILED;
                 string message = JsonConvert.SerializeObject(project);
                 string HandleUser = ServerConstData.ServerName;
                 int HandleResult = (int)resultType;
-                string HandleMessage = resultType== LoginResultType.SUCCESS_PUBLISHCMD?resultType.GetEnumDescription(): String.Join(";", reulit);
+                string HandleMessage = resultType == LoginResultType.SUCCESS_PUBLISHCMD ? resultType.GetEnumDescription() : String.Join(";", reulit);
                 DataHandleManager.Instance().UcLoginLogHandle.
-                InsertCommonLog(RequestUser, message,LogTypeEumns.PublishCmd, HandleUser, HandleResult, HandleMessage);
-                if (exitCode==0 && reulit.Contains("    0 个错误"))
+                InsertCommonLog(RequestUser, message, LogTypeEumns.PublishCmd, HandleUser, HandleResult, HandleMessage);
+                if (exitCode == 0 && reulit.Contains("    0 个错误"))
                 {
                     return true;
                 }
@@ -112,7 +111,7 @@ namespace MicrosServices.API.PublishDeploy.Handles
             else
             {
                 DataHandleManager.Instance().UcLoginLogHandle.
-               InsertPublishDeployGitLog(RequestUser, "batPath:"+ batPath, ServerConstData.ServerName, 400, "文件不存在;");
+               InsertPublishDeployGitLog(RequestUser, "batPath:" + batPath, ServerConstData.ServerName, 400, "文件不存在;");
             }
             return false;
         }
@@ -136,10 +135,10 @@ namespace MicrosServices.API.PublishDeploy.Handles
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.CreateNoWindow = true;
             process.EnableRaisingEvents = true;  // 获取或设置在进程终止时是否应激发 Exited 事件；不论是正常退出还是异常退出。
-            process.StartInfo.WorkingDirectory = workingDir ; // **重点**，工作目录，必须是 bat 批处理文件所在的目录
+            process.StartInfo.WorkingDirectory = workingDir; // **重点**，工作目录，必须是 bat 批处理文件所在的目录
             process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => Redirected(output, sender, e);
             process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => Redirected(error, sender, e);
-        
+
             process.Start();
             //向cmd窗口发送输入信息
             int lenght = command.Length;
