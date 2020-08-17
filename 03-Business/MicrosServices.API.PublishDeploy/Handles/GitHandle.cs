@@ -93,8 +93,9 @@ namespace MicrosServices.API.PublishDeploy.Handles
                 GitProcess process = config.CreateGitProcess();
                 int exitCode = -1;
 
-                List<string> commandList = new List<string>();  
-                List<string> reulit= this.Shell("cmd.exe", "/c "+ fileInfo.Name, 5*60*1000, fileInfo.Directory.ToString(), out  exitCode, commandList.ToArray());
+                List<string> commandList = new List<string>();
+                commandList.Add(fileInfo.Name);
+                List<string> reulit= this.Shell("cmd.exe", "/k", 5*60*1000, fileInfo.Directory.ToString(), out  exitCode, commandList.ToArray());
 
                 LoginResultType resultType = exitCode == 0 && reulit.Contains("    0 个错误") ? LoginResultType.SUCCESS_PUBLISHCMD : LoginResultType.FAILED;
                 string message = JsonConvert.SerializeObject(project);
