@@ -92,9 +92,10 @@ namespace MicrosServices.API.PublishDeploy.Handles
                 GitBaseConfig config = new GitAuthConfig(enlistmentRoot, workingDirectory, repoUrl, gitBinPath);
                 GitProcess process = config.CreateGitProcess();
                 int exitCode = -1;
-                DataHandleManager.Instance().UcLoginLogHandle.
-                InsertPublishDeployGitLog(RequestUser, "batPath:" + batPath, ServerConstData.ServerName, 200, "开始执行发布命令:"+ fileInfo.Name+" "+fileInfo.Directory.ToString());
-                List<string> reulit= this.Shell(fileInfo.Name, " ",60*1000, fileInfo.Directory.ToString(), out  exitCode);
+
+                List<string> commandList = new List<string>();  
+                List<string> reulit= this.Shell("cmd.exe", "/c "+ fileInfo.Name, 5*60*1000, fileInfo.Directory.ToString(), out  exitCode, commandList.ToArray());
+
                 LoginResultType resultType = exitCode == 0 && reulit.Contains("    0 个错误") ? LoginResultType.SUCCESS_PUBLISHCMD : LoginResultType.FAILED;
                 string message = JsonConvert.SerializeObject(project);
                 string HandleUser = ServerConstData.ServerName;
@@ -116,42 +117,44 @@ namespace MicrosServices.API.PublishDeploy.Handles
         }
 
         #region Cmd执行某个Bat文件
-        private List<string> Shell(string exeFile, string command, int timeout, string workingDir, out int exitCode)
+        private List<string> Shell(string exeFile, string Arguments,
+            int timeout, string workingDir, out int exitCode, params string[] command)
         {
+
             List<string> response = new List<string>();
             List<string> output = new List<string>();
             List<string> error = new List<string>();
             Process process = new Process();
 
             process.StartInfo.FileName = exeFile; //设置要启动的应用程序，如：fastboot
-            process.StartInfo.Arguments = command; // 设置应用程序参数，如： flash boot0 "A_Debug/boot0.img"
-
+            process.StartInfo.Arguments = Arguments; // 设置应用程序参数，如： flash boot0 "A_Debug/boot0.img"
+            process.StartInfo.Verb = "runas";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardInput = true;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.CreateNoWindow = true;
             process.EnableRaisingEvents = true;  // 获取或设置在进程终止时是否应激发 Exited 事件；不论是正常退出还是异常退出。
-            process.StartInfo.WorkingDirectory = workingDir; // **重点**，工作目录，必须是 bat 批处理文件所在的目录
+            process.StartInfo.WorkingDirectory = workingDir ; // **重点**，工作目录，必须是 bat 批处理文件所在的目录
             process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => Redirected(output, sender, e);
             process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => Redirected(error, sender, e);
-
-            string msg= process.StartInfo.WorkingDirectory + "/" + process.StartInfo.FileName ;
-            DataHandleManager.Instance().UcLoginLogHandle.
-              InsertPublishDeployGitLog("123", msg, ServerConstData.ServerName, 400, "");
-
-         
-
+        
             process.Start();
+            //向cmd窗口发送输入信息
+            int lenght = command.Length;
+            foreach (string com in command)
+            {
+                process.StandardInput.WriteLine(com);//输入CMD命令
+            }
+            process.StandardInput.WriteLine("exit");//结束执行，很重要的
             process.BeginOutputReadLine();  // 开启异步读取输出操作
             process.BeginErrorReadLine();  // 开启异步读取错误操作
-
 
             bool exited = process.WaitForExit(timeout);
             if (!exited)
             {
                 process.Kill();  // 通过超时判断是否执行失败，极可能为假死状态。
-                                 // 记录日志
+                // 记录日志
                 response.Add("Error: timed out");
             }
 
@@ -159,7 +162,6 @@ namespace MicrosServices.API.PublishDeploy.Handles
             response.AddRange(error);
             exitCode = process.ExitCode; // 0 为正常退出。
 
-            Process.Start(msg);
             return response;
         }
         private void Redirected(List<string> dataList, object sender, DataReceivedEventArgs e)

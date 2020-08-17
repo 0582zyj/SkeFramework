@@ -32,7 +32,7 @@ namespace SkeFramework.DataBase.Common.DataFactory
         private static DbFactory _simpleInstance = null;
         public static DbFactory Instance()
         {
-            if (_simpleInstance == null)
+            if (_simpleInstance == null || _simpleInstance.connectionString==null)
             {
                 _simpleInstance = new DbFactory();
                 var collection = System.Configuration.ConfigurationManager.ConnectionStrings["ConnectionString"];

@@ -177,7 +177,7 @@ namespace MicrosServices.API.PublishDeploy.Controllers
                 {
                     return JsonResponses.Failed;
                 }
-                bool result = gitHandle.GitProjectSourceCode(project, RequestUser);
+                bool result =  gitHandle.GitProjectSourceCode(project, RequestUser);
                 if (!result)
                 {
                     return JsonResponses.Failed;
