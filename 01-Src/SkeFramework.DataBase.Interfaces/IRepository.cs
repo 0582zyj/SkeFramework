@@ -58,7 +58,7 @@ namespace SkeFramework.DataBase.Interfaces
         /// <param name="orderBy"></param>
         /// <returns></returns>
         IEnumerable<TEntity> GetPagedList<TKey>(int pageIndex, int pageSize, Expression<Func<TEntity, bool>> where,
-                     Expression<Func<TEntity, TKey>> orderBy);
+                     Expression<Func<TEntity, TKey>> orderBy,bool isAsc=true);
         /// <summary>
         /// 根据条件查询行数
         /// </summary>

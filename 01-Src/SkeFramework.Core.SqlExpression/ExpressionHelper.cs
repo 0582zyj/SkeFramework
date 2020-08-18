@@ -45,7 +45,7 @@ namespace SkeFramework.Core.SqlExpression
             expressionHandle = serverFactory.NewExpressionHandle(name);
             if (expressionHandle != null)
             {
-                return expressionHandle.DealExpression(exp);
+                return expressionHandle.DealExpression(ex);
             }
             return "error";
         }
@@ -66,7 +66,6 @@ namespace SkeFramework.Core.SqlExpression
                 return expressionHandle.DealExpression(ex);
             }
             return "error";
-            
         }
     }
 }

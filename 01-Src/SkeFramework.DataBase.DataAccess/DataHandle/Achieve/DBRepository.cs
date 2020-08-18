@@ -174,7 +174,7 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
         /// <param name="orderBy"></param>
         /// <returns></returns>
         public IEnumerable<TInterface> GetPagedList<TKey>(int pageIndex, int pageSize, Expression<Func<TInterface, bool>> where,
-                Expression<Func<TInterface, TKey>> orderBy)
+                Expression<Func<TInterface, TKey>> orderBy,bool isAsc=true)
         {
             var type = typeof(TInterface);
             var tablename = PropertiesHelper.Instance().GetTableName(type);
@@ -201,12 +201,12 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
                 string orderBySQL = ExpressionHelper.Instance().GetSql<TInterface, TKey>(orderBy);
                 if (orderBySQL.Length > 0)
                 {
-                    sSQL += " Order by " + orderBySQL;
+                    sSQL += " Order by " + orderBySQL +(isAsc?" asc ":" desc");
                 }
             }
             else
             {
-                sSQL += " Order by " + keyname;
+                sSQL += " Order by " + keyname + (isAsc ? " asc " : " desc");
             }
             DataTable dt = RepositoryHelper.GetDataTable(CommandType.Text, sSQL);
             if (dt != null && dt.Rows.Count > 0)

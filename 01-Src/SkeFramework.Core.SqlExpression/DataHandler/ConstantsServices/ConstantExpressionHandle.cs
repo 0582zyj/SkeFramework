@@ -22,14 +22,20 @@ namespace SkeFramework.Core.SqlExpression.DataHandler.ConstantsServices
             {
                 return sql;
             }
-            ConstantExpression expression = exp as ConstantExpression;
-            var ccc = expression.Value.GetType();
-
-            if (expression.Value == null)
+            if(exp is ConstantExpression)
             {
-                return "NULL";
+                ConstantExpression expression = exp as ConstantExpression;
+                var ccc = expression.Value.GetType();
+
+                if (expression.Value == null)
+                {
+                    return "NULL";
+                }
+                return ExpressionTypeUtil.GetValueFormat(expression.Value);
             }
-            return ExpressionTypeUtil.GetValueFormat(expression.Value);
+            return exp.ToString();
+
+
         }
     }
 }

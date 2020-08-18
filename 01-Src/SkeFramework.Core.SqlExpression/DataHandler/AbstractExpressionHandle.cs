@@ -24,7 +24,10 @@ namespace SkeFramework.Core.SqlExpression.DataHandler
             if (!name.Equals(this.ExpressionName))
             {
                 IExpressionHandle expression = serverFactory.NewExpressionHandle(name);
-                return  expression.DealExpression(exp);
+                if (expression != null)
+                {
+                    return expression.DealExpression(exp);
+                }
             }
             return "";
         }

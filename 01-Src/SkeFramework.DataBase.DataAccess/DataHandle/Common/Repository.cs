@@ -120,9 +120,9 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Common
         /// <param name="orderBy"></param>
         /// <returns></returns>
         public IEnumerable<TEntity> GetPagedList<TKey>(int pageIndex, int pageSize, Expression<Func<TEntity, bool>> whereLambda,
-                  Expression<Func<TEntity, TKey>> orderBy)
+                  Expression<Func<TEntity, TKey>> orderBy,bool isAsc=true)
         {
-            return _mSerialProxy.GetPagedList<TKey>(pageIndex, pageSize, whereLambda, orderBy);
+            return _mSerialProxy.GetPagedList<TKey>(pageIndex, pageSize, whereLambda, orderBy, isAsc);
         }
         /// <summary>
         /// 根据条件查询行数
