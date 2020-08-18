@@ -18,7 +18,7 @@ namespace MicrosServices.SDK.LogSystem
 {
     public  class LogBaseSDK
     {
-        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetPageList";
+        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/log/GetPageList";
        
         /// <summary>
         /// 获取菜单所有列表
