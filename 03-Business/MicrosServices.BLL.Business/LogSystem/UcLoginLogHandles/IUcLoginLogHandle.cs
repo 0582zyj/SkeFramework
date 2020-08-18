@@ -1,7 +1,10 @@
 ﻿using MicrosServices.DAL.DataAccess.Repository.LogSystem.UcLoginLogHandles;
+using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Constants;
+using MicrosServices.Entities.Core.DataForm.LogQuery;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.UserCenter.FORM;
+using SkeFramework.Core.Network.DataUtility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,5 +47,11 @@ namespace MicrosServices.BLL.Business.LogSystem.UcLoginLogHandles
         /// <param name="HandleMessage"></param>
         /// <returns></returns>
         bool InsertCommonLog(string RequestUser, string message, LogTypeEumns logType, string HandleUser = "", int HandleResult = 0, string HandleMessage = "");
+        /// <summary>
+        /// 根据查询参数获取日志列表
+        /// </summary>
+        /// <param name="queryForm"></param>
+        /// <returns></returns>
+        List<UcLoginLog> GetUcLoginLogList(PageModel page, LogQueryForm queryForm);
     }
 }

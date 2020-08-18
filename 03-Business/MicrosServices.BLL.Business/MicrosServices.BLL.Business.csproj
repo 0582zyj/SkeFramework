@@ -85,6 +85,10 @@
       <Project>{37DE7F92-5446-4200-87A6-43C36D1C1650}</Project>
       <Name>SkeFramework.Core.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj">
+      <Project>{F30C0CC5-B760-4EE0-9603-FCE8FF5206BC}</Project>
+      <Name>SkeFramework.Core.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.SnowFlake\SkeFramework.Core.SnowFlake.csproj">
       <Project>{59b48553-2829-4bb0-83aa-860c8edc9f68}</Project>
       <Name>SkeFramework.Core.SnowFlake</Name>
@@ -104,6 +108,10 @@
     <ProjectReference Include="..\MicrosServices.Entities.Common\MicrosServices.Entities.Common.csproj">
       <Project>{d249d5f8-25c1-4d93-ad7a-b85757d43737}</Project>
       <Name>MicrosServices.Entities.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.Entities.Core\MicrosServices.Entities.Core.csproj">
+      <Project>{04550189-5D0E-46BE-B6F8-D8AC82A044BC}</Project>
+      <Name>MicrosServices.Entities.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj">
       <Project>{f26359e9-2013-44d7-8569-e5533dec9ba4}</Project>

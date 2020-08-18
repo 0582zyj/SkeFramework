@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 using SkeFramework.Core.Common.Enums;
 using SkeFramework.Core.SnowFlake;
 using MicrosServices.Helper.Core.UserCenter.FORM;
+using MicrosServices.Entities.Core.DataForm.LogQuery;
+using System.Linq.Expressions;
+using SkeFramework.Core.Network.DataUtility;
 
 namespace MicrosServices.BLL.Business.LogSystem.UcLoginLogHandles
 {
@@ -102,6 +105,27 @@ namespace MicrosServices.BLL.Business.LogSystem.UcLoginLogHandles
                 ExpiresIn = 60 * 60 * 1000,
             };
             return this.Insert(loginLog) > 0;
+        }
+
+
+        /// <summary>
+        /// 根据查询参数获取日志列表
+        /// </summary>
+        /// <param name="queryForm"></param>
+        /// <returns></returns>
+        public List<UcLoginLog> GetUcLoginLogList(PageModel page,LogQueryForm queryForm)
+        {
+            Expression<Func<UcLoginLog, bool>> where = null;
+            if (!String.IsNullOrEmpty(queryForm.keywords))
+            {
+                where = (o => o.Titile.Contains(queryForm.keywords));
+            }
+            if (!String.IsNullOrEmpty(queryForm.HandleUser))
+            {
+                where = (o => o.HandleUser.Equals(queryForm.HandleUser));
+            }
+            page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().UcLoginLogHandle.Count(where)));//取记录数
+            return DataHandleManager.Instance().UcLoginLogHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
         }
 
     }

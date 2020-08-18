@@ -26,42 +26,37 @@ namespace SkeFramework.Core.SqlExpression.DataHandler.MethodServices
             {
                 return DealExpression(g);
             }
-            if (k.Method.Name == "Contains")
-            {
-                if (k.Method.DeclaringType.Name.Contains("List`1"))
-                {
-                    var exp1 = k.Arguments[0];
-                    var exp2 = k.Object;
-                    string methods = " IN ";
-                    return DealExpression(exp1) + methods + DealExpression(exp2);
-                }
-                else
-                {
-                    var exp1 = k.Arguments[0];
-                    var exp2 = k.Object;
-                    string methods = " LIKE ";
-                    char[] trimChars = "'".ToCharArray();
-                    return DealExpression(exp2) + methods + "'%" + DealExpression(exp1).Trim(trimChars) + "%'";
-                }
-            }
-            /// 控制函数所在类名。
-            if (k.Method.DeclaringType != typeof(SQLMethods))
-            {
-                throw new Exception("无法识别函数");
-            }
+            var exp1 = k.Arguments[0];
+            var exp2 = k.Object;
+            string methods = " IN ";
             switch (k.Method.Name)
             {
+                case "Contains":
+                    if (k.Method.DeclaringType.Name.Contains("List`1"))
+                    {
+                        methods = " IN ";
+                        return DealExpression(exp1) + methods + DealExpression(exp2);
+                    }
+                    else
+                    {
+                        methods = " LIKE ";
+                        char[] trimChars = "'".ToCharArray();
+                        return DealExpression(exp2) + methods + "'%" + DealExpression(exp1).Trim(trimChars) + "%'";
+                    }
+                case "Equals":
+                    methods = " = ";
+                    return DealExpression(exp1) + methods + DealExpression(exp2);
                 case "DB_Length":
                     {
-                        var exp1 = k.Arguments[0];
+                        exp1 = k.Arguments[0];
                         return "LEN(" + DealExpression(exp1) + ")";
                     }
                 case "DB_In":
                 case "DB_NotIn":
                     {
-                        var exp1 = k.Arguments[0];
-                        var exp2 = k.Arguments[1];
-                        string methods = string.Empty;
+                        exp1 = k.Arguments[0];
+                        exp2 = k.Arguments[1];
+                        methods = string.Empty;
                         if (k.Method.Name == "In")
                         {
                             methods = " IN ";
@@ -75,9 +70,9 @@ namespace SkeFramework.Core.SqlExpression.DataHandler.MethodServices
                 case "DB_Like":
                 case "DB_NotLike":
                     {
-                        var exp1 = k.Arguments[0];
-                        var exp2 = k.Arguments[1];
-                        string methods = string.Empty;
+                        exp1 = k.Arguments[0];
+                        exp2 = k.Arguments[1];
+                        methods = string.Empty;
                         if (k.Method.Name == "DB_Like")
                         {
                             methods = " LIKE ";
@@ -88,10 +83,17 @@ namespace SkeFramework.Core.SqlExpression.DataHandler.MethodServices
                         }
                         return DealExpression(exp1) + methods + DealExpression(exp2);
                     }
+                default:
+                    if (k.Method.DeclaringType != typeof(SQLMethods))
+                    {
+                        throw new Exception("无法识别函数");
+                    }
+                    else
+                    {
+                        ///   未知的函数
+                        throw new Exception("意外的函数");
+                    }
             }
-            ///   未知的函数
-            throw new Exception("意外的函数");
-
         }
     }
 }

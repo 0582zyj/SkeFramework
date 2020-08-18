@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\01-Src\SkeFramework.NetGit\SkeFramework.NetGit.csproj" />
     <ProjectReference Include="..\MicrosServices.BLL.Business\MicrosServices.BLL.Business.csproj" />
     <ProjectReference Include="..\MicrosServices.DAL.DataAccess\MicrosServices.DAL.DataAccess.csproj" />
+    <ProjectReference Include="..\MicrosServices.Entities.Core\MicrosServices.Entities.Core.csproj" />
     <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj" />
   </ItemGroup>
 
