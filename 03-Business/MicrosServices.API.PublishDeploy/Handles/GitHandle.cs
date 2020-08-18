@@ -94,7 +94,8 @@ namespace MicrosServices.API.PublishDeploy.Handles
                 int exitCode = -1;
 
                 List<string> commandList = new List<string>();
-                List<string> reulit = this.Shell("cmd.exe", "/c " + fileInfo.Name, 5 * 60 * 1000, fileInfo.Directory.ToString(), out exitCode, commandList.ToArray());
+                commandList.Add(fileInfo.Name);
+                List<string> reulit = this.Shell("cmd.exe", "/k ", 5 * 60 * 1000, fileInfo.Directory.ToString(), out exitCode, commandList.ToArray());
 
                 LoginResultType resultType = exitCode == 0 && reulit.Contains("    0 个错误") ? LoginResultType.SUCCESS_PUBLISHCMD : LoginResultType.FAILED;
                 string message = JsonConvert.SerializeObject(project);
@@ -142,11 +143,14 @@ namespace MicrosServices.API.PublishDeploy.Handles
             process.Start();
             //向cmd窗口发送输入信息
             int lenght = command.Length;
-            foreach (string com in command)
+            if (lenght > 0)
             {
-                process.StandardInput.WriteLine(com);//输入CMD命令
+                foreach (string com in command)
+                {
+                    process.StandardInput.WriteLine(com);//输入CMD命令
+                }
+                process.StandardInput.WriteLine("exit");//结束执行，很重要的
             }
-            process.StandardInput.WriteLine("exit");//结束执行，很重要的
             process.BeginOutputReadLine();  // 开启异步读取输出操作
             process.BeginErrorReadLine();  // 开启异步读取错误操作
 
