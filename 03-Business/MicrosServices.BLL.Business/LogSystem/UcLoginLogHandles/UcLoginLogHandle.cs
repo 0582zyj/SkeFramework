@@ -56,7 +56,7 @@ namespace MicrosServices.BLL.Business.LogSystem.UcLoginLogHandles
                 HandleResult = (int)loginResultType,
                 HandleMessage = loginResultType.GetEnumDescription(),
                 HandleTime = DateTime.Now,
-                HandleUser = loginForm.Platform,
+                HandleUser = HandleUserEumns.UserCenter.ToString(),
                 ExpiresIn = 60 * 60 * 1000,
             };
             return this.Insert(loginLog)>0;

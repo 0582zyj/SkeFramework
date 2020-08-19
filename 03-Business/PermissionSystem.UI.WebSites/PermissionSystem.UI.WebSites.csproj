@@ -282,6 +282,7 @@
     <Content Include="Views\Project\ProjectUpdate.cshtml" />
     <Content Include="Views\Project\ProjectAdd.cshtml" />
     <Content Include="Views\Log\PublishLogList.cshtml" />
+    <Content Include="Views\Log\LoginLogList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

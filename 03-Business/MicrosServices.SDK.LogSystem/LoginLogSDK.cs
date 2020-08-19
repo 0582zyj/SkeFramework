@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MicrosServices.SDK.LogSystem
 {
-    public class PublishLogSDK
+    public class LoginLogSDK
     {
         private LogBaseSDK baseSDK = new LogBaseSDK();
 
@@ -20,11 +20,11 @@ namespace MicrosServices.SDK.LogSystem
         /// </summary>
         /// <param name="loginInfo"></param>
         /// <returns></returns>
-        public PageResponse<UcLoginLog> GetPublishLogPageList(PageModel page,string Title)
+        public PageResponse<UcLoginLog> GetLoginLogPageList(PageModel page, string Title)
         {
             LogQueryForm logQuery = new LogQueryForm()
             {
-                HandleUser = HandleUserEumns.Publish.ToString(),
+                HandleUser = HandleUserEumns.UserCenter.ToString(),
                 keywords = Title,
             };
             return baseSDK.GetUcLoginLogPageList(page, logQuery);

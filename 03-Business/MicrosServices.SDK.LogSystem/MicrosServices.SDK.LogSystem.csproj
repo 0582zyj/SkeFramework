@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LogBaseSDK.cs" />
+    <Compile Include="LoginLogSDK.cs" />
     <Compile Include="PublishLogSDK.cs" />
     <Compile Include="DataUtil\NetwordConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

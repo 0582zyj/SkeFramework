@@ -4,10 +4,10 @@
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>发布日志列表</h1>
+    <h1>登录日志列表</h1>
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> 主页</a></li>
-        <li><a href="javascript:void(0);"><i class="fa fa-bar-chart"></i> 发布日志列表</a></li>
+        <li><a href="javascript:void(0);"><i class="fa fa-bar-chart"></i>登录日志列表</a></li>
     </ol>
 </section>
 <!-- Main content -->
@@ -40,7 +40,7 @@
                     <table id="j-alert-table" class="table table-hover table-bordered datatable">
                         <thead>
                             <tr class="show-datatable-list-title">
-                                <th class="wid">主键</th>
+                                <th>主键</th>
                                 <th>日志标题</th>
                                 <th>请求者</th>
                                 <th>请求时间</th>
@@ -65,7 +65,7 @@
                         <!--insert tbody here-->
                     </table>
                 </div>
-                <templatepage v-on:getdata="GetList" url="@Url.Action("GetPublishLogList", "Log")" v-bind:prop="prop"></templatepage>
+                <templatepage v-on:getdata="GetList" url="@Url.Action("GetLoginLogList", "Log")" v-bind:prop="prop"></templatepage>
             </div>
         </div>
         <!-- /.box -->
@@ -76,7 +76,7 @@
         var vm = new Vue({
             el: "#section-content",
             data: {
-                GetListUrl: "@Url.Action("GetPublishLogList", "Log")",
+                GetListUrl: "@Url.Action("GetLoginLogList", "Log")",
                 dataList: [],
                 search: { keywords: ""}
             },
