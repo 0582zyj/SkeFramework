@@ -97,10 +97,6 @@
       <Project>{2811AF18-014F-4D3A-AA91-6AFB13F53A9A}</Project>
       <Name>SkeFramework.DataBase.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.Interfaces\SkeFramework.DataBase.Interfaces.csproj">
-      <Project>{668b3c84-53ba-44bc-b3e5-59f0c4d248dd}</Project>
-      <Name>SkeFramework.DataBase.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MicrosServices.DAL.DataAccess\MicrosServices.DAL.DataAccess.csproj">
       <Project>{385c7f8e-7318-4cb8-9df6-b61d49805c4e}</Project>
       <Name>MicrosServices.DAL.DataAccess</Name>

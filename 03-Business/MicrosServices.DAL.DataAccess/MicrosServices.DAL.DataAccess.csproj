@@ -84,17 +84,9 @@
       <Project>{37de7f92-5446-4200-87a6-43c36d1c1650}</Project>
       <Name>SkeFramework.Core.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.Common\SkeFramework.DataBase.Common.csproj">
-      <Project>{43dfa23c-87ae-49cd-868a-801ead42be74}</Project>
-      <Name>SkeFramework.DataBase.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.DataAccess\SkeFramework.DataBase.DataAccess.csproj">
       <Project>{2811af18-014f-4d3a-aa91-6afb13f53a9a}</Project>
       <Name>SkeFramework.DataBase.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.Interfaces\SkeFramework.DataBase.Interfaces.csproj">
-      <Project>{668b3c84-53ba-44bc-b3e5-59f0c4d248dd}</Project>
-      <Name>SkeFramework.DataBase.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj">
       <Project>{f26359e9-2013-44d7-8569-e5533dec9ba4}</Project>

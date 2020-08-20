@@ -65,11 +65,10 @@
     <Compile Include="IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.Common\SkeFramework.DataBase.Common.csproj">
-      <Project>{43dfa23c-87ae-49cd-868a-801ead42be74}</Project>
-      <Name>SkeFramework.DataBase.Common</Name>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.DataAccess\SkeFramework.DataBase.DataAccess.csproj">
+      <Project>{2811AF18-014F-4D3A-AA91-6AFB13F53A9A}</Project>
+      <Name>SkeFramework.DataBase.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
