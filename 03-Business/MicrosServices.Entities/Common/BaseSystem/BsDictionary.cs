@@ -15,7 +15,7 @@ namespace MicrosServices.Entities.Common.BaseSystem
         [Description("ID")]
         public Int64 id { get; set; }
         [Description("编码")]
-        public string DicCode { get; set; }
+        public string DicType { get; set; }
         [Description("键")]
         public string DicKey { get; set; }
         [Description("值")]

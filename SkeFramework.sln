@@ -154,6 +154,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.NetGit", "01-S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.SDK.LogSystem", "03-Business\MicrosServices.SDK.LogSystem\MicrosServices.SDK.LogSystem.csproj", "{158B1B18-D265-4F1E-B79E-45B2C3D9B3CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.API.AdminServer", "03-Business\MicrosServices.API.AdminServer\MicrosServices.API.AdminServer.csproj", "{5875AE76-5196-4E20-824F-A2ACFF6C6105}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -344,6 +346,10 @@ Global
 		{158B1B18-D265-4F1E-B79E-45B2C3D9B3CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{158B1B18-D265-4F1E-B79E-45B2C3D9B3CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{158B1B18-D265-4F1E-B79E-45B2C3D9B3CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5875AE76-5196-4E20-824F-A2ACFF6C6105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5875AE76-5196-4E20-824F-A2ACFF6C6105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5875AE76-5196-4E20-824F-A2ACFF6C6105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5875AE76-5196-4E20-824F-A2ACFF6C6105}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -417,6 +423,7 @@ Global
 		{36081E95-AB41-4FC1-B8AF-46D636AC6767} = {3FDB3E18-D8E8-4B6C-9611-C7A47CE5E321}
 		{24D57FD7-F4E1-49DE-915C-2A044CCFBC48} = {36081E95-AB41-4FC1-B8AF-46D636AC6767}
 		{158B1B18-D265-4F1E-B79E-45B2C3D9B3CA} = {C7C67878-EE19-4954-B2B8-1A1CC69C1B0A}
+		{5875AE76-5196-4E20-824F-A2ACFF6C6105} = {2C275C9C-3596-45BC-8D0C-C97D69403791}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}

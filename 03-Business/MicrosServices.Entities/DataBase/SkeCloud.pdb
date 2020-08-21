@@ -8099,11 +8099,11 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:Column>
 <o:Column Id="o302">
 <a:ObjectID>66A0ED2B-0D7B-4507-B7B0-0EADB06C50E0</a:ObjectID>
-<a:Name>DicCode</a:Name>
-<a:Code>DicCode</a:Code>
+<a:Name>DicType</a:Name>
+<a:Code>DicType</a:Code>
 <a:CreationDate>1597969826</a:CreationDate>
 <a:Creator>zengyingjun</a:Creator>
-<a:ModificationDate>1597970743</a:ModificationDate>
+<a:ModificationDate>1598000366</a:ModificationDate>
 <a:Modifier>zengyingjun</a:Modifier>
 <a:Comment>编码</a:Comment>
 <a:DefaultValue>NULL</a:DefaultValue>
