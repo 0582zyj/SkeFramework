@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MicrosServices.BLL.Business.PublishDeploy.PdProjectHandles;
+﻿using MicrosServices.BLL.Business.PublishDeploy.PdProjectHandles;
 using MicrosServices.BLL.Business.PublishDeploy.PdPublishHandles;
 using MicrosServices.BLL.Business.PublishDeploy.PdServerHandles;
 using MicrosServices.BLL.Business.LogSystem.UcLoginLogHandles;
@@ -23,6 +18,8 @@ using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Common.PublishDeploy;
 using SkeFramework.DataBase.DataAccess.DataHandle.Achieve;
 using ULCloudLockTool.BLL.Business.Achieve;
+using MicrosServices.BLL.Business.BaseSystem.BsDictionaryHandle;
+using MicrosServices.Entities.Common.BaseSystem;
 
 namespace MicrosServices.BLL.Business
 {
@@ -124,8 +121,15 @@ namespace MicrosServices.BLL.Business
             get { return DataHandleFactory.GetDataHandle<IPdPublishHandle, PdPublish>(); }
         }
 
-        
 
+
+        #endregion
+
+        #region BaseSystem
+        public IBsDictionaryHandle BsDictionaryHandle
+        {
+            get { return DataHandleFactory.GetDataHandle<BsDictionary, BsDictionary>(); }
+        }
         #endregion
     }
 }
