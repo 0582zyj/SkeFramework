@@ -15,7 +15,7 @@ using SkeFramework.Core.Network.Responses;
 
 namespace MicrosServices.API.AdminServer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class DictionaryController : ControllerBase
     {

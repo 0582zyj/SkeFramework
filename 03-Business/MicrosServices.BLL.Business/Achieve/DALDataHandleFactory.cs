@@ -24,6 +24,7 @@ using MicrosServices.Entities.Common.PublishDeploy;
 using SkeFramework.DataBase.DataAccess.DataHandle.Achieve;
 using SkeFramework.DataBase.Interfaces;
 using MicrosServices.Entities.Common.BaseSystem;
+using MicrosServices.BLL.Business.BaseSystem.BsDictionaryHandle;
 
 namespace ULCloudLockTool.BLL.Business.Achieve
 {
@@ -106,6 +107,11 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             else if (IsSubclassOf(typeof(PdProject), dataType))
             {
                 return new PdProjectHandle(GetConfigDataSerialer<PdProject>(PdProject.TableName)) as IDataTableHandle;
+            }
+            //BaseSystem
+            else if (IsSubclassOf(typeof(BsDictionary), dataType))
+            {
+                return new BsDictionaryHandle(GetConfigDataSerialer<BsDictionary>(BsDictionary.TableName)) as IDataTableHandle;
             }
             return null;
         }
