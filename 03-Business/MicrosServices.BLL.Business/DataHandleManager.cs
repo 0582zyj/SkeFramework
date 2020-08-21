@@ -128,7 +128,7 @@ namespace MicrosServices.BLL.Business
         #region BaseSystem
         public IBsDictionaryHandle BsDictionaryHandle
         {
-            get { return DataHandleFactory.GetDataHandle<BsDictionary, BsDictionary>(); }
+            get { return DataHandleFactory.GetDataHandle<BsDictionaryHandle, BsDictionary>(); }
         }
         #endregion
     }

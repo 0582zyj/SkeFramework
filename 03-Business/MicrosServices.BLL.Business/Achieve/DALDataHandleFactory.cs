@@ -23,6 +23,7 @@ using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Common.PublishDeploy;
 using SkeFramework.DataBase.DataAccess.DataHandle.Achieve;
 using SkeFramework.DataBase.Interfaces;
+using MicrosServices.Entities.Common.BaseSystem;
 
 namespace ULCloudLockTool.BLL.Business.Achieve
 {
@@ -156,6 +157,10 @@ namespace ULCloudLockTool.BLL.Business.Achieve
                     return new DBRepository<PdPublish, PdPublish>() as IRepository<TData>;
                 case PdProject.TableName:
                     return new DBRepository<PdProject, PdProject>() as IRepository<TData>;
+                //BaseSystem
+                case BsDictionary.TableName:
+                    return new DBRepository<BsDictionary, BsDictionary>() as IRepository<TData>;
+
             }
             return null;
         }
