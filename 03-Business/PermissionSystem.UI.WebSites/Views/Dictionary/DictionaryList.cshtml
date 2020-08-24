@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = "列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ <!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>BsDictionary列表</h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> 主页</a></li>
+        <li><a href="javascript:void(0);"><i class="fa fa-bar-chart"></i> BsDictionary管理</a></li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content" id="section-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-body">
+                   <div class="form-inline">
+                       <div class="form-group">
+                           <input type="text" class="form-control" placeholder="关键字" v-model="search.keywords">
+                       </div>
+                       <div class="form-group">
+                         <button class="btn btn-default" id="alert-search" v-on:click="btnSearch">
+                            <i class="fa fa-search"></i> 查询
+                         </button>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box" >
+                <!--数据列表页头部-->
+                <div class="box-header with-border">
+                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()">新增</a>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <table id="j-alert-table" class="table table-hover table-bordered datatable">
+                        <thead>
+                            <tr class="show-datatable-list-title">
+                                <th>主键</th>
+                                <th>字典类型</th>
+                                <th>键</th>
+                                <th>值</th>
+                                <th>描述</th>
+                                <th>平台编号</th>
+                                <th>启用状态</th>
+                                <th class="operation">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in dataList">
+                                <td>{{item.id}}</td>
+                                <td>{{item.DicType}}</td>
+                                <td>{{item.DicKey}}</td>
+                                <td>{{item.DicValue}}</td>
+                                <td>{{item.Descriptions}}</td>
+                                <td>{{item.PlatformNo|formatePlatform(platformList)}}</td>
+                                <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
+                                <td class="operation">
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <!--insert tbody here-->
+                    </table>
+                </div>
+                <templatepage v-on:getdata="GetList" url="@Url.Action("GetBsDictionaryList", "Dictionary")" v-bind:prop="prop"></templatepage>
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+</section>
+<!-- /.content -->
+<script>
+        var vm = new Vue({
+            el: "#section-content",
+            data: {
+                updateJumpUrl: "@Url.Action("DictionaryUpdate", "Dictionary")",
+                addJumpUrl: "@Url.Action("DictionaryAdd", "Dictionary")",
+                deleteUrl: "@Url.Action("BsDictionaryDelete", "Dictionary")",
+                GetListUrl: "@Url.Action("GetBsDictionaryList", "Dictionary")",
+                getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
+                dataList: [],
+                enabledList: [
+                    { Name: '启用', Value: 1 },
+                    { Name: '停用', Value: 0 },
+                ],
+                search: { keywords: ""}
+            },
+            filters: {
+                formateEnabled: function (enabled, list) {
+                    let result = enabled;
+                    list.map(res => {
+                        if (enabled == res.Value) {
+                            result = res.Name;
+                        }
+                    });
+                    return result;
+                },
+                formatePlatform: function (PlatformNo, list) {
+                    let result = PlatformNo;
+                    list.map(res => {
+                        if (PlatformNo == res.Value) {
+                            result = res.Name;
+                        }
+                    });
+                    return result;
+                }
+
+            },
+            computed: {
+                prop: function () {
+                    return { keywords: this.search.keywords }
+                }
+            },
+            created: function () {
+                this.Init();
+            },
+            methods: {
+                Init: function () {
+                    var _self = this;
+                    _self.platformList = {};
+                    axios.get(this.getPlatformOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+                },
+                GetList: function (data) {
+                    this.dataList = data;
+                },
+                toAdd: function () {
+                    window.location.href = this.addJumpUrl;
+                },
+                toEdit: function (_id) {
+                    window.location.href = this.updateJumpUrl + '?id=' + _id;
+                },
+                toDelete: function (_id) {
+                    axios.post(this.deleteUrl, { id: _id })
+                     .then(function (response) {
+                         if (response.status == 200) {
+                             alert(response.data.msg);
+                             if (response.data.code == 200) {
+                                 window.location.reload();
+                             }
+                         }
+                     })
+                     .catch(function (error) {
+                         console.log(error);
+                     });
+                },
+                btnSearch: function () {
+                    if (this.$children.length > 0) {
+                        this.$children[0].go(1);
+                    }
+                }
+            }
+        });
+</script>
+

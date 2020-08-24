@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common.BaseSystem;
 using MicrosServices.Entities.Core.DataForm;
-using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Extends;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
@@ -98,7 +95,7 @@ namespace MicrosServices.API.AdminServer.Controllers
         public ActionResult<JsonResponses> Update([FromForm]BsDictionary model)
         {
             var ResultCode = -1;
-            ResultCode = DataHandleManager.Instance().BsDictionaryHandle.Update(model);
+            ResultCode = DataHandleManager.Instance().BsDictionaryHandle.DictionaryUpdate(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
         }
         /// <summary>

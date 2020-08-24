@@ -154,6 +154,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ServerController.cs" />
@@ -283,6 +284,9 @@
     <Content Include="Views\Project\ProjectAdd.cshtml" />
     <Content Include="Views\Log\PublishLogList.cshtml" />
     <Content Include="Views\Log\LoginLogList.cshtml" />
+    <Content Include="Views\Dictionary\DictionaryList.cshtml" />
+    <Content Include="Views\Dictionary\DictionaryAdd.cshtml" />
+    <Content Include="Views\Dictionary\DictionaryUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -322,6 +326,10 @@
     <ProjectReference Include="..\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj">
       <Project>{2AC71E45-3249-48C3-AE3B-F303EB899675}</Project>
       <Name>MicrosServices.Helper.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.SDK.AdminSystem\MicrosServices.SDK.AdminSystem.csproj">
+      <Project>{5FBDF9BE-9C99-48EA-ABFD-D34341318547}</Project>
+      <Name>MicrosServices.SDK.AdminSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\MicrosServices.SDK.LogSystem\MicrosServices.SDK.LogSystem.csproj">
       <Project>{158B1B18-D265-4F1E-B79E-45B2C3D9B3CA}</Project>

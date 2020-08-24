@@ -128,23 +128,23 @@ namespace MicrosServices.SDK.AdminSystem
         /// <summary>
         /// 新增
         /// </summary>
-        /// <param name="menu"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        public JsonResponses DictionaryAdd(BsDictionary menu)
+        public JsonResponses DictionaryAdd(BsDictionary model)
         {
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("DicType", menu.DicType);
-                request.SetValue("DicKey", menu.DicKey);
-                request.SetValue("DicValue", menu.DicValue);
-                request.SetValue("Descriptions", menu.Descriptions);
-                request.SetValue("PlatformNo", menu.PlatformNo);
-                request.SetValue("Enabled", menu.Enabled);
-                request.SetValue("InputUser", menu.InputUser);
-                request.SetValue("InputTime", menu.InputTime);
-                request.SetValue("UpdateUser", menu.UpdateUser);
-                request.SetValue("UpdateTime", menu.UpdateTime);
+                request.SetValue("DicType", model.DicType);
+                request.SetValue("DicKey", model.DicKey);
+                request.SetValue("DicValue", model.DicValue);
+                request.SetValue("Descriptions", model.Descriptions);
+                request.SetValue("PlatformNo", model.PlatformNo);
+                request.SetValue("Enabled", model.Enabled);
+                request.SetValue("InputUser", model.InputUser);
+                request.SetValue("InputTime", model.InputTime);
+                request.SetValue("UpdateUser", model.UpdateUser);
+                request.SetValue("UpdateTime", model.UpdateTime);
                 request.Url = AddUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -163,23 +163,20 @@ namespace MicrosServices.SDK.AdminSystem
         /// <summary>
         /// 修改
         /// </summary>
-        /// <param name="menu"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        public JsonResponses DictionaryUpdate(BsDictionary menu)
+        public JsonResponses DictionaryUpdate(BsDictionary model)
         {
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("DicType", menu.DicType);
-                request.SetValue("DicKey", menu.DicKey);
-                request.SetValue("DicValue", menu.DicValue);
-                request.SetValue("Descriptions", menu.Descriptions);
-                request.SetValue("PlatformNo", menu.PlatformNo);
-                request.SetValue("Enabled", menu.Enabled);
-                request.SetValue("InputUser", menu.InputUser);
-                request.SetValue("InputTime", menu.InputTime);
-                request.SetValue("UpdateUser", menu.UpdateUser);
-                request.SetValue("UpdateTime", menu.UpdateTime);
+                request.SetValue("DicType", model.DicType);
+                request.SetValue("DicKey", model.DicKey);
+                request.SetValue("DicValue", model.DicValue);
+                request.SetValue("Descriptions", model.Descriptions);
+                request.SetValue("PlatformNo", model.PlatformNo);
+                request.SetValue("Enabled", model.Enabled);
+                request.SetValue("id", model.id);
                 request.Url = UpdateUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {

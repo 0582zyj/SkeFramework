@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "修改";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>BsDictionary修改</h1>
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> 主页</a></li>
+        <li><a href="@Url.Action("BsDictionaryList","BsDictionary")"><i class="fa fa-bar-chart"></i> BsDictionary管理</a></li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content" id="section-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#profile" data-toggle="tab" aria-expanded="true">基本信息</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="profile">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="id" class="col-sm-2 control-label">ID</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="id" id="id" v-model="dataItem.id" required maxlength="200" placeholder="ID" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="DicType" class="col-sm-2 control-label">编码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="DicType" id="DicType" v-model="dataItem.DicType" required maxlength="100" placeholder="编码">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="DicKey" class="col-sm-2 control-label">键</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="DicKey" id="DicKey" v-model="dataItem.DicKey" required maxlength="100" placeholder="键">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="DicValue" class="col-sm-2 control-label">值</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="DicValue" id="DicValue" v-model="dataItem.DicValue" required maxlength="200" placeholder="值">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Descriptions" class="col-sm-2 control-label">描述</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Descriptions" id="Descriptions" v-model="dataItem.Descriptions" required maxlength="512" placeholder="描述">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="PlatformNo" class="col-sm-2 control-label">平台</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo" readonly="readonly">
+                                        <option v-for="option in platformList" v-bind:value="option.Value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Enabled" class="col-sm-2 control-label">启用状态</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" name="Enabled" id="Enabled" v-model="dataItem.Enabled">
+                                        <option v-for="option in enabledList" v-bind:value="option.Value">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="hidden" name="token" value="5cbd303f221a626ce0f404cec31b4ea4">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-default" v-on:click="submit()">保存</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+        </div>
+    </div>
+</section>
+<script>
+        var vm = new Vue({
+            el: "#section-content",
+            data: {
+                listJumpUrl: "@Url.Action("DictionaryList", "Dictionary")",
+                updatePostUrl: "@Url.Action("BsDictionaryUpdate", "Dictionary")",
+                getItemUrl: "@Url.Action("GetBsDictionaryInfo", "Dictionary")",
+               getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
+                dataItem: {},
+                platformList: {},
+                enabledList: [
+                    { Name: '启用', Value: 1 },
+                    { Name: '停用', Value: 0 },
+                ],
+                id:"@Request.QueryString["id"].ToString()"
+            },
+            filters: {
+                dateFormat: function (value, fmt) {
+                    let getDate = eval('new ' + (value.replace(/\//g, '')));
+                    let o = {
+                        'M+': getDate.getMonth() + 1,
+                        'd+': getDate.getDate(),
+                        'h+': getDate.getHours(),
+                        'm+': getDate.getMinutes(),
+                        's+': getDate.getSeconds(),
+                        'q+': Math.floor((getDate.getMonth() + 3) / 3),
+                        'S': getDate.getMilliseconds()
+                    };
+                    if (/(y+)/.test(fmt)) {
+                        fmt = fmt.replace(RegExp.$1, (getDate.getFullYear() + '').substr(4 - RegExp.$1.length))
+                    }
+                    for (let k in o) {
+                        if (new RegExp('(' + k + ')').test(fmt)) {
+                            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
+                        }
+                    }
+                    return fmt;
+                }
+            },
+            created: function () {
+                this.Init();
+            },
+            methods: {
+                Init: function () {
+                    var _self = this;
+                    _self.dataItem = {};
+                    axios.get(this.getItemUrl,{ params: {id: this.id } } )
+                     .then(function (response) {
+                         if (response.status == 200) {
+                             _self.dataItem = response.data;
+                         }
+                     })
+                     .catch(function (error) {
+                         console.log(error);
+                        });
+                    _self.platformList = {};
+                    axios.get(this.getPlatformOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.platformList = response.data;
+                                if (response.data.length > 0) {
+                                    _self.dataItem.PlatformNo = response.data[0].Value
+                                }
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                submit: function () {
+                    var _self = this;
+                    axios.post(this.updatePostUrl, this.dataItem)
+                     .then(function (response) {
+                         if (response.status == 200) {
+                             alert(response.data.msg);
+                             if (response.data.code == 200) {
+                                 window.location.href = _self.listJumpUrl;
+                             }
+                         }
+                     })
+                     .catch(function (error) {
+                         console.log(error);
+                     });
+                },
+            }
+        });
+</script>
+
