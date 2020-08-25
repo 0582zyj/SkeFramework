@@ -36,7 +36,7 @@
             <div class="box" >
                 <!--数据列表页头部-->
                 <div class="box-header with-border">
-                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()">新增</a>
+                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAdd()" v-if="checkAssign('dictionary.add',menuManagementList)==true">新增</a>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
@@ -63,8 +63,8 @@
                                 <td>{{item.PlatformNo|formatePlatform(platformList)}}</td>
                                 <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
                                 <td class="operation">
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)">修改</a>
-                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)">删除</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)" v-if="checkAssign('dictionary.update',menuManagementList)==true">修改</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)" v-if="checkAssign('dictionary.delete',menuManagementList)==true">删除</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -87,6 +87,7 @@
                 deleteUrl: "@Url.Action("BsDictionaryDelete", "Dictionary")",
                 GetListUrl: "@Url.Action("GetBsDictionaryList", "Dictionary")",
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
+                GetUserManagementListUrl: "@Url.Action("GetUserManagementList", "Management")",
                 dataList: [],
                 enabledList: [
                     { Name: '启用', Value: 1 },
@@ -136,6 +137,16 @@
                         .catch(function (error) {
                             console.log(error);
                         });
+                    _self.menuManagementList = {};
+                    axios.get(this.GetUserManagementListUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.menuManagementList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
 
                 },
                 GetList: function (data) {
@@ -165,6 +176,17 @@
                     if (this.$children.length > 0) {
                         this.$children[0].go(1);
                     }
+                },
+                checkAssign: function (value, list) {
+                    let result = false;
+                    if (list.length > 0) {
+                        list.map(res => {
+                            if (value == res.Code) {
+                                result = true;
+                            }
+                        });
+                    }
+                    return result;
                 }
             }
         });
