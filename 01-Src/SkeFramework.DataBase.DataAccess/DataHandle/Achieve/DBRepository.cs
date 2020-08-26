@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SkeFramework.Core.NetLog;
 using SkeFramework.Core.SqlExpression;
 using SkeFramework.DataBase.Common.DataCommon;
 using SkeFramework.DataBase.Common.DataFactory;
@@ -39,6 +40,7 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
         public int Insert(TInterface entity, IDbTransaction trans = null)
         {
             if (!(entity is TRealType)) return 0;
+            CounterToken counterToken = LogAgent.StartCounter();
             var type = typeof(TInterface);
             var tablename = PropertiesHelper.Instance().GetTableName(type);
             if (string.IsNullOrEmpty(tablename)) return -1;
@@ -58,6 +60,7 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
             var sSQL = string.Format("insert into {0}({1}) values({2});", tablename,
                  string.Join(",", sbColumnList.ToArray()),
                  string.Join(",", sbParaList.ToArray()));
+            LogAgent.StopCounterAndLog(counterToken, "[CreateSQL]-Insert:");
             return RepositoryHelper.ExecuteNonQuery(CommandType.Text, sSQL,trans, ParaList.ToArray());
         }
         /// <summary>
@@ -68,6 +71,7 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
         public int Update(TInterface entity)
         {
             if (!(entity is TRealType)) return 0;
+            CounterToken counterToken= LogAgent.StartCounter();
             var type = typeof(TInterface);
             var tablename = PropertiesHelper.Instance().GetTableName(type);
             if (string.IsNullOrEmpty(tablename)) return -1;
@@ -96,6 +100,7 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
             }
             var sSQL = string.Format("Update {0} Set {1} WHERE {2};", tablename,
             string.Join(",", sbColumnList.ToArray()), string.Join(",", sbWhereList.ToArray()));
+            LogAgent.StopCounterAndLog(counterToken, "[CreateSQL]-Update:");
             return RepositoryHelper.ExecuteNonQuery(CommandType.Text, sSQL, ParaList.ToArray());
         }
         /// <summary>
@@ -106,6 +111,7 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
         public int Delete(int id)
         {
             var type = typeof(TInterface);
+            CounterToken counterToken = LogAgent.StartCounter();
             var tablename = PropertiesHelper.Instance().GetTableName(type);
             if (string.IsNullOrEmpty(tablename)) return -1;
             var sbColumnList = new List<string>();
@@ -118,7 +124,7 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
                 ParaList.Add(DbFactory.Instance().CreateDataParameter(string.Format("@{0}", item.Name), id));
             }
             var sSQL = string.Format("Delete from {0} WHERE {1};", tablename, string.Join("AND", WhereList.ToArray()));
-            Console.WriteLine(sSQL);
+            LogAgent.StopCounterAndLog(counterToken, "[CreateSQL]-Delete:");
             return RepositoryHelper.ExecuteNonQuery(CommandType.Text, sSQL, ParaList.ToArray());
         }
         /// <summary>
