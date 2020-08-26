@@ -1,5 +1,6 @@
 ﻿using MicrosServices.DAL.DataAccess.Repository.BaseSystem.BsDictionaryHandle;
 using MicrosServices.Entities.Common.BaseSystem;
+using SkeFramework.Core.SnowFlake;
 using SkeFramework.DataBase.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,19 @@ namespace MicrosServices.BLL.Business.BaseSystem.BsDictionaryHandle
         {
         }
 
+        /// <summary>
+        /// 新增字典信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int DictionaryInsert(BsDictionary model)
+        {
+            model.DicNo = AutoIDWorker.Example.GetAutoSequence();
+            model.InputTime = DateTime.Now;
+            model.UpdateTime = model.InputTime;
+            model.UpdateUser = model.InputUser;
+            return this.Insert(model);
+        }
         /// <summary>
         /// 更新字典信息
         /// </summary>

@@ -83,7 +83,7 @@ namespace MicrosServices.API.AdminServer.Controllers
         public ActionResult<JsonResponses> Create([FromForm]BsDictionary model)
         {
             var ResultCode = -1;
-            ResultCode = DataHandleManager.Instance().BsDictionaryHandle.Insert(model);
+            ResultCode = DataHandleManager.Instance().BsDictionaryHandle.DictionaryInsert(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
 
         }

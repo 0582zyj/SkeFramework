@@ -11,6 +11,12 @@ namespace MicrosServices.BLL.Business.BaseSystem.BsDictionaryHandle
     public interface IBsDictionaryHandle : IBsDictionaryHandleCommon
     {
         /// <summary>
+        /// 新增字典信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        int DictionaryInsert(BsDictionary model);
+        /// <summary>
         /// 更新字典信息
         /// </summary>
         /// <param name="model"></param>

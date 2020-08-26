@@ -44,6 +44,7 @@
                         <thead>
                             <tr class="show-datatable-list-title">
                                 <th>主键</th>
+                                <th>字典编号</th>
                                 <th>字典类型</th>
                                 <th>键</th>
                                 <th>值</th>
@@ -56,6 +57,7 @@
                         <tbody>
                             <tr v-for="item in dataList">
                                 <td>{{item.id}}</td>
+                                <td>{{item.DicNo}}</td>
                                 <td>{{item.DicType}}</td>
                                 <td>{{item.DicKey}}</td>
                                 <td>{{item.DicValue}}</td>
