@@ -11,6 +11,9 @@ using SkeFramework.Core.Network.Responses;
 
 namespace SkeFramework.Core.ApiCommons.Middlewares
 {
+    /// <summary>
+    /// 异常中间件
+    /// </summary>
     public class ExceptionMiddleWare
     {
         private readonly RequestDelegate next;

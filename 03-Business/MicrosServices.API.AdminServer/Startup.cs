@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SkeFramework.Core.ApiCommons.Filter;
 
 namespace MicrosServices.API.AdminServer
 {
@@ -25,6 +26,12 @@ namespace MicrosServices.API.AdminServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            // Filter统一注入MVC框架
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(ExceptionFilterAttribute));
+                //options.Filters.Add(typeof(LoggerFilterAttribute));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,7 +41,7 @@ namespace MicrosServices.API.AdminServer
             {
                 app.UseDeveloperExceptionPage();
             }
-
+          
             app.UseMvc();
         }
     }

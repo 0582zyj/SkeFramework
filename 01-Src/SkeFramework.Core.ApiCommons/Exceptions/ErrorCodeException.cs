@@ -18,5 +18,21 @@ namespace SkeFramework.Core.ApiCommons.Exceptions
             this.code = code;
             this.msg = message;
         }
+        /// <summary>
+        /// 获取错误代码
+        /// </summary>
+        /// <returns></returns>
+        public int GetErrorCode()
+        {
+            return this.code;
+        }
+        /// <summary>
+        /// 获取异常提示
+        /// </summary>
+        /// <returns></returns>
+        public string GetErrorMsg()
+        {
+            return this.msg;
+        }
     }
 }

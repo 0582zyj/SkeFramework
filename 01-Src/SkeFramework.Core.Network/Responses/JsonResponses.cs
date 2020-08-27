@@ -54,6 +54,14 @@ namespace SkeFramework.Core.Network.Responses
         {
             return this.code == JsonResponses.SuccessCode;
         }
+        /// <summary>
+        /// 克隆
+        /// </summary>
+        /// <returns></returns>
+        public JsonResponses Clone()
+        {
+            return new JsonResponses(this.code, this.msg, this.data);
+        }
 
     }
 }

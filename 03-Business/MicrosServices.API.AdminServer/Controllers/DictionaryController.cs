@@ -7,6 +7,7 @@ using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common.BaseSystem;
 using MicrosServices.Entities.Core.DataForm;
 using MicrosServices.Helper.Core.Extends;
+using SkeFramework.Core.ApiCommons.Filter;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
 
@@ -37,29 +38,22 @@ namespace MicrosServices.API.AdminServer.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [LoggerFilterAttribute("字典模块", "获取列表信息")]
         public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] QueryBaseFrom query)
         {
-            try
+            query.InitQuery();
+            string QueryNo = "_" + query.queryNo;
+            string keywords = query.keywords;
+            Expression<Func<BsDictionary, bool>> where = null;
+            where = (o => o.DicValue.Contains(keywords) || (o.DicType.Contains(keywords) || o.DicValue.Contains(keywords)));
+            page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().BsDictionaryHandle.Count(where)));//取记录数
+            List<BsDictionary> list = DataHandleManager.Instance().BsDictionaryHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
+            PageResponse<BsDictionary> response = new PageResponse<BsDictionary>
             {
-                query.InitQuery();
-                string QueryNo = "_" + query.queryNo;
-                string keywords = query.keywords;
-                Expression<Func<BsDictionary, bool>> where = null;
-                where = (o => o.DicValue.Contains(keywords) || (o.DicType.Contains(keywords) || o.DicValue.Contains(keywords)));
-                page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().BsDictionaryHandle.Count(where)));//取记录数
-                List<BsDictionary> list = DataHandleManager.Instance().BsDictionaryHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
-                PageResponse<BsDictionary> response = new PageResponse<BsDictionary>
-                {
-                    page = page,
-                    dataList = list
-                };
-                return new JsonResponses(response);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            return JsonResponses.Failed;
+                page = page,
+                dataList = list
+            };
+            return new JsonResponses(response);
         }
         /// <summary>
         /// 根据主键ID获取信息
