@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.12, for Win64 (x86_64)
 --
--- Host: localhost    Database: skecloud
+-- Host: 127.0.0.1    Database: skecloud
 -- ------------------------------------------------------
--- Server version	5.7.14-log
+-- Server version	8.0.12
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -16,18 +16,54 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `bs_dictionary`
+--
+
+DROP TABLE IF EXISTS `bs_dictionary`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `bs_dictionary` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `DicNo` bigint(20) DEFAULT NULL COMMENT '字典码值',
+  `DicType` varchar(100) DEFAULT NULL COMMENT '字典类型',
+  `DicKey` varchar(100) DEFAULT NULL COMMENT '键',
+  `DicValue` varchar(200) DEFAULT NULL COMMENT '值',
+  `Descriptions` varchar(512) DEFAULT NULL COMMENT '描述',
+  `PlatformNo` bigint(20) DEFAULT NULL COMMENT '平台编号',
+  `Enabled` int(11) DEFAULT NULL COMMENT '启用状态',
+  `InputUser` varchar(10) DEFAULT NULL COMMENT '操作员',
+  `InputTime` datetime DEFAULT NULL COMMENT '操作时间',
+  `UpdateUser` varchar(10) DEFAULT NULL COMMENT '更新人',
+  `UpdateTime` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bs_dictionary`
+--
+
+LOCK TABLES `bs_dictionary` WRITE;
+/*!40000 ALTER TABLE `bs_dictionary` DISABLE KEYS */;
+INSERT INTO `bs_dictionary` VALUES (3,68505856,'regedit.type','ip.white.list','IP白名单','IP访问限制11',88073472,1,'999999','2020-08-26 15:17:43','999999','2020-08-27 11:29:54');
+/*!40000 ALTER TABLE `bs_dictionary` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `pd_project`
 --
 
 DROP TABLE IF EXISTS `pd_project`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `pd_project` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `ProjectNo` bigint(20) DEFAULT NULL COMMENT '编码',
   `Name` varchar(120) DEFAULT NULL COMMENT '名称',
   `VersionType` varchar(50) DEFAULT NULL COMMENT '版本控制类型[Git/SVN]',
   `VersionUrl` varchar(512) DEFAULT NULL COMMENT '版本地址',
+  `GitBranch` varchar(50) DEFAULT NULL COMMENT '分支',
+  `GitBinPath` varchar(200) DEFAULT NULL COMMENT 'Git程序路径',
   `SourcePath` varchar(200) DEFAULT NULL COMMENT '源代码地址',
   `MSBuildPath` varchar(200) DEFAULT NULL COMMENT '打包程序路径',
   `ProjectFile` varchar(200) DEFAULT NULL COMMENT '项目文件',
@@ -36,7 +72,7 @@ CREATE TABLE `pd_project` (
   `InputTime` datetime DEFAULT NULL COMMENT '操作时间',
   `UpdateTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='项目表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='项目表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +81,7 @@ CREATE TABLE `pd_project` (
 
 LOCK TABLES `pd_project` WRITE;
 /*!40000 ALTER TABLE `pd_project` DISABLE KEYS */;
-INSERT INTO `pd_project` VALUES (1,76905984,'发布系统','Github','https://github.com/0582zyj/SkeFramework','D:\\Github\\SkeFramework\\03-Business\\MicrosServices.API.PublishDeploy/MicrosServices.API.PublishDeploy.csproj','E:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Professional\\MSBuild\\15.0\\Bin\\MSBuild.exe','IISProfile.pubxml','502525164@qq.com,','999999','0001-01-01 00:00:00','2020-04-30 00:11:26');
+INSERT INTO `pd_project` VALUES (1,76905984,'发布系统','Github','https://gitee.com/SkeCloud/SkeFramework','dev','D:\\Program Files\\Git\\cmd\\git.exe','E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework','C:\\Windows\\System32\\cmd.exe','\\03-Business\\MicrosServices.API.PublishDeploy/Publish.bat','502525164@qq.com,','999999','0001-01-01 00:00:00','2020-08-12 08:10:17'),(4,83009536,'用户系统','Github','https://gitee.com/SkeCloud/SkeFramework','dev','D:\\Program Files\\Git\\cmd\\git.exe','E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework','C:\\Windows\\System32\\cmd.exe','\\03-Business\\MicrosServices.API.UserCenter/Publish.bat','502525164@qq.com,','999999','0001-01-01 00:00:00','2020-08-11 11:36:48'),(5,65614592,'权限系统','Github','https://gitee.com/SkeCloud/SkeFramework','dev','D:\\Program Files\\Git\\cmd\\git.exe','E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework','C:\\Windows\\System32\\cmd.exe','\\03-Business\\MicrosServices.API.PermissionSystem/Publish.bat','502525164@qq.com,','999999','0001-01-01 00:00:00','2020-08-12 08:10:07'),(7,11924992,'基础服务系统','Github','https://gitee.com/SkeCloud/SkeFramework','dev','D:\\Program Files\\Git\\cmd\\git.exe','E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework','C:\\Windows\\System32\\cmd.exe','\\03-Business\\MicrosServices.API.AdminServer/Publish.bat','502525164@qq.com,','999999','2020-08-24 17:37:19','0001-01-01 00:00:00');
 /*!40000 ALTER TABLE `pd_project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,7 +91,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `pd_publish`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `pd_publish` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `ProjectNo` bigint(20) DEFAULT NULL COMMENT '项目编码',
@@ -86,7 +122,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `pd_server`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `pd_server` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `ServerNo` bigint(20) DEFAULT NULL COMMENT '编码',
@@ -117,7 +153,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ps_management`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ps_management` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `ManagementNo` bigint(20) DEFAULT NULL,
@@ -134,7 +170,7 @@ CREATE TABLE `ps_management` (
   `InputTime` datetime DEFAULT NULL COMMENT '操作时间',
   `UpdateTime` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COMMENT='权限表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +179,7 @@ CREATE TABLE `ps_management` (
 
 LOCK TABLES `ps_management` WRITE;
 /*!40000 ALTER TABLE `ps_management` DISABLE KEYS */;
-INSERT INTO `ps_management` VALUES (4,36115712,-1,'_-1','框架菜单',NULL,'0',2,1,88073472,1,'999999','2019-12-16 22:25:27','2019-12-26 22:34:13'),(5,84787968,-1,'_-1','权限系统菜单',NULL,'0',2,11,88073472,1,'999999','2020-01-01 23:11:21','2020-02-02 10:36:18'),(6,52697600,84787968,'_-1_84787968','菜单更新权限',NULL,'menuUpdate',1,1,88073472,1,'999999','2020-01-04 00:23:30','2020-02-07 15:57:33'),(7,45914624,84787968,'_-1_84787968','菜单新增权限',NULL,'menuAdd',1,2,88073472,1,'999999','2020-02-06 16:48:30','2020-04-22 21:31:25'),(8,79318016,84787968,'_-1_84787968','菜单删除权限','1','menuDelete',1,3,88073472,1,'999999','2020-02-07 15:30:48','0001-01-01 00:00:00'),(9,89873408,84787968,'_-1_84787968','菜单权限授权',NULL,'menuManagementAssign',1,4,88073472,1,'999999','2020-02-07 15:33:45','2020-02-07 15:33:56'),(10,26164992,84787968,'_-1_84787968','权限新增权限','1','managementAdd',1,1,88073472,1,'999999','2020-02-07 15:37:35','0001-01-01 00:00:00'),(11,78745088,84787968,'_-1_84787968','权限更新权限',NULL,'managementUpdate',1,2,88073472,1,'999999','2020-02-07 15:57:18','2020-02-07 15:58:51'),(12,4728064,84787968,'_-1_84787968','权限删除权限','2','managementDelete',1,3,88073472,1,'999999','2020-02-07 15:59:23','0001-01-01 00:00:00'),(13,33165056,84787968,'_-1_84787968','权限菜单授权','4','managementMenuAssign',1,4,88073472,1,'999999','2020-02-07 15:59:53','0001-01-01 00:00:00'),(14,28688896,84787968,'_-1_84787968','角色新增权限','1','roleAdd',1,1,88073472,1,'999999','2020-02-07 17:11:54','0001-01-01 00:00:00'),(15,80731904,84787968,'_-1_84787968','角色更新权限','2','roleUpdate',1,2,88073472,1,'999999','2020-02-07 17:13:09','0001-01-01 00:00:00'),(16,17200128,84787968,'_-1_84787968','角色删除权限','12','roleDelete',1,3,88073472,1,'999999','2020-02-07 20:17:09','0001-01-01 00:00:00'),(17,75594240,84787968,'_-1_84787968','角色权限分配','4','roleManagementAssign',1,4,88073472,1,'999999','2020-02-07 20:18:48','0001-01-01 00:00:00'),(18,30197248,84787968,'_-1_84787968','机构新增权限','1','orgAdd',1,1,88073472,1,'999999','2020-02-07 20:22:23','0001-01-01 00:00:00'),(19,97827840,84787968,'_-1_84787968','机构更新权限','2','orgUpdate',1,2,88073472,1,'999999','2020-02-07 20:22:55','0001-01-01 00:00:00'),(20,79525632,84787968,'_-1_84787968','机构删除权限','3','orgDelete',1,3,88073472,1,'999999','2020-02-07 20:23:31','0001-01-01 00:00:00'),(21,23708928,84787968,'_-1_84787968','机构角色授权','4','orgRoleAssign',1,4,88073472,1,'999999','2020-02-07 20:24:07','0001-01-01 00:00:00'),(22,36370432,36115712,'_-1_36115712','平台新增权限','1','platformAdd',1,1,88073472,1,'999999','2020-02-08 10:31:56','0001-01-01 00:00:00'),(23,4016128,36115712,'_-1_36115712','平台更新管理','1','platformUpdate',1,2,88073472,1,'999999','2020-02-08 10:32:19','0001-01-01 00:00:00'),(24,99909888,36115712,'_-1_36115712','平台删除权限','1','platformDelete',1,3,88073472,1,'999999','2020-02-08 10:32:41','0001-01-01 00:00:00'),(25,72390144,72114688,'_-1_72114688','用户新增权限',NULL,'userAdd',1,2,88073472,1,'999999','2020-03-31 20:01:26','2020-04-22 21:34:03'),(26,9599744,-1,'_-1','发布系统菜单','发布系统菜单','PublishDeployMenu',2,2,88073472,1,'999999','2020-04-12 16:57:19','0001-01-01 00:00:00'),(27,72114688,-1,'_-1','用户系统菜单','usercentermenu','usercentermenu',2,4,88073472,1,'999999','2020-04-14 22:30:57','0001-01-01 00:00:00');
+INSERT INTO `ps_management` VALUES (4,36115712,-1,'_-1','框架菜单',NULL,'0',2,1,88073472,1,'999999','2019-12-16 22:25:27','2019-12-26 22:34:13'),(5,84787968,-1,'_-1','权限系统菜单',NULL,'0',2,11,88073472,1,'999999','2020-01-01 23:11:21','2020-02-02 10:36:18'),(6,52697600,84787968,'_-1_84787968','菜单更新权限',NULL,'menu.update',1,1,88073472,1,'999999','2020-01-04 00:23:30','2020-08-11 11:42:40'),(7,45914624,84787968,'_-1_84787968','菜单新增权限',NULL,'menu.add',1,2,88073472,1,'999999','2020-02-06 16:48:30','2020-08-11 11:43:05'),(8,79318016,84787968,'_-1_84787968','菜单删除权限',NULL,'menu.delete',1,3,88073472,1,'999999','2020-02-07 15:30:48','2020-08-11 11:43:13'),(9,89873408,84787968,'_-1_84787968','菜单权限授权',NULL,'menu.management.assign',1,4,88073472,1,'999999','2020-02-07 15:33:45','2020-08-11 11:43:31'),(10,26164992,84787968,'_-1_84787968','权限新增权限',NULL,'management.add',1,1,88073472,1,'999999','2020-02-07 15:37:35','2020-08-11 11:44:57'),(11,78745088,84787968,'_-1_84787968','权限更新权限',NULL,'management.update',1,2,88073472,1,'999999','2020-02-07 15:57:18','2020-08-11 11:45:51'),(12,4728064,84787968,'_-1_84787968','权限删除权限',NULL,'management.delete',1,3,88073472,1,'999999','2020-02-07 15:59:23','2020-08-11 11:46:23'),(13,33165056,84787968,'_-1_84787968','权限菜单授权',NULL,'management.menu.assign',1,4,88073472,1,'999999','2020-02-07 15:59:53','2020-08-11 11:46:43'),(14,28688896,84787968,'_-1_84787968','角色新增权限',NULL,'role.add',1,1,88073472,1,'999999','2020-02-07 17:11:54','2020-08-11 11:47:01'),(15,80731904,84787968,'_-1_84787968','角色更新权限',NULL,'role.update',1,2,88073472,1,'999999','2020-02-07 17:13:09','2020-08-11 11:47:12'),(16,17200128,84787968,'_-1_84787968','角色删除权限',NULL,'role.delete',1,3,88073472,1,'999999','2020-02-07 20:17:09','2020-08-11 11:47:26'),(17,75594240,84787968,'_-1_84787968','角色权限分配',NULL,'role.management.assign',1,4,88073472,1,'999999','2020-02-07 20:18:48','2020-08-11 11:47:42'),(18,30197248,84787968,'_-1_84787968','机构新增权限',NULL,'org.add',1,1,88073472,1,'999999','2020-02-07 20:22:23','2020-08-11 11:47:55'),(19,97827840,84787968,'_-1_84787968','机构更新权限',NULL,'org.update',1,2,88073472,1,'999999','2020-02-07 20:22:55','2020-08-11 11:48:09'),(20,79525632,84787968,'_-1_84787968','机构删除权限',NULL,'org.delete',1,3,88073472,1,'999999','2020-02-07 20:23:31','2020-08-11 11:48:20'),(21,23708928,84787968,'_-1_84787968','机构角色授权',NULL,'org.role.assign',1,4,88073472,1,'999999','2020-02-07 20:24:07','2020-08-11 11:48:33'),(22,36370432,36115712,'_-1_36115712','平台新增权限',NULL,'platform.add',1,1,88073472,1,'999999','2020-02-08 10:31:56','2020-08-11 11:40:16'),(23,4016128,36115712,'_-1_36115712','平台更新管理',NULL,'platform.update',1,2,88073472,1,'999999','2020-02-08 10:32:19','2020-08-11 11:42:05'),(24,99909888,36115712,'_-1_36115712','平台删除权限',NULL,'platform.delete',1,3,88073472,1,'999999','2020-02-08 10:32:41','2020-08-11 11:41:07'),(25,72390144,72114688,'_-1_72114688','用户新增权限',NULL,'userAdd',1,2,88073472,1,'999999','2020-03-31 20:01:26','2020-04-22 21:34:03'),(26,9599744,-1,'_-1','发布系统菜单','发布系统菜单','PublishDeployMenu',2,2,88073472,1,'999999','2020-04-12 16:57:19','0001-01-01 00:00:00'),(27,72114688,-1,'_-1','用户系统菜单','usercentermenu','usercentermenu',2,4,88073472,1,'999999','2020-04-14 22:30:57','0001-01-01 00:00:00'),(28,56150528,72114688,'_-1_72114688','角色授权',NULL,'user.role.assign',1,1,88073472,1,'999999','2020-08-11 11:59:09','0001-01-01 00:00:00'),(29,53141248,72114688,'_-1_72114688','机构授权',NULL,'user.org.assign',1,3,88073472,1,'999999','2020-08-11 11:59:42','0001-01-01 00:00:00'),(30,43603456,9599744,'_-1_9599744','新增项目权限',NULL,'project.add',1,1,88073472,1,'999999','2020-08-11 14:36:01','0001-01-01 00:00:00'),(31,71882752,9599744,'_-1_9599744','更新项目权限',NULL,'project.update',1,2,88073472,1,'999999','2020-08-11 14:36:27','0001-01-01 00:00:00'),(32,93765632,9599744,'_-1_9599744','删除项目权限',NULL,'project.delete',1,3,88073472,1,'999999','2020-08-11 14:36:58','0001-01-01 00:00:00'),(33,20565248,9599744,'_-1_9599744','发布项目权限',NULL,'project.publish',1,4,88073472,1,'999999','2020-08-11 14:37:30','2020-08-11 14:37:41'),(34,72967168,36115712,'_-1_36115712','字典新增权限',NULL,'dictionary.add',1,4,88073472,1,'999999','2020-08-25 08:01:03','0001-01-01 00:00:00'),(35,8310784,36115712,'_-1_36115712','字典修改权限',NULL,'dictionary.update',1,5,88073472,1,'999999','2020-08-25 08:01:34','0001-01-01 00:00:00'),(36,53483264,36115712,'_-1_36115712','字典删除权限',NULL,'dictionary.delete',1,6,88073472,0,'999999','2020-08-25 08:01:57','2020-08-25 08:10:00');
 /*!40000 ALTER TABLE `ps_management` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +189,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ps_management_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ps_management_roles` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `RolesNo` bigint(20) DEFAULT NULL COMMENT '角色编号',
@@ -163,7 +199,7 @@ CREATE TABLE `ps_management_roles` (
   `InputTime` datetime DEFAULT NULL COMMENT '操作时间',
   `UpdateTime` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COMMENT='用户角色关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='用户角色关系表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,7 +208,7 @@ CREATE TABLE `ps_management_roles` (
 
 LOCK TABLES `ps_management_roles` WRITE;
 /*!40000 ALTER TABLE `ps_management_roles` DISABLE KEYS */;
-INSERT INTO `ps_management_roles` VALUES (10,53635840,84787968,'0','999999','2020-02-02 10:37:06','2020-02-02 10:37:06'),(11,53635840,52697600,'0','999999','2020-02-02 10:37:06','2020-02-02 10:37:06'),(13,53635840,33165056,'0','999999','2020-03-31 20:38:19','2020-03-31 20:38:19'),(19,49830144,36115712,'0','999999','2020-04-14 22:31:28','2020-04-14 22:31:28'),(20,49830144,84787968,'0','999999','2020-04-14 22:31:28','2020-04-14 22:31:28'),(21,49830144,9599744,'PublishDeployMenu','999999','2020-04-14 22:31:28','2020-04-14 22:31:28'),(22,49830144,72114688,'usercentermenu','999999','2020-04-14 22:31:28','2020-04-14 22:31:28');
+INSERT INTO `ps_management_roles` VALUES (10,53635840,84787968,'0','999999','2020-02-02 10:37:06','2020-02-02 10:37:06'),(11,53635840,52697600,'0','999999','2020-02-02 10:37:06','2020-02-02 10:37:06'),(13,53635840,33165056,'0','999999','2020-03-31 20:38:19','2020-03-31 20:38:19'),(19,49830144,36115712,'0','999999','2020-04-14 22:31:28','2020-04-14 22:31:28'),(20,49830144,84787968,'0','999999','2020-04-14 22:31:28','2020-04-14 22:31:28'),(21,49830144,9599744,'PublishDeployMenu','999999','2020-04-14 22:31:28','2020-04-14 22:31:28'),(22,49830144,72114688,'usercentermenu','999999','2020-04-14 22:31:28','2020-04-14 22:31:28'),(23,99578624,9599744,'PublishDeployMenu','999999','2020-08-11 14:44:33','2020-08-11 14:44:33');
 /*!40000 ALTER TABLE `ps_management_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,7 +218,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ps_menu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ps_menu` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `MenuNo` bigint(20) DEFAULT NULL COMMENT '菜单编号',
@@ -199,7 +235,7 @@ CREATE TABLE `ps_menu` (
   `InputTime` datetime DEFAULT NULL COMMENT '操作时间',
   `UpdateTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='菜单表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +244,7 @@ CREATE TABLE `ps_menu` (
 
 LOCK TABLES `ps_menu` WRITE;
 /*!40000 ALTER TABLE `ps_menu` DISABLE KEYS */;
-INSERT INTO `ps_menu` VALUES (1,99999999,15325696,'_-1_15325696','菜单管理','menu','1','/Menu/MenuList',1,88073472,1,'999999','2019-11-22 00:00:00','2020-02-03 20:31:51'),(2,99479040,15325696,'_-1_15325696','权限管理','management','1','/management/managementlist',2,88073472,1,'999999','2019-11-28 23:06:33','2020-02-03 21:30:24'),(3,50878208,41653248,'_-1_41653248','平台管理','platform','1','/platform/platformlist',30,88073472,1,'999999','2019-11-28 23:09:15','2020-02-03 21:57:14'),(4,76524032,15325696,'_-1_15325696','角色管理','role','1','/roles/rolesList',4,88073472,1,'999999','2019-11-28 23:09:41','2020-02-03 21:30:38'),(5,21080064,85645568,'_-1_85645568','用户管理','user','1','/User/UserList',5,88073472,1,'999999','2020-01-11 14:45:33','2020-02-03 21:42:56'),(6,99464448,15325696,'_-1_15325696','机构管理','organization','1','/Organization/OrganizationList',6,88073472,1,'999999','2020-02-02 10:53:44','2020-02-03 21:30:53'),(7,15325696,-1,'_-1','权限系统','permission','1','#',1,88073472,1,'999999','2020-02-03 20:31:17','2020-02-03 21:57:54'),(8,85645568,-1,'_-1','用户系统','UserSystem','1','#',2,88073472,1,'999999','2020-02-03 21:42:36','0001-01-01 00:00:00'),(9,41653248,-1,'_-1','框架系统','SkeCloud','1','#',0,88073472,1,'999999','2020-02-03 21:57:02','0001-01-01 00:00:00'),(10,58688512,-1,'_-1','发布系统','PublishDeploy',NULL,'#',4,88073472,1,'999999','2020-04-12 16:30:03','0001-01-01 00:00:00'),(11,68522752,58688512,'_-1_58688512','服务器','Server',NULL,'/Server/ServerList',0,88073472,1,'999999','2020-04-12 16:32:17','0001-01-01 00:00:00'),(12,4764416,58688512,'_58688512','项目管理','ProjectManager',NULL,'/Project/ProjectList',2,88073472,1,'999999','2020-04-29 21:28:35','0001-01-01 00:00:00');
+INSERT INTO `ps_menu` VALUES (1,99999999,15325696,'_-1_15325696','菜单管理','menu','1','/Menu/MenuList',1,88073472,1,'999999','2019-11-22 00:00:00','2020-02-03 20:31:51'),(2,99479040,15325696,'_-1_15325696','权限管理','management','1','/management/managementlist',2,88073472,1,'999999','2019-11-28 23:06:33','2020-02-03 21:30:24'),(3,50878208,41653248,'_41653248','平台管理','platform','1','/platform/platformlist',1,88073472,1,'999999','2019-11-28 23:09:15','2020-08-24 14:22:38'),(4,76524032,15325696,'_-1_15325696','角色管理','role','1','/roles/rolesList',4,88073472,1,'999999','2019-11-28 23:09:41','2020-02-03 21:30:38'),(5,21080064,85645568,'_-1_85645568','用户管理','user','1','/User/UserList',5,88073472,1,'999999','2020-01-11 14:45:33','2020-02-03 21:42:56'),(6,99464448,15325696,'_-1_15325696','机构管理','organization','1','/Organization/OrganizationList',6,88073472,1,'999999','2020-02-02 10:53:44','2020-02-03 21:30:53'),(7,15325696,-1,'_-1','权限系统','permission','1','#',1,88073472,1,'999999','2020-02-03 20:31:17','2020-02-03 21:57:54'),(8,85645568,-1,'_-1','用户系统','UserSystem','1','#',1,88073472,1,'999999','2020-02-03 21:42:36','2020-08-19 14:40:49'),(9,41653248,-1,'_-1','框架系统','SkeCloud','1','#',0,88073472,1,'999999','2020-02-03 21:57:02','0001-01-01 00:00:00'),(10,58688512,-1,'_-1','发布系统','PublishDeploy',NULL,'#',4,88073472,1,'999999','2020-04-12 16:30:03','0001-01-01 00:00:00'),(11,68522752,58688512,'_-1_58688512','服务器','Server',NULL,'/Server/ServerList',0,88073472,1,'999999','2020-04-12 16:32:17','0001-01-01 00:00:00'),(12,4764416,58688512,'_58688512','项目管理','ProjectManager',NULL,'/Project/ProjectList',2,88073472,1,'999999','2020-04-29 21:28:35','0001-01-01 00:00:00'),(13,67317248,58688512,'_58688512','发布日志','publish.log',NULL,'/Log/PublishLogList',3,88073472,1,'999999','2020-08-18 12:05:32','0001-01-01 00:00:00'),(14,18916352,85645568,'_85645568','登录日志','login.log',NULL,'/Log/LoginLogList',2,88073472,1,'999999','2020-08-19 14:01:30','2020-08-19 14:06:33'),(15,72976384,41653248,'_41653248','字典管理','Dictionary',NULL,'/Dictionary/DictionaryList',2,88073472,1,'999999','2020-08-24 13:47:38','0001-01-01 00:00:00');
 /*!40000 ALTER TABLE `ps_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +254,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ps_menu_management`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ps_menu_management` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `Name` varchar(120) DEFAULT NULL COMMENT '角色名称',
@@ -230,7 +266,7 @@ CREATE TABLE `ps_menu_management` (
   `InputTime` datetime DEFAULT NULL COMMENT '操作时间',
   `UpdateTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8 COMMENT='菜单权限关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8 COMMENT='菜单权限关系表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,7 +275,7 @@ CREATE TABLE `ps_menu_management` (
 
 LOCK TABLES `ps_menu_management` WRITE;
 /*!40000 ALTER TABLE `ps_menu_management` DISABLE KEYS */;
-INSERT INTO `ps_menu_management` VALUES (73,NULL,NULL,99479040,26164992,1,'999999','2020-02-07 16:47:07','2020-02-07 16:47:07'),(74,NULL,NULL,99479040,78745088,1,'999999','2020-02-07 16:47:07','2020-02-07 16:47:07'),(75,NULL,NULL,99479040,4728064,1,'999999','2020-02-07 16:47:07','2020-02-07 16:47:07'),(76,NULL,NULL,99479040,33165056,1,'999999','2020-02-07 16:47:07','2020-02-07 16:47:07'),(80,NULL,NULL,76524032,28688896,1,'999999','2020-02-07 20:19:07','2020-02-07 20:19:07'),(81,NULL,NULL,76524032,80731904,1,'999999','2020-02-07 20:19:07','2020-02-07 20:19:07'),(82,NULL,NULL,76524032,17200128,1,'999999','2020-02-07 20:19:07','2020-02-07 20:19:07'),(83,NULL,NULL,76524032,75594240,1,'999999','2020-02-07 20:19:07','2020-02-07 20:19:07'),(84,NULL,NULL,99464448,30197248,1,'999999','2020-02-07 20:25:33','2020-02-07 20:25:33'),(85,NULL,NULL,99464448,97827840,1,'999999','2020-02-07 20:25:33','2020-02-07 20:25:33'),(86,NULL,NULL,99464448,79525632,1,'999999','2020-02-07 20:25:33','2020-02-07 20:25:33'),(87,NULL,NULL,99464448,23708928,1,'999999','2020-02-07 20:25:33','2020-02-07 20:25:33'),(88,NULL,NULL,50878208,36370432,1,'999999','2020-02-08 10:33:13','2020-02-08 10:33:13'),(89,NULL,NULL,50878208,4016128,1,'999999','2020-02-08 10:33:13','2020-02-08 10:33:13'),(90,NULL,NULL,50878208,99909888,1,'999999','2020-02-08 10:33:13','2020-02-08 10:33:13'),(91,NULL,NULL,99999999,52697600,1,'999999','2020-02-08 10:38:44','2020-02-08 10:38:44'),(92,NULL,NULL,99999999,45914624,1,'999999','2020-02-08 10:38:44','2020-02-08 10:38:44'),(93,NULL,NULL,99999999,79318016,1,'999999','2020-02-08 10:38:44','2020-02-08 10:38:44'),(94,NULL,NULL,99999999,89873408,1,'999999','2020-02-08 10:38:44','2020-02-08 10:38:44'),(95,NULL,NULL,21080064,72390144,1,'999999','2020-03-31 20:02:53','2020-03-31 20:02:53'),(117,NULL,NULL,50878208,36115712,2,'999999','2020-04-14 22:29:53','2020-04-14 22:29:53'),(118,NULL,NULL,41653248,36115712,2,'999999','2020-04-14 22:29:53','2020-04-14 22:29:53'),(119,NULL,NULL,21080064,72114688,2,'999999','2020-04-14 22:31:14','2020-04-14 22:31:14'),(120,NULL,NULL,85645568,72114688,2,'999999','2020-04-14 22:31:14','2020-04-14 22:31:14'),(121,NULL,NULL,99999999,84787968,2,'999999','2020-04-14 22:39:01','2020-04-14 22:39:01'),(122,NULL,NULL,99479040,84787968,2,'999999','2020-04-14 22:39:01','2020-04-14 22:39:01'),(123,NULL,NULL,76524032,84787968,2,'999999','2020-04-14 22:39:01','2020-04-14 22:39:01'),(124,NULL,NULL,99464448,84787968,2,'999999','2020-04-14 22:39:01','2020-04-14 22:39:01'),(125,NULL,NULL,15325696,84787968,2,'999999','2020-04-14 22:39:01','2020-04-14 22:39:01'),(126,NULL,NULL,58688512,9599744,2,'999999','2020-04-29 21:29:20','2020-04-29 21:29:20'),(127,NULL,NULL,68522752,9599744,2,'999999','2020-04-29 21:29:20','2020-04-29 21:29:20'),(128,NULL,NULL,4764416,9599744,2,'999999','2020-04-29 21:29:20','2020-04-29 21:29:20');
+INSERT INTO `ps_menu_management` VALUES (73,NULL,NULL,99479040,26164992,1,'999999','2020-02-07 16:47:07','2020-02-07 16:47:07'),(74,NULL,NULL,99479040,78745088,1,'999999','2020-02-07 16:47:07','2020-02-07 16:47:07'),(75,NULL,NULL,99479040,4728064,1,'999999','2020-02-07 16:47:07','2020-02-07 16:47:07'),(76,NULL,NULL,99479040,33165056,1,'999999','2020-02-07 16:47:07','2020-02-07 16:47:07'),(80,NULL,NULL,76524032,28688896,1,'999999','2020-02-07 20:19:07','2020-02-07 20:19:07'),(81,NULL,NULL,76524032,80731904,1,'999999','2020-02-07 20:19:07','2020-02-07 20:19:07'),(82,NULL,NULL,76524032,17200128,1,'999999','2020-02-07 20:19:07','2020-02-07 20:19:07'),(83,NULL,NULL,76524032,75594240,1,'999999','2020-02-07 20:19:07','2020-02-07 20:19:07'),(84,NULL,NULL,99464448,30197248,1,'999999','2020-02-07 20:25:33','2020-02-07 20:25:33'),(85,NULL,NULL,99464448,97827840,1,'999999','2020-02-07 20:25:33','2020-02-07 20:25:33'),(86,NULL,NULL,99464448,79525632,1,'999999','2020-02-07 20:25:33','2020-02-07 20:25:33'),(87,NULL,NULL,99464448,23708928,1,'999999','2020-02-07 20:25:33','2020-02-07 20:25:33'),(88,NULL,NULL,50878208,36370432,1,'999999','2020-02-08 10:33:13','2020-02-08 10:33:13'),(89,NULL,NULL,50878208,4016128,1,'999999','2020-02-08 10:33:13','2020-02-08 10:33:13'),(90,NULL,NULL,50878208,99909888,1,'999999','2020-02-08 10:33:13','2020-02-08 10:33:13'),(91,NULL,NULL,99999999,52697600,1,'999999','2020-02-08 10:38:44','2020-02-08 10:38:44'),(92,NULL,NULL,99999999,45914624,1,'999999','2020-02-08 10:38:44','2020-02-08 10:38:44'),(93,NULL,NULL,99999999,79318016,1,'999999','2020-02-08 10:38:44','2020-02-08 10:38:44'),(94,NULL,NULL,99999999,89873408,1,'999999','2020-02-08 10:38:44','2020-02-08 10:38:44'),(121,NULL,NULL,99999999,84787968,2,'999999','2020-04-14 22:39:01','2020-04-14 22:39:01'),(122,NULL,NULL,99479040,84787968,2,'999999','2020-04-14 22:39:01','2020-04-14 22:39:01'),(123,NULL,NULL,76524032,84787968,2,'999999','2020-04-14 22:39:01','2020-04-14 22:39:01'),(124,NULL,NULL,99464448,84787968,2,'999999','2020-04-14 22:39:01','2020-04-14 22:39:01'),(125,NULL,NULL,15325696,84787968,2,'999999','2020-04-14 22:39:01','2020-04-14 22:39:01'),(129,NULL,NULL,21080064,72390144,1,'999999','2020-08-11 12:00:36','2020-08-11 12:00:36'),(130,NULL,NULL,21080064,56150528,1,'999999','2020-08-11 12:00:36','2020-08-11 12:00:36'),(131,NULL,NULL,21080064,53141248,1,'999999','2020-08-11 12:00:36','2020-08-11 12:00:36'),(139,NULL,NULL,4764416,43603456,1,'999999','2020-08-11 14:46:48','2020-08-11 14:46:48'),(140,NULL,NULL,4764416,71882752,1,'999999','2020-08-11 14:46:48','2020-08-11 14:46:48'),(141,NULL,NULL,4764416,93765632,1,'999999','2020-08-11 14:46:48','2020-08-11 14:46:48'),(142,NULL,NULL,4764416,20565248,1,'999999','2020-08-11 14:46:48','2020-08-11 14:46:48'),(143,NULL,NULL,58688512,9599744,2,'999999','2020-08-18 12:06:06','2020-08-18 12:06:06'),(144,NULL,NULL,68522752,9599744,2,'999999','2020-08-18 12:06:06','2020-08-18 12:06:06'),(145,NULL,NULL,4764416,9599744,2,'999999','2020-08-18 12:06:06','2020-08-18 12:06:06'),(146,NULL,NULL,67317248,9599744,2,'999999','2020-08-18 12:06:06','2020-08-18 12:06:06'),(147,NULL,NULL,21080064,72114688,2,'999999','2020-08-19 14:07:34','2020-08-19 14:07:34'),(148,NULL,NULL,85645568,72114688,2,'999999','2020-08-19 14:07:34','2020-08-19 14:07:34'),(149,NULL,NULL,18916352,72114688,2,'999999','2020-08-19 14:07:34','2020-08-19 14:07:34'),(150,NULL,NULL,50878208,36115712,2,'999999','2020-08-24 13:50:30','2020-08-24 13:50:30'),(151,NULL,NULL,41653248,36115712,2,'999999','2020-08-24 13:50:30','2020-08-24 13:50:30'),(152,NULL,NULL,72976384,36115712,2,'999999','2020-08-24 13:50:30','2020-08-24 13:50:30'),(158,NULL,NULL,72976384,72967168,1,'999999','2020-08-25 08:09:02','2020-08-25 08:09:02'),(159,NULL,NULL,72976384,8310784,1,'999999','2020-08-25 08:09:02','2020-08-25 08:09:02'),(160,NULL,NULL,72976384,53483264,1,'999999','2020-08-25 08:09:02','2020-08-25 08:09:02');
 /*!40000 ALTER TABLE `ps_menu_management` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,7 +285,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ps_org_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ps_org_roles` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `RolesNo` bigint(20) DEFAULT NULL COMMENT '角色编号',
@@ -278,7 +314,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ps_organization`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ps_organization` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `OrgNo` bigint(20) DEFAULT NULL COMMENT '组织编号',
@@ -293,7 +329,7 @@ CREATE TABLE `ps_organization` (
   `InputTime` datetime DEFAULT NULL COMMENT '操作时间',
   `UpdateTime` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='权限组织机构';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='权限组织机构';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,7 +338,7 @@ CREATE TABLE `ps_organization` (
 
 LOCK TABLES `ps_organization` WRITE;
 /*!40000 ALTER TABLE `ps_organization` DISABLE KEYS */;
-INSERT INTO `ps_organization` VALUES (1,53893376,-1,'_-1','五邑创客','12','0',88073472,1,'999999','2020-02-02 15:44:33','2020-02-03 14:42:20');
+INSERT INTO `ps_organization` VALUES (1,53893376,-1,'_-1','五邑创客','12','0',88073472,1,'999999','2020-02-02 15:44:33','2020-02-03 14:42:20'),(2,25279488,53893376,'_-1_53893376','五邑云','专注科技类','1',88073472,1,'999999','2020-07-29 13:39:02','0001-01-01 00:00:00'),(3,69129984,25279488,'_-1_53893376_25279488','软件产品部',NULL,'2',88073472,1,'999999','2020-07-29 13:39:36','0001-01-01 00:00:00'),(4,2113792,25279488,'_-1_53893376_25279488','嵌入式产品部',NULL,'2',88073472,1,'999999','2020-07-29 13:40:09','0001-01-01 00:00:00');
 /*!40000 ALTER TABLE `ps_organization` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,7 +348,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ps_platform`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ps_platform` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `PlatformNo` bigint(20) DEFAULT NULL COMMENT '平台编号',
@@ -335,7 +371,7 @@ CREATE TABLE `ps_platform` (
 
 LOCK TABLES `ps_platform` WRITE;
 /*!40000 ALTER TABLE `ps_platform` DISABLE KEYS */;
-INSERT INTO `ps_platform` VALUES (1,88073472,-1,'-1','框架','SkeCloud','admin','999999','999999','0001-01-01 00:00:00','2019-12-14 14:24:42');
+INSERT INTO `ps_platform` VALUES (1,88073472,0,'_0','管理后台框架','SkeCloud','admin','999999',NULL,'0001-01-01 00:00:00','2020-08-07 18:14:27');
 /*!40000 ALTER TABLE `ps_platform` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -345,7 +381,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ps_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ps_roles` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `RolesNo` bigint(20) DEFAULT NULL COMMENT '角色编号',
@@ -360,7 +396,7 @@ CREATE TABLE `ps_roles` (
   `InputTime` datetime DEFAULT NULL COMMENT '操作时间',
   `UpdateTime` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='角色表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -369,7 +405,7 @@ CREATE TABLE `ps_roles` (
 
 LOCK TABLES `ps_roles` WRITE;
 /*!40000 ALTER TABLE `ps_roles` DISABLE KEYS */;
-INSERT INTO `ps_roles` VALUES (5,49830144,-1,'_-1','框架管理员','1','skecloudadmin',88073472,1,'999999','2019-12-30 20:12:57','2020-02-05 21:36:54'),(6,53635840,-1,'_-1','权限管理员','权限系统','permissionAdmin',88073472,1,'999999','2020-02-02 10:32:38','2020-04-12 16:56:05');
+INSERT INTO `ps_roles` VALUES (5,49830144,-1,'_-1','框架管理员','1','skecloudadmin',88073472,1,'999999','2019-12-30 20:12:57','2020-02-05 21:36:54'),(6,53635840,-1,'_-1','权限管理员','权限系统','permissionAdmin',88073472,1,'999999','2020-02-02 10:32:38','2020-04-12 16:56:05'),(7,99578624,-1,'_-1','发布管理员',NULL,'publish.admin',88073472,1,'999999','2020-08-11 14:44:11','2020-08-24 17:39:22');
 /*!40000 ALTER TABLE `ps_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -379,7 +415,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ps_user_org`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ps_user_org` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `OrgNo` bigint(20) DEFAULT NULL COMMENT '组织编号',
@@ -407,7 +443,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ps_user_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ps_user_roles` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `RolesNo` bigint(20) DEFAULT NULL COMMENT '角色编号',
@@ -416,7 +452,7 @@ CREATE TABLE `ps_user_roles` (
   `InputTime` datetime DEFAULT NULL COMMENT '操作时间',
   `UpdateTime` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户角色关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='用户角色关系表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -425,7 +461,7 @@ CREATE TABLE `ps_user_roles` (
 
 LOCK TABLES `ps_user_roles` WRITE;
 /*!40000 ALTER TABLE `ps_user_roles` DISABLE KEYS */;
-INSERT INTO `ps_user_roles` VALUES (1,49830144,999999,'999999','2020-01-19 13:07:00','2020-01-19 13:07:00');
+INSERT INTO `ps_user_roles` VALUES (1,49830144,999999,'999999','2020-01-19 13:07:00','2020-01-19 13:07:00'),(5,99578624,999996,'999999','2020-08-11 14:44:52','2020-08-11 14:44:52');
 /*!40000 ALTER TABLE `ps_user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -435,17 +471,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `sys_auto_job`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `sys_auto_job` (
   `id` bigint(20) NOT NULL,
-  `JobGroupName` varchar(50) COLLATE utf8_bin NOT NULL,
-  `JobName` varchar(50) COLLATE utf8_bin NOT NULL,
+  `JobGroupName` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `JobName` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `JobStatus` int(11) NOT NULL,
-  `CronExpression` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT 'cron表达式',
+  `CronExpression` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'cron表达式',
   `StartTime` datetime NOT NULL,
   `EndTime` datetime NOT NULL,
   `NextStartTime` datetime NOT NULL,
-  `Remark` text COLLATE utf8_bin,
+  `Remark` text CHARACTER SET utf8 COLLATE utf8_bin,
   `Enabled` int(11) NOT NULL,
   `Version` int(11) NOT NULL,
   `InputTime` datetime NOT NULL,
@@ -471,13 +507,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `sys_auto_job_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `sys_auto_job_log` (
   `id` bigint(20) NOT NULL,
-  `JobGroupName` varchar(50) COLLATE utf8_bin NOT NULL,
-  `JobName` varchar(50) COLLATE utf8_bin NOT NULL,
+  `JobGroupName` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `JobName` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `JobStatus` int(11) NOT NULL,
-  `Remark` text COLLATE utf8_bin,
+  `Remark` text CHARACTER SET utf8 COLLATE utf8_bin,
   `InputTime` datetime NOT NULL,
   `InputUser` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
@@ -499,7 +535,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `uc_authorize_blackip`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `uc_authorize_blackip` (
   `id` int(11) NOT NULL COMMENT '主键',
   `Name` varchar(150) DEFAULT NULL COMMENT '标题',
@@ -535,7 +571,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `uc_login_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `uc_login_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `Titile` varchar(150) DEFAULT NULL COMMENT '日志标题',
@@ -546,14 +582,14 @@ CREATE TABLE `uc_login_log` (
   `HandleTime` datetime DEFAULT NULL COMMENT '处理时间',
   `HandleUser` varchar(10) DEFAULT NULL COMMENT '处理人',
   `HandleResult` int(11) DEFAULT '0' COMMENT '处理结果',
-  `HandleMessage` varchar(500) DEFAULT NULL COMMENT '处理消息',
+  `HandleMessage` varchar(1500) DEFAULT NULL COMMENT '处理消息',
   `Token` varchar(50) DEFAULT NULL COMMENT '访问口令',
   `ExpiresIn` double DEFAULT NULL COMMENT '过期时间',
   `Status` int(11) DEFAULT '0' COMMENT '状态',
   `InputUser` varchar(6) DEFAULT NULL COMMENT '输入人',
   `InputTime` datetime DEFAULT NULL COMMENT '输入时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=632 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -562,7 +598,7 @@ CREATE TABLE `uc_login_log` (
 
 LOCK TABLES `uc_login_log` WRITE;
 /*!40000 ALTER TABLE `uc_login_log` DISABLE KEYS */;
-INSERT INTO `uc_login_log` VALUES (29,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-06-21 21:35:37','2020-06-21 21:35:37','SkeCloud',200,'注销成功',NULL,3600000,0,'999999','2020-06-21 21:35:37'),(30,'登录类型','{\"UserName\":\"admin\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"code\"}','Login','999999','2020-06-21 21:45:55','2020-06-21 21:45:55','code',200,'登录成功',NULL,3600000,0,'999999','2020-06-21 21:45:55'),(31,'登录类型','{\"UserName\":\"admin\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"code\"}','Login','999999','2020-06-21 21:48:24','2020-06-21 21:48:24','code',200,'注销成功',NULL,3600000,0,'999999','2020-06-21 21:48:24'),(32,'登录类型','{\"UserName\":\"admin\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"code\"}','Login','999999','2020-06-21 21:51:45','2020-06-21 21:51:45','code',201,'登录成功',NULL,3600000,0,'999999','2020-06-21 21:51:45'),(33,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-06-21 22:49:56','2020-06-21 22:49:56','SkeCloud',201,'登录成功',NULL,3600000,0,'999999','2020-06-21 22:49:56');
+INSERT INTO `uc_login_log` VALUES (597,'拉取代码','{\"id\":4,\"ProjectNo\":83009536,\"Name\":\"用户系统\",\"VersionType\":\"Github\",\"VersionUrl\":\"https://gitee.com/SkeCloud/SkeFramework\",\"GitBranch\":\"dev\",\"GitBinPath\":\"D:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"SourcePath\":\"E:\\\\JProject\\\\GitRepository\\\\SkeCloud\\\\SkeFramework\",\"MSBuildPath\":\"C:\\\\Windows\\\\System32\\\\cmd.exe\",\"ProjectFile\":\"\\\\03-Business\\\\MicrosServices.API.UserCenter/Publish.bat\",\"notifyEmails\":\"502525164@qq.com,\",\"InputUser\":\"999999\",\"InputTime\":\"0001-01-01T00:00:00\",\"UpdateTime\":\"2020-08-11T11:36:48\"}','PublishGit','999999','2020-08-19 14:34:45','2020-08-19 14:34:45','Publish',204,'troller.cs               |   2 +-\n .../PermissionSystem.UI.WebSites.csproj            |   7 ++\n .../Views/Log/LoginLogList.cshtml                  | 123 +++++++++++++++++++++\n .../Views/Log/PublishLogList.cshtml                | 123 +++++++++++++++++++++\n SkeFramework.sln                                   |   7 ++\n 43 files changed, 943 insertions(+), 111 deletions(-)\n create mode 100644 03-Business/MicrosServices.API.PublishDeploy/Controllers/LogController.cs\n create mode 100644 03-Business/MicrosServices.Entities.Core/DataForm/LogQuery/LogQueryForm.cs\n create mode 100644 03-Business/MicrosServices.Entities/Constants/HandleUserEumns.cs\n create mode 100644 03-Business/MicrosServices.SDK.LogSystem/DataUtil/NetwordConstants.cs\n create mode 100644 03-Business/MicrosServices.SDK.LogSystem/LogBaseSDK.cs\n create mode 100644 03-Business/MicrosServices.SDK.LogSystem/LoginLogSDK.cs\n create mode 100644 03-Business/MicrosServices.SDK.LogSystem/MicrosServices.SDK.LogSystem.csproj\n create mode 100644 03-Business/MicrosServices.SDK.LogSystem/Properties/AssemblyInfo.cs\n create mode 100644 03-Business/MicrosServices.SDK.LogSystem/PublishLogSDK.cs\n create mode 100644 03-Business/MicrosServices.SDK.LogSystem/packages.config\n create mode 100644 03-Business/PermissionSystem.UI.WebSites/Controllers/LogController.cs\n create mode 100644 03-Business/PermissionSystem.UI.WebSites/Views/Log/LoginLogList.cshtml\n create mode 100644 03-Business/PermissionSystem.UI.WebSites/Views/Log/PublishLogList.cshtml',NULL,3600000,0,'999999','2020-08-19 14:34:45'),(598,'发布服务','{\"id\":4,\"ProjectNo\":83009536,\"Name\":\"用户系统\",\"VersionType\":\"Github\",\"VersionUrl\":\"https://gitee.com/SkeCloud/SkeFramework\",\"GitBranch\":\"dev\",\"GitBinPath\":\"D:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"SourcePath\":\"E:\\\\JProject\\\\GitRepository\\\\SkeCloud\\\\SkeFramework\",\"MSBuildPath\":\"C:\\\\Windows\\\\System32\\\\cmd.exe\",\"ProjectFile\":\"\\\\03-Business\\\\MicrosServices.API.UserCenter/Publish.bat\",\"notifyEmails\":\"502525164@qq.com,\",\"InputUser\":\"999999\",\"InputTime\":\"0001-01-01T00:00:00\",\"UpdateTime\":\"2020-08-11T11:36:48\"}','PublishCmd','999999','2020-08-19 14:35:00','2020-08-19 14:35:00','Publish',400,'NET.Sdk.Publish\\build\\netstandard1.0\\PublishTargets\\Microsoft.NET.Sdk.Publish.FileSystem.targets(63,5): error MSB3061: 无法删除文件“C:\\inetpub\\wwwroot\\UserCenterApi\\System.Configuration.ConfigurationManager.dll”。Access to the path \'C:\\inetpub\\wwwroot\\UserCenterApi\\System.Configuration.ConfigurationManager.dll\' is denied. [E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework\\03-Business\\MicrosServices.API.UserCenter\\MicrosServices.API.UserCenter.csproj];C:\\Program Files\\dotnet\\sdk\\2.2.101\\Sdks\\Microsoft.NET.Sdk.Publish\\build\\netstandard1.0\\PublishTargets\\Microsoft.NET.Sdk.Publish.FileSystem.targets(63,5): error MSB3061: 无法删除文件“C:\\inetpub\\wwwroot\\UserCenterApi\\System.Data.SQLite.dll”。Access to the path \'C:\\inetpub\\wwwroot\\UserCenterApi\\System.Data.SQLite.dll\' is denied. [E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework\\03-Business\\MicrosServices.API.UserCenter\\MicrosServices.API.UserCenter.csproj];C:\\Program Files\\dotnet\\sdk\\2.2.101\\Sdks\\Microsoft.NET.Sdk.Publish\\build\\netstandard1.0\\PublishTargets\\Microsoft.NET.Sdk.Publish.FileSystem.targets(63,5): error MSB3061: 无法删除文件“C:\\inetpub\\wwwroot\\UserCenterApi\\System.Security.Permissions.dll”。Access to the path \'C:\\inetpub\\wwwroot\\UserCenterApi\\System.Security.Permissions.dll\' is denied. [E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework\\03-Business\\MicrosServices.API.UserCenter\\MicrosServices.API.UserCenter.csproj];    0 个警告;    23 个错误;;已用时间 00:00:14.59;;E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework\\03-Business\\MicrosServices.API.UserCenter>exi',NULL,3600000,0,'999999','2020-08-19 14:35:00'),(599,'拉取代码','{\"id\":4,\"ProjectNo\":83009536,\"Name\":\"用户系统\",\"VersionType\":\"Github\",\"VersionUrl\":\"https://gitee.com/SkeCloud/SkeFramework\",\"GitBranch\":\"dev\",\"GitBinPath\":\"D:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"SourcePath\":\"E:\\\\JProject\\\\GitRepository\\\\SkeCloud\\\\SkeFramework\",\"MSBuildPath\":\"C:\\\\Windows\\\\System32\\\\cmd.exe\",\"ProjectFile\":\"\\\\03-Business\\\\MicrosServices.API.UserCenter/Publish.bat\",\"notifyEmails\":\"502525164@qq.com,\",\"InputUser\":\"999999\",\"InputTime\":\"0001-01-01T00:00:00\",\"UpdateTime\":\"2020-08-11T11:36:48\"}','PublishGit','999999','2020-08-19 14:39:42','2020-08-19 14:39:42','Publish',204,'Already up to date.\n',NULL,3600000,0,'999999','2020-08-19 14:39:42'),(600,'发布服务','{\"id\":4,\"ProjectNo\":83009536,\"Name\":\"用户系统\",\"VersionType\":\"Github\",\"VersionUrl\":\"https://gitee.com/SkeCloud/SkeFramework\",\"GitBranch\":\"dev\",\"GitBinPath\":\"D:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"SourcePath\":\"E:\\\\JProject\\\\GitRepository\\\\SkeCloud\\\\SkeFramework\",\"MSBuildPath\":\"C:\\\\Windows\\\\System32\\\\cmd.exe\",\"ProjectFile\":\"\\\\03-Business\\\\MicrosServices.API.UserCenter/Publish.bat\",\"notifyEmails\":\"502525164@qq.com,\",\"InputUser\":\"999999\",\"InputTime\":\"0001-01-01T00:00:00\",\"UpdateTime\":\"2020-08-11T11:36:48\"}','PublishCmd','999999','2020-08-19 14:39:46','2020-08-19 14:39:46','Publish',205,'发布成功',NULL,3600000,0,'999999','2020-08-19 14:39:46'),(601,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-19 14:39:54','2020-08-19 14:39:54','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-19 14:39:54'),(602,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-19 14:40:57','2020-08-19 14:40:57','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-19 14:40:57'),(603,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-20 08:59:54','2020-08-20 08:59:54','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-20 08:59:54'),(604,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-20 09:36:01','2020-08-20 09:36:01','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-20 09:36:01'),(605,'拉取代码','{\"id\":4,\"ProjectNo\":83009536,\"Name\":\"用户系统\",\"VersionType\":\"Github\",\"VersionUrl\":\"https://gitee.com/SkeCloud/SkeFramework\",\"GitBranch\":\"dev\",\"GitBinPath\":\"D:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"SourcePath\":\"E:\\\\JProject\\\\GitRepository\\\\SkeCloud\\\\SkeFramework\",\"MSBuildPath\":\"C:\\\\Windows\\\\System32\\\\cmd.exe\",\"ProjectFile\":\"\\\\03-Business\\\\MicrosServices.API.UserCenter/Publish.bat\",\"notifyEmails\":\"502525164@qq.com,\",\"InputUser\":\"999999\",\"InputTime\":\"0001-01-01T00:00:00\",\"UpdateTime\":\"2020-08-11T11:36:48\"}','PublishGit','999999','2020-08-20 09:37:05','2020-08-20 09:37:05','Publish',204,'113.0.nupkg\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/content/net20/app.config.transform\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/content/net20/web.config.transform\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/content/net40/app.config.transform\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/content/net40/web.config.transform\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/content/net45/app.config.transform\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/content/net45/web.config.transform\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/content/net451/app.config.transform\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/content/net451/web.config.transform\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/content/net46/app.config.transform\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/content/net46/web.config.transform\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/lib/net20/System.Data.SQLite.Linq.dll\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/lib/net40/System.Data.SQLite.Linq.dll\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/lib/net45/System.Data.SQLite.Linq.dll\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/lib/net451/System.Data.SQLite.Linq.dll\n create mode 100644 packages/System.Data.SQLite.Linq.1.0.113.0/lib/net46/System.Data.SQLite.Linq.dll',NULL,3600000,0,'999999','2020-08-20 09:37:05'),(606,'发布服务','{\"id\":4,\"ProjectNo\":83009536,\"Name\":\"用户系统\",\"VersionType\":\"Github\",\"VersionUrl\":\"https://gitee.com/SkeCloud/SkeFramework\",\"GitBranch\":\"dev\",\"GitBinPath\":\"D:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"SourcePath\":\"E:\\\\JProject\\\\GitRepository\\\\SkeCloud\\\\SkeFramework\",\"MSBuildPath\":\"C:\\\\Windows\\\\System32\\\\cmd.exe\",\"ProjectFile\":\"\\\\03-Business\\\\MicrosServices.API.UserCenter/Publish.bat\",\"notifyEmails\":\"502525164@qq.com,\",\"InputUser\":\"999999\",\"InputTime\":\"0001-01-01T00:00:00\",\"UpdateTime\":\"2020-08-11T11:36:48\"}','PublishCmd','999999','2020-08-20 09:37:22','2020-08-20 09:37:22','Publish',400,'NET.Sdk.Publish\\build\\netstandard1.0\\PublishTargets\\Microsoft.NET.Sdk.Publish.FileSystem.targets(63,5): error MSB3061: 无法删除文件“C:\\inetpub\\wwwroot\\UserCenterApi\\System.Configuration.ConfigurationManager.dll”。Access to the path \'C:\\inetpub\\wwwroot\\UserCenterApi\\System.Configuration.ConfigurationManager.dll\' is denied. [E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework\\03-Business\\MicrosServices.API.UserCenter\\MicrosServices.API.UserCenter.csproj];C:\\Program Files\\dotnet\\sdk\\2.2.101\\Sdks\\Microsoft.NET.Sdk.Publish\\build\\netstandard1.0\\PublishTargets\\Microsoft.NET.Sdk.Publish.FileSystem.targets(63,5): error MSB3061: 无法删除文件“C:\\inetpub\\wwwroot\\UserCenterApi\\System.Data.SQLite.dll”。Access to the path \'C:\\inetpub\\wwwroot\\UserCenterApi\\System.Data.SQLite.dll\' is denied. [E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework\\03-Business\\MicrosServices.API.UserCenter\\MicrosServices.API.UserCenter.csproj];C:\\Program Files\\dotnet\\sdk\\2.2.101\\Sdks\\Microsoft.NET.Sdk.Publish\\build\\netstandard1.0\\PublishTargets\\Microsoft.NET.Sdk.Publish.FileSystem.targets(63,5): error MSB3061: 无法删除文件“C:\\inetpub\\wwwroot\\UserCenterApi\\System.Security.Permissions.dll”。Access to the path \'C:\\inetpub\\wwwroot\\UserCenterApi\\System.Security.Permissions.dll\' is denied. [E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework\\03-Business\\MicrosServices.API.UserCenter\\MicrosServices.API.UserCenter.csproj];    0 个警告;    23 个错误;;已用时间 00:00:15.14;;E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework\\03-Business\\MicrosServices.API.UserCenter>exi',NULL,3600000,0,'999999','2020-08-20 09:37:22'),(607,'拉取代码','{\"id\":4,\"ProjectNo\":83009536,\"Name\":\"用户系统\",\"VersionType\":\"Github\",\"VersionUrl\":\"https://gitee.com/SkeCloud/SkeFramework\",\"GitBranch\":\"dev\",\"GitBinPath\":\"D:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"SourcePath\":\"E:\\\\JProject\\\\GitRepository\\\\SkeCloud\\\\SkeFramework\",\"MSBuildPath\":\"C:\\\\Windows\\\\System32\\\\cmd.exe\",\"ProjectFile\":\"\\\\03-Business\\\\MicrosServices.API.UserCenter/Publish.bat\",\"notifyEmails\":\"502525164@qq.com,\",\"InputUser\":\"999999\",\"InputTime\":\"0001-01-01T00:00:00\",\"UpdateTime\":\"2020-08-11T11:36:48\"}','PublishGit','999999','2020-08-20 09:38:01','2020-08-20 09:38:01','Publish',204,'Already up to date.\n',NULL,3600000,0,'999999','2020-08-20 09:38:01'),(608,'发布服务','{\"id\":4,\"ProjectNo\":83009536,\"Name\":\"用户系统\",\"VersionType\":\"Github\",\"VersionUrl\":\"https://gitee.com/SkeCloud/SkeFramework\",\"GitBranch\":\"dev\",\"GitBinPath\":\"D:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"SourcePath\":\"E:\\\\JProject\\\\GitRepository\\\\SkeCloud\\\\SkeFramework\",\"MSBuildPath\":\"C:\\\\Windows\\\\System32\\\\cmd.exe\",\"ProjectFile\":\"\\\\03-Business\\\\MicrosServices.API.UserCenter/Publish.bat\",\"notifyEmails\":\"502525164@qq.com,\",\"InputUser\":\"999999\",\"InputTime\":\"0001-01-01T00:00:00\",\"UpdateTime\":\"2020-08-11T11:36:48\"}','PublishCmd','999999','2020-08-20 09:38:04','2020-08-20 09:38:04','Publish',205,'发布成功',NULL,3600000,0,'999999','2020-08-20 09:38:04'),(609,'拉取代码','{\"id\":1,\"ProjectNo\":76905984,\"Name\":\"发布系统\",\"VersionType\":\"Github\",\"VersionUrl\":\"https://gitee.com/SkeCloud/SkeFramework\",\"GitBranch\":\"dev\",\"GitBinPath\":\"D:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"SourcePath\":\"E:\\\\JProject\\\\GitRepository\\\\SkeCloud\\\\SkeFramework\",\"MSBuildPath\":\"C:\\\\Windows\\\\System32\\\\cmd.exe\",\"ProjectFile\":\"\\\\03-Business\\\\MicrosServices.API.PublishDeploy/Publish.bat\",\"notifyEmails\":\"502525164@qq.com,\",\"InputUser\":\"999999\",\"InputTime\":\"0001-01-01T00:00:00\",\"UpdateTime\":\"2020-08-12T08:10:17\"}','PublishGit','999999','2020-08-20 13:38:50','2020-08-20 13:38:50','Publish',204,'Already up to date.\n',NULL,3600000,0,'999999','2020-08-20 13:38:50'),(610,'发布服务','{\"id\":1,\"ProjectNo\":76905984,\"Name\":\"发布系统\",\"VersionType\":\"Github\",\"VersionUrl\":\"https://gitee.com/SkeCloud/SkeFramework\",\"GitBranch\":\"dev\",\"GitBinPath\":\"D:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"SourcePath\":\"E:\\\\JProject\\\\GitRepository\\\\SkeCloud\\\\SkeFramework\",\"MSBuildPath\":\"C:\\\\Windows\\\\System32\\\\cmd.exe\",\"ProjectFile\":\"\\\\03-Business\\\\MicrosServices.API.PublishDeploy/Publish.bat\",\"notifyEmails\":\"502525164@qq.com,\",\"InputUser\":\"999999\",\"InputTime\":\"0001-01-01T00:00:00\",\"UpdateTime\":\"2020-08-12T08:10:17\"}','PublishCmd','999999','2020-08-20 13:38:58','2020-08-20 13:38:58','Publish',400,'blishTargets\\Microsoft.NET.Sdk.Publish.FileSystem.targets(63,5): error MSB3061: 无法删除文件“C:\\inetpub\\wwwroot\\PublishDeployApi\\System.Configuration.ConfigurationManager.dll”。Access to the path \'C:\\inetpub\\wwwroot\\PublishDeployApi\\System.Configuration.ConfigurationManager.dll\' is denied. [E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework\\03-Business\\MicrosServices.API.PublishDeploy\\MicrosServices.API.PublishDeploy.csproj];C:\\Program Files\\dotnet\\sdk\\2.2.101\\Sdks\\Microsoft.NET.Sdk.Publish\\build\\netstandard1.0\\PublishTargets\\Microsoft.NET.Sdk.Publish.FileSystem.targets(63,5): error MSB3061: 无法删除文件“C:\\inetpub\\wwwroot\\PublishDeployApi\\System.Data.SQLite.dll”。Access to the path \'C:\\inetpub\\wwwroot\\PublishDeployApi\\System.Data.SQLite.dll\' is denied. [E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework\\03-Business\\MicrosServices.API.PublishDeploy\\MicrosServices.API.PublishDeploy.csproj];C:\\Program Files\\dotnet\\sdk\\2.2.101\\Sdks\\Microsoft.NET.Sdk.Publish\\build\\netstandard1.0\\PublishTargets\\Microsoft.NET.Sdk.Publish.FileSystem.targets(63,5): error MSB3061: 无法删除文件“C:\\inetpub\\wwwroot\\PublishDeployApi\\System.Security.Permissions.dll”。Access to the path \'C:\\inetpub\\wwwroot\\PublishDeployApi\\System.Security.Permissions.dll\' is denied. [E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework\\03-Business\\MicrosServices.API.PublishDeploy\\MicrosServices.API.PublishDeploy.csproj];    0 个警告;    23 个错误;;已用时间 00:00:07.08;;E:\\JProject\\GitRepository\\SkeCloud\\SkeFramework\\03-Business\\MicrosServices.API.PublishDeploy>exi',NULL,3600000,0,'999999','2020-08-20 13:38:58'),(611,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-24 13:46:23','2020-08-24 13:46:23','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-24 13:46:23'),(612,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-24 13:50:37','2020-08-24 13:50:37','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-24 13:50:37'),(613,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-24 14:10:08','2020-08-24 14:10:08','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-24 14:10:08'),(614,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-24 14:18:33','2020-08-24 14:18:33','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-24 14:18:33'),(615,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-24 14:22:50','2020-08-24 14:22:50','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-24 14:22:50'),(616,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-24 14:59:51','2020-08-24 14:59:51','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-24 14:59:51'),(617,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-24 15:06:15','2020-08-24 15:06:15','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-24 15:06:15'),(618,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-24 15:55:09','2020-08-24 15:55:09','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-24 15:55:09'),(619,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-24 17:34:42','2020-08-24 17:34:42','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-24 17:34:42'),(620,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-24 17:36:36','2020-08-24 17:36:36','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-24 17:36:36'),(621,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-25 07:59:57','2020-08-25 07:59:57','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-25 07:59:57'),(622,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-25 08:07:06','2020-08-25 08:07:06','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-25 08:07:06'),(623,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-25 08:07:54','2020-08-25 08:07:54','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-25 08:07:54'),(624,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-25 08:10:08','2020-08-25 08:10:08','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-25 08:10:08'),(625,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-25 11:23:21','2020-08-25 11:23:21','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-25 11:23:21'),(626,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-26 12:47:19','2020-08-26 12:47:19','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-26 12:47:19'),(627,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-26 14:29:48','2020-08-26 14:29:48','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-26 14:29:48'),(628,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-26 14:58:09','2020-08-26 14:58:09','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-26 14:58:09'),(629,'拉取代码','{\"id\":7,\"ProjectNo\":11924992,\"Name\":\"基础服务系统\",\"VersionType\":\"Github\",\"VersionUrl\":\"https://gitee.com/SkeCloud/SkeFramework\",\"GitBranch\":\"dev\",\"GitBinPath\":\"D:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"SourcePath\":\"E:\\\\JProject\\\\GitRepository\\\\SkeCloud\\\\SkeFramework\",\"MSBuildPath\":\"C:\\\\Windows\\\\System32\\\\cmd.exe\",\"ProjectFile\":\"\\\\03-Business\\\\MicrosServices.API.AdminServer/Publish.bat\",\"notifyEmails\":\"502525164@qq.com,\",\"InputUser\":\"999999\",\"InputTime\":\"2020-08-24T17:37:19\",\"UpdateTime\":\"0001-01-01T00:00:00\"}','PublishGit','999999','2020-08-26 15:07:07','2020-08-26 15:07:07','Publish',204,'ryHandle/BsDictionaryHandle.cs\n create mode 100644 03-Business/MicrosServices.BLL.Business/BaseSystem/BsDictionaryHandle/IBsDictionaryHandle.cs\n create mode 100644 03-Business/MicrosServices.DAL.DataAccess/Repository/BaseSystem/BsDictionaryHandle/BsDictionaryHandleCommon.cs\n create mode 100644 03-Business/MicrosServices.DAL.DataAccess/Repository/BaseSystem/BsDictionaryHandle/IBsDictionaryHandleCommon.cs\n delete mode 100644 03-Business/MicrosServices.Entities.Core/Class1.cs\n create mode 100644 03-Business/MicrosServices.Entities/Common/BaseSystem/BsDictionary.cs\n create mode 100644 03-Business/MicrosServices.Helper.Core/Extends/DictionaryOptionValue.cs\n create mode 100644 03-Business/MicrosServices.SDK.AdminSystem/DataUtil/NetwordConstants.cs\n create mode 100644 03-Business/MicrosServices.SDK.AdminSystem/DictionarySDK.cs\n create mode 100644 03-Business/MicrosServices.SDK.AdminSystem/MicrosServices.SDK.AdminSystem.csproj\n create mode 100644 03-Business/MicrosServices.SDK.AdminSystem/Properties/AssemblyInfo.cs\n create mode 100644 03-Business/MicrosServices.SDK.AdminSystem/packages.config\n create mode 100644 03-Business/PermissionSystem.UI.WebSites/Controllers/DictionaryController.cs\n create mode 100644 03-Business/PermissionSystem.UI.WebSites/Views/Dictionary/DictionaryAdd.cshtml\n create mode 100644 03-Business/PermissionSystem.UI.WebSites/Views/Dictionary/DictionaryList.cshtml\n create mode 100644 03-Business/PermissionSystem.UI.WebSites/Views/Dictionary/DictionaryUpdate.cshtml',NULL,3600000,0,'999999','2020-08-26 15:07:07'),(630,'发布服务','{\"id\":7,\"ProjectNo\":11924992,\"Name\":\"基础服务系统\",\"VersionType\":\"Github\",\"VersionUrl\":\"https://gitee.com/SkeCloud/SkeFramework\",\"GitBranch\":\"dev\",\"GitBinPath\":\"D:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"SourcePath\":\"E:\\\\JProject\\\\GitRepository\\\\SkeCloud\\\\SkeFramework\",\"MSBuildPath\":\"C:\\\\Windows\\\\System32\\\\cmd.exe\",\"ProjectFile\":\"\\\\03-Business\\\\MicrosServices.API.AdminServer/Publish.bat\",\"notifyEmails\":\"502525164@qq.com,\",\"InputUser\":\"999999\",\"InputTime\":\"2020-08-24T17:37:19\",\"UpdateTime\":\"0001-01-01T00:00:00\"}','PublishCmd','999999','2020-08-26 15:07:33','2020-08-26 15:07:33','Publish',205,'发布成功',NULL,3600000,0,'999999','2020-08-26 15:07:33'),(631,'登录类型','{\"UserName\":\"zengyingjun@ut.cn\",\"MdfPas\":\"c36725de6a71af4a302b55c0ab4fabcc\",\"LoginerInfo\":\"123\",\"Platform\":\"SkeCloud\"}','Login','999999','2020-08-26 15:44:56','2020-08-26 15:44:56','UserCenter',201,'登录成功',NULL,3600000,0,'999999','2020-08-26 15:44:56');
 /*!40000 ALTER TABLE `uc_login_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -572,7 +608,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `uc_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `uc_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键\n\n            ',
   `UserNo` varchar(6) DEFAULT NULL COMMENT '用户账号',
@@ -614,7 +650,7 @@ CREATE TABLE `uc_users` (
 
 LOCK TABLES `uc_users` WRITE;
 /*!40000 ALTER TABLE `uc_users` DISABLE KEYS */;
-INSERT INTO `uc_users` VALUES (1,'999999','admin','c36725de6a71af4a302b55c0ab4fabcc','zengyingjun','Sunshall',0,'0','0','zengyingjun@ut.cn','0','0',0,'0','0','0','0','0','0',0,'0','2019-11-02 00:00:00','0','2019-11-02 00:00:00',1,'0','2019-11-02 00:00:00','0',0,'2020-06-21 22:49:56'),(4,'999996','test','cebfd1559b68d67688884d7a3d3e8c',NULL,NULL,0,NULL,'123','123',NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,0,'999999','2020-03-31 21:04:59',NULL,'0001-01-01 00:00:00',1,NULL,'0001-01-01 00:00:00',NULL,0,'2020-05-28 21:29:02');
+INSERT INTO `uc_users` VALUES (1,'999999','admin','c36725de6a71af4a302b55c0ab4fabcc','zengyingjun','Sunshall',0,'0','0','zengyingjun@ut.cn','0','0',0,'0','0','0','0','0','0',0,'0','2019-11-02 00:00:00','0','2019-11-02 00:00:00',1,'0','2019-11-02 00:00:00','0',0,'2020-08-26 15:44:56'),(4,'999996','test','c36725de6a71af4a302b55c0ab4fabcc',NULL,NULL,0,NULL,'123','123',NULL,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,0,'999999','2020-03-31 21:04:59',NULL,'0001-01-01 00:00:00',1,NULL,'0001-01-01 00:00:00',NULL,0,'2020-08-11 14:46:10');
 /*!40000 ALTER TABLE `uc_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -624,7 +660,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `uc_users_setting`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `uc_users_setting` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `UserNo` varchar(6) DEFAULT NULL COMMENT '用户账号',
@@ -650,6 +686,95 @@ LOCK TABLES `uc_users_setting` WRITE;
 INSERT INTO `uc_users_setting` VALUES (2,'999999','999999','999999','88073472',1,1,NULL,1,'999999','2020-01-12 13:14:51'),(5,'999996','355454','196825','88073472',1,1,NULL,1,'999999','2020-03-31 21:04:59');
 /*!40000 ALTER TABLE `uc_users_setting` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `vc_record_type`
+--
+
+DROP TABLE IF EXISTS `vc_record_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `vc_record_type` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `RecordNo` bigint(20) DEFAULT NULL COMMENT '版本号记录编号',
+  `ParentRecordNo` bigint(20) DEFAULT NULL COMMENT '所属版本号',
+  `TypeNo` bigint(20) DEFAULT NULL COMMENT '版本类型编号',
+  `Enabled` int(11) DEFAULT NULL COMMENT '启用状态',
+  `InputUser` varchar(10) DEFAULT NULL COMMENT '操作员',
+  `InputTime` datetime DEFAULT NULL COMMENT '操作时间',
+  `UpdateTime` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='版本号映射表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vc_record_type`
+--
+
+LOCK TABLES `vc_record_type` WRITE;
+/*!40000 ALTER TABLE `vc_record_type` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vc_record_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vc_version_record`
+--
+
+DROP TABLE IF EXISTS `vc_version_record`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `vc_version_record` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `RecordNo` bigint(20) DEFAULT NULL COMMENT '版本号记录编号',
+  `TypeNo` bigint(20) DEFAULT NULL COMMENT '类型编码',
+  `Version` varchar(120) DEFAULT NULL COMMENT '版本号',
+  `Description` varchar(512) DEFAULT NULL COMMENT '描述',
+  `Enabled` int(11) DEFAULT NULL COMMENT '启用状态',
+  `InputUser` varchar(10) DEFAULT NULL COMMENT '操作员',
+  `InputTime` datetime DEFAULT NULL COMMENT '操作时间',
+  `UpdateTime` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='版本号记录';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vc_version_record`
+--
+
+LOCK TABLES `vc_version_record` WRITE;
+/*!40000 ALTER TABLE `vc_version_record` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vc_version_record` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vc_version_type`
+--
+
+DROP TABLE IF EXISTS `vc_version_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `vc_version_type` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `TypeNo` bigint(20) DEFAULT NULL COMMENT '组织编号',
+  `Name` varchar(120) DEFAULT NULL COMMENT '类型名称',
+  `Code` varchar(50) DEFAULT NULL COMMENT '类型值',
+  `Description` varchar(512) DEFAULT NULL COMMENT '描述',
+  `Enabled` int(11) DEFAULT NULL COMMENT '启用状态',
+  `InputUser` varchar(10) DEFAULT NULL COMMENT '操作员',
+  `InputTime` datetime DEFAULT NULL COMMENT '操作时间',
+  `UpdateTime` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='版本类型';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vc_version_type`
+--
+
+LOCK TABLES `vc_version_type` WRITE;
+/*!40000 ALTER TABLE `vc_version_type` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vc_version_type` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -660,4 +785,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-22 22:14:51
+-- Dump completed on 2020-08-27 16:15:57
