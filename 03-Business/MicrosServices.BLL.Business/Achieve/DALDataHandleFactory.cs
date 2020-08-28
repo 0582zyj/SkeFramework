@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MicrosServices.BLL.Business.PublishDeploy.PdProjectHandles;
+﻿using MicrosServices.BLL.Business.PublishDeploy.PdProjectHandles;
 using MicrosServices.BLL.Business.PublishDeploy.PdPublishHandles;
 using MicrosServices.BLL.Business.PublishDeploy.PdServerHandles;
 using MicrosServices.BLL.Business.LogSystem.UcLoginLogHandles;
@@ -25,6 +20,9 @@ using SkeFramework.DataBase.DataAccess.DataHandle.Achieve;
 using SkeFramework.DataBase.Interfaces;
 using MicrosServices.Entities.Common.BaseSystem;
 using MicrosServices.BLL.Business.BaseSystem.BsDictionaryHandle;
+using MicrosServices.Entities.Common.RealTimeSystem;
+using MicrosServices.BLL.Business.RealTimeSystem.RtPushConfigHandles;
+using MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles;
 
 namespace ULCloudLockTool.BLL.Business.Achieve
 {
@@ -42,6 +40,7 @@ namespace ULCloudLockTool.BLL.Business.Achieve
         public override IDataTableHandle GetDataHandleCommon<IDataTableHandle, TData>()
         {
             var dataType = typeof(TData);
+            #region PermissionSystem
             if (IsSubclassOf(typeof(PsManagement), dataType))
             {
                 return new PsManagementHandle(GetConfigDataSerialer<PsManagement>(PsManagement.TableName)) as IDataTableHandle;
@@ -82,7 +81,8 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             {
                 return new PsUserRolesHandle(GetConfigDataSerialer<PsUserRoles>(PsUserRoles.TableName)) as IDataTableHandle;
             }
-            //UserCenter
+            #endregion
+            #region UserCenter
             else if (IsSubclassOf(typeof(UcUsers), dataType))
             {
                 return new UcUsersHandle(GetConfigDataSerialer<UcUsers>(UcUsers.TableName)) as IDataTableHandle;
@@ -95,7 +95,8 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             {
                 return new UcUsersSettingHandle(GetConfigDataSerialer<UcUsersSetting>(UcUsersSetting.TableName)) as IDataTableHandle;
             }
-            //PublishDeploy
+            #endregion
+            #region PublishDeploy
             else if (IsSubclassOf(typeof(PdServer), dataType))
             {
                 return new PdServerHandle(GetConfigDataSerialer<PdServer>(PdServer.TableName)) as IDataTableHandle;
@@ -108,11 +109,23 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             {
                 return new PdProjectHandle(GetConfigDataSerialer<PdProject>(PdProject.TableName)) as IDataTableHandle;
             }
-            //BaseSystem
+            #endregion
+            #region BaseSystem
             else if (IsSubclassOf(typeof(BsDictionary), dataType))
             {
                 return new BsDictionaryHandle(GetConfigDataSerialer<BsDictionary>(BsDictionary.TableName)) as IDataTableHandle;
             }
+            #endregion
+            #region RealTimeSystem
+            else if (IsSubclassOf(typeof(RtPushconfig), dataType))
+            {
+                return new RtPushconfigHandle(GetConfigDataSerialer<RtPushconfig>(RtPushconfig.TableName)) as IDataTableHandle;
+            }
+            else if (IsSubclassOf(typeof(RtMessage), dataType))
+            {
+                return new RtMessageHandle(GetConfigDataSerialer<RtMessage>(RtMessage.TableName)) as IDataTableHandle;
+            }
+            #endregion
             return null;
         }
 
@@ -127,7 +140,7 @@ namespace ULCloudLockTool.BLL.Business.Achieve
         {
             switch (tableName)
             {
-                //权限配置
+                #region 权限配置
                 case PsManagement.TableName:
                     return new DBRepository<PsManagement, PsManagement>() as IRepository<TData>;
                 case PsManagementRoles.TableName:
@@ -148,25 +161,34 @@ namespace ULCloudLockTool.BLL.Business.Achieve
                     return new DBRepository<PsUserOrg, PsUserOrg>() as IRepository<TData>;
                 case PsUserRoles.TableName:
                     return new DBRepository<PsUserRoles, PsUserRoles>() as IRepository<TData>;
-
-                //UserCenter
+                #endregion
+                #region UserCenter
                 case UcUsers.TableName:
                     return new DBRepository<UcUsers, UcUsers>() as IRepository<TData>;
                 case UcUsersSetting.TableName:
                     return new DBRepository<UcUsersSetting, UcUsersSetting>() as IRepository<TData>;
                 case UcLoginLog.TableName:
                     return new DBRepository<UcLoginLog, UcLoginLog>() as IRepository<TData>;
-                //PublishDeploy
+                #endregion
+                #region PublishDeploy
                 case PdServer.TableName:
                     return new DBRepository<PdServer, PdServer>() as IRepository<TData>;
                 case PdPublish.TableName:
                     return new DBRepository<PdPublish, PdPublish>() as IRepository<TData>;
                 case PdProject.TableName:
                     return new DBRepository<PdProject, PdProject>() as IRepository<TData>;
-                //BaseSystem
+                #endregion
+                #region BaseSystem
                 case BsDictionary.TableName:
                     return new DBRepository<BsDictionary, BsDictionary>() as IRepository<TData>;
+                #endregion
+                #region RealTimeSystem
+                case RtPushconfig.TableName:
+                    return new DBRepository<RtPushconfig, RtPushconfig>() as IRepository<TData>;
+                case RtMessage.TableName:
+                    return new DBRepository<RtMessage, RtMessage>() as IRepository<TData>;
 
+                    #endregion
             }
             return null;
         }

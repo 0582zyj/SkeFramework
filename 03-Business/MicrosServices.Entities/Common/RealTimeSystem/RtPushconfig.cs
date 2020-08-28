@@ -6,29 +6,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MicrosServices.Entities.Common.BaseSystem
+namespace MicrosServices.Entities.Common.RealTimeSystem
 {
     /// <summary>
-    /// 系统字典表
+    /// 推送服务配置表
     /// </summary>
-    public class BsDictionary : IEntity
+    public class RtPushconfig : IEntity
     {
-        public const string TableName = "bs_dictionary";
+        public const string TableName = "rt_pushconfig";
         [KeyAttribute(true)]
         [Description("ID")]
         public Int64 id { get; set; }
-        [Description("字典编号")]
-        public Int64 DicNo { get; set; }
-        [Description("编码")]
-        public string DicType { get; set; }
-        [Description("键")]
-        public string DicKey { get; set; }
-        [Description("值")]
-        public string DicValue { get; set; }
+        [Description("推送服务编号")]
+        public Int64 PushNo { get; set; }
+        [Description("推送类型")]
+        public string PushType { get; set; }
+        [Description("推送端口")]
+        public string PushPort { get; set; }
+        [Description("应用ID")]
+        public string AppId { get; set; }
         [Description("描述")]
         public string Descriptions { get; set; }
-        [Description("平台编号")]
-        public Int64 PlatformNo { get; set; }
+        [Description("扩展信息")]
+        public string ExtraProps { get; set; }
+        [Description("运行状态")]
+        public int Status { get; set; }
         [Description("启用状态")]
         public int Enabled { get; set; }
         [Description("操作员")]

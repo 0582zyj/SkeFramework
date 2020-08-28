@@ -20,6 +20,9 @@ using SkeFramework.DataBase.DataAccess.DataHandle.Achieve;
 using ULCloudLockTool.BLL.Business.Achieve;
 using MicrosServices.BLL.Business.BaseSystem.BsDictionaryHandle;
 using MicrosServices.Entities.Common.BaseSystem;
+using MicrosServices.BLL.Business.RealTimeSystem.RtPushConfigHandles;
+using MicrosServices.Entities.Common.RealTimeSystem;
+using MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles;
 
 namespace MicrosServices.BLL.Business
 {
@@ -129,6 +132,20 @@ namespace MicrosServices.BLL.Business
         public IBsDictionaryHandle BsDictionaryHandle
         {
             get { return DataHandleFactory.GetDataHandle<BsDictionaryHandle, BsDictionary>(); }
+        }
+        #endregion
+
+        #region RealTimeSystem
+        public IRtPushconfigHandle RtPushconfigHandle
+        {
+            get { return DataHandleFactory.GetDataHandle<RtPushconfigHandle, RtPushconfig>(); }
+        }
+        public IRtMessageHandle RtMessageHandle
+        {
+            get
+            {
+                return DataHandleFactory.GetDataHandle<RtMessageHandle, RtMessage>();
+            }
         }
         #endregion
     }

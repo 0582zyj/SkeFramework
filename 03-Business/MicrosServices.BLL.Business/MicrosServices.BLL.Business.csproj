@@ -77,6 +77,10 @@
     <Compile Include="PublishDeploy\PdServerHandles\PdServerHandle.cs" />
     <Compile Include="LogSystem\UcLoginLogHandles\IUcLoginLogHandle.cs" />
     <Compile Include="LogSystem\UcLoginLogHandles\UcLoginLogHandle.cs" />
+    <Compile Include="RealTimeSystem\RtMessageHandles\IRtMessageHandle.cs" />
+    <Compile Include="RealTimeSystem\RtMessageHandles\RtMessageHandle.cs" />
+    <Compile Include="RealTimeSystem\RtPushConfigHandles\IRtPushconfigHandle.cs" />
+    <Compile Include="RealTimeSystem\RtPushConfigHandles\RtPushconfigHandle.cs" />
     <Compile Include="UserCenter\UcUsersSettingHandles\IUcUsersSettingHandle.cs" />
     <Compile Include="UserCenter\UcUsersSettingHandles\UcUsersSettingHandle.cs" />
     <Compile Include="UserCenter\UsersHandles\IUcUsersHandle.cs" />

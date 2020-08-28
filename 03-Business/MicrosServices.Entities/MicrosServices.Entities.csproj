@@ -46,6 +46,8 @@
     <Compile Include="Common\PublishDeploy\PdProject.cs" />
     <Compile Include="Common\PublishDeploy\PdPublish.cs" />
     <Compile Include="Common\PublishDeploy\PdServer.cs" />
+    <Compile Include="Common\RealTimeSystem\RtMessage.cs" />
+    <Compile Include="Common\RealTimeSystem\RtPushconfig.cs" />
     <Compile Include="Common\UserCenter\UcAuthorizeBlackip.cs" />
     <Compile Include="Common\UserCenter\UcLoginLog.cs" />
     <Compile Include="Common\PermissionSystem\PsManagement.cs" />
