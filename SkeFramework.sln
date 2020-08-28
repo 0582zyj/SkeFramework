@@ -158,6 +158,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicrosServices.API.AdminSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.SDK.AdminSystem", "03-Business\MicrosServices.SDK.AdminSystem\MicrosServices.SDK.AdminSystem.csproj", "{5FBDF9BE-9C99-48EA-ABFD-D34341318547}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.API.RealTimeSystem", "03-Business\MicrosServices.API.RealTimeSystem\MicrosServices.API.RealTimeSystem.csproj", "{718817F2-2AE6-4B60-AD39-4305A141FDE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -356,6 +358,10 @@ Global
 		{5FBDF9BE-9C99-48EA-ABFD-D34341318547}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FBDF9BE-9C99-48EA-ABFD-D34341318547}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FBDF9BE-9C99-48EA-ABFD-D34341318547}.Release|Any CPU.Build.0 = Release|Any CPU
+		{718817F2-2AE6-4B60-AD39-4305A141FDE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{718817F2-2AE6-4B60-AD39-4305A141FDE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{718817F2-2AE6-4B60-AD39-4305A141FDE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{718817F2-2AE6-4B60-AD39-4305A141FDE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -431,6 +437,7 @@ Global
 		{158B1B18-D265-4F1E-B79E-45B2C3D9B3CA} = {C7C67878-EE19-4954-B2B8-1A1CC69C1B0A}
 		{5875AE76-5196-4E20-824F-A2ACFF6C6105} = {2C275C9C-3596-45BC-8D0C-C97D69403791}
 		{5FBDF9BE-9C99-48EA-ABFD-D34341318547} = {C7C67878-EE19-4954-B2B8-1A1CC69C1B0A}
+		{718817F2-2AE6-4B60-AD39-4305A141FDE9} = {2C275C9C-3596-45BC-8D0C-C97D69403791}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}
