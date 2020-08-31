@@ -8,7 +8,7 @@ namespace MicrosServices.SDK.PermissionSystem
 {
    public class NetwordConstants
     {
-        public const string BASE_URL_PERMISSION_LOCAL = "http://localhost/PermissionApi";
+        public const string BASE_URL_IIS = "http://localhost/PermissionApi";
         public const string BASE_URL_PERMISSION = "https://localhost:5001";
 
         #region 单例模式
@@ -37,7 +37,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 case "dev":
                     return NetwordConstants.BASE_URL_PERMISSION;
                 case "local":
-                    return NetwordConstants.BASE_URL_PERMISSION_LOCAL;
+                    return NetwordConstants.BASE_URL_IIS;
                 default:
                     break;
             }

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MicrosServices.SDK.PublishDeploy.DataUtil
+namespace MicrosServices.SDK.RealTimeSystem.DataUtil
 {
     public class NetwordConstants
     {
-        public const string BASE_URL_IIS = "http://localhost/PublishDeployApi";
+        public const string BASE_URL_IIS = "http://localhost/RealTimeApi";
         public const string BASE_URL_LOCAL = "https://localhost:44397";
 
         #region 单例模式

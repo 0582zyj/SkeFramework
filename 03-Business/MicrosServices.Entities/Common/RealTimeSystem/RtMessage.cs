@@ -17,11 +17,13 @@ namespace MicrosServices.Entities.Common.RealTimeSystem
         [KeyAttribute(true)]
         [Description("ID")]
         public Int64 id { get; set; }
-        [Description("推送端口")]
-        public string UserId { get; set; }
         [Description("应用ID")]
         public string AppId { get; set; }
-        [Description("描述")]
+        [Description("接受用户")]
+        public string UserId { get; set; }
+        [Description("发送用户")]
+        public string SendUserId { get; set; }
+        [Description("消息")]
         public string Message { get; set; }
         [Description("运行状态")]
         public int Status { get; set; }
