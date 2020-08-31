@@ -63,7 +63,7 @@
                                 <td>{{item.DicValue}}</td>
                                 <td>{{item.Descriptions}}</td>
                                 <td>{{item.PlatformNo|formatePlatform(platformList)}}</td>
-                                <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
+                                <td>{{item.Enabled|formateEnabled(enabledList)}}</td>
                                 <td class="operation">
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)" v-if="checkAssign('dictionary.update',menuManagementList)==true">修改</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)" v-if="checkAssign('dictionary.delete',menuManagementList)==true">删除</a>

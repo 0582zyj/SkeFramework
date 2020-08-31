@@ -124,40 +124,6 @@ namespace MicrosServices.SDK.RealTimeSystem
             return JsonResponses.Failed;
         }
         /// <summary>
-        /// 修改
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public JsonResponses MessageUpdate(RtMessage model)
-        {
-            try
-            {
-                RequestBase request = new RequestBase();
-                request.SetValue("AppId", model.AppId);
-                request.SetValue("Descriptions", model.Descriptions);
-                request.SetValue("Enabled", model.Enabled);
-                request.SetValue("ExtraProps", model.ExtraProps);
-                request.SetValue("PushPort", model.PushPort);
-                request.SetValue("PushType", model.PushType);
-                request.SetValue("Status", model.Status);
-                request.SetValue("UpdateUser", model.UpdateUser);
-                request.SetValue("id", model.id);
-                request.Url = UpdateUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            return JsonResponses.Failed;
-        }
-        /// <summary>
         /// 删除
         /// </summary>
         /// <param name="menu"></param>

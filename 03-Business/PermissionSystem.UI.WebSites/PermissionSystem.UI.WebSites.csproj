@@ -156,7 +156,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\LogController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\PushConfigController.cs" />
     <Compile Include="Controllers\ServerController.cs" />
     <Compile Include="Handles\Filters\PermissionAuthAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -287,6 +289,10 @@
     <Content Include="Views\Dictionary\DictionaryList.cshtml" />
     <Content Include="Views\Dictionary\DictionaryAdd.cshtml" />
     <Content Include="Views\Dictionary\DictionaryUpdate.cshtml" />
+    <Content Include="Views\PushConfig\PushConfigList.cshtml" />
+    <Content Include="Views\PushConfig\PushConfigUpdate.cshtml" />
+    <Content Include="Views\PushConfig\PushConfigAdd.cshtml" />
+    <Content Include="Views\Message\MessageList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -342,6 +348,10 @@
     <ProjectReference Include="..\MicrosServices.SDK.PublishDeploy\MicrosServices.SDK.PublishDeploy.csproj">
       <Project>{F254B181-1621-4071-9764-BC07E500F502}</Project>
       <Name>MicrosServices.SDK.PublishDeploy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.SDK.RealTimeSystem\MicrosServices.SDK.RealTimeSystem.csproj">
+      <Project>{AE2124BC-A2A5-47A4-92C5-88115B8F714B}</Project>
+      <Name>MicrosServices.SDK.RealTimeSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\MicrosServices.SDK.UserCenter\MicrosServices.SDK.UserCenter.csproj">
       <Project>{3F3F0673-39D0-4356-8744-936A07A05844}</Project>
