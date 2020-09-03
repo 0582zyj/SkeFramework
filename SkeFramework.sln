@@ -162,6 +162,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicrosServices.API.RealTime
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.SDK.RealTimeSystem", "03-Business\MicrosServices.SDK.RealTimeSystem\MicrosServices.SDK.RealTimeSystem.csproj", "{AE2124BC-A2A5-47A4-92C5-88115B8F714B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.WebSocket", "01-Src\SkeFramework.Core.WebSocket\SkeFramework.Core.WebSocket.csproj", "{04897621-13EE-4493-BF98-651FE928F2D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -368,6 +370,10 @@ Global
 		{AE2124BC-A2A5-47A4-92C5-88115B8F714B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE2124BC-A2A5-47A4-92C5-88115B8F714B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE2124BC-A2A5-47A4-92C5-88115B8F714B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04897621-13EE-4493-BF98-651FE928F2D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04897621-13EE-4493-BF98-651FE928F2D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04897621-13EE-4493-BF98-651FE928F2D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04897621-13EE-4493-BF98-651FE928F2D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -445,6 +451,7 @@ Global
 		{5FBDF9BE-9C99-48EA-ABFD-D34341318547} = {C7C67878-EE19-4954-B2B8-1A1CC69C1B0A}
 		{718817F2-2AE6-4B60-AD39-4305A141FDE9} = {2C275C9C-3596-45BC-8D0C-C97D69403791}
 		{AE2124BC-A2A5-47A4-92C5-88115B8F714B} = {C7C67878-EE19-4954-B2B8-1A1CC69C1B0A}
+		{04897621-13EE-4493-BF98-651FE928F2D4} = {20F0A03B-1D39-4EC5-8BF9-B5D11FC95939}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D281A3A-F959-47F5-BD83-4A90544B6979}

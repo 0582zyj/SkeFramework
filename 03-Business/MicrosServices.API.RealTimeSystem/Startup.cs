@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SkeFramework.Core.WebSocketPush;
+using SkeFramework.Core.WebSocketPush.PushServices.PushServer;
 
 namespace MicrosServices.API.RealTimeSystem
 {
@@ -35,6 +37,13 @@ namespace MicrosServices.API.RealTimeSystem
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseWebSocketServer(new WebSocketServerOptions
+            {
+                Redis = new CSRedis.CSRedisClient("127.0.0.1:6379,poolsize=5"),
+                Servers = new List<string>() { "localhost:52848" }, //集群配置
+                ServerName = "localhost:52848"
+            });
+       
             app.UseMvc();
         }
     }
