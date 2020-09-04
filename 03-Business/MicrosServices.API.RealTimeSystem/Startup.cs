@@ -39,9 +39,10 @@ namespace MicrosServices.API.RealTimeSystem
 
             app.UseWebSocketServer(new WebSocketServerOptions
             {
-                Redis = new CSRedis.CSRedisClient("127.0.0.1:6379,poolsize=5"),
-                Servers = new List<string>() { "localhost:52848" }, //集群配置
-                ServerName = "localhost:52848"
+                Redis = new CSRedis.CSRedisClient(Configuration["WebSocketServer:CSRedisClient"]),
+                Servers = Configuration["WebSocketServer:Servers"].Split(",").ToList(), //集群配置
+                ServerName = Configuration["WebSocketServer:Server"],
+                PathMatch= Configuration["WebSocketServer:WsPath"],
             });
        
             app.UseMvc();

@@ -41,7 +41,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         }
 
         /// <summary>
-        /// 群聊，获取群列表
+        /// 获取订阅列表
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -55,7 +55,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         }
 
         /// <summary>
-        /// 群聊，绑定消息频道
+        /// 订阅消息频道
         /// </summary>
         /// <param name="websocketId">本地标识，若无则不传，接口会返回，请保存本地重复使用</param>
         /// <param name="channel">消息频道</param>
@@ -71,7 +71,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         }
 
         /// <summary>
-        /// 群聊，发送频道消息，绑定频道的所有人将收到消息
+        /// 群发-频道发送
         /// </summary>
         /// <param name="channel">消息频道</param>
         /// <param name="content">发送内容</param>
@@ -86,7 +86,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
             };
         }
         /// <summary>
-        /// 单聊
+        /// 点对点发送
         /// </summary>
         /// <param name="senderWebsocketId">发送者</param>
         /// <param name="receiveWebsocketId">接收者</param>
