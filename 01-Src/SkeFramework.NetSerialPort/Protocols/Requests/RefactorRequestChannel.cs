@@ -66,8 +66,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             this.Created = DateTime.Now;
             Dead = false;
             ControlCode = controlCode;
-            Timeout = NetworkConstants.BackoffIntervals[6];
+            Timeout = NetworkConstants.BackoffIntervals[4];
             this.Sender = new SenderListenser(this);
+            this.WasDisposed = true;
         }
         #endregion
 
@@ -96,8 +97,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
                 else this.Created = DateTime.Now;
             }
         }
-
-        public bool WasDisposed { get; private set; }
+        /// <summary>
+        /// 任务结束是否立即关闭协议
+        /// </summary>
+        public bool WasDisposed { get;  set; }
 
         public bool Receiving { get; set; }
 
@@ -249,7 +252,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
 
         public void StopReceive()
         {
-            throw new NotImplementedException();
         }
 
         #endregion

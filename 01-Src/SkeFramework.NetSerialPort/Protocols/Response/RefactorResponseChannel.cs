@@ -47,9 +47,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
             {
                 RemoteHost = reactor.LocalEndpoint.Clone() as INode;
             }
-            Timeout = NetworkConstants.BackoffIntervals[6];
+            this.Timeout = NetworkConstants.BackoffIntervals[6];
             this.Created = DateTime.Now;
-            Dead = false;
+            this.Dead = false;
+            this.WasDisposed = true;
         }
 
 

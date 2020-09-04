@@ -15,17 +15,12 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
     {
         private NetworkData frame;
         private bool whetherSend = false;
-        private int sentTimes = 0;
         private int totalSendTimes = 3;
         private readonly TimeCounter timeCounter;
         /// <summary>
         /// 只用于超时时设置它为Dead状态。
         /// </summary>
         private readonly IConnection caseObj;
-        ///// <summary>
-        ///// 此协议对象只用于发送数据。
-        ///// </summary>
-        //ProtocolBase protocol;
 
         /// <summary> 实例化帧发送器。</summary>
         /// <param name="protocol">要使用此协议对象发送数据。</param>
@@ -33,6 +28,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
         {
             this.caseObj = caseObj;
             timeCounter = new TimeCounter();
+            this.SentTimes = 0;
         }
 
         /// <summary>
@@ -44,10 +40,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
             set
             {
                 frame = value;
-                sentTimes = 0;
+                SentTimes = 0;
             }
         }
-
         /// <summary>
         /// 获取或设置发送间隔（默认值为3000毫秒）。
         /// </summary>
@@ -57,25 +52,11 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
             get { return timeCounter.Timeout; }
             set { timeCounter.Timeout = value > 0 ? value : 0; }
         }
-
-        /// <summary>
-        /// 将当前的发送计时器设置为重新开始计时。
-        /// </summary>
-        public void ResetCalculagraph()
-        {
-            timeCounter.Reset();
-            timeCounter.Start();
-        }
-
+     
         /// <summary>
         /// 获取或设置已经发送的次数。
         /// </summary>
-        public int SentTimes
-        {
-            get { return sentTimes; }
-            set { sentTimes = value; }
-        }
-
+        public int SentTimes { get; set; }
         /// <summary>
         /// 获取或设置要发送帧数据的次数。
         /// 若设置值为-1，表示不限制发送的次数。
@@ -85,7 +66,12 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
             get { return totalSendTimes; }
             set { totalSendTimes = value >= 0 ? value : -1; }
         }
+        /// <summary>
+        /// 超时时间[毫秒]
+        /// </summary>
+        public int TimeoutMS { get { return this.Interval * this.totalSendTimes; } }
 
+        #region 发送数据
         /// <summary> 
         /// 开始发送帧数据。
         /// </summary>
@@ -102,7 +88,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
         {
             whetherSend = false;
         }
-
         /// <summary>
         /// 立即发送一个帧，而不计算发送次数。
         /// 它不会影响FrameBeSent帧的发送。
@@ -115,8 +100,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
             return true;
         }
 
-      
-
         /// <summary>
         /// 在协议类的轮询中将执行此函数。
         /// </summary>
@@ -124,13 +107,13 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
         {
             if (whetherSend && timeCounter.Over)
             {
-                if (sentTimes < totalSendTimes || totalSendTimes == -1)
+                if (SentTimes < totalSendTimes || totalSendTimes == -1)
                 {
                     SendFrame();
                 }
                 else
                 {
-                    caseObj.Dead=true;
+                    caseObj.Dead = true;
                 }
             }
         }
@@ -138,24 +121,32 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
         /// 发送数据
         /// </summary>
         /// <returns></returns>
-        bool SendFrame()
+        private bool SendFrame()
         {
             bool ret = false;
             if (frame != null)
             {
-                ++sentTimes;
-                byte[] sendByte = frame.Buffer;               
+                ++SentTimes;
+                byte[] sendByte = frame.Buffer;
                 this.caseObj.Send(sendByte, 0, sendByte.Length, null);
-                timeCounter.Reset();
-                timeCounter.Start();
+                this.ResetCalculagraph();
             }
             else
             {
-                sentTimes = totalSendTimes;
+                SentTimes = totalSendTimes;
             }
             return ret;
         }
-      
+        /// <summary>
+        /// 将当前的发送计时器设置为重新开始计时。
+        /// </summary>
+        public void ResetCalculagraph()
+        {
+            timeCounter.Reset();
+            timeCounter.Start();
+        }
+        #endregion
+
     }
 
     /// <summary>时限计时器

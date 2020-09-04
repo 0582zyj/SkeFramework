@@ -111,18 +111,16 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                     return;
                 }
                 string log = "";
+                //检查未处理的缓冲区数据是否超时
+                networkState.CheckPraseTimeOut();
                 networkState.RawBuffer = new byte[n];
                 Listener.Read(networkState.RawBuffer, 0, n);
                 networkState.Buffer.WriteBytes(networkState.RawBuffer, 0, n);
                 ReactorConnectionAdapter adapter = ((ReactorConnectionAdapter)ConnectionAdapter);
                 while (networkState.Buffer.ReadableBytes > 0)
                 {
-                    if(networkState.TimeOutSeconds>0 && networkState.CheckPraseTimeOut())
+                    if(networkState.CheckPraseTimeOut())
                     {
-                        byte[] removeByte = networkState.Buffer.ReadBytes(networkState.Buffer.ReadableBytes);
-                        log = String.Format("{0}:串口超时丢弃数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"),
-                                this.Encoder.ByteEncode(removeByte));
-                        Console.WriteLine(log);
                         return;
                     }
                     FrameBase frame = adapter.ParsingReceivedData(networkState.Buffer.ToArray());
@@ -240,12 +238,6 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
             var clientSocket = SocketMap[destination.nodeConfig.ToString()];
             try
             {
-                if (clientSocket.WasDisposed)
-                {
-                    CloseConnection(clientSocket);
-                    return;
-                }
-
                 var buf = Allocator.Buffer(length);
                 buf.WriteBytes(buffer, index, length);
                 Encoder.Encode(ConnectionAdapter, buf, out List<IByteBuf> encodedMessages);
@@ -269,7 +261,7 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
         internal override void CloseConnection(IConnection remoteHost)
         {
             Console.WriteLine("CloseConnection-->>" + remoteHost.ToString());
-            CloseConnection(null, remoteHost);
+            CloseConnection(new Exception("Close"), remoteHost);
         }
         /// <summary>
         /// 关闭连接

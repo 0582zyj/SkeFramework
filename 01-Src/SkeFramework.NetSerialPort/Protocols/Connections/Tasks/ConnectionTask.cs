@@ -15,32 +15,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
     [Serializable]
     public class ConnectionTask
     {
-        /// <summary>
-        /// 任务是否过期
-        /// </summary>
-        private bool dead = false;
-
-        public bool Dead
-        {
-            get
-            {
-                return dead;
-            }
-            set
-            {
-                dead = value;
-            }
-        }
-        /// <summary>
-        /// 任务名称
-        /// </summary>
-        private string name;
-        /// <summary>
-        /// 任务参数
-        /// </summary>
-        private object param;
-        private TaskResult result;
-        private TaskState taskState;
+        #region 私有属性
         /// <summary>
         /// -1表示无限时。
         /// </summary>
@@ -54,6 +29,40 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// </summary>
         [NonSerialized()]
         private IConnection relatedConnection = null;
+        #endregion
+
+        #region 公开属性
+        /// <summary>
+        /// 任务是否过期
+        /// </summary>
+        public bool Dead { get; set; } = false;
+
+        /// <summary>
+        /// 获取或设置任务名。
+        /// 注：它是对任务的描述。对于它的意义，主要看应用开发和协议开发之间的协商和业务的需要。
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 获取或设置任务参数。
+        /// 注：它是object类型，用来传递数据给协议。对于它的意义，主要看应用开发和协议开发之间的协商和业务的需要。
+        /// </summary>
+        public object Param { get; set; }
+
+        /// <summary>
+        /// 获取或设置任务的执行结果。
+        /// </summary>
+        public TaskResult Result { get; set; }
+
+        /// <summary>
+        /// 获取任务状态。
+        /// </summary>
+        public TaskState TaskState { get; private set; }
+        /// <summary>
+        /// 任务运行开始时间
+        /// </summary>
+        public DateTime ProcessingTime { get; private set; }
+        #endregion
 
         /// <summary>
         /// 实例化协议任务。
@@ -70,46 +79,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             Name = name;
             Param = param;
-            taskState = TaskState.NewTask;
+            TaskState = TaskState.NewTask;
         }
 
-        /// <summary>
-        /// 获取或设置任务名。
-        /// 注：它是对任务的描述。对于它的意义，主要看应用开发和协议开发之间的协商和业务的需要。
-        /// </summary>
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-
-        /// <summary>
-        /// 获取或设置任务参数。
-        /// 注：它是object类型，用来传递数据给协议。对于它的意义，主要看应用开发和协议开发之间的协商和业务的需要。
-        /// </summary>
-        public object Param
-        {
-            get { return param; }
-            set { param = value; }
-        }
-
-        /// <summary>
-        /// 获取或设置任务的执行结果。
-        /// </summary>
-        public TaskResult Result
-        {
-            get { return result; }
-            set { result = value; }
-        }
-
-        /// <summary>
-        /// 获取任务状态。
-        /// </summary>
-        public TaskState TaskState
-        {
-            get { return taskState; }
-        }
-
+        #region 任务状态：新任务》处理中》完成/超时
         /// <summary>
         /// 任务完成。
         /// </summary>
@@ -128,41 +101,49 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                     Complete(TaskState.Completed);
             }
         }
-
         /// <summary>
         /// 通知任务已经处于处理状态。
         /// </summary>
         public void SetAsBeProccessing()
         {
-            if (taskState == TaskState.NewTask)
-                taskState = TaskState.Processing;
+            if (TaskState == TaskState.NewTask)
+                TaskState = TaskState.Processing;
+            this.ProcessingTime = DateTime.Now;
         }
-
+        /// <summary>
+        /// 设置任务超时。
+        /// </summary>
+        public void SetAsOvertime()
+        {
+            TaskState = TaskState.TaskOvertime;
+            this.Dead = true;
+        }
+        #endregion
 
         #region internal访问域函数
-
+        /// <summary>
+        /// 设置关联协议
+        /// </summary>
+        /// <param name="connection"></param>
         public void SetRelatedProtocol(IConnection connection)
         {
             //connection.Local.TaskTag = this.name;
             if (connection.RemoteHost != null)
             {
-                connection.RemoteHost.TaskTag = this.name;
+                connection.RemoteHost.TaskTag = this.Name;
                 connection.Receiving = true;
             }
             relatedConnection = connection;
         }
+        /// <summary>
+        /// 获取关联协议
+        /// </summary>
+        /// <returns></returns>
         internal IConnection GetRelatedProtocol()
         {
             return relatedConnection;
         }
-        /// <summary>
-        /// 设置任务超时。
-        /// </summary>
-        internal void SetAsOvertime()
-        {
-            taskState = TaskState.TaskOvertime;
-        }
-
+   
         /// <summary>
         /// 初始化同步对象
         /// </summary>
@@ -192,7 +173,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// <param name="tkState">任务状态。</param>
         public void Complete(TaskState tkState)
         {
-            taskState = tkState;
+            TaskState = tkState;
             if (asyncTaskResult != null)
                 asyncTaskResult.SetAsCompleted(true);
         }

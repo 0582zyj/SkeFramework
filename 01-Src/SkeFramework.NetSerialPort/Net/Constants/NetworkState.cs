@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
+using SkeFramework.NetSerialPort.Buffers.Serialization.Achieves;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Topology;
 
@@ -54,8 +55,13 @@ namespace SkeFramework.NetSerialPort.Net.Constants
             TimeSpan tss = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             long NowTimeSpan = Convert.ToInt64(tss.TotalMilliseconds);
             long TimeOutSpan = this.Buffer.ReceiveTimeSpan + TimeOutSeconds * 1000;
-            if (TimeOutSpan < NowTimeSpan)
+            if (this.TimeOutSeconds > 0 && this.Buffer.ReceiveTimeSpan>0 
+                && (TimeOutSpan < NowTimeSpan))
             {
+                byte[] removeByte = this.Buffer.ReadBytes(this.Buffer.ReadableBytes);
+                string log = String.Format("{0}:串口超时丢弃数据-->>{1}", DateTime.Now.ToString("hh:mm:ss"),
+                       new NoOpEncoder().ByteEncode(removeByte));
+                Console.WriteLine(log);
                 return true;
             }
             return false;

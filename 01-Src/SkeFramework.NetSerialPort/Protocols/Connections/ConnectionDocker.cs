@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,10 +14,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
     /// </summary>
     public class ConnectionDocker
     {
-        private readonly List<IConnection> caseList = new List<IConnection>();
+        private readonly ConcurrentStack<IConnection> caseList = new ConcurrentStack<IConnection>();
         internal IList<IConnection> BusinessCaseList
         {
-            get { return caseList.AsReadOnly(); }
+            get { return caseList.ToList().AsReadOnly(); }
         }
         /// <summary>
         /// 添加Case对象到发送列表中。
@@ -26,11 +27,11 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             try
             {
-                if (caseObj != null && !caseList.Contains(caseObj))
+                if (caseObj != null && !BusinessCaseList.Contains(caseObj))
                 {
                     lock (caseList)
                     {
-                        caseList.Insert(0, caseObj);
+                        caseList.Push(caseObj);
                     }
                 }
             }
@@ -50,7 +51,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             {
                 lock (caseList)
                 {
-                    caseList.Remove(caseObj);
+                   caseList.TryPop(out caseObj);
                 }
             }
             catch (Exception ex)
@@ -69,7 +70,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             {
                 lock (caseList)
                 {
-                    return caseList.OrderBy(o => o.Created).ToList()
+                    return BusinessCaseList.OrderBy(o => o.Created).ToList()
                         .Find(o => o.ControlCode == cmd.ToString());
                 }
             }
@@ -112,7 +113,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             {
                 lock (caseList)
                 {
-                    return caseList.Find(o => o.RemoteHost == node);
+                    return BusinessCaseList.ToList().Find(o => o.RemoteHost == node);
                 }
             }
             catch (Exception ex)
@@ -130,7 +131,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             IConnection csObj = null;
             lock (caseList)
             {
-                foreach (IConnection cs in caseList)
+                foreach (IConnection cs in BusinessCaseList)
                 {
                     if (cs == task.GetRelatedProtocol())
                     {
@@ -139,7 +140,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                     }
                 }
             }
-            if (csObj != null)
+            if (csObj != null&& csObj.WasDisposed)
             {
                 csObj.Dead = true;
             }
@@ -153,12 +154,13 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             {
                 lock (caseList)
                 {
-                    foreach (var cases in caseList)
+                    foreach (var cases in BusinessCaseList)
                     {
                         if (cases.Dead == true)
                         {
                             RemoveCase(cases);
-                            Console.WriteLine("处理超时的协议:" + cases.Created.ToString() + " ");
+                            string msg = string.Format("处理超时的协议：Name-{0};Time-{1}", cases.ControlCode, cases.Created.ToString());
+                            Console.WriteLine(msg);
                         }
                     }
                 }
@@ -166,6 +168,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             catch (Exception ex)
             {
                 string msg = string.Format("处理超时的协议：{0}", ex.ToString());
+                Console.WriteLine(msg);
             }
         }
         /// <summary>
@@ -177,7 +180,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             {
                 lock (caseList)
                 {
-                    foreach (var cases in caseList)
+                    foreach (var cases in BusinessCaseList)
                     {
                         if (cases.Dead != true)
                         {

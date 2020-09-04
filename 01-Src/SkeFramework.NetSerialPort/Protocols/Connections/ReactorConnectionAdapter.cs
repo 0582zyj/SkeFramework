@@ -42,7 +42,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// </summary>
         protected ReactorBase _reactor;
     
-
         public ReactorConnectionAdapter(ReactorBase reactor)
         {
             _reactor = reactor;
@@ -83,7 +82,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
 
         public bool Dead { get { return DateTime.Now.Subtract(this.Created.Add(this.Timeout)).Ticks > 0; } set { } }
 
-        public bool WasDisposed { get; private set; }
+        public bool WasDisposed { get;  set; }
 
         public bool Receiving { get; set; }
 
@@ -359,6 +358,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                             if (taskList[i].GetRelatedProtocol().Dead)
                             {
                                 taskList[i].Complete(TaskState.Completed);
+                            }
+                            else
+                            {
+                                this.taskDocker.SetTaskTimeout(taskList[i].GetRelatedProtocol());
                             }
                         }
                     }

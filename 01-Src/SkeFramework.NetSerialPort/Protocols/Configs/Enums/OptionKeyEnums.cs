@@ -19,6 +19,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Configs.Enums
         [Description("写缓冲区大小")]
         WriteBufferSize,
         [Description("解析超时时间")]
-        ParseTimeOut
+        ParseTimeOut,
+        [Description("协议超时时间")]
+        ProtocolTimeOut,
     }
 }
