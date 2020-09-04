@@ -15,13 +15,13 @@ namespace SkeFramework.Core.WebSocketPush.DataEntities
         /// </summary>
         public static string ws_connect_token = "client:token";
         /// <summary>
+        /// 服务端
+        /// </summary>
+        public static string ws_server = "server";
+        /// <summary>
         /// 在线客户端
         /// </summary>
         public static string ws_client_online = "client:online";
-        /// <summary>
-        /// 发布订阅通道
-        /// </summary>
-        public static string ws_publish_channel = "publish:channel";
         /// <summary>
         /// 上线事件
         /// </summary>
@@ -30,5 +30,21 @@ namespace SkeFramework.Core.WebSocketPush.DataEntities
         /// 下线事件
         /// </summary>
         public static string ws_event_offline = "offline";
+        /// <summary>
+        /// 发布通道
+        /// </summary>
+        public static string ws_publish_channel = "publish:channel";
+        /// <summary>
+        /// 订阅通道
+        /// </summary>
+        public static string ws_subscribe_channel = "subscribe:channel";
+        /// <summary>
+        /// 订阅列表
+        /// </summary>
+        public static string ws_channel_list = "channel:list";
+        /// <summary>
+        /// 订阅用户
+        /// </summary>
+        public static string ws_channel_client = "channel:client";
     }
 }

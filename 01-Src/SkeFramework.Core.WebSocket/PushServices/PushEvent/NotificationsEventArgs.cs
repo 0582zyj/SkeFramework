@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SkeFramework.Core.WebSocketPush.DataEntities
+namespace SkeFramework.Core.WebSocketPush.PushServices.PushEvent
 {
     /// <summary>
     /// 消息通知事件

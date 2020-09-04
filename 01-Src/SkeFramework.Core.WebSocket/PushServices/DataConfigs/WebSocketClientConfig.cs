@@ -6,9 +6,9 @@ using System.Text;
 namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
 {
     /// <summary>
-    /// 推送客户端核心类实现的配置所需
+    /// 推送客户端的配置
     /// </summary>
-    public class WebSocketSessionOptions
+    public class WebSocketClientConfig
     {
         /// <summary>
         /// CSRedis 对象，用于存储数据和发送消息

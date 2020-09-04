@@ -15,7 +15,7 @@ namespace SkeFramework.Core.WebSocketPush.DataUtils
         /// <returns></returns>
         public static string GeneratorToken()
         {
-            return $"{Guid.NewGuid()}{Guid.NewGuid()}{Guid.NewGuid()}{Guid.NewGuid()}".Replace("-", "");
+            return $"{Guid.NewGuid()}{Guid.NewGuid()}".Replace("-", "");
         }
     }
 }

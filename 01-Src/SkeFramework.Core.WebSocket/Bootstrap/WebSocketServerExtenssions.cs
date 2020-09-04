@@ -18,7 +18,7 @@ namespace SkeFramework.Core.WebSocketPush
         /// <param name="app"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseWebSocketServer(this IApplicationBuilder app, WebSocketServerOptions options)
+        public static IApplicationBuilder UseWebSocketServer(this IApplicationBuilder app, WebSocketServerConfig options)
         {
             try
             {

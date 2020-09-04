@@ -25,12 +25,12 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         public ActionResult<JsonResponses> preConnect([FromForm] Guid? websocketId)
         {
             if (websocketId == null) websocketId = Guid.NewGuid();
-            WebSocketHelper.Initialization(new WebSocketSessionOptions
+            WebSocketUtils.Initialization(new WebSocketClientConfig
             {
                 Redis = new CSRedis.CSRedisClient("127.0.0.1:6379,poolsize=5"),
                 Servers = new List<string>() { "localhost:52848" }, //集群配置
             });
-            var wsserver = WebSocketHelper.PrevConnectServer(websocketId.Value, this.Ip);
+            var wsserver = WebSocketUtils.PrevConnectServer(websocketId.Value, this.Ip);
             object  obj= new
             {
                 code = 0,
@@ -50,7 +50,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
             return new
             {
                 code = 0,
-                channels = WebSocketHelper.GetChanList().Select(a => new { a.chan, a.online })
+                channels = WebSocketUtils.GetChanList().Select(a => new { a.chan, a.online })
             };
         }
 
@@ -63,7 +63,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         [HttpPost("subscr-channel")]
         public object subscrChannel([FromForm] Guid websocketId, [FromForm] string channel)
         {
-            WebSocketHelper.JoinChan(websocketId, channel);
+            WebSocketUtils.JoinChan(websocketId, channel);
             return new
             {
                 code = 0
@@ -79,7 +79,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         [HttpPost("send-channelmsg")]
         public object sendChannelmsg([FromForm] Guid websocketId, [FromForm] string channel, [FromForm] string message)
         {
-            WebSocketHelper.SendChanMessage(websocketId, channel, message);
+            WebSocketUtils.SendChanMessage(websocketId, channel, message);
             return new
             {
                 code = 0
@@ -96,7 +96,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> sendmsg([FromForm] Guid senderWebsocketId, [FromForm] Guid receiveWebsocketId, [FromForm] string message, [FromForm] bool isReceipt = false)
         {
-            WebSocketHelper.SendMessage(senderWebsocketId, new[] { receiveWebsocketId }, message, isReceipt);
+            WebSocketUtils.SendMessage(senderWebsocketId, new[] { receiveWebsocketId }, message, isReceipt);
             return new JsonResponses
             {
                 code = 0

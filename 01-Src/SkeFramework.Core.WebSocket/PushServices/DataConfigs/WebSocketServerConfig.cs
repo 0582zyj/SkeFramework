@@ -8,11 +8,11 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
     /// <summary>
     /// 服务端核心配置
     /// </summary>
-    public class WebSocketServerOptions : WebSocketSessionOptions
+    public class WebSocketServerConfig : WebSocketClientConfig
     {
         /// <summary>
-        /// 设置服务名称
+        /// 设置当前服务端
         /// </summary>
-        public string ServerName { get; set; }
+        public string ServerBasePath { get; set; }
     }
 }

@@ -37,11 +37,11 @@ namespace MicrosServices.API.RealTimeSystem
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseWebSocketServer(new WebSocketServerOptions
+            app.UseWebSocketServer(new WebSocketServerConfig
             {
                 Redis = new CSRedis.CSRedisClient(Configuration["WebSocketServer:CSRedisClient"]),
                 Servers = Configuration["WebSocketServer:Servers"].Split(",").ToList(), //集群配置
-                ServerName = Configuration["WebSocketServer:Server"],
+                ServerBasePath = Configuration["WebSocketServer:Server"],
                 PathMatch= Configuration["WebSocketServer:WsPath"],
             });
        
