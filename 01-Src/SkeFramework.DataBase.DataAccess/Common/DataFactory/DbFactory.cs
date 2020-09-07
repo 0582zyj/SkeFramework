@@ -132,7 +132,7 @@ namespace SkeFramework.DataBase.Common.DataFactory
             }
             else if (ProviderName.Equals(ProviderType.MySQL))
             {
-                return $"{sql} limit {pageIndex},{pageSize}";
+                return $"{sql} limit {pageSize} offset {(pageIndex - 1) * pageSize}";
             }
             else if (ProviderName.Equals(ProviderType.SQLite))
             {
