@@ -29,6 +29,7 @@ namespace SkeFramework.Core.SqlExpression
             return _SimpleInstance;
         }
         #endregion
+
         private ServerFactory serverFactory = new ServerFactory();
         private IExpressionHandle expressionHandle;
         /// <summary>
@@ -67,5 +68,6 @@ namespace SkeFramework.Core.SqlExpression
             }
             return "error";
         }
+
     }
 }

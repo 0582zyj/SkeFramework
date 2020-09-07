@@ -11,6 +11,7 @@ using SkeFramework.Core.NetLog;
 using SkeFramework.Core.SqlExpression;
 using SkeFramework.DataBase.Common.DataCommon;
 using SkeFramework.DataBase.Common.DataFactory;
+using SkeFramework.DataBase.DataAccess.DataUtils;
 using SkeFramework.DataBase.Interfaces;
 
 namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
@@ -214,9 +215,18 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
             {
                 sSQL += " Order by " + keyname + (isAsc ? " asc " : " desc");
             }
+            bool isSupportDB = DbFactory.Instance().CheckProviderTypeIsSupport();
+            if(isSupportDB)
+            {
+                sSQL = DbFactory.Instance().PageSql(sSQL, pageIndex, pageSize);
+            }
             DataTable dt = RepositoryHelper.GetDataTable(CommandType.Text, sSQL);
             if (dt != null && dt.Rows.Count > 0)
             {
+                if (isSupportDB)
+                {
+                    return JsonConvert.DeserializeObject<List<TInterface>>(JsonConvert.SerializeObject(dt)).ToList();
+                }
                 return JsonConvert.DeserializeObject<List<TInterface>>(JsonConvert.SerializeObject(dt))
                     .Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             }

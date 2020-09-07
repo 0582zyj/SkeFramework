@@ -116,8 +116,39 @@ namespace SkeFramework.DataBase.Common.DataFactory
             }
             return adapter;
         }
-
- 
+        /// <summary>
+        /// 获取分页SQL
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="start"></param>
+        /// <param name="size"></param>
+        /// <param name="providerType"></param>
+        /// <returns></returns>
+        public string PageSql(string sql, long pageIndex, int pageSize)
+        {
+            if (pageSize < 0)
+            {
+                return sql;
+            }
+            else if (ProviderName.Equals(ProviderType.MySQL))
+            {
+                return $"{sql} limit {pageIndex},{pageSize}";
+            }
+            else if (ProviderName.Equals(ProviderType.SQLite))
+            {
+                return $"{sql} limit {pageSize} offset {(pageIndex - 1) * pageSize}";
+            }
+            throw new Exception("配置的数据库类型暂时不支持自动拼装分页sql");
+        }
+        /// <summary>
+        /// 检查数据库提供者类型是否支持
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckProviderTypeIsSupport()
+        {
+            return this.ProviderName.ToLower().Equals(ProviderType.MySQL)
+                || this.ProviderName.ToLower().Equals(ProviderType.SQLite);
+        }
     }
     /// <summary>
     /// 连接器提供类型

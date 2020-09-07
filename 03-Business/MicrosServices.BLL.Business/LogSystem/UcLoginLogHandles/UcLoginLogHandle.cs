@@ -127,8 +127,8 @@ namespace MicrosServices.BLL.Business.LogSystem.UcLoginLogHandles
 
 
             Expression<Func<UcLoginLog, DateTime>> orderBy = (o => o.RequestTime );
-            page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().UcLoginLogHandle.Count(where)));//取记录数
-            return DataHandleManager.Instance().UcLoginLogHandle.GetPagedList<DateTime>(page.PageIndex, page.PageSize, where, orderBy,false).ToList();
+            page.setTotalCount(Convert.ToInt32(this.Count(where)));//取记录数
+            return this.GetPagedList<DateTime>(page.PageIndex, page.PageSize, where, orderBy,false).ToList();
         }
 
     }
