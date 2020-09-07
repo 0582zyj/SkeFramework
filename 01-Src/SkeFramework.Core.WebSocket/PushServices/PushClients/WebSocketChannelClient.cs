@@ -1,4 +1,5 @@
-﻿using SkeFramework.Core.WebSocketPush.DataUtils;
+﻿using SkeFramework.Core.WebSocketPush.DataEntities.DataCommons;
+using SkeFramework.Core.WebSocketPush.DataUtils;
 using SkeFramework.Core.WebSocketPush.PushServices.PushBrokers;
 using System;
 using System.Collections.Generic;
@@ -114,7 +115,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
             return _redis.HKeys(channelKey).Select(a => Guid.Parse(a)).ToArray();
         }
         /// <summary>
-        /// 获取用户参与的所有群聊
+        /// 获取用户参与的所有订阅
         /// </summary>
         /// <param name="clientId">客户端id</param>
         /// <returns></returns>
@@ -124,7 +125,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
             return _redis.HKeys(ClientChannelKey);
         }
         /// <summary>
-        /// 获取群聊的在线人数
+        /// 获取订阅的在线人数
         /// </summary>
         /// <param name="chan">订阅名称</param>
         /// <returns>在线人数</returns>
@@ -133,19 +134,22 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
             return _redis.HGet<long>(this.ChannelListKey, chan);
         }
         /// <summary>
-        /// 获取所有群聊和在线人数
+        /// 获取所有订阅和在线人数
         /// </summary>
         /// <returns>名和在线人数</returns>
-        public IEnumerable<(string chan, long online)> GetChannelList()
+        public IEnumerable<OnlineChannelVo> GetChannelList()
         {
             var ret = _redis.HGetAll<long>(this.ChannelListKey);
-            return ret.Select(a => (a.Key, a.Value));
+            return ret.Select(a => new OnlineChannelVo(){
+                Channel=a.Key,
+                Online=a.Value
+            });
         }
         #endregion
         #region 发送信息
 
         /// <summary>
-        /// 发送群聊消息，所有在线的用户将收到消息
+        /// 发送订阅消息，所有在线的用户将收到消息
         /// </summary>
         /// <param name="senderClientId">发送者的客户端id</param>
         /// <param name="channel">订阅名称</param>

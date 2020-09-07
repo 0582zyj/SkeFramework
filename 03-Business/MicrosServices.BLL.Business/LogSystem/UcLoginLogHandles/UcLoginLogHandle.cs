@@ -124,8 +124,6 @@ namespace MicrosServices.BLL.Business.LogSystem.UcLoginLogHandles
             {
                 where = (o => o.HandleUser.Equals(queryForm.HandleUser));
             }
-
-
             Expression<Func<UcLoginLog, DateTime>> orderBy = (o => o.RequestTime );
             page.setTotalCount(Convert.ToInt32(this.Count(where)));//取记录数
             return this.GetPagedList<DateTime>(page.PageIndex, page.PageSize, where, orderBy,false).ToList();

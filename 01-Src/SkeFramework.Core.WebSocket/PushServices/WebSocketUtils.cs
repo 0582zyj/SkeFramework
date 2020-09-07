@@ -1,4 +1,5 @@
-﻿using SkeFramework.Core.WebSocketPush.PushServices.PushClients;
+﻿using SkeFramework.Core.WebSocketPush.DataEntities.DataCommons;
+using SkeFramework.Core.WebSocketPush.PushServices.PushClients;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -111,7 +112,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices
         /// 获取所有群聊和在线人数
         /// </summary>
         /// <returns>名和在线人数</returns>
-        public static IEnumerable<(string chan, long online)> GetChanList() => ChannelInstance.GetChannelList();
+        public static IEnumerable<OnlineChannelVo> GetChanList() => ChannelInstance.GetChannelList();
         /// <summary>
         /// 获取用户参与的所有群聊
         /// </summary>
@@ -131,7 +132,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices
         /// <param name="senderClientId">发送者的客户端id</param>
         /// <param name="chan">订阅名称</param>
         /// <param name="message">消息</param>
-        public static void SendChanMessage(Guid senderClientId, string chan, object message) => ChannelInstance.SendChanMessage(senderClientId, chan, message);
+        public static void SendChannelMessage(Guid senderClientId, string chan, object message) => ChannelInstance.SendChanMessage(senderClientId, chan, message);
         #endregion
     }
 }

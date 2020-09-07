@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MicrosServices.Helper.Core.RealTimeSystems.VO;
 using SkeFramework.Core.Network.Responses;
+using SkeFramework.Core.WebSocketPush.DataEntities.DataCommons;
 using SkeFramework.Core.WebSocketPush.PushServices;
 using SkeFramework.Core.WebSocketPush.PushServices.PushClients;
 
@@ -22,7 +24,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         /// <param name="websocketId">本地标识，若无则不传，接口会返回新的，请保存本地localStoregy重复使用</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> preConnect([FromForm] Guid? websocketId)
+        public ActionResult<JsonResponses> PreConnect([FromForm] Guid? websocketId)
         {
             if (websocketId == null) websocketId = Guid.NewGuid();
             WebSocketUtils.Initialization(new WebSocketClientConfig
@@ -31,27 +33,22 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
                 Servers = new List<string>() { "localhost:52848" }, //集群配置
             });
             var wsserver = WebSocketUtils.PrevConnectServer(websocketId.Value, this.Ip);
-            object  obj= new
+            return new JsonResponses(new ConnectVo()
             {
-                code = 0,
-                server = wsserver,
-                websocketId = websocketId
-            };
-            return new JsonResponses(obj);
+                Server = wsserver,
+                WebsocketId = websocketId
+            });
         }
 
         /// <summary>
         /// 获取订阅列表
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
-        public object getChannels()
+        [HttpGet]
+        public ActionResult<JsonResponses> GetChannels()
         {
-            return new
-            {
-                code = 0,
-                channels = WebSocketUtils.GetChanList().Select(a => new { a.chan, a.online })
-            };
+            List<OnlineChannelVo> onlineChannelVos = WebSocketUtils.GetChanList().ToList();
+            return new JsonResponses(onlineChannelVos);
         }
 
         /// <summary>
@@ -60,14 +57,11 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         /// <param name="websocketId">本地标识，若无则不传，接口会返回，请保存本地重复使用</param>
         /// <param name="channel">消息频道</param>
         /// <returns></returns>
-        [HttpPost("subscr-channel")]
-        public object subscrChannel([FromForm] Guid websocketId, [FromForm] string channel)
+        [HttpPost]
+        public ActionResult<JsonResponses> SubscrChannel([FromForm] Guid websocketId, [FromForm] string channel)
         {
             WebSocketUtils.JoinChan(websocketId, channel);
-            return new
-            {
-                code = 0
-            };
+            return JsonResponses.Success;
         }
 
         /// <summary>
@@ -76,14 +70,11 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         /// <param name="channel">消息频道</param>
         /// <param name="content">发送内容</param>
         /// <returns></returns>
-        [HttpPost("send-channelmsg")]
-        public object sendChannelmsg([FromForm] Guid websocketId, [FromForm] string channel, [FromForm] string message)
+        [HttpPost]
+        public ActionResult<JsonResponses> SendChannelMessage([FromForm] Guid websocketId, [FromForm] string channel, [FromForm] string message)
         {
-            WebSocketUtils.SendChanMessage(websocketId, channel, message);
-            return new
-            {
-                code = 0
-            };
+            WebSocketUtils.SendChannelMessage(websocketId, channel, message);
+            return JsonResponses.Success;
         }
         /// <summary>
         /// 点对点发送
@@ -94,13 +85,10 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         /// <param name="isReceipt">是否需要回执</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> sendmsg([FromForm] Guid senderWebsocketId, [FromForm] Guid receiveWebsocketId, [FromForm] string message, [FromForm] bool isReceipt = false)
+        public ActionResult<JsonResponses> SendMessage([FromForm] Guid senderWebsocketId, [FromForm] Guid receiveWebsocketId, [FromForm] string message, [FromForm] bool isReceipt = false)
         {
             WebSocketUtils.SendMessage(senderWebsocketId, new[] { receiveWebsocketId }, message, isReceipt);
-            return new JsonResponses
-            {
-                code = 0
-            };
+            return JsonResponses.Success;
         }
     }
 }
