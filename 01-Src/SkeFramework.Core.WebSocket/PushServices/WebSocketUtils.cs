@@ -79,8 +79,8 @@ namespace SkeFramework.Core.WebSocketPush.PushServices
         /// <param name="online">上线</param>
         /// <param name="offline">下线</param>
         public static void EventBus(
-            Action<(Guid clientId, string clientMetaData)> online,
-            Action<(Guid clientId, string clientMetaData)> offline) => SingleInstance.EventSubscribe(online, offline);
+            Action<TokenValue> online,
+            Action<TokenValue> offline) => SingleInstance.EventSubscribe(online, offline);
 
         #region 群聊，每次上线都必须重新加入
 

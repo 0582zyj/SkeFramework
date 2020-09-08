@@ -22,6 +22,7 @@ namespace SkeFramework.Core.WebSocketPush
         {
             try
             {
+                options.PathMatch = $"/{options.PathMatch}";
                 app.Map(options.PathMatch, appcur =>
                 {
                     var imserv = new WebSocketServerBroker(options);

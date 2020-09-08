@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.Helper.Core.RealTimeSystems.VO;
+using SkeFramework.Core.ApiCommons.DataUtil;
 using SkeFramework.Core.Network.Responses;
 using SkeFramework.Core.WebSocketPush.DataEntities.DataCommons;
 using SkeFramework.Core.WebSocketPush.PushServices;
@@ -29,8 +30,8 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
             if (websocketId == null) websocketId = Guid.NewGuid();
             WebSocketUtils.Initialization(new WebSocketClientConfig
             {
-                Redis = new CSRedis.CSRedisClient("127.0.0.1:6379,poolsize=5"),
-                Servers = new List<string>() { "localhost:52848" }, //集群配置
+                Redis = new CSRedis.CSRedisClient(ApplicationConfigUtil.GetAppSeting("WebSocketServer", "CSRedisClient")),
+                Servers = ApplicationConfigUtil.GetAppSeting("WebSocketServer", "Servers").Split(",").ToList(), //集群配置
             });
             var wsserver = WebSocketUtils.PrevConnectServer(websocketId.Value, this.Ip);
             return new JsonResponses(new ConnectVo()
