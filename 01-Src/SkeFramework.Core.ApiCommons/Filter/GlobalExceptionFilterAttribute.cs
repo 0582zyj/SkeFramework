@@ -6,6 +6,7 @@ using SkeFramework.Core.NetLog;
 using SkeFramework.Core.Network.Responses;
 using System;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using System.Text;
 
 namespace SkeFramework.Core.ApiCommons.Filter
@@ -13,7 +14,7 @@ namespace SkeFramework.Core.ApiCommons.Filter
     /// <summary>
     /// 全局异常处理过滤器
     /// </summary>
-    public class ExceptionFilterAttribute : IExceptionFilter
+    public class GlobalExceptionFilterAttribute : IExceptionFilter
     {
         public void OnException(ExceptionContext context)
         {
@@ -26,7 +27,15 @@ namespace SkeFramework.Core.ApiCommons.Filter
                 //针对不同的自定义异常，做不同处理
                 jsonResponses.code = errorCodeException.GetErrorCode();
                 jsonResponses.msg = errorCodeException.GetErrorMsg();
-                context.Result = new JsonResult(jsonResponses);
+              
+            }
+            else  if (context.Exception.GetType() == typeof(WebSocketException))
+            {
+                //针对不同的自定义异常，做不同处理
+                WebSocketException errorCodeException = (WebSocketException)ex;
+                jsonResponses.code = errorCodeException.ErrorCode;
+                jsonResponses.msg = errorCodeException.Message;
+            
             }
             else
             {

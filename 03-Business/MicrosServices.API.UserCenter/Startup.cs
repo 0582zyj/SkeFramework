@@ -33,7 +33,6 @@ namespace MicrosServices.API.UserCenter
         {
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
         }
 
         /// <summary>

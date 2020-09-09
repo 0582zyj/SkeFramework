@@ -19,6 +19,10 @@ namespace SkeFramework.Core.WebSocketPush.DataEntities
         /// </summary>
         public static string ws_server = "server";
         /// <summary>
+        /// 在线服务端
+        /// </summary>
+        public static string ws_server_online = "server:online";
+        /// <summary>
         /// 在线客户端
         /// </summary>
         public static string ws_client_online = "client:online";

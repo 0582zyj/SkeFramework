@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SkeFramework.Core.ApiCommons.DataUtil;
+using SkeFramework.Core.ApiCommons.Filter;
+using SkeFramework.Core.ApiCommons.Middlewares;
 using SkeFramework.Core.WebSocketPush;
 using SkeFramework.Core.WebSocketPush.PushServices.PushServer;
 
@@ -29,16 +31,22 @@ namespace MicrosServices.API.RealTimeSystem
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSingleton(new ApplicationConfigUtil(Configuration));
+            // Filter统一注入MVC框架
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(GlobalExceptionFilterAttribute));
+                //options.Filters.Add(typeof(LoggerFilterAttribute));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+          
             app.UseWebSocketServer(new WebSocketServerConfig
             {
                 Redis = new CSRedis.CSRedisClient(Configuration["WebSocketServer:CSRedisClient"]),
@@ -46,7 +54,7 @@ namespace MicrosServices.API.RealTimeSystem
                 ServerBasePath = Configuration["WebSocketServer:Server"],
                 PathMatch= Configuration["WebSocketServer:WsPath"],
             });
-       
+          
             app.UseMvc();
         }
     }

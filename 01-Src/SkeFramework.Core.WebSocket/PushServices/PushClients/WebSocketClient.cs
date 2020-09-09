@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 
 namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
@@ -42,6 +43,13 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
         /// <returns></returns>
         protected string SelectServer(Guid clientId)
         {
+            string OnLineServerKey = RedisKeyFormatUtil.GetOnLineServerKey(_appId);
+            var ret = _redis.HGetAll<string>(OnLineServerKey);
+            if(ret == null || ret.Count == 0)
+            {
+                throw new WebSocketException((int)WebSocketErrorCodeType.ServiceNotStart, WebSocketErrorCodeType.ServiceNotStart.ToString());
+            }
+            _servers= ret.Values.ToList();
             var servers_idx = int.Parse(clientId.ToString("N").Substring(28), NumberStyles.HexNumber) % _servers.Count;
             if (servers_idx >= _servers.Count) servers_idx = 0;
             return _servers[servers_idx];
@@ -64,7 +72,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
             };
             var tokenRedisKey = RedisKeyFormatUtil.GetConnectToken(this._appId, token);
             _redis.Set(tokenRedisKey, JsonConvert.SerializeObject(tokenValue), ConstData.TokenRxpireTime);
-            return $"ws://{server}{_pathMatch}?token={token}";
+            return $"ws://{server}/{_pathMatch}?token={token}";
         }
         #endregion
 

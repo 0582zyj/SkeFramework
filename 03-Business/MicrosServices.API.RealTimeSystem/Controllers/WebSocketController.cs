@@ -25,13 +25,14 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         /// <param name="websocketId">本地标识，若无则不传，接口会返回新的，请保存本地localStoregy重复使用</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> PreConnect([FromForm] Guid? websocketId)
+        public ActionResult<JsonResponses> PreConnect([FromForm] string appId,[FromForm] Guid? websocketId)
         {
             if (websocketId == null) websocketId = Guid.NewGuid();
             WebSocketUtils.Initialization(new WebSocketClientConfig
             {
                 Redis = new CSRedis.CSRedisClient(ApplicationConfigUtil.GetAppSeting("WebSocketServer", "CSRedisClient")),
                 Servers = ApplicationConfigUtil.GetAppSeting("WebSocketServer", "Servers").Split(",").ToList(), //集群配置
+                PathMatch=String.IsNullOrEmpty(appId)?"":appId
             });
             var wsserver = WebSocketUtils.PrevConnectServer(websocketId.Value, this.Ip);
             return new JsonResponses(new ConnectVo()

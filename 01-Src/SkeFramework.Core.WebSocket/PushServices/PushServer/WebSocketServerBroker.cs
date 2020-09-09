@@ -1,6 +1,7 @@
 ﻿using CSRedis;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using SkeFramework.Core.WebSocketPush.DataEntities.Constants;
 using SkeFramework.Core.WebSocketPush.DataEntities.DataCommons;
 using SkeFramework.Core.WebSocketPush.DataUtils;
 using SkeFramework.Core.WebSocketPush.PushServices.PushBrokers;
@@ -44,6 +45,8 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
             channelClient = new WebSocketChannelClient(options);
             _server = options.ServerBasePath;
             var ServerKey = RedisKeyFormatUtil.GetServerKey(_appId, _server);
+            var OnLineServerKey = RedisKeyFormatUtil.GetOnLineServerKey(_appId);
+            _redis.HSet(OnLineServerKey, _appId, _server);
             _redis.Subscribe((ServerKey, RedisSubScribleMessage));
         }
 
@@ -62,8 +65,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
             var tokenRedisKey = RedisKeyFormatUtil.GetConnectToken(this._appId, token);
             var token_value = _redis.Get(tokenRedisKey);
             if (string.IsNullOrEmpty(token_value))
-                throw new Exception("授权错误：Token已过期，请重新获取");
-
+                throw new WebSocketException((int)WebSocketErrorCodeType.TokenExpired, WebSocketErrorCodeType.TokenExpired.ToString());
             var data = JsonConvert.DeserializeObject<TokenValue>(token_value);
             var socket = await context.WebSockets.AcceptWebSocketAsync();
             var cli = new WebSocketSession(socket, data.clientId);

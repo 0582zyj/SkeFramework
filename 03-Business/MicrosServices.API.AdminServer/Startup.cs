@@ -29,7 +29,7 @@ namespace MicrosServices.API.AdminServer
             // Filter统一注入MVC框架
             services.AddMvc(options =>
             {
-                options.Filters.Add(typeof(ExceptionFilterAttribute));
+                options.Filters.Add(typeof(GlobalExceptionFilterAttribute));
                 //options.Filters.Add(typeof(LoggerFilterAttribute));
             });
         }

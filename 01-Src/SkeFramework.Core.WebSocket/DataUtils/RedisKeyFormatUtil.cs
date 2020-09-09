@@ -26,9 +26,19 @@ namespace SkeFramework.Core.WebSocketPush.DataUtils
         /// </summary>
         /// <param name="appid"></param>
         /// <returns></returns>
-        public static string GetServerKey(string appid,string server)
+        public static string GetServerKey(string appid, string server)
         {
-            return $"{RedisKey.ws_prefix}:{appid}:{RedisKey.ws_server}:{server}";
+            return $"{RedisKey.ws_prefix}:{RedisKey.ws_server}:{appid}:{server}";
+        }
+
+        /// <summary>
+        /// 获取在线服务端的RedisKey
+        /// </summary>
+        /// <param name="appid"></param>
+        /// <returns></returns>
+        public static string GetOnLineServerKey(string appid)
+        {
+            return $"{RedisKey.ws_prefix}:{RedisKey.ws_server_online}:{appid}";
         }
         /// <summary>
         /// 获取在线用户的RedisKey
@@ -47,7 +57,7 @@ namespace SkeFramework.Core.WebSocketPush.DataUtils
         /// <returns></returns>
         public static string GetPublishChannelKey(string appid,string EventName)
         {
-            return $"{RedisKey.ws_prefix}:{appid}:{RedisKey.ws_publish_channel}:{EventName}";
+            return $"{RedisKey.ws_prefix}:{RedisKey.ws_publish_channel}:{appid}:{EventName}";
         }
 
         /// <summary>
@@ -58,7 +68,7 @@ namespace SkeFramework.Core.WebSocketPush.DataUtils
         /// <returns></returns>
         public static string GetSubscribeChannelKey(string appid, string ChannelName)
         {
-            return $"{RedisKey.ws_prefix}:{appid}:{RedisKey.ws_subscribe_channel}:{ChannelName}";
+            return $"{RedisKey.ws_prefix}:{RedisKey.ws_subscribe_channel}:{appid}:{ChannelName}";
         }
         /// <summary>
         /// 获取订阅列表的RedisKey
@@ -67,7 +77,7 @@ namespace SkeFramework.Core.WebSocketPush.DataUtils
         /// <returns></returns>
         public static string GetChannelListKey(string appid)
         {
-            return $"{RedisKey.ws_prefix}:{appid}:{RedisKey.ws_channel_list}";
+            return $"{RedisKey.ws_prefix}:{RedisKey.ws_channel_list}:{appid}";
         }
         /// <summary>
         /// 获取用户订阅列表的RedisKey
@@ -77,7 +87,7 @@ namespace SkeFramework.Core.WebSocketPush.DataUtils
         /// <returns></returns>
         public static string GetClientChannelKey(string appid, Guid clientId)
         {
-            return $"{RedisKey.ws_prefix}:{appid}:{RedisKey.ws_channel_client}:{clientId}";
+            return $"{RedisKey.ws_prefix}:{RedisKey.ws_channel_client}:{appid}:{clientId}";
         }
     }
 }
