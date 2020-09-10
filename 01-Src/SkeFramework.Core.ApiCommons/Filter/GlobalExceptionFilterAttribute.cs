@@ -5,9 +5,7 @@ using SkeFramework.Core.ApiCommons.Exceptions;
 using SkeFramework.Core.NetLog;
 using SkeFramework.Core.Network.Responses;
 using System;
-using System.Collections.Generic;
 using System.Net.WebSockets;
-using System.Text;
 
 namespace SkeFramework.Core.ApiCommons.Filter
 {
@@ -35,7 +33,12 @@ namespace SkeFramework.Core.ApiCommons.Filter
                 WebSocketException errorCodeException = (WebSocketException)ex;
                 jsonResponses.code = errorCodeException.ErrorCode;
                 jsonResponses.msg = errorCodeException.Message;
-            
+            }
+            if (context.Exception.GetType() == typeof(ArgumentException))
+            {
+                //针对不同的自定义异常，做不同处理
+                ArgumentException errorCodeException = (ArgumentException)ex;          
+                jsonResponses.msg =$"{errorCodeException.ParamName} {errorCodeException.Message}";
             }
             else
             {

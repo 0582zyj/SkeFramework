@@ -13,6 +13,6 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
         /// <summary>
         /// 设置当前服务端
         /// </summary>
-        public string ServerBasePath { get; set; }
+        public string ServerPath { get; set; }
     }
 }

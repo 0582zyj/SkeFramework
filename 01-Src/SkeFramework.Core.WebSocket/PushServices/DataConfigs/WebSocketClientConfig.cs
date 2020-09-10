@@ -15,10 +15,6 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
         /// </summary>
         public CSRedisClient Redis { get; set; }
         /// <summary>
-        /// 负载的服务端
-        /// </summary>
-        public List<string> Servers { get; set; }
-        /// <summary>
         /// websocket请求的路径，默认值：/ws
         /// </summary>
         public string PathMatch { get; set; } = "/ws";

@@ -4,6 +4,7 @@ using SkeFramework.Core.WebSocketPush.DataUtils;
 using SkeFramework.Core.WebSocketPush.PushServices.PushClients;
 using System;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using System.Text;
 
 namespace SkeFramework.Core.WebSocketPush.PushServices.PushBrokers
@@ -74,10 +75,9 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushBrokers
         /// <param name="configs"></param>
         public WebSocketBorker(WebSocketClientConfig configs)
         {
-            if (configs.Redis == null) throw new ArgumentException("Redis 参数不能为空");
-            if (configs.Servers.Count == 0) throw new ArgumentException("Servers 参数不能为空");
+            if (configs.Redis == null) throw new ArgumentException("链接参数错误", "Redis"); 
+            if (String.IsNullOrEmpty(configs.PathMatch)) throw new ArgumentException("参数不能为空", "PathMatch");
             _redis = configs.Redis;
-            _servers = configs.Servers;
             _appId = configs.PathMatch.Trim('/').Replace('/', '_');
             _pathMatch = configs.PathMatch ?? "/ws";
         }

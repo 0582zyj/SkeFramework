@@ -50,8 +50,7 @@ namespace MicrosServices.API.RealTimeSystem
             app.UseWebSocketServer(new WebSocketServerConfig
             {
                 Redis = new CSRedis.CSRedisClient(Configuration["WebSocketServer:CSRedisClient"]),
-                Servers = Configuration["WebSocketServer:Servers"].Split(",").ToList(), //集群配置
-                ServerBasePath = Configuration["WebSocketServer:Server"],
+                ServerPath = Configuration["WebSocketServer:Server"],
                 PathMatch= Configuration["WebSocketServer:WsPath"],
             });
           

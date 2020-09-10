@@ -43,7 +43,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
         {
             _clients = new ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, WebSocketSession>>();
             channelClient = new WebSocketChannelClient(options);
-            _server = options.ServerBasePath;
+            _server = options.ServerPath;
             var ServerKey = RedisKeyFormatUtil.GetServerKey(_appId, _server);
             var OnLineServerKey = RedisKeyFormatUtil.GetOnLineServerKey(_appId);
             _redis.HSet(OnLineServerKey, _appId, _server);

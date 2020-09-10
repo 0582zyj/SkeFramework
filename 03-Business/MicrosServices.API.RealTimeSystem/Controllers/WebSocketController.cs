@@ -31,7 +31,6 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
             WebSocketUtils.Initialization(new WebSocketClientConfig
             {
                 Redis = new CSRedis.CSRedisClient(ApplicationConfigUtil.GetAppSeting("WebSocketServer", "CSRedisClient")),
-                Servers = ApplicationConfigUtil.GetAppSeting("WebSocketServer", "Servers").Split(",").ToList(), //集群配置
                 PathMatch=String.IsNullOrEmpty(appId)?"":appId
             });
             var wsserver = WebSocketUtils.PrevConnectServer(websocketId.Value, this.Ip);
