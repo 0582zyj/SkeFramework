@@ -154,7 +154,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
         /// <param name="senderClientId">发送者的客户端id</param>
         /// <param name="channel">订阅名称</param>
         /// <param name="message">消息</param>
-        public void SendChanMessage(Guid senderClientId, string channel, object message)
+        public void SendChanMessage(Guid senderClientId, string channel, string message)
         {
             string channelKey = RedisKeyFormatUtil.GetSubscribeChannelKey(_appId, channel);
             var websocketIds = _redis.HKeys(channelKey);
@@ -169,7 +169,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
         /// <param name="receiveClientId">接收者的客户端id</param>
         /// <param name="message">消息</param>
         /// <param name="receipt">是否回执</param>
-        public void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, object message, bool receipt = false)
+        public void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, string message, bool receipt = false)
         {
             ((IPushBroker)SocketClient).SendMessage(senderClientId, receiveClientId, message, receipt);
         }

@@ -7,9 +7,9 @@ using System.Text;
 namespace SkeFramework.Core.WebSocketPush.PushServices
 {
     /// <summary>
-    /// 核心类实现的静态代理类
+    /// WebSocket代理类
     /// </summary>
-    public static class WebSocketUtils
+    public static class WebSocketProxyAgent
     {
         #region 链接配置
         /// <summary>
@@ -57,7 +57,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices
         /// <param name="receiveClientId">接收者的客户端id</param>
         /// <param name="message">消息</param>
         /// <param name="receipt">是否回执</param>
-        public static void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, object message, bool receipt = false) =>
+        public static void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, string message, bool receipt = false) =>
             SingleInstance.SendMessage(senderClientId, receiveClientId, message, receipt);
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices
         /// <param name="senderClientId">发送者的客户端id</param>
         /// <param name="chan">订阅名称</param>
         /// <param name="message">消息</param>
-        public static void SendChannelMessage(Guid senderClientId, string chan, object message) => ChannelInstance.SendChanMessage(senderClientId, chan, message);
+        public static void SendChannelMessage(Guid senderClientId, string chan, string message) => ChannelInstance.SendChanMessage(senderClientId, chan, message);
         #endregion
     }
 }

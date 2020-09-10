@@ -28,12 +28,12 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         public ActionResult<JsonResponses> PreConnect([FromForm] string appId,[FromForm] Guid? websocketId)
         {
             if (websocketId == null) websocketId = Guid.NewGuid();
-            WebSocketUtils.Initialization(new WebSocketClientConfig
+            WebSocketProxyAgent.Initialization(new WebSocketClientConfig
             {
                 Redis = new CSRedis.CSRedisClient(ApplicationConfigUtil.GetAppSeting("WebSocketServer", "CSRedisClient")),
                 PathMatch=String.IsNullOrEmpty(appId)?"":appId
             });
-            var wsserver = WebSocketUtils.PrevConnectServer(websocketId.Value, this.Ip);
+            var wsserver = WebSocketProxyAgent.PrevConnectServer(websocketId.Value, this.Ip);
             return new JsonResponses(new ConnectVo()
             {
                 Server = wsserver,
@@ -48,7 +48,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         [HttpGet]
         public ActionResult<JsonResponses> GetChannels()
         {
-            List<OnlineChannelVo> onlineChannelVos = WebSocketUtils.GetChanList().ToList();
+            List<OnlineChannelVo> onlineChannelVos = WebSocketProxyAgent.GetChanList().ToList();
             return new JsonResponses(onlineChannelVos);
         }
 
@@ -61,7 +61,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> SubscrChannel([FromForm] Guid websocketId, [FromForm] string channel)
         {
-            WebSocketUtils.JoinChan(websocketId, channel);
+            WebSocketProxyAgent.JoinChan(websocketId, channel);
             return JsonResponses.Success;
         }
 
@@ -74,7 +74,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> SendChannelMessage([FromForm] Guid websocketId, [FromForm] string channel, [FromForm] string message)
         {
-            WebSocketUtils.SendChannelMessage(websocketId, channel, message);
+            WebSocketProxyAgent.SendChannelMessage(websocketId, channel, message);
             return JsonResponses.Success;
         }
         /// <summary>
@@ -88,7 +88,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> SendMessage([FromForm] Guid senderWebsocketId, [FromForm] Guid receiveWebsocketId, [FromForm] string message, [FromForm] bool isReceipt = false)
         {
-            WebSocketUtils.SendMessage(senderWebsocketId, new[] { receiveWebsocketId }, message, isReceipt);
+            WebSocketProxyAgent.SendMessage(senderWebsocketId, new[] { receiveWebsocketId }, message, isReceipt);
             return JsonResponses.Success;
         }
     }

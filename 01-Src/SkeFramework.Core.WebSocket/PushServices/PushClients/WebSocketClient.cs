@@ -105,16 +105,15 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
         /// <param name="receiveClientId">接收者的客户端id</param>
         /// <param name="message">消息</param>
         /// <param name="receipt">是否回执</param>
-        public void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, object message, bool receipt = false)
+        public void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, string message, bool receipt = false)
         {
             receiveClientId = receiveClientId.Distinct().ToArray();
             Dictionary<string, NotificationsEventArgs> redata = new Dictionary<string, NotificationsEventArgs>();
-            var messageJson = JsonConvert.SerializeObject(message);
             var Notifications = new WebSocketNotifications()
             {
                 SenderClientId = senderClientId,
                 ReceiveClientId = receiveClientId.ToList(),
-                Message = messageJson,
+                Message = message,
                 Receipt = receipt
             };
             foreach (var uid in receiveClientId)

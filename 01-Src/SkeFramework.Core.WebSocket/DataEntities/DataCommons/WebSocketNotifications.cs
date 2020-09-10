@@ -7,7 +7,7 @@ namespace SkeFramework.Core.WebSocketPush.DataEntities.DataCommons
     /// <summary>
     /// WS消息实体
     /// </summary>
-   public class WebSocketNotifications
+    public class WebSocketNotifications
     {
         /// <summary>
         /// 发送者的客户端id

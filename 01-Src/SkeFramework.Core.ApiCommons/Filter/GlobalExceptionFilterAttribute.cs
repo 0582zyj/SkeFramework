@@ -38,7 +38,7 @@ namespace SkeFramework.Core.ApiCommons.Filter
             {
                 //针对不同的自定义异常，做不同处理
                 ArgumentException errorCodeException = (ArgumentException)ex;          
-                jsonResponses.msg =$"{errorCodeException.ParamName} {errorCodeException.Message}";
+                jsonResponses.msg = errorCodeException.Message;
             }
             else
             {

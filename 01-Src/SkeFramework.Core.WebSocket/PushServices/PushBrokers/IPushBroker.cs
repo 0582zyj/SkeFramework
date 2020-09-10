@@ -16,6 +16,6 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushBrokers
         /// <param name="receiveClientId">接收者的客户端id</param>
         /// <param name="message">消息</param>
         /// <param name="receipt">是否回执</param>
-        void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, object message, bool receipt = false);
+        void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, string message, bool receipt = false);
     }
 }

@@ -117,11 +117,12 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
                         Trace.WriteLine($"websocket{clientId}离线了，{data.Message}" + (data.Receipt ? "[消息回调]" : ""));
                         if (data.CheckReceipt(clientId))
                         {
-                            SendMessage(clientId, new[] { data.SenderClientId }, new
+                            string megssage = JsonConvert.SerializeObject(new
                             {
                                 data.Message,
                                 receipt = "offline"
                             });
+                            SendMessage(clientId, new[] { data.SenderClientId }, megssage);
                         }
                         continue;
                     }
@@ -137,11 +138,12 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
                     }
                     if (data.CheckReceipt(clientId))
                     {
-                        SendMessage(clientId, new[] { data.SenderClientId }, new
+                        string message = JsonConvert.SerializeObject(new
                         {
                             data.Message,
                             receipt = "SendSuccess"
                         });
+                        SendMessage(clientId, new[] { data.SenderClientId },message);
                     }
                 }
             }
@@ -157,7 +159,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
         /// <param name="receiveClientId">接收者的客户端id</param>
         /// <param name="message">消息</param>
         /// <param name="receipt">是否回执</param>
-        public void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, object message, bool receipt = false)
+        public void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, string message, bool receipt = false)
         {
             ((IPushBroker)channelClient).SendMessage(senderClientId, receiveClientId, message, receipt);
         }
