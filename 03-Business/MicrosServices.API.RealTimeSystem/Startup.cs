@@ -53,7 +53,7 @@ namespace MicrosServices.API.RealTimeSystem
                 ServerPath = Configuration["WebSocketServer:Server"],
                 PathMatch= Configuration["WebSocketServer:WsPath"],
             });
-          
+            
             app.UseMvc();
         }
     }

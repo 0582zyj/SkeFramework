@@ -22,7 +22,7 @@ namespace SkeFramework.Core.WebSocketPush
         {
             try
             {
-                options.PathMatch = $"/{options.PathMatch}";
+                options.PathMatch =String.IsNullOrEmpty(options.PathMatch)?"/": $"/{options.PathMatch}";
                 app.Map(options.PathMatch, appcur =>
                 {
                     var imserv = new WebSocketServerBroker(options);
@@ -31,8 +31,7 @@ namespace SkeFramework.Core.WebSocketPush
                         isUseWebSockets = true;
                         appcur.UseWebSockets();
                     }
-                    appcur.Use((ctx, next) =>
-                        imserv.Acceptor(ctx, next));
+                    appcur.Use((ctx, next) =>imserv.Acceptor(ctx, next));
                 });
             }
             catch (Exception ex)
