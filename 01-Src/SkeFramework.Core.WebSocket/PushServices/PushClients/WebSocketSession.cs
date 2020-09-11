@@ -6,15 +6,21 @@ using Microsoft.AspNetCore.WebSockets;
 
 namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
 {
+    /// <summary>
+    /// 客户端链接信息类
+    /// </summary>
     public class WebSocketSession
     {
-        public WebSocket socket;
-        public Guid clientId;
+        public WebSocket SocketClient;
+        /// <summary>
+        /// 客户端唯一标识符
+        /// </summary>
+        public Guid SessionId;
 
         public WebSocketSession(WebSocket socket, Guid clientId)
         {
-            this.socket = socket;
-            this.clientId = clientId;
+            this.SocketClient = socket;
+            this.SessionId = clientId;
         }
     }
 }

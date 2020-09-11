@@ -12,7 +12,7 @@ namespace SkeFramework.Core.WebSocketPush.DataEntities.DataCommons
         /// <summary>
         /// 客户端ID
         /// </summary>
-        public Guid clientId { get; set; }
+        public Guid SessionId { get; set; }
         /// <summary>
         /// 客户端扩展信息
         /// </summary>

@@ -12,6 +12,6 @@ namespace SkeFramework.Core.WebSocketPush.DataEntities.Constants
         /// <summary>
         /// Token过期时间
         /// </summary>        
-        public const int TokenRxpireTime = 60;
+        public const int TokenExpireTime = 60*60*24;
     }
 }

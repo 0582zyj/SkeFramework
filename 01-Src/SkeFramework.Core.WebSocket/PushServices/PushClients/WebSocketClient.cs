@@ -67,11 +67,11 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
             var token = TokenUtil.GeneratorToken();
             TokenValue tokenValue = new TokenValue()
             {
-                clientId = clientId,
+                SessionId = clientId,
                 clientExtraProps = clientExtraProps
             };
             var tokenRedisKey = RedisKeyFormatUtil.GetConnectToken(this._appId, token);
-            _redis.Set(tokenRedisKey, JsonConvert.SerializeObject(tokenValue), ConstData.TokenRxpireTime);
+            _redis.Set(tokenRedisKey, JsonConvert.SerializeObject(tokenValue), ConstData.TokenExpireTime);
             return $"ws://{server}/{_pathMatch}?token={token}";
         }
         #endregion
