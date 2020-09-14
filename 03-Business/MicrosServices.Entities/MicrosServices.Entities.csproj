@@ -65,6 +65,7 @@
     <Compile Include="Constants\ConstData.cs" />
     <Compile Include="Constants\HandleUserEumns.cs" />
     <Compile Include="Constants\LogTypeEumns.cs" />
+    <Compile Include="Constants\MessageStatusEumns.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

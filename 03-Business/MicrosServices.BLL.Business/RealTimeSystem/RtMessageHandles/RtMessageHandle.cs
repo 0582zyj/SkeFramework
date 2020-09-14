@@ -1,9 +1,12 @@
 ﻿using MicrosServices.DAL.DataAccess.RealTimeSystem.RtMessageHandles;
 using MicrosServices.Entities.Common.RealTimeSystem;
+using MicrosServices.Entities.Constants;
+using SkeFramework.Core.Common.Collections;
 using SkeFramework.DataBase.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,6 +48,50 @@ namespace MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles
                 return this.Update(UpdateModel);
             }
             return 0;
+        }
+
+        /// <summary>
+        /// 获取消息列表
+        /// </summary>
+        /// <param name="Status"></param>
+        /// <param name="TimeOutSecond"></param>
+        /// <returns></returns>
+        public List<RtMessage> GetRtMessageList(int Status, int TimeOutSecond)
+        {
+            Expression<Func<RtMessage, bool>> where = null;
+            where = (o => o.Status.Equals(Status));
+            if (TimeOutSecond!=0)
+            {
+                where = (o => o.InputTime.AddSeconds(TimeOutSecond)>DateTime.Now);
+            }
+            return this.GetList(where).ToList();
+        }
+
+        /// <summary>
+        /// 获取消息列表
+        /// </summary>
+        /// <param name="Status"></param>
+        /// <param name="TimeOutSecond"></param>
+        /// <returns></returns>
+        public List<RtMessage> GetRtMessageList(int Status, List<string> ReceiveUserIdList)
+        {
+            Expression<Func<RtMessage, bool>> where = null;
+            where = (o => o.Status.Equals(Status));
+            if (!CollectionUtils.IsEmpty(ReceiveUserIdList))
+            {
+                where = (o => ReceiveUserIdList.Contains(o.UserId));
+            }
+            return this.GetList(where).ToList();
+        }
+
+        /// <summary>
+        /// 获取消息列表
+        /// </summary>
+        /// <param name="TimeOutSecond"></param>
+        /// <returns></returns>
+        public List<RtMessage> GetRtMessageList(string ReceiveUserId)
+        {
+            return this.GetRtMessageList((int)MessageStatusEumns.Ready, new List<string>() { ReceiveUserId });
         }
     }
 }

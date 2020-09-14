@@ -69,6 +69,8 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
         {
             if (!context.WebSockets.IsWebSocketRequest) return;
             Guid SessionId = NewSessionTokenVerify( context);
+            if (SessionId == null)
+                return;
             var socket = await context.WebSockets.AcceptWebSocketAsync();
             var session = new WebSocketSession(socket, SessionId);
             this.NewSessionConnectedHandle(session);

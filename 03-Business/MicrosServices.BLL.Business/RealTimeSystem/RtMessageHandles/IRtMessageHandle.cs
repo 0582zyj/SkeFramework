@@ -23,5 +23,26 @@ namespace MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles
         /// <param name="model"></param>
         /// <returns></returns>
         int RtMessageUpdate(RtMessage model);
+
+        /// <summary>
+        /// 获取消息列表
+        /// </summary>
+        /// <param name="Status"></param>
+        /// <param name="TimeOutSecond"></param>
+        /// <returns></returns>
+        List<RtMessage> GetRtMessageList(int Status, int TimeOutSecond);
+        /// <summary>
+        /// 获取消息列表
+        /// </summary>
+        /// <param name="Status"></param>
+        /// <param name="TimeOutSecond"></param>
+        /// <returns></returns>
+        List<RtMessage> GetRtMessageList(int Status, List<string> ReceiveUserIdList);
+        /// <summary>
+        /// 获取消息列表
+        /// </summary>
+        /// <param name="TimeOutSecond"></param>
+        /// <returns></returns>
+        List<RtMessage> GetRtMessageList(string ReceiveUserId);
     }
 }
