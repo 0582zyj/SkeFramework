@@ -49,7 +49,6 @@ namespace SkeFramework.Core.WebSocketPush.PushServices
         /// <param name="clientMetaData">客户端相关信息，比如ip</param>
         /// <returns>websocket 地址：ws://xxxx/ws?token=xxx</returns>
         public static string PrevConnectServer(Guid clientId, string clientMetaData) => SingleInstance.PrevConnectServer(clientId, clientMetaData);
-
         /// <summary>
         /// 向指定的多个客户端id发送消息
         /// </summary>
@@ -82,52 +81,51 @@ namespace SkeFramework.Core.WebSocketPush.PushServices
             Action<TokenValue> online,
             Action<TokenValue> offline) => SingleInstance.EventSubscribe(online, offline);
 
-        #region 群聊，每次上线都必须重新加入
+        #region 订阅
 
         /// <summary>
-        /// 加入群聊，每次上线都必须重新加入
+        /// 加入订阅
         /// </summary>
         /// <param name="clientId">客户端id</param>
         /// <param name="chan">订阅名称</param>
-        public static void JoinChan(Guid clientId, string chan) => ChannelInstance.SubscribeChannel(clientId, chan);
+        public static void SubscribeChannel(Guid clientId, string chan) => ChannelInstance.SubscribeChannel(clientId, chan);
         /// <summary>
-        /// 离开群聊
+        /// 离开订阅
         /// </summary>
         /// <param name="clientId">客户端id</param>
         /// <param name="chans">订阅名称</param>
-        public static void LeaveChan(Guid clientId, params string[] chans) => ChannelInstance.UnSubscribeChannel(clientId, chans);
+        public static void UnSubscribeChannel(Guid clientId, params string[] chans) => ChannelInstance.UnSubscribeChannel(clientId, chans);
         /// <summary>
         /// 获取群聊所有客户端id（测试）
         /// </summary>
         /// <param name="chan">订阅名称</param>
         /// <returns></returns>
-        public static Guid[] GetChanClientList(string chan) => ChannelInstance.GetChannelClientList(chan);
+        public static Guid[] GetChannelClientList(string chan) => ChannelInstance.GetChannelClientList(chan);
         /// <summary>
         /// 清理群聊的离线客户端（测试）
         /// </summary>
         /// <param name="chan">订阅名称</param>
-        public static void ClearChanClient(string chan) => ChannelInstance.ClearChannelClient(chan);
-
+        public static void ClearChannelClient(string chan) => ChannelInstance.ClearChannelClient(chan);
         /// <summary>
-        /// 获取所有群聊和在线人数
+        /// 获取所有订阅和在线人数
         /// </summary>
-        /// <returns>名和在线人数</returns>
-        public static IEnumerable<OnlineChannelVo> GetChanList() => ChannelInstance.GetChannelList();
+        /// <returns>订阅名和在线人数</returns>
+        public static IEnumerable<OnlineChannelVo> GetChannelList() => ChannelInstance.GetChannelList();
         /// <summary>
-        /// 获取用户参与的所有群聊
+        /// 获取用户参与的所有订阅
         /// </summary>
         /// <param name="clientId">客户端id</param>
         /// <returns></returns>
         public static string[] GetChanListByClientId(Guid clientId) => ChannelInstance.GetChanListByClientId(clientId);
         /// <summary>
-        /// 获取群聊的在线人数
+        /// 获取订阅的在线人数
         /// </summary>
         /// <param name="chan">订阅名称</param>
         /// <returns>在线人数</returns>
-        public static long GetChanOnline(string chan) => ChannelInstance.GetChanOnline(chan);
+        public static long GetChannelOnline(string chan) => ChannelInstance.GetChannelOnline(chan);
 
         /// <summary>
-        /// 发送群聊消息，所有在线的用户将收到消息
+        /// 发送订阅消息，所有在线的用户将收到消息
         /// </summary>
         /// <param name="senderClientId">发送者的客户端id</param>
         /// <param name="chan">订阅名称</param>

@@ -24,8 +24,4 @@
     <ProjectReference Include="..\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Handle\" />
-  </ItemGroup>
-
 </Project>

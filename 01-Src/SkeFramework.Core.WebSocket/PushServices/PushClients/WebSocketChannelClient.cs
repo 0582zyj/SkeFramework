@@ -129,7 +129,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
         /// </summary>
         /// <param name="chan">订阅名称</param>
         /// <returns>在线人数</returns>
-        public long GetChanOnline(string chan)
+        public long GetChannelOnline(string chan)
         {
             return _redis.HGet<long>(this.ChannelListKey, chan);
         }

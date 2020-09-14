@@ -48,7 +48,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         [HttpGet]
         public ActionResult<JsonResponses> GetChannels()
         {
-            List<OnlineChannelVo> onlineChannelVos = WebSocketProxyAgent.GetChanList().ToList();
+            List<OnlineChannelVo> onlineChannelVos = WebSocketProxyAgent.GetChannelList().ToList();
             return new JsonResponses(onlineChannelVos);
         }
 
@@ -61,7 +61,7 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> SubscrChannel([FromForm] Guid websocketId, [FromForm] string channel)
         {
-            WebSocketProxyAgent.JoinChan(websocketId, channel);
+            WebSocketProxyAgent.SubscribeChannel(websocketId, channel);
             return JsonResponses.Success;
         }
 

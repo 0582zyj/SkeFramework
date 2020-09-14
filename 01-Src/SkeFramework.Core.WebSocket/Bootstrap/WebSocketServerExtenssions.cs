@@ -25,13 +25,40 @@ namespace SkeFramework.Core.WebSocketPush
                 options.PathMatch =String.IsNullOrEmpty(options.PathMatch)?"/": $"/{options.PathMatch}";
                 app.Map(options.PathMatch, appcur =>
                 {
-                    var imserv = new WebSocketServerBroker(options);
+                    var SocketServer = new WebSocketServerBroker(options);
                     if (isUseWebSockets == false)
                     {
                         isUseWebSockets = true;
                         appcur.UseWebSockets();
                     }
-                    appcur.Use((ctx, next) =>imserv.Acceptor(ctx, next));
+                    appcur.Use((context, next) =>SocketServer.Acceptor(context, next));
+                });
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+            return app;
+        }
+
+        /// <summary>
+        /// 启用WebSocketServer服务端
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseWebSocketServer(this IApplicationBuilder app, WebSocketServerBroker SocketServer)
+        {
+            try
+            {
+                app.Map(SocketServer._pathMatch, appcur =>
+                {
+                    if (isUseWebSockets == false)
+                    {
+                        isUseWebSockets = true;
+                        appcur.UseWebSockets();
+                    }
+                    appcur.Use((context, next) => SocketServer.Acceptor(context, next));
                 });
             }
             catch (Exception ex)

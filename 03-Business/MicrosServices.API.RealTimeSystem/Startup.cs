@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MicrosServices.API.RealTimeSystem.Handle;
 using SkeFramework.Core.ApiCommons.DataUtil;
 using SkeFramework.Core.ApiCommons.Filter;
 using SkeFramework.Core.ApiCommons.Middlewares;
@@ -46,14 +47,12 @@ namespace MicrosServices.API.RealTimeSystem
             //{
             //    app.UseDeveloperExceptionPage();
             //}
-          
-            app.UseWebSocketServer(new WebSocketServerConfig
-            {
-                Redis = new CSRedis.CSRedisClient(Configuration["WebSocketServer:CSRedisClient"]),
-                ServerPath = Configuration["WebSocketServer:Server"],
-                PathMatch= Configuration["WebSocketServer:WsPath"],
-            });
-            
+
+            app.UseWebSocketServer(new WebSocketServerHandle(
+                 Configuration["WebSocketServer:CSRedisClient"],
+                 Configuration["WebSocketServer:Server"],
+                 Configuration["WebSocketServer:WsPath"]
+                ).NewWebSocketServer());
             app.UseMvc();
         }
     }

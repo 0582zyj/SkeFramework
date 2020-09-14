@@ -22,15 +22,15 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushBrokers
         /// 集群服务端列表
         /// </summary>
         protected List<string> _servers;
-        /// <summary>
-        /// WS-Path
-        /// </summary>
-        protected string _pathMatch;
+       
         /// <summary>
         /// 应用ID 
         /// </summary>
         protected string _appId;
-
+        /// <summary>
+        /// WS-Path
+        /// </summary>
+        public string _pathMatch;
         #region RedisKey
         /// <summary>
         /// 在线Redis的RedisKey
@@ -78,8 +78,8 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushBrokers
             if (configs.Redis == null) throw new ArgumentException("链接参数错误", "Redis"); 
             if (String.IsNullOrEmpty(configs.PathMatch)) throw new ArgumentException("参数不能为空", "PathMatch");
             _redis = configs.Redis;
+            _pathMatch =String.IsNullOrEmpty(configs.PathMatch) ? "/ws":configs.PathMatch.Insert(0,@"/");
             _appId = configs.PathMatch.Trim('/').Replace('/', '_');
-            _pathMatch = configs.PathMatch ?? "/ws";
         }
     }
 }
