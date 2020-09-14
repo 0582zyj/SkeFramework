@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.Helper.Core.RealTimeSystems.VO;
+using Newtonsoft.Json;
 using SkeFramework.Core.ApiCommons.DataUtil;
 using SkeFramework.Core.Network.Responses;
 using SkeFramework.Core.WebSocketPush.DataEntities.DataCommons;
@@ -25,15 +26,16 @@ namespace MicrosServices.API.RealTimeSystem.Controllers
         /// <param name="websocketId">本地标识，若无则不传，接口会返回新的，请保存本地localStoregy重复使用</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> PreConnect([FromForm] string appId,[FromForm] Guid? websocketId)
+        public ActionResult<JsonResponses> PreConnect([FromForm] string appId, [FromForm] string userId, [FromForm] Guid? websocketId)
         {
             if (websocketId == null) websocketId = Guid.NewGuid();
-            WebSocketProxyAgent.Initialization(new WebSocketClientConfig
+            ClientVo clientVo = new ClientVo()
             {
-                Redis = new CSRedis.CSRedisClient(ApplicationConfigUtil.GetAppSeting("WebSocketServer", "CSRedisClient")),
-                PathMatch=String.IsNullOrEmpty(appId)?"":appId
-            });
-            var wsserver = WebSocketProxyAgent.PrevConnectServer(websocketId.Value, this.Ip);
+                AppId= appId,
+                UserId = userId,
+                AppIp = this.Ip,
+            };
+            var wsserver = WebSocketProxyAgent.PrevConnectServer(websocketId.Value, JsonConvert.SerializeObject(clientVo));
             return new JsonResponses(new ConnectVo()
             {
                 Server = wsserver,

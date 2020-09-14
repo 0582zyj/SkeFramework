@@ -17,10 +17,22 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
         /// </summary>
         public Guid SessionId;
 
+        /// <summary>
+        /// 客户端扩展信息
+        /// </summary>
+        public string SessionExtraProps { get; set; }
+
         public WebSocketSession(WebSocket socket, Guid clientId)
         {
             this.SocketClient = socket;
             this.SessionId = clientId;
+        }
+
+        public WebSocketSession(WebSocket socket, Guid clientId,string extraProps)
+        {
+            this.SocketClient = socket;
+            this.SessionId = clientId;
+            this.SessionExtraProps = extraProps;
         }
     }
 }

@@ -68,11 +68,12 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
         public async Task Acceptor(HttpContext context, Func<Task> next)
         {
             if (!context.WebSockets.IsWebSocketRequest) return;
-            Guid SessionId = NewSessionTokenVerify( context);
-            if (SessionId == null)
+            TokenValue tokenValue = NewSessionTokenVerify( context);
+            if (tokenValue == null)
                 return;
+            Guid SessionId = tokenValue.SessionId;
             var socket = await context.WebSockets.AcceptWebSocketAsync();
-            var session = new WebSocketSession(socket, SessionId);
+            var session = new WebSocketSession(socket, SessionId, tokenValue.clientExtraProps);
             this.NewSessionConnectedHandle(session);
             try
             {
@@ -92,7 +93,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected Guid NewSessionTokenVerify(HttpContext context)
+        protected TokenValue NewSessionTokenVerify(HttpContext context)
         {
             string token = context.Request.Query["token"];
             if (string.IsNullOrEmpty(token))
@@ -101,8 +102,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
             var token_value = _redis.Get(tokenRedisKey);
             if (string.IsNullOrEmpty(token_value))
                 throw new WebSocketException((int)WebSocketErrorCodeType.TokenExpired, WebSocketErrorCodeType.TokenExpired.ToString());
-            var data = JsonConvert.DeserializeObject<TokenValue>(token_value);
-            return data.SessionId;
+            return JsonConvert.DeserializeObject<TokenValue>(token_value);
         }
         /// <summary>
         /// 新链接到达

@@ -72,7 +72,7 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
             };
             var tokenRedisKey = RedisKeyFormatUtil.GetConnectToken(this._appId, token);
             _redis.Set(tokenRedisKey, JsonConvert.SerializeObject(tokenValue), ConstData.TokenExpireTime);
-            return $"ws://{server}/{_pathMatch}?token={token}";
+            return $"ws://{server}{_pathMatch}?token={token}";
         }
         #endregion
 

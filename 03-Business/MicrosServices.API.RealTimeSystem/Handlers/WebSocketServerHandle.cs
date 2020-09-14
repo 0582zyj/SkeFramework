@@ -1,4 +1,7 @@
-﻿using SkeFramework.Core.WebSocketPush.PushServices.PushServer;
+﻿using MicrosServices.Helper.Core.RealTimeSystems.VO;
+using Newtonsoft.Json;
+using SkeFramework.Core.WebSocketPush.DataEntities;
+using SkeFramework.Core.WebSocketPush.PushServices.PushServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +11,7 @@ namespace MicrosServices.API.RealTimeSystem.Handle
 {
     public class WebSocketServerHandle
     {
-        public const int DefaultTimeOutSecond = 0;
+   
 
         /// <summary>
         /// 服务端配置信息
@@ -55,6 +58,9 @@ namespace MicrosServices.API.RealTimeSystem.Handle
         /// <param name="value"></param>
         private void ServerBroker_NewSessionConnected(SkeFramework.Core.WebSocketPush.PushServices.PushClients.WebSocketSession session, Guid value)
         {
+            ClientVo clientVo = JsonConvert.DeserializeObject<ClientVo>(session.SessionExtraProps);
+            string clientRedisKey =  $"{RedisKey.ws_prefix}:{clientVo.AppId}:{RedisKey.ws_client_online}:{clientVo.UserId}";
+            ServerConfig.Redis.GetSet(clientRedisKey, session.SessionId.ToString());
         }
 
 

@@ -22,14 +22,32 @@ namespace SkeFramework.Core.WebSocketPush.PushServices
         /// </summary>
         static WebSocketChannelClient _channelInstance;
         public static WebSocketChannelClient ChannelInstance => _channelInstance ?? throw new Exception("使用前请初始化 Initialization(...);");
-        
+
+        /// <summary>
+        /// 初始化单点发送
+        /// </summary>
+        /// <param name="options"></param>
+        public static void Initialization(string redisUrl,string WsPath)
+        {
+            if (_instance == null)
+            {
+                _instance = new WebSocketClient(new WebSocketClientConfig
+                {
+                    Redis = new CSRedis.CSRedisClient(redisUrl),
+                    PathMatch = WsPath
+                });
+            }
+        }
         /// <summary>
         /// 初始化单点发送
         /// </summary>
         /// <param name="options"></param>
         public static void Initialization(WebSocketClientConfig options)
         {
-            _instance = new WebSocketClient(options);
+            if (_instance == null)
+            {
+                _instance = new WebSocketClient(options);
+            }
         }
 
         /// <summary>
