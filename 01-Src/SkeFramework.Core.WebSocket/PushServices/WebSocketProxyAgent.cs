@@ -31,32 +31,36 @@ namespace SkeFramework.Core.WebSocketPush.PushServices
         {
             if (_instance == null)
             {
-                _instance = new WebSocketClient(new WebSocketClientConfig
+                WebSocketClientConfig clientConfig = new WebSocketClientConfig
                 {
                     Redis = new CSRedis.CSRedisClient(redisUrl),
                     PathMatch = WsPath
-                });
+                };
+                InitializationClient(clientConfig);
+                InitializationChannel(clientConfig);
             }
         }
         /// <summary>
         /// 初始化单点发送
         /// </summary>
         /// <param name="options"></param>
-        public static void Initialization(WebSocketClientConfig options)
+        public static void InitializationClient(WebSocketClientConfig options)
         {
             if (_instance == null)
             {
                 _instance = new WebSocketClient(options);
             }
         }
-
         /// <summary>
         /// 初始化订阅发送
         /// </summary>
         /// <param name="options"></param>
         public static void InitializationChannel(WebSocketClientConfig options)
         {
-            _channelInstance = new WebSocketChannelClient(options);
+            if (_channelInstance == null)
+            {
+                _channelInstance = new WebSocketChannelClient(options);
+            }
         }
         #endregion
 

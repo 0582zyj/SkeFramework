@@ -1,4 +1,5 @@
-﻿using MicrosServices.BLL.Business;
+﻿using MicrosServices.API.RealTimeSystem.DataUtil;
+using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common.RealTimeSystem;
 using MicrosServices.Entities.Constants;
 using SkeFramework.Core.ApiCommons.DataUtil;
@@ -32,7 +33,13 @@ namespace MicrosServices.API.RealTimeSystem.Handlers
             List<RtMessage> MessageList = DataHandleManager.Instance().RtMessageHandle.GetRtMessageList(Status, DefaultTimeOutSecond);
             if (!CollectionUtils.IsEmpty(MessageList))
             {
-
+                foreach(var message in MessageList)
+                {
+                    string clientRedisKey = RedisUtil.GetUserIdRedisKey(message.AppId, message.UserId);
+                    string SessionId= RedisUtil.GetWebSocketSessionID(clientRedisKey);
+                    List<Guid> receiveList = new List<Guid>() { new Guid(SessionId) };
+                    WebSocketProxyAgent.SendMessage(new Guid(), receiveList, message.Message, true);
+                }
             }
             Trace.WriteLine(DateTime.Now.ToString() + " test1 end");
         }

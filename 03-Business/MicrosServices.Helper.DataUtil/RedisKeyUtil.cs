@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MicrosServices.Helper.DataUtil
 {
-    public class Class1
+    public class RedisKeyUtil
     {
     }
 }

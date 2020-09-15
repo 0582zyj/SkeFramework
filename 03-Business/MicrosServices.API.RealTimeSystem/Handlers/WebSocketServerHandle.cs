@@ -1,4 +1,5 @@
-﻿using MicrosServices.Helper.Core.RealTimeSystems.VO;
+﻿using MicrosServices.API.RealTimeSystem.DataUtil;
+using MicrosServices.Helper.Core.RealTimeSystems.VO;
 using Newtonsoft.Json;
 using SkeFramework.Core.WebSocketPush.DataEntities;
 using SkeFramework.Core.WebSocketPush.PushServices.PushServer;
@@ -26,10 +27,12 @@ namespace MicrosServices.API.RealTimeSystem.Handle
                 ServerPath = Server,
                 PathMatch = WsPath,
             };
+            RedisUtil.Redis = ServerConfig.Redis;
         }
         public WebSocketServerHandle(WebSocketServerConfig serverConfig)
         {
             ServerConfig = serverConfig;
+            RedisUtil.Redis = ServerConfig.Redis;
         }
 
         /// <summary>
@@ -59,7 +62,7 @@ namespace MicrosServices.API.RealTimeSystem.Handle
         private void ServerBroker_NewSessionConnected(SkeFramework.Core.WebSocketPush.PushServices.PushClients.WebSocketSession session, Guid value)
         {
             ClientVo clientVo = JsonConvert.DeserializeObject<ClientVo>(session.SessionExtraProps);
-            string clientRedisKey =  $"{RedisKey.ws_prefix}:{clientVo.AppId}:{RedisKey.ws_client_online}:{clientVo.UserId}";
+            string clientRedisKey = RedisUtil.GetUserIdRedisKey(clientVo.AppId,clientVo.UserId);
             ServerConfig.Redis.GetSet(clientRedisKey, session.SessionId.ToString());
         }
 
