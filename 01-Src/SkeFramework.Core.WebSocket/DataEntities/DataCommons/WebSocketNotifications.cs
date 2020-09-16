@@ -5,18 +5,18 @@ using System.Text;
 namespace SkeFramework.Core.WebSocketPush.DataEntities.DataCommons
 {
     /// <summary>
-    /// WS消息实体
+    /// WS通知
     /// </summary>
     public class WebSocketNotifications
     {
         /// <summary>
         /// 发送者的客户端id
         /// </summary>
-        public Guid SenderClientId { get; set; }
+        public Guid SenderSessionId { get; set; }
         /// <summary>
         /// 接收者的客户端id
         /// </summary>
-        public List<Guid> ReceiveClientId { get; set; }
+        public List<Guid> ReceiveSessionIds { get; set; }
         /// <summary>
         /// 消息
         /// </summary>
@@ -25,20 +25,24 @@ namespace SkeFramework.Core.WebSocketPush.DataEntities.DataCommons
         /// 是否回执
         /// </summary>
         public bool Receipt { get; set; }
+        /// <summary>
+        /// 消息通知标识
+        /// </summary>
+        public object NotificationTag { get; set; }
 
         public WebSocketNotifications()
         {
-            this.ReceiveClientId = new List<Guid>();
+            this.ReceiveSessionIds = new List<Guid>();
         }
 
         /// <summary>
         /// 检查是否需要回调消息
         /// </summary>
-        /// <param name="clientId"></param>
+        /// <param name="sessionId"></param>
         /// <returns></returns>
-        public bool CheckReceipt(Guid clientId)
+        public bool CheckReceipt(Guid sessionId)
         {
-            return this.SenderClientId != Guid.Empty && clientId != this.SenderClientId && this.Receipt;
+            return  sessionId != this.SenderSessionId && this.Receipt;
         }
     }
 }

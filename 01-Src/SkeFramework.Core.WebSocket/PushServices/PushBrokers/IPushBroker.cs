@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkeFramework.Core.WebSocketPush.DataEntities.DataCommons;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,5 +18,10 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushBrokers
         /// <param name="message">消息</param>
         /// <param name="receipt">是否回执</param>
         void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, string message, bool receipt = false);
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="notifications"></param>
+        void SendMessage(WebSocketNotifications notifications);
     }
 }

@@ -4,6 +4,7 @@ using MicrosServices.Entities.Common.RealTimeSystem;
 using MicrosServices.Entities.Constants;
 using SkeFramework.Core.ApiCommons.DataUtil;
 using SkeFramework.Core.Common.Collections;
+using SkeFramework.Core.WebSocketPush.DataEntities.DataCommons;
 using SkeFramework.Core.WebSocketPush.PushServices;
 using SkeFramework.Core.WebSocketPush.PushServices.PushClients;
 using SkeFramework.Schedule.NetJob.DataAttributes;
@@ -38,7 +39,15 @@ namespace MicrosServices.API.RealTimeSystem.Handlers
                     string clientRedisKey = RedisUtil.GetUserIdRedisKey(message.AppId, message.UserId);
                     string SessionId= RedisUtil.GetWebSocketSessionID(clientRedisKey);
                     List<Guid> receiveList = new List<Guid>() { new Guid(SessionId) };
-                    WebSocketProxyAgent.SendMessage(new Guid(), receiveList, message.Message, true);
+                    WebSocketNotifications notifications = new WebSocketNotifications()
+                    {
+                        SenderSessionId = new Guid(),
+                        ReceiveSessionIds = receiveList,
+                        Message = message.Message,
+                        Receipt = true,
+                        NotificationTag = message.id
+                    };
+                    WebSocketProxyAgent.SendMessage(notifications);
                 }
             }
             Trace.WriteLine(DateTime.Now.ToString() + " test1 end");

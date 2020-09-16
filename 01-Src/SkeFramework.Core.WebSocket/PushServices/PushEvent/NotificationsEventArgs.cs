@@ -22,10 +22,10 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushEvent
         internal NotificationsEventArgs(string server, Guid senderClientId, string message, bool receipt = false)
             :this(server, new WebSocketNotifications()
             {
-                SenderClientId = senderClientId,
+                SenderSessionId = senderClientId,
                 Message = message,
                 Receipt = receipt,
-                ReceiveClientId = new List<Guid>()
+                ReceiveSessionIds = new List<Guid>()
             })
         {
         }
@@ -34,7 +34,6 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushEvent
         {
             this.Server = server;
             this.Notifications = Notifications;
-
         }
         /// <summary>
         /// 新增接受客户端ID
@@ -44,13 +43,13 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushEvent
         {
             if (this.Notifications == null)
                 return;
-            if (this.Notifications.ReceiveClientId == null)
+            if (this.Notifications.ReceiveSessionIds == null)
             {
-                this.Notifications.ReceiveClientId = new List<Guid>();
+                this.Notifications.ReceiveSessionIds = new List<Guid>();
             }
-            if (!this.Notifications.ReceiveClientId.Contains(receiveClientId))
+            if (!this.Notifications.ReceiveSessionIds.Contains(receiveClientId))
             {
-                this.Notifications.ReceiveClientId.Add(receiveClientId);
+                this.Notifications.ReceiveSessionIds.Add(receiveClientId);
             }
         }
     }

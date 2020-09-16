@@ -20,10 +20,6 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
     /// </summary>
     public class WebSocketClient: WebSocketBorker, IPushBroker
     {
-        /// <summary>
-        /// 推送消息的事件，可审查推向哪个Server节点
-        /// </summary>
-        public EventHandler<NotificationsEventArgs> OnSend;
 
         /// <summary>
         /// 构造函数 
@@ -33,41 +29,22 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
             :base(configs)
         {
         }
-       
+
         #region 连接管理
-        /// <summary>
-        /// 负载分区规则：取clientId后四位字符，
-        /// 转成10进制数字0-65535，求模
-        /// </summary>
-        /// <param name="clientId">客户端id</param>
-        /// <returns></returns>
-        protected string SelectServer(Guid clientId)
-        {
-            string OnLineServerKey = RedisKeyFormatUtil.GetOnLineServerKey(_appId);
-            var ret = _redis.HGetAll<string>(OnLineServerKey);
-            if(ret == null || ret.Count == 0)
-            {
-                throw new WebSocketException((int)WebSocketErrorCodeType.ServiceNotStart, WebSocketErrorCodeType.ServiceNotStart.ToString());
-            }
-            _servers= ret.Values.ToList();
-            var servers_idx = int.Parse(clientId.ToString("N").Substring(28), NumberStyles.HexNumber) % _servers.Count;
-            if (servers_idx >= _servers.Count) servers_idx = 0;
-            return _servers[servers_idx];
-        }
         /// <summary>
         /// 连接前的负载、授权，返回 ws 目标地址，
         /// 使用该地址连接 websocket 服务端
         /// </summary>
-        /// <param name="clientId">客户端id</param>
+        /// <param name="SessionId">客户端id</param>
         /// <param name="clientExtraProps">客户端相关信息，比如ip</param>
         /// <returns>websocket 地址：ws://xxxx/ws?token=xxx</returns>
-        public string PrevConnectServer(Guid clientId, string clientExtraProps)
+        public string PrevConnectServer(Guid SessionId, string clientExtraProps)
         {
-            var server = SelectServer(clientId);
+            var server = SelectServer(SessionId);
             var token = TokenUtil.GeneratorToken();
             TokenValue tokenValue = new TokenValue()
             {
-                SessionId = clientId,
+                SessionId = SessionId,
                 clientExtraProps = clientExtraProps
             };
             var tokenRedisKey = RedisKeyFormatUtil.GetConnectToken(this._appId, token);
@@ -89,11 +66,11 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
         /// <summary>
         /// 判断客户端是否在线
         /// </summary>
-        /// <param name="clientId"></param>
+        /// <param name="SessionId"></param>
         /// <returns></returns>
-        public bool HasOnline(Guid clientId)
+        public bool HasOnline(Guid SessionId)
         {
-            return _redis.HGet<int>(OnlineKey, clientId.ToString()) > 0;
+            return _redis.HGet<int>(OnlineKey, SessionId.ToString()) > 0;
         }
         #endregion
 
@@ -101,35 +78,23 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushClients
         /// <summary>
         /// 向指定的多个客户端id发送消息
         /// </summary>
-        /// <param name="senderClientId">发送者的客户端id</param>
-        /// <param name="receiveClientId">接收者的客户端id</param>
+        /// <param name="senderSessionId">发送者的客户端id</param>
+        /// <param name="receiveSessionIds">接收者的客户端id</param>
         /// <param name="message">消息</param>
         /// <param name="receipt">是否回执</param>
-        public void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, string message, bool receipt = false)
+        public void SendMessage(Guid senderSessionId, IEnumerable<Guid> receiveSessionIds, string message, bool receipt = false)
         {
-            receiveClientId = receiveClientId.Distinct().ToArray();
-            Dictionary<string, NotificationsEventArgs> redata = new Dictionary<string, NotificationsEventArgs>();
+            receiveSessionIds = receiveSessionIds.Distinct().ToArray();
             var Notifications = new WebSocketNotifications()
             {
-                SenderClientId = senderClientId,
-                ReceiveClientId = receiveClientId.ToList(),
+                SenderSessionId = senderSessionId,
+                ReceiveSessionIds = receiveSessionIds.ToList(),
                 Message = message,
-                Receipt = receipt
+                Receipt = receipt,
             };
-            foreach (var uid in receiveClientId)
-            {
-                string server = SelectServer(uid);
-                if (redata.ContainsKey(server) == false)
-                    redata.Add(server, new NotificationsEventArgs(server, Notifications));
-                redata[server].AddReceiveClientId(uid);
-            }
-            foreach (var sendArgs in redata.Values)
-            {
-                OnSend?.Invoke(this, sendArgs);
-                var ServerKey = RedisKeyFormatUtil.GetServerKey(_appId, sendArgs.Server);
-                _redis.Publish(ServerKey,JsonConvert.SerializeObject(Notifications));
-            }
+            this.SendMessage(Notifications);
         }
+        
         /// <summary>
         /// 事件订阅
         /// </summary>

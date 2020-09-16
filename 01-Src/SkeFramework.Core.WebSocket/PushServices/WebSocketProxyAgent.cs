@@ -80,7 +80,12 @@ namespace SkeFramework.Core.WebSocketPush.PushServices
         /// <param name="receipt">是否回执</param>
         public static void SendMessage(Guid senderClientId, IEnumerable<Guid> receiveClientId, string message, bool receipt = false) =>
             SingleInstance.SendMessage(senderClientId, receiveClientId, message, receipt);
-
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="notifications"></param>
+        public static void SendMessage(WebSocketNotifications notifications) =>
+           SingleInstance.SendMessage(notifications);
         /// <summary>
         /// 获取所在线客户端id
         /// </summary>

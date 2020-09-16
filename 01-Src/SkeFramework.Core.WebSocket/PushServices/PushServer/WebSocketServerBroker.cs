@@ -170,15 +170,19 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
                 Trace.WriteLine($"收到消息：{e.Body}");
                 var data = JsonConvert.DeserializeObject<WebSocketNotifications>(e.Body);
                 var outgoing = new ArraySegment<byte>(Encoding.UTF8.GetBytes(data.Message));
-                foreach (var clientId in data.ReceiveClientId)
+                foreach (var sessionId in data.ReceiveSessionIds)
                 {
-                    if (ClusterServer.TryGetValue(clientId, out var wslist) == false)
+                    if (ClusterServer.TryGetValue(sessionId, out var wslist) == false)
                     {
-                        Trace.WriteLine($"websocket{clientId}离线了，{data.Message}" + (data.Receipt ? "[消息回调]" : ""));
-                        if (data.CheckReceipt(clientId))
+                        Trace.WriteLine($"websocket{sessionId}离线了，{data.Message}" + (data.Receipt ? "[消息回调]" : ""));
+                        if (data.CheckReceipt(sessionId))
                         {
                             string message = new NotificationsVo(NotificationsType.receipt_offline, data.Message).ToString();
-                            SendMessage(clientId, new[] { data.SenderClientId }, message);
+                            SendMessage(sessionId, new[] { data.SenderSessionId }, message);
+                        }
+                        else if(sessionId != Guid.Empty)
+                        {
+
                         }
                         continue;
                     }
@@ -186,16 +190,16 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
                     ICollection<WebSocketSession> sockarray = wslist.Values;
                     //如果接收消息人是发送者，并且接收者只有1个以下，则不发送
                     //只有接收者为多端时，才转发消息通知其他端
-                    if (clientId == data.SenderClientId && sockarray.Count <= 1) continue;
+                    if (sessionId == data.SenderSessionId && sockarray.Count <= 1) continue;
                     //发送WebSocket
                     foreach (var sh in sockarray)
                     {
                         sh.SocketClient.SendAsync(outgoing, WebSocketMessageType.Text, true, CancellationToken.None);
                     }
-                    if (data.CheckReceipt(clientId))
+                    if (data.CheckReceipt(sessionId))
                     {
                         string message = new NotificationsVo(NotificationsType.receipt_send, data.Message).ToString();
-                        SendMessage(clientId, new[] { data.SenderClientId },message);
+                        SendMessage(sessionId, new[] { data.SenderSessionId },message);
                     }
                 }
             }
