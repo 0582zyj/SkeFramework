@@ -2,6 +2,7 @@
 using MicrosServices.Helper.Core.RealTimeSystems.VO;
 using Newtonsoft.Json;
 using SkeFramework.Core.WebSocketPush.DataEntities;
+using SkeFramework.Core.WebSocketPush.PushServices.PushEvent;
 using SkeFramework.Core.WebSocketPush.PushServices.PushServer;
 using System;
 using System.Collections.Generic;
@@ -44,8 +45,15 @@ namespace MicrosServices.API.RealTimeSystem.Handle
             WebSocketServerBroker ServerBroker = new WebSocketServerBroker(this.ServerConfig);
             ServerBroker.NewSessionConnected += ServerBroker_NewSessionConnected;
             ServerBroker.NewMessageReceived += ServerBroker_NewMessageReceived;
+            ServerBroker.OnServerHandler += new EventHandler<NotificationsEventArgs>(OnServerHandler);
+            ServerBroker.OnSend += new EventHandler<NotificationsEventArgs>(OnSendHandle);
             return ServerBroker;
         }
+
+       
+
+
+
         /// <summary>
         /// 新消息处理
         /// </summary>
@@ -65,7 +73,23 @@ namespace MicrosServices.API.RealTimeSystem.Handle
             string clientRedisKey = RedisUtil.GetUserIdRedisKey(clientVo.AppId,clientVo.UserId);
             ServerConfig.Redis.GetSet(clientRedisKey, session.SessionId.ToString());
         }
+        /// <summary>
+        /// 传给服务端处理事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnServerHandler(object sender, NotificationsEventArgs e)
+        {
 
+        }
+        /// <summary>
+        /// 发送消息回调事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnSendHandle(object sender, NotificationsEventArgs e)
+        {
+        }
 
     }
 }

@@ -33,6 +33,7 @@ namespace SkeFramework.Core.WebSocketPush.DataEntities.DataCommons
         public WebSocketNotifications()
         {
             this.ReceiveSessionIds = new List<Guid>();
+            this.Receipt = false;
         }
 
         /// <summary>

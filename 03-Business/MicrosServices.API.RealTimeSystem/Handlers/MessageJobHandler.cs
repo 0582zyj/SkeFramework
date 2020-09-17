@@ -29,7 +29,7 @@ namespace MicrosServices.API.RealTimeSystem.Handlers
 
             WebSocketProxyAgent.Initialization(ApplicationConfigUtil.GetAppSeting("WebSocketServer", "CSRedisClient"),
                 ApplicationConfigUtil.GetAppSeting("WebSocketServer", "WsPath"));
-
+           
             int Status =(int) MessageStatusEumns.Ready;
             List<RtMessage> MessageList = DataHandleManager.Instance().RtMessageHandle.GetRtMessageList(Status, DefaultTimeOutSecond);
             if (!CollectionUtils.IsEmpty(MessageList))
@@ -41,7 +41,7 @@ namespace MicrosServices.API.RealTimeSystem.Handlers
                     List<Guid> receiveList = new List<Guid>() { new Guid(SessionId) };
                     WebSocketNotifications notifications = new WebSocketNotifications()
                     {
-                        SenderSessionId = new Guid(),
+                        SenderSessionId = Guid.Empty,
                         ReceiveSessionIds = receiveList,
                         Message = message.Message,
                         Receipt = true,

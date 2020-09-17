@@ -25,6 +25,10 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushBrokers
         /// 推送消息的事件，可审查推向哪个Server节点
         /// </summary>
         public EventHandler<NotificationsEventArgs> OnSend;
+        /// <summary>
+        /// 服务端处理事件
+        /// </summary>
+        public EventHandler<NotificationsEventArgs> OnServerHandler;
         #endregion
 
         /// <summary>

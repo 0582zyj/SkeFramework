@@ -6,6 +6,7 @@ using SkeFramework.Core.WebSocketPush.DataEntities.DataCommons;
 using SkeFramework.Core.WebSocketPush.DataUtils;
 using SkeFramework.Core.WebSocketPush.PushServices.PushBrokers;
 using SkeFramework.Core.WebSocketPush.PushServices.PushClients;
+using SkeFramework.Core.WebSocketPush.PushServices.PushEvent;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -178,11 +179,19 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
                         if (data.CheckReceipt(sessionId))
                         {
                             string message = new NotificationsVo(NotificationsType.receipt_offline, data.Message).ToString();
-                            SendMessage(sessionId, new[] { data.SenderSessionId }, message);
+                            var offlineNotifications = new WebSocketNotifications()
+                            {
+                                SenderSessionId = sessionId,
+                                ReceiveSessionIds = new List<Guid>() { data.SenderSessionId },
+                                Message = message,
+                                NotificationTag = data.NotificationTag
+                            };
+                            SendMessage(offlineNotifications);
                         }
-                        else if(sessionId != Guid.Empty)
+                        else if(sessionId == Guid.Empty)
                         {
-
+                            string server = SelectServer(sessionId);
+                            OnServerHandler?.Invoke(this, new NotificationsEventArgs(server, data));
                         }
                         continue;
                     }
@@ -199,7 +208,14 @@ namespace SkeFramework.Core.WebSocketPush.PushServices.PushServer
                     if (data.CheckReceipt(sessionId))
                     {
                         string message = new NotificationsVo(NotificationsType.receipt_send, data.Message).ToString();
-                        SendMessage(sessionId, new[] { data.SenderSessionId },message);
+                        var receiptSendNotifications = new WebSocketNotifications()
+                        {
+                            SenderSessionId = sessionId,
+                            ReceiveSessionIds = new List<Guid>() { data.SenderSessionId },
+                            Message = message,
+                            NotificationTag = data.NotificationTag
+                        };
+                        SendMessage(receiptSendNotifications);
                     }
                 }
             }
