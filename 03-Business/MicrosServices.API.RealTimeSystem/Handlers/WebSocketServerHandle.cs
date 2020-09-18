@@ -1,7 +1,11 @@
 ﻿using MicrosServices.API.RealTimeSystem.DataUtil;
+using MicrosServices.BLL.Business;
+using MicrosServices.Entities.Constants;
 using MicrosServices.Helper.Core.RealTimeSystems.VO;
 using Newtonsoft.Json;
 using SkeFramework.Core.WebSocketPush.DataEntities;
+using SkeFramework.Core.WebSocketPush.DataEntities.Constants;
+using SkeFramework.Core.WebSocketPush.DataEntities.DataCommons;
 using SkeFramework.Core.WebSocketPush.PushServices.PushEvent;
 using SkeFramework.Core.WebSocketPush.PushServices.PushServer;
 using System;
@@ -80,7 +84,17 @@ namespace MicrosServices.API.RealTimeSystem.Handle
         /// <param name="e"></param>
         private void OnServerHandler(object sender, NotificationsEventArgs e)
         {
-
+            NotificationsVo notifications = JsonConvert.DeserializeObject<NotificationsVo>(e.Notifications.Message);
+            NotificationsType notificationsType = (NotificationsType)Enum.Parse(typeof(NotificationsType), notifications.type, true);
+            switch (notificationsType)
+            {
+                case NotificationsType.receipt_send:
+                case NotificationsType.receipt_offline:
+                    int status =(int) MessageStatusEumns.Complete;
+                    int MessageId =Convert.ToInt32( e.Notifications.NotificationTag);
+                    DataHandleManager.Instance().RtMessageHandle.UpdateAvailResult(MessageId, status, DateTime.Now, notifications.type);
+                    break;
+            }
         }
         /// <summary>
         /// 发送消息回调事件

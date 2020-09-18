@@ -28,6 +28,11 @@ namespace SkeFramework.Core.WebSocketPush.DataEntities.DataCommons
         /// </summary>
         public object data { get; set; }
 
+        public NotificationsVo()
+        {
+
+        }
+
         public NotificationsVo(NotificationsType notificationsType,object data)
            : this(data,notificationsType.ToString(), (int)notificationsType, "")
         {

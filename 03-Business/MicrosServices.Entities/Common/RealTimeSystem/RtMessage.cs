@@ -16,7 +16,7 @@ namespace MicrosServices.Entities.Common.RealTimeSystem
         public const string TableName = "rt_message";
         [KeyAttribute(true)]
         [Description("ID")]
-        public Int64 id { get; set; }
+        public long id { get; set; }
         [Description("应用ID")]
         public string AppId { get; set; }
         [Description("接受用户")]
