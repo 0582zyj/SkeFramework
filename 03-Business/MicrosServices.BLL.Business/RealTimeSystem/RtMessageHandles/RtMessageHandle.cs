@@ -2,6 +2,7 @@
 using MicrosServices.Entities.Common.RealTimeSystem;
 using MicrosServices.Entities.Constants;
 using SkeFramework.Core.Common.Collections;
+using SkeFramework.Core.SqlExpression;
 using SkeFramework.DataBase.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -56,13 +57,17 @@ namespace MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles
         /// <param name="Status"></param>
         /// <param name="TimeOutSecond"></param>
         /// <returns></returns>
-        public List<RtMessage> GetRtMessageList(int Status, int TimeOutSecond)
+        public List<RtMessage> GetRtMessageList(int Status, int TimeOutSecond, List<string> AppIdList=null)
         {
             Expression<Func<RtMessage, bool>> where = null;
             where = (o => o.Status.Equals(Status));
             if (TimeOutSecond!=0)
             {
-                where = (o => o.InputTime.AddSeconds(TimeOutSecond)>DateTime.Now);
+                where = where.And(o => o.InputTime.AddSeconds(TimeOutSecond) > DateTime.Now);
+            }
+            if (!CollectionUtils.IsEmpty(AppIdList))
+            {
+                where = where.And(o => AppIdList.Contains(o.AppId));
             }
             return this.GetList(where).ToList();
         }
@@ -79,7 +84,7 @@ namespace MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles
             where = (o => o.Status.Equals(Status));
             if (!CollectionUtils.IsEmpty(ReceiveUserIdList))
             {
-                where = (o => ReceiveUserIdList.Contains(o.UserId));
+                where = where.And(o => ReceiveUserIdList.Contains(o.UserId));
             }
             return this.GetList(where).ToList();
         }
@@ -92,6 +97,28 @@ namespace MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles
         public List<RtMessage> GetRtMessageList(string ReceiveUserId)
         {
             return this.GetRtMessageList((int)MessageStatusEumns.Ready, new List<string>() { ReceiveUserId });
+        }
+
+        /// <summary>
+        /// 统计某个应用要推送的消息个数
+        /// </summary>
+        /// <param name="Status"></param>
+        /// <param name="TimeOutSecond"></param>
+        /// <param name="AppIdList"></param>
+        /// <returns></returns>
+        public long CountRtMessage(int Status, int TimeOutSecond, List<string> AppIdList = null)
+        {
+            Expression<Func<RtMessage, bool>> where = null;
+            where = (o => o.Status.Equals(Status));
+            if (TimeOutSecond != 0)
+            {
+                where = where.And(o => o.InputTime.AddSeconds(TimeOutSecond) > DateTime.Now);
+            }
+            if (!CollectionUtils.IsEmpty(AppIdList))
+            {
+                where = where.And(o => AppIdList.Contains(o.AppId));
+            }
+            return this.Count(where);
         }
     }
 }

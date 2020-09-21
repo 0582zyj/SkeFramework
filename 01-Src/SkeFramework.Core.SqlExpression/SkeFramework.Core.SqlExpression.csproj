@@ -53,6 +53,7 @@
     <Compile Include="DataHandler\UnaryServices\UnaryExpressionHandle.cs" />
     <Compile Include="DataUtil\ExpressionTypeUtil.cs" />
     <Compile Include="DataUtil\SQLMethods.cs" />
+    <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="ExpressionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

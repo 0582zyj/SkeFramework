@@ -30,7 +30,7 @@ namespace MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles
         /// <param name="Status"></param>
         /// <param name="TimeOutSecond"></param>
         /// <returns></returns>
-        List<RtMessage> GetRtMessageList(int Status, int TimeOutSecond);
+        List<RtMessage> GetRtMessageList(int Status, int TimeOutSecond,List<string> AppIdList = null);
         /// <summary>
         /// 获取消息列表
         /// </summary>
@@ -44,5 +44,13 @@ namespace MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles
         /// <param name="TimeOutSecond"></param>
         /// <returns></returns>
         List<RtMessage> GetRtMessageList(string ReceiveUserId);
+        /// <summary>
+        /// 统计某个应用要推送的消息个数
+        /// </summary>
+        /// <param name="Status"></param>
+        /// <param name="TimeOutSecond"></param>
+        /// <param name="AppIdList"></param>
+        /// <returns></returns>
+        long CountRtMessage(int Status, int TimeOutSecond, List<string> AppIdList = null);
     }
 }

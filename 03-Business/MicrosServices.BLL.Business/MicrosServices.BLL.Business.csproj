@@ -99,6 +99,10 @@
       <Project>{59b48553-2829-4bb0-83aa-860c8edc9f68}</Project>
       <Name>SkeFramework.Core.SnowFlake</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.SqlExpression\SkeFramework.Core.SqlExpression.csproj">
+      <Project>{AAA1A2D1-12B6-4A1F-8AE0-46ECE0BD4D89}</Project>
+      <Name>SkeFramework.Core.SqlExpression</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.DataBase.DataAccess\SkeFramework.DataBase.DataAccess.csproj">
       <Project>{2811AF18-014F-4D3A-AA91-6AFB13F53A9A}</Project>
       <Name>SkeFramework.DataBase.DataAccess</Name>

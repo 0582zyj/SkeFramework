@@ -26,28 +26,33 @@ namespace MicrosServices.API.RealTimeSystem.Handlers
         public void MessageJob(CancellationToken token)
         {
             Trace.WriteLine (DateTime.Now.ToString() + " test1 start");
-
+            string appId = ApplicationConfigUtil.GetAppSeting("WebSocketServer", "WsPath");
             WebSocketProxyAgent.Initialization(ApplicationConfigUtil.GetAppSeting("WebSocketServer", "CSRedisClient"),
-                ApplicationConfigUtil.GetAppSeting("WebSocketServer", "WsPath"));
+               appId);
            
             int Status =(int) MessageStatusEumns.Ready;
-            List<RtMessage> MessageList = DataHandleManager.Instance().RtMessageHandle.GetRtMessageList(Status, DefaultTimeOutSecond);
-            if (!CollectionUtils.IsEmpty(MessageList))
+            List<string> AppIdList = new List<string>() { appId };
+            long Count = DataHandleManager.Instance().RtMessageHandle.CountRtMessage(Status, DefaultTimeOutSecond, AppIdList);
+            if (Count > 0)
             {
-                foreach(var message in MessageList)
+                List<RtMessage> MessageList = DataHandleManager.Instance().RtMessageHandle.GetRtMessageList(Status, DefaultTimeOutSecond, AppIdList);
+                if (!CollectionUtils.IsEmpty(MessageList))
                 {
-                    string clientRedisKey = RedisUtil.GetUserIdRedisKey(message.AppId, message.UserId);
-                    string SessionId= RedisUtil.GetWebSocketSessionID(clientRedisKey);
-                    List<Guid> receiveList = new List<Guid>() { new Guid(SessionId) };
-                    WebSocketNotifications notifications = new WebSocketNotifications()
+                    foreach (var message in MessageList)
                     {
-                        SenderSessionId = Guid.Empty,
-                        ReceiveSessionIds = receiveList,
-                        Message = message.Message,
-                        Receipt = true,
-                        NotificationTag = message.id
-                    };
-                    WebSocketProxyAgent.SendMessage(notifications);
+                        string clientRedisKey = RedisUtil.GetUserIdRedisKey(message.AppId, message.UserId);
+                        string SessionId = RedisUtil.GetWebSocketSessionID(clientRedisKey);
+                        List<Guid> receiveList = new List<Guid>() { new Guid(SessionId) };
+                        WebSocketNotifications notifications = new WebSocketNotifications()
+                        {
+                            SenderSessionId = Guid.Empty,
+                            ReceiveSessionIds = receiveList,
+                            Message = message.Message,
+                            Receipt = true,
+                            NotificationTag = message.id
+                        };
+                        WebSocketProxyAgent.SendMessage(notifications);
+                    }
                 }
             }
             Trace.WriteLine(DateTime.Now.ToString() + " test1 end");
