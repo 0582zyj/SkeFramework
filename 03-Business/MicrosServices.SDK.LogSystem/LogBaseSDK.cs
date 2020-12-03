@@ -31,6 +31,7 @@ namespace MicrosServices.SDK.LogSystem
             try
             {
                 RequestBase request = new RequestBase();
+                request.SetValue("PageIndex", page.PageIndex,true);
                 request.SetValue("PageIndex", page.PageIndex);
                 request.SetValue("PageSize", page.PageSize);
                 request.SetValue("keywords", logQueryForm.keywords);

@@ -17,7 +17,7 @@ namespace SkeFramework.Core.Encrypts
         public static string GetMD5String(string originStr)
         {
             MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] fromData = System.Text.Encoding.Unicode.GetBytes(originStr);
+            byte[] fromData = System.Text.Encoding.BigEndianUnicode.GetBytes(originStr);
             byte[] targetData = md5.ComputeHash(fromData);
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < targetData.Length; i++)

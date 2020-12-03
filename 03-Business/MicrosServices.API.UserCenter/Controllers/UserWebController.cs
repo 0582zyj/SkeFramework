@@ -15,7 +15,7 @@ using SkeFramework.Core.Network.Responses;
 
 namespace MicrosServices.API.UserCenter.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/user/[action]")]
     [ApiController]
     public class UserWebController : ControllerBase
     {
@@ -54,7 +54,7 @@ namespace MicrosServices.API.UserCenter.Controllers
         /// <param name="registerPlatform"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<JsonResponses> RegisterPlatfrom([FromForm]RegisterPlatformForm registerPlatform)
+        public ActionResult<JsonResponses> RegisterPlatform([FromForm]RegisterPlatformForm registerPlatform)
         {
             string MdfPas = MD5Helper.GetMD5String(registerPlatform.Password);
             registerPlatform.Password = MdfPas;

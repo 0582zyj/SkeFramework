@@ -16,9 +16,9 @@ namespace MicrosServices.SDK.UserCenter
 {
     public class UserSDK
     {
-        private static string RegisterPlatfromUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/UserWeb/RegisterPlatfrom";
-        private static string CancelPlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/UserWeb/CancelPlatform";
-        private static string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/UserWeb/GetPageList";
+        private static string RegisterPlatfromUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/user/RegisterPlatfrom";
+        private static string CancelPlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/user/CancelPlatform";
+        private static string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/user/GetPageList";
 
         #region 平台管理
         /// <summary>
