@@ -1,16 +1,6 @@
 ﻿using SkeFramework.Winform.LicenseAuth.DataEntities;
 using SkeFramework.Winform.LicenseAuth.BusinessServices;
-using SkeFramework.Winform.LicenseAuth.DataHandle;
-using SkeFramework.Winform.LicenseAuth.DataHandle.SecurityHandles;
-using SkeFramework.Winform.LicenseAuth.DataHandle.Securitys;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SkeFramework.Winform.LicenseAuth.DataForm

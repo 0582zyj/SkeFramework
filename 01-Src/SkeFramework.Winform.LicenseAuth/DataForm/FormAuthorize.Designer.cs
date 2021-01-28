@@ -30,21 +30,21 @@
         {
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lblMachineCode = new System.Windows.Forms.Label();
+            this.radioButtonServer = new System.Windows.Forms.RadioButton();
+            this.radioButtonActivationCode = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnCannel = new System.Windows.Forms.Button();
             this.btnRegister = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.radioButtonActivationCode = new System.Windows.Forms.RadioButton();
-            this.radioButtonServer = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rtbFinalCode = new System.Windows.Forms.RichTextBox();
-            this.lblMachineCode = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label3
@@ -67,6 +67,37 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(438, 41);
             this.panel2.TabIndex = 1;
+            // 
+            // lblMachineCode
+            // 
+            this.lblMachineCode.AutoSize = true;
+            this.lblMachineCode.Location = new System.Drawing.Point(364, 18);
+            this.lblMachineCode.Name = "lblMachineCode";
+            this.lblMachineCode.Size = new System.Drawing.Size(65, 12);
+            this.lblMachineCode.TabIndex = 9;
+            this.lblMachineCode.Text = "查看机器码";
+            // 
+            // radioButtonServer
+            // 
+            this.radioButtonServer.AutoSize = true;
+            this.radioButtonServer.Location = new System.Drawing.Point(211, 14);
+            this.radioButtonServer.Name = "radioButtonServer";
+            this.radioButtonServer.Size = new System.Drawing.Size(83, 16);
+            this.radioButtonServer.TabIndex = 8;
+            this.radioButtonServer.Text = "服务器地址";
+            this.radioButtonServer.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonActivationCode
+            // 
+            this.radioButtonActivationCode.AutoSize = true;
+            this.radioButtonActivationCode.Checked = true;
+            this.radioButtonActivationCode.Location = new System.Drawing.Point(146, 14);
+            this.radioButtonActivationCode.Name = "radioButtonActivationCode";
+            this.radioButtonActivationCode.Size = new System.Drawing.Size(59, 16);
+            this.radioButtonActivationCode.TabIndex = 7;
+            this.radioButtonActivationCode.TabStop = true;
+            this.radioButtonActivationCode.Text = "激活码";
+            this.radioButtonActivationCode.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -109,46 +140,6 @@
             this.panel3.Size = new System.Drawing.Size(438, 321);
             this.panel3.TabIndex = 4;
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(444, 421);
-            this.tableLayoutPanel1.TabIndex = 14;
-            // 
-            // radioButtonActivationCode
-            // 
-            this.radioButtonActivationCode.AutoSize = true;
-            this.radioButtonActivationCode.Checked = true;
-            this.radioButtonActivationCode.Location = new System.Drawing.Point(146, 14);
-            this.radioButtonActivationCode.Name = "radioButtonActivationCode";
-            this.radioButtonActivationCode.Size = new System.Drawing.Size(59, 16);
-            this.radioButtonActivationCode.TabIndex = 7;
-            this.radioButtonActivationCode.TabStop = true;
-            this.radioButtonActivationCode.Text = "激活码";
-            this.radioButtonActivationCode.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonServer
-            // 
-            this.radioButtonServer.AutoSize = true;
-            this.radioButtonServer.Location = new System.Drawing.Point(211, 14);
-            this.radioButtonServer.Name = "radioButtonServer";
-            this.radioButtonServer.Size = new System.Drawing.Size(83, 16);
-            this.radioButtonServer.TabIndex = 8;
-            this.radioButtonServer.Text = "服务器地址";
-            this.radioButtonServer.UseVisualStyleBackColor = true;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.rtbFinalCode);
@@ -169,14 +160,23 @@
             this.rtbFinalCode.TabIndex = 11;
             this.rtbFinalCode.Text = "";
             // 
-            // lblMachineCode
+            // tableLayoutPanel1
             // 
-            this.lblMachineCode.AutoSize = true;
-            this.lblMachineCode.Location = new System.Drawing.Point(364, 18);
-            this.lblMachineCode.Name = "lblMachineCode";
-            this.lblMachineCode.Size = new System.Drawing.Size(65, 12);
-            this.lblMachineCode.TabIndex = 9;
-            this.lblMachineCode.Text = "查看机器码";
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(444, 421);
+            this.tableLayoutPanel1.TabIndex = 14;
             // 
             // FormAuthorize
             // 
@@ -184,6 +184,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(444, 421);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FormAuthorize";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Licenses Activation";
@@ -192,8 +193,8 @@
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

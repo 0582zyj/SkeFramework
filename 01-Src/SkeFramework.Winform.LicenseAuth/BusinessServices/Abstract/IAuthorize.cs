@@ -32,5 +32,18 @@ namespace SkeFramework.Winform.LicenseAuth.BusinessServices
         /// </summary>
         /// <returns>是否成功授权</returns>
         JsonResponse CheckLocalAuthorize();
+        /// <summary>
+        /// 服务器校时
+        /// </summary>
+        /// <param name="TimeSpan"></param>
+        /// <returns></returns>
+        JsonResponse CheckAuthorizeServerTime(long TimeSpan);
+        /// <summary>
+        /// 检查时间
+        /// </summary>
+        /// <param name="TimeSpan"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        JsonResponse CheckLocalServerTime(long timeSpan, JsonResponse response);
     }
 }

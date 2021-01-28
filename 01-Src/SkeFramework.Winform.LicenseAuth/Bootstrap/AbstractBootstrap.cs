@@ -1,6 +1,7 @@
 ﻿using SkeFramework.Winform.LicenseAuth.BusinessServices;
 using SkeFramework.Winform.LicenseAuth.DataHandle.SecurityHandles;
 using SkeFramework.Winform.LicenseAuth.DataHandle.Securitys;
+using SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,6 @@ namespace SkeFramework.Winform.LicenseAuth.Bootstrap
         public IAuthorize Build()
         {
             Validate();
-            //BuildStoreHandles();
             return BuildInternal();
         }
         /// <summary>
@@ -44,9 +44,14 @@ namespace SkeFramework.Winform.LicenseAuth.Bootstrap
         /// </summary>
         public abstract void Validate();
         /// <summary>
-        /// 创建
+        /// 创建校验方式
         /// </summary>
         /// <returns></returns>
         protected abstract IAuthorize BuildInternal();
+        /// <summary>
+        /// 创建保存方式
+        /// </summary>
+        /// <returns></returns>
+        public abstract ISaveHandles BuildSaveHandles();
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SkeFramework.Core.NetLog;
+using SkeFramework.Winform.LicenseAuth.DataEntities.Constant;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
@@ -15,15 +17,32 @@ namespace SkeFramework.Winform.LicenseAuth.DataUtils
     public class SystemUtil
     {
         private static string fingerPrint = string.Empty;
+
+
         public static string Value()
         {
             if (string.IsNullOrEmpty(fingerPrint))
             {
-                fingerPrint = GetHash("CPU >> " + CpuId() + "\nBIOS >> " +
-                                BiosId() + "\nBASE >> " + BaseId()
-                            + "\nDISK >> " + DiskId() + "\nVIDEO >> " +
-                            VideoId() + "\nMAC >> " + MacId()
-                                     );
+                CounterToken counterToken = LogAgent.StartCounter();
+                string newValue = RegistryUtil.GetRegeditkeyValue(LicenseConstData.KeyRegistyPath, LicenseConstData.MacCodeKey);
+                if (string.IsNullOrEmpty(newValue))
+                {
+                    string cpuId = CpuId();
+                    string biosId = BiosId();
+                    string baseId = BaseId();
+                    fingerPrint = GetHash(
+                            "\nCPU >> " + cpuId +
+                            "\nBIOS >> " + biosId
+                            + "\nBASE >> " + baseId
+                          );
+                    RegistryUtil.SetSecurityLey(fingerPrint,LicenseConstData.KeyRegistyPath, LicenseConstData.MacCodeKey);
+                    LogAgent.Info("CPU:" + cpuId + ";BIOS:" + biosId + ";BASE:" + baseId);
+                }
+                else
+                {
+                    fingerPrint = newValue;
+                }
+                LogAgent.StopCounterAndLog(counterToken, "SystemUtil.Value:" + fingerPrint+" "+ newValue);
             }
             return fingerPrint;
         }
@@ -97,12 +116,20 @@ namespace SkeFramework.Winform.LicenseAuth.DataUtils
         /// <returns></returns>
         private static string BiosId()
         {
-            return Identifier("Win32_BIOS", "Manufacturer")
-            + Identifier("Win32_BIOS", "SMBIOSBIOSVersion")
-            + Identifier("Win32_BIOS", "IdentificationCode")
-            + Identifier("Win32_BIOS", "SerialNumber")
-            + Identifier("Win32_BIOS", "ReleaseDate")
-            + Identifier("Win32_BIOS", "Version");
+            try
+            {
+                return Identifier("Win32_BIOS", "Manufacturer")
+                        + Identifier("Win32_BIOS", "SMBIOSBIOSVersion")
+                        //+ Identifier("Win32_BIOS", "IdentificationCode")
+                        + Identifier("Win32_BIOS", "SerialNumber")
+                        + Identifier("Win32_BIOS", "ReleaseDate")
+                        + Identifier("Win32_BIOS", "Version");
+            }
+            catch (Exception ex)
+            {
+                LogAgent.Error(ex.ToString());
+            }
+            return "";
         }
         /// <summary>
         /// 主物理硬盘驱动器ID
@@ -110,10 +137,19 @@ namespace SkeFramework.Winform.LicenseAuth.DataUtils
         /// <returns></returns>
         private static string DiskId()
         {
-            return Identifier("Win32_DiskDrive", "Model")
-            + Identifier("Win32_DiskDrive", "Manufacturer")
-            + Identifier("Win32_DiskDrive", "Signature")
-            + Identifier("Win32_DiskDrive", "TotalHeads");
+            try
+            {
+                return Identifier("Win32_DiskDrive", "Model")
+                        + Identifier("Win32_DiskDrive", "Manufacturer")
+                        + Identifier("Win32_DiskDrive", "Signature")
+                        + Identifier("Win32_DiskDrive", "TotalHeads");
+            }
+            catch (Exception ex)
+            {
+                LogAgent.Error(ex.ToString());
+            }
+            return "";
+
         }
         /// <summary>
         /// 主板
@@ -121,10 +157,20 @@ namespace SkeFramework.Winform.LicenseAuth.DataUtils
         /// <returns></returns>
         private static string BaseId()
         {
-            return Identifier("Win32_BaseBoard", "Model")
-            + Identifier("Win32_BaseBoard", "Manufacturer")
-            + Identifier("Win32_BaseBoard", "Name")
-            + Identifier("Win32_BaseBoard", "SerialNumber");
+            try
+            {
+                return 
+                    //Identifier("Win32_BaseBoard", "Model") +
+           Identifier("Win32_BaseBoard", "Manufacturer")
+          + Identifier("Win32_BaseBoard", "Name")
+          + Identifier("Win32_BaseBoard", "SerialNumber");
+            }
+            catch (Exception ex)
+            {
+                LogAgent.Error(ex.ToString());
+            }
+            return "";
+
         }
         /// <summary>
         /// 显卡
@@ -132,8 +178,17 @@ namespace SkeFramework.Winform.LicenseAuth.DataUtils
         /// <returns></returns>
         private static string VideoId()
         {
-            return Identifier("Win32_VideoController", "DriverVersion")
+            try
+            {
+                return Identifier("Win32_VideoController", "DriverVersion")
             + Identifier("Win32_VideoController", "Name");
+            }
+            catch (Exception ex)
+            {
+                LogAgent.Error(ex.ToString());
+            }
+            return "";
+
         }
         /// <summary>
         /// 网卡ID
@@ -141,8 +196,16 @@ namespace SkeFramework.Winform.LicenseAuth.DataUtils
         /// <returns></returns>
         private static string MacId()
         {
-            return Identifier("Win32_NetworkAdapterConfiguration",
-                "MACAddress", "IPEnabled");
+            try
+            {
+                return Identifier("Win32_NetworkAdapterConfiguration",
+                 "MACAddress", "IPEnabled");
+            }
+            catch (Exception ex)
+            {
+                LogAgent.Error(ex.ToString());
+            }
+            return "";
         }
         #endregion
 
@@ -190,23 +253,29 @@ namespace SkeFramework.Winform.LicenseAuth.DataUtils
         private static string Identifier(string wmiClass, string wmiProperty)
         {
             string result = "";
-            ManagementClass mc =
-        new ManagementClass(wmiClass);
-            ManagementObjectCollection moc = mc.GetInstances();
-            foreach (ManagementObject mo in moc)
+            try
             {
-                //Only get the first one
-                if (result == "")
+                ManagementClass mc =
+            new ManagementClass(wmiClass);
+                ManagementObjectCollection moc = mc.GetInstances();
+                foreach (ManagementObject mo in moc)
                 {
-                    try
+                    //Only get the first one
+                    if (result == "")
                     {
-                        result = mo[wmiProperty].ToString();
-                        break;
-                    }
-                    catch
-                    {
+                        try
+                        {
+                            result = mo[wmiProperty].ToString();
+                            break;
+                        }
+                        catch
+                        {
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
             }
             return result;
         }

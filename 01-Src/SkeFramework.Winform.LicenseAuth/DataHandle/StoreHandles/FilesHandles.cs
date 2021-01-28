@@ -17,12 +17,16 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles
     /// <remarks>
     public class FilesHandles : ProxySaveBase
     {
+        /// <summary>
+        /// 文件路径
+        /// </summary>
+        private string fullFileName { get { return this.FileSavePath + this.FileName; } }
 
         #region 构造函数
         /// <summary>
         /// 实例化一个文件存储的基类
         /// </summary>
-        public FilesHandles() : base(new DesHandle())
+        public FilesHandles() : this(new DesHandle())
         {
 
         }
@@ -34,8 +38,6 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles
         }
         #endregion
 
-        
-
         #region 保存加载文件
 
         /// <summary>
@@ -43,11 +45,11 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles
         /// </summary>
         public override void LoadByFile()
         {
-            if (FileSavePath != "")
+            if (!String.IsNullOrEmpty(fullFileName))
             {
-                if (File.Exists(FileSavePath))
+                if (File.Exists(fullFileName))
                 {
-                    using (StreamReader sr = new StreamReader(FileSavePath, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(fullFileName, Encoding.Default))
                     {
                         LoadByString(sr.ReadToEnd());
                     }
@@ -59,11 +61,14 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles
         /// </summary>
         public override void SaveToFile()
         {
-            if (FileSavePath != "")
+            if (!String.IsNullOrEmpty(fullFileName))
             {
-                using (StreamWriter sw = new StreamWriter(FileSavePath, false, Encoding.Default))
+                string msg = ToSaveString();
+                if (String.IsNullOrEmpty(msg))
+                    return;
+                using (StreamWriter sw = new StreamWriter(fullFileName, false, Encoding.Default))
                 {
-                    sw.Write(ToSaveString());
+                    sw.Write(msg);
                     sw.Flush();
                 }
             }

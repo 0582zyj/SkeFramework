@@ -10,7 +10,7 @@ namespace SkeFramework.Winform.LicenseAuth.DataEntities
    /// <summary>
    /// 请求返回类
    /// </summary>
-    public class JsonResponse
+    public class JsonResponse:ICloneable
     {
         public static int SuccessCode = 200;
         public static int FailedCode = 400;
@@ -54,5 +54,9 @@ namespace SkeFramework.Winform.LicenseAuth.DataEntities
             return this.code == JsonResponse.SuccessCode;
         }
 
+        public object Clone()
+        {
+            return new JsonResponse(this.code, this.msg, this.data);
+        }
     }
 }

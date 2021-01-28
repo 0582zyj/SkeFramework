@@ -1,4 +1,5 @@
 ﻿using SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract;
+using SkeFramework.Winform.LicenseAuth.DataEntities.Constant;
 using SkeFramework.Winform.LicenseAuth.DataHandle.Securitys;
 using SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles;
 using System;
@@ -16,14 +17,8 @@ namespace SkeFramework.Winform.LicenseAuth.BusinessServices
     public class DefaultAuthorizeProxy: AuthorizeBase
     {
 
-        public DefaultAuthorizeProxy(ISecurityHandle security):this(new FilesHandles(),security)
+        public DefaultAuthorizeProxy(ISaveHandles licenseSaveHandles, ISecurityHandle security):base(licenseSaveHandles,security)
         {
-          
-        }
-
-        public DefaultAuthorizeProxy(ISaveHandles save, ISecurityHandle security):base(save,security)
-        {
-            this.LicensePath = Application.StartupPath + @"\license.key";
         }
     }
 }

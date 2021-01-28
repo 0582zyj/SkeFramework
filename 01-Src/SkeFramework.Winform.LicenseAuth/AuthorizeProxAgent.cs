@@ -32,7 +32,7 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle
         }
         #endregion
 
-        private IAuthorize authorize = null;
+        public IAuthorize authorize = null;
         #region 构造函数
         /// <summary>
         /// 实例化一个软件授权类

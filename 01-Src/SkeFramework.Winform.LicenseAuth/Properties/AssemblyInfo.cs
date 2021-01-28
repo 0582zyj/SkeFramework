@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("SkeFramework.Winform.LicenseAuth")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("License基础库")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("NetSke")]
 [assembly: AssemblyProduct("SkeFramework.Winform.LicenseAuth")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]

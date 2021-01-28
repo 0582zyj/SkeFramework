@@ -15,6 +15,7 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles.Abstract
         /// </summary>
         private ISecurityHandle security;
 
+
         public ProxySaveBase(ISecurityHandle security):base()
         {
             this.security = security;
@@ -28,6 +29,8 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles.Abstract
         /// <returns>需要存储的信息</returns>
         public override string ToSaveString()
         {
+            if(String.IsNullOrEmpty(FinalCode))
+                return String.Empty;
             JObject json = new JObject
             {
                 { TextCode, new JValue(FinalCode) }
@@ -50,6 +53,8 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles.Abstract
             {
                 msg =this.security.Decrypt(content);
             }
+            if (String.IsNullOrEmpty(msg))
+                return;
             JObject json = JObject.Parse(msg);
             if (json.Property(TextCode) != null)
             {

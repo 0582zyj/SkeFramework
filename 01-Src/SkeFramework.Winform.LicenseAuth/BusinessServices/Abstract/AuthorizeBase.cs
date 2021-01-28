@@ -1,9 +1,14 @@
-﻿using SkeFramework.Winform.LicenseAuth.DataEntities;
+﻿using Newtonsoft.Json;
+using SkeFramework.Core.Common.Enums;
+using SkeFramework.Core.NetLog;
+using SkeFramework.Winform.LicenseAuth.DataEntities;
+using SkeFramework.Winform.LicenseAuth.DataEntities.Constant;
 using SkeFramework.Winform.LicenseAuth.DataHandle.Securitys;
 using SkeFramework.Winform.LicenseAuth.DataHandle.StoreHandles;
 using SkeFramework.Winform.LicenseAuth.DataUtils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,13 +22,9 @@ namespace SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract
     {
         #region 私有成员
         /// <summary>
-        /// 指示是否加载过文件信息
-        /// </summary>
-        private bool HasLoadByFile { get; set; } = false;
-        /// <summary>
         /// 注册码保存处理
         /// </summary>
-        private ISaveHandles saveHandles;
+        private ISaveHandles licenseSaveHandles;
         /// <summary>
         /// 注册码加密处理
         /// </summary>
@@ -38,12 +39,12 @@ namespace SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract
         /// <summary>
         /// 注册码保存地址
         /// </summary>
-        public string LicensePath { get => saveHandles.FileSavePath; set => saveHandles.FileSavePath = value; }
+        public string LicensePath { get { return licenseSaveHandles.FileSavePath; }  set { licenseSaveHandles.FileSavePath = value; }  }
         #endregion
 
         public AuthorizeBase(ISaveHandles save, ISecurityHandle  security)
         {
-            saveHandles = save;
+            licenseSaveHandles = save;
             securityHandle = security;
             HybirdLock = new ThreadHybirdLock();
         }
@@ -57,7 +58,7 @@ namespace SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract
             HybirdLock.Enter();
             try
             {
-                saveHandles.SaveToFile();
+                licenseSaveHandles.SaveToFile();
             }
             catch (Exception ex)
             {
@@ -76,7 +77,7 @@ namespace SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract
             HybirdLock.Enter();
             try
             {
-                saveHandles.LoadByFile();
+                licenseSaveHandles.LoadByFile();
             }
             catch (Exception ex)
             {
@@ -98,10 +99,18 @@ namespace SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract
         public JsonResponse CheckAuthorize(string code)
         {
             JsonResponse result = VerifyCode(code);
-            if (result.ValidateResponses())
+            if (result.ValidateResponses() || result.code==(int)ErrorCodeEnums.TokenExpired)
             {
-                saveHandles.FinalCode = code;
+                licenseSaveHandles.FinalCode = code;
                 SaveToFile();
+            }
+            else
+            {
+                if (File.Exists(this.LicensePath))
+                {
+                    File.Delete(this.LicensePath);
+                    LogAgent.Info("CheckAuthorize:删除文件" + this.LicensePath + " " + result.msg);
+                }
             }
             return result;
         }
@@ -112,7 +121,11 @@ namespace SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract
         public JsonResponse CheckLocalAuthorize()
         {
             LoadByFile();
-            return VerifyCode(saveHandles.FinalCode);
+            if (licenseSaveHandles.FinalCode == null)
+            {
+                return new JsonResponse((int)ErrorCodeEnums.LicenseNotExist, "找不到本地激活码,请重新联网激活");
+            }
+            return VerifyCode(licenseSaveHandles.FinalCode);
         }
         /// <summary>
         /// 获取本机的机器码
@@ -121,6 +134,67 @@ namespace SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract
         public string GetMachineCodeString()
         {
             return SystemUtil.Value();
+        }
+        /// <summary>
+        /// 校验服务器时间
+        /// </summary>
+        /// <param name="TimeSpan"></param>
+        /// <returns></returns>
+        public JsonResponse CheckAuthorizeServerTime(long TimeSpan)
+        {
+            JsonResponse jsonResponse = JsonResponse.Failed.Clone() as JsonResponse;
+            try
+            {
+                jsonResponse = CheckLocalAuthorize();
+                if (jsonResponse.ValidateResponses())
+                {
+                     jsonResponse= CheckLocalServerTime(TimeSpan, jsonResponse);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogAgent.Info(ex.ToString());
+            }
+            return jsonResponse;
+        }
+
+        /// <summary>
+        /// 检查时间
+        /// </summary>
+        /// <param name="TimeSpan"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        public JsonResponse CheckLocalServerTime(long timeSpan, JsonResponse response)
+        {
+            if(!(response.data is Dictionary<string, object>))
+            {
+                LogAgent.Info("CheckLocalServerTime:"+JsonConvert.SerializeObject( response));
+                return response;
+            }
+            Dictionary<string, object> Payload = response.data as Dictionary<string, object>;
+            if (Payload.ContainsKey("exp"))
+            {
+                long exp = Convert.ToInt64(Payload["exp"]);
+                if (timeSpan < exp)
+                {
+                    response.code = JsonResponse.SuccessCode;
+                    response.data = Payload;
+                    response.msg = "校准成功";
+                    return response;
+                }
+                else
+                {
+                    response.code = (int)ErrorCodeEnums.TokenExpired;
+                    response.msg = ErrorCodeEnums.TokenExpired.GetEnumDescription();
+                    LogAgent.Info(String.Format("注册码已过期:localExp:{0},ServerExp:{1}", exp, timeSpan));
+                    if (File.Exists(this.LicensePath))
+                    {
+                        File.Delete(this.LicensePath);
+                        LogAgent.Info("CheckAuthorize:删除文件" + this.LicensePath + " " + response.msg);
+                    }
+                }
+            }
+            return response;
         }
         #endregion
 
@@ -132,18 +206,21 @@ namespace SkeFramework.Winform.LicenseAuth.BusinessServices.Abstract
         /// <returns></returns>
         protected virtual JsonResponse VerifyCode(string code)
         {
+            JsonResponse jsonResponse = JsonResponse.Failed.Clone() as JsonResponse;
             if (code == null)
             {
-                return JsonResponse.Failed;
+                jsonResponse.msg = "激活码为空";
+                return jsonResponse;
             }
             try
             {
                 return securityHandle.Validate(code, GetMachineCodeString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-               return JsonResponse.Failed;
+                jsonResponse.msg = ex.ToString();
             }
+            return jsonResponse;
         }
         #endregion
 

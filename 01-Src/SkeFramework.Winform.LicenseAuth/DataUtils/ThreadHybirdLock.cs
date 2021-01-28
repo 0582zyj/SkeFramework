@@ -81,7 +81,7 @@ namespace SkeFramework.Winform.LicenseAuth.DataUtils
         /// <summary>
         /// 获取当前锁是否在等待当中
         /// </summary>
-        public bool IsWaitting => m_waiters != 0;
+        public bool IsWaitting { get { return m_waiters != 0; } } 
     }
 
 }

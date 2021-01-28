@@ -22,10 +22,11 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.Securitys
         /// <summary>
         /// 密钥，长度为8，英文或数字
         /// </summary>
-        public string Password { get; set; } = "ut123456";
+        public string Password { get; set; }
 
         public DesHandle()
         {
+            this.Password = "ut123456";
         }
         public DesHandle(string password)
         {
@@ -55,9 +56,9 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.Securitys
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public JsonResponse Validate(string token,string OriginalStr)
+        public JsonResponse Validate(string token, string OriginalStr)
         {
-            JsonResponse jsonResponse = JsonResponse.Failed;
+            JsonResponse jsonResponse = JsonResponse.Failed.Clone() as JsonResponse;
             try
             {
                 bool isValidted = token.Equals(Encrypt(OriginalStr));
@@ -81,21 +82,22 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.Securitys
         /// <returns>密文</returns>
         private string DESEncrypt(string encryptString, String Key, String Vector)
         {
-            byte[] Data = Encoding.UTF8.GetBytes(encryptString);
-            //将密钥转为字节数组，取其前8位
-            Byte[] bKey = new Byte[8];
-            Array.Copy(Encoding.UTF8.GetBytes(Key.PadRight(bKey.Length)), bKey, bKey.Length);
-            //将向量转为字节数组，取其前8位
-            Byte[] bVector = new Byte[8];
-            Array.Copy(Encoding.UTF8.GetBytes(Vector.PadRight(bVector.Length)), bVector, bVector.Length);
-            Byte[] Cryptograph = null; // 加密后的密文
-            DESCryptoServiceProvider EncryptProvider = new DESCryptoServiceProvider
-            {
-                Mode = CipherMode.CBC,
-                Padding = PaddingMode.Zeros
-            };
             try
             {
+                byte[] Data = Encoding.UTF8.GetBytes(encryptString);
+                //将密钥转为字节数组，取其前8位
+                Byte[] bKey = new Byte[8];
+                Array.Copy(Encoding.UTF8.GetBytes(Key.PadRight(bKey.Length)), bKey, bKey.Length);
+                //将向量转为字节数组，取其前8位
+                Byte[] bVector = new Byte[8];
+                Array.Copy(Encoding.UTF8.GetBytes(Vector.PadRight(bVector.Length)), bVector, bVector.Length);
+                Byte[] Cryptograph = null; // 加密后的密文
+                DESCryptoServiceProvider EncryptProvider = new DESCryptoServiceProvider
+                {
+                    Mode = CipherMode.CBC,
+                    Padding = PaddingMode.Zeros
+                };
+
                 // 开辟一块内存流
                 MemoryStream Memory = new MemoryStream();
                 // 把内存流对象包装成加密流对象
@@ -108,13 +110,13 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.Securitys
                     Encryptor.FlushFinalBlock();
                     Cryptograph = Memory.ToArray();
                 }
+                return Convert.ToBase64String(Cryptograph.ToArray());
             }
             catch
             {
-                Cryptograph = null;
+               
             }
-
-            return Convert.ToBase64String(Cryptograph.ToArray());
+            return "";
         }
 
         /// <summary>
@@ -126,26 +128,35 @@ namespace SkeFramework.Winform.LicenseAuth.DataHandle.Securitys
         /// <returns>明文</returns>
         private string DESDecrypt(string dncryptString, String Key, String Vector)
         {
-            using (DESCryptoServiceProvider CryptoProvider = new DESCryptoServiceProvider
-            { Key = Encoding.UTF8.GetBytes(Key), IV = Encoding.UTF8.GetBytes(Vector) })
+            try
             {
-                CryptoProvider.Mode = CipherMode.CBC;
-                CryptoProvider.Padding = PaddingMode.Zeros;
-                using (ICryptoTransform ct = CryptoProvider.CreateDecryptor())
+
+                using (DESCryptoServiceProvider CryptoProvider = new DESCryptoServiceProvider
+                { Key = Encoding.UTF8.GetBytes(Key), IV = Encoding.UTF8.GetBytes(Vector) })
                 {
-                    byte[] byt = Convert.FromBase64String(dncryptString);
-                    var ms = new MemoryStream();
-                    using (var cs = new CryptoStream(ms, ct, CryptoStreamMode.Write))
+                    CryptoProvider.Mode = CipherMode.CBC;
+                    CryptoProvider.Padding = PaddingMode.Zeros;
+                    using (ICryptoTransform ct = CryptoProvider.CreateDecryptor())
                     {
-                        cs.Write(byt, 0, byt.Length);
-                        cs.FlushFinalBlock();
+                        byte[] byt = Convert.FromBase64String(dncryptString);
+                        var ms = new MemoryStream();
+                        using (var cs = new CryptoStream(ms, ct, CryptoStreamMode.Write))
+                        {
+                            cs.Write(byt, 0, byt.Length);
+                            cs.FlushFinalBlock();
+                        }
+                        return Encoding.UTF8.GetString(ms.ToArray());
                     }
-                    return Encoding.UTF8.GetString(ms.ToArray());
                 }
             }
+            catch (Exception)
+            {
+                 
+            }
+            return "";
         }
 
-      
+
         #endregion
 
     }

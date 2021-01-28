@@ -32,11 +32,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="JWT, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JWT.3.0.1\lib\net35\JWT.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SkeFramework.Core.Common">
+      <HintPath>..\ULSmartHomeIde.SDK.API\Resources\Lib\SkeFramework.Core.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SkeFramework.Core.NetLog">
+      <HintPath>..\ULSmartHomeIde.SDK.API\Resources\Lib\SkeFramework.Core.NetLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,6 +65,9 @@
     <Compile Include="BusinessServices\Abstract\AuthorizeBase.cs" />
     <Compile Include="BusinessServices\Abstract\IAuthorize.cs" />
     <Compile Include="BusinessServices\DefaultAuthorizeProxy.cs" />
+    <Compile Include="DataEntities\Constant\ErrorCodeEnums.cs" />
+    <Compile Include="DataEntities\Constant\LicenseConstData.cs" />
+    <Compile Include="DataEntities\Constant\SaveTypeEnums.cs" />
     <Compile Include="DataEntities\Constant\SecurityTypeEnums.cs" />
     <Compile Include="DataEntities\JsonResponse.cs" />
     <Compile Include="DataEntities\JwtEntities.cs" />
@@ -72,16 +84,16 @@
     <Compile Include="DataUtils\RegistryUtil.cs" />
     <Compile Include="DataUtils\SystemUtil.cs" />
     <Compile Include="DataUtils\ThreadHybirdLock.cs" />
-    <Compile Include="DataUtils\ConvertUtils.cs" />
     <Compile Include="AuthorizeProxAgent.cs" />
     <Compile Include="DataHandle\StoreHandles\FilesHandles.cs" />
-    <Compile Include="DataHandle\StoreHandles\Abstract\ISaveHandles.cs" />
-    <Compile Include="DataHandle\SecurityHandles\ISecurityHandle.cs" />
+    <Compile Include="DataHandle\Interfaces\ISaveHandles.cs" />
+    <Compile Include="DataHandle\Interfaces\ISecurityHandle.cs" />
     <Compile Include="DataHandle\SecurityHandles\DesHandle.cs" />
-    <Compile Include="Version.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Version.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
