@@ -10,6 +10,7 @@ namespace MicrosServices.SDK.PermissionSystem
     {
         public const string BASE_URL_IIS = "http://localhost/PermissionApi";
         public const string BASE_URL_PERMISSION = "https://localhost:5001";
+        public const string BASE_URL_REMOTE = "http://8.129.235.184:9023";
 
         #region 单例模式
         /// <summary>
@@ -29,7 +30,7 @@ namespace MicrosServices.SDK.PermissionSystem
             return mSingleInstance;
         }
         #endregion
-        private string config = "local";
+        private string config = "remote";
         public string GetBaseUrl()
         {
             switch(config)
@@ -38,6 +39,8 @@ namespace MicrosServices.SDK.PermissionSystem
                     return NetwordConstants.BASE_URL_PERMISSION;
                 case "local":
                     return NetwordConstants.BASE_URL_IIS;
+                case "remote":
+                    return NetwordConstants.BASE_URL_REMOTE;
                 default:
                     break;
             }

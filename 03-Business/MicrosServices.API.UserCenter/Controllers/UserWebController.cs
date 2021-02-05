@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
@@ -15,15 +14,36 @@ using SkeFramework.Core.Network.Responses;
 
 namespace MicrosServices.API.UserCenter.Controllers
 {
-    [Route("api/user/[action]")]
+
+    [Route("api/user")]
     [ApiController]
     public class UserWebController : ControllerBase
     {
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("get")]
+        public ActionResult<JsonResponses> GetUserInfo([FromQuery]string userNo)
+        {
+            try
+            {
+                UcUsers users = DataHandleManager.Instance().UcUsersHandle.GetUsersInfo(userNo);
+                return new JsonResponses(users);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
         /// <summary>
         /// 获取列表信息
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("pageList")]
         public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] string keywords = "")
         {
             try

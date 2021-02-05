@@ -9,7 +9,7 @@ using SkeFramework.Core.Network.Responses;
 
 namespace MicrosServices.API.UserCenter.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserSettingController : ControllerBase
     {
@@ -18,6 +18,7 @@ namespace MicrosServices.API.UserCenter.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("get")]
         public ActionResult<JsonResponses> GetUserSettingInfo([FromQuery]string UserNo)
         {
             UcUsersSetting Info = new UcUsersSetting();

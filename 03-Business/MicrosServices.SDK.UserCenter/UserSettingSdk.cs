@@ -14,7 +14,7 @@ namespace MicrosServices.SDK.UserCenter
 {
    public class UserSettingSdk
     {
-        private static string GetUserSettingInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/UserSetting/GetUserSettingInfo";
+        private static string GetUserSettingInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/UserSetting/get";
 
         /// <summary>
         /// 根据主键ID获取信息
