@@ -76,7 +76,7 @@ namespace SkeFramework.Core.Network.Requests
             {
                 if (pair.Value == null)
                 {
-                    throw new Exception("WxPayData内部含有值为null的字段!");
+                    continue;
                 }
 
                 if (pair.Key != "sign" && pair.Value.ToString() != "")

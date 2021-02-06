@@ -27,7 +27,7 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string DeleteMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/delete";
         private static readonly string UpdateMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/getOptionValues";
-       private static readonly string GetUserMenusListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/GetUserMenusList";
+       private static readonly string GetUserMenusListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/getUserMenusList";
        
         #region 列表
         /// <summary>

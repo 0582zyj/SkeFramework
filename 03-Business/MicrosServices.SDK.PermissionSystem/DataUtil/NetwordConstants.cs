@@ -31,14 +31,14 @@ namespace MicrosServices.SDK.PermissionSystem
             return mSingleInstance;
         }
         #endregion
-        private string config = "remote_local";
+        private string config = "iis";
         public string GetBaseUrl()
         {
             switch(config)
             {
                 case "dev":
                     return NetwordConstants.BASE_URL_PERMISSION;
-                case "local":
+                case "iis":
                     return NetwordConstants.BASE_URL_IIS;
                 case "remote":
                     return NetwordConstants.BASE_URL_REMOTE;

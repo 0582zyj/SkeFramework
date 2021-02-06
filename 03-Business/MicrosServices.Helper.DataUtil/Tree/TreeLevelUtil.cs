@@ -23,20 +23,23 @@ namespace MicrosServices.Helper.DataUtil.Tree
         public static string GetTreeLevelNo<T>(T t, long ParentNo, string FieldName= "TreeLevelNo")
         {
             string rootTreeNo = "";
-            if (ParentNo != ConstData.DefaultNo)
+            if (t != null)
             {
-                if (t != null)
+                Type Ts = t.GetType();
+                object o = Ts.GetProperty(FieldName).GetValue(t, null);
+                string Value = Convert.ToString(o);
+                if (!string.IsNullOrEmpty(Value))
                 {
-                    Type Ts = t.GetType();
-                    object o = Ts.GetProperty(FieldName).GetValue(t, null);
-                    string Value = Convert.ToString(o);
-                    if (!string.IsNullOrEmpty(Value))
-                    {
-                        rootTreeNo = Value;
-                    }               
+                    rootTreeNo = Value;
                 }
             }
-            return String.Format("{0}_{1}", rootTreeNo, ParentNo);
+            return getTreeLevelVo(rootTreeNo,ParentNo);
+        }
+       
+
+        public static string getTreeLevelVo(string parentTreeLevel, long ParentNo)
+        {
+            return String.Format("{0}_{1}", parentTreeLevel, ParentNo);
         }
     }
 }
