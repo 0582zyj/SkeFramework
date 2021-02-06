@@ -32,13 +32,13 @@ namespace MicrosServices.SDK.UserCenter
             {
                 RequestBase request = new RequestBase();
                 request.Url = RegisterPlatfromUrl;
-                request.SetValue("UserName", registerPlatform.UserName);
-                request.SetValue("Password", registerPlatform.Password);
-                request.SetValue("UserNo", registerPlatform.UserNo);
-                request.SetValue("Phone", registerPlatform.Phone);
-                request.SetValue("Email", registerPlatform.Email);
-                request.SetValue("InputUser", registerPlatform.InputUser);
-                request.SetValue("PlatformNo", registerPlatform.PlatformNo); 
+                request.SetValue("username", registerPlatform.UserName);
+                request.SetValue("password", registerPlatform.Password);
+                request.SetValue("userNo", registerPlatform.UserNo);
+                request.SetValue("phone", registerPlatform.Phone);
+                request.SetValue("email", registerPlatform.Email);
+                request.SetValue("inputUser", registerPlatform.InputUser);
+                request.SetValue("platformNo", registerPlatform.PlatformNo); 
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.Url,
@@ -67,7 +67,7 @@ namespace MicrosServices.SDK.UserCenter
             {
                 RequestBase request = new RequestBase();
                 request.Url = CancelPlatformUrl;
-                request.SetValue("UserNo", UserNo);
+                request.SetValue("userNo", UserNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.Url,
@@ -95,8 +95,8 @@ namespace MicrosServices.SDK.UserCenter
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PageIndex", page.PageIndex);
-                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("pageIndex", page.PageIndex);
+                request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.Url = GetPageUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()

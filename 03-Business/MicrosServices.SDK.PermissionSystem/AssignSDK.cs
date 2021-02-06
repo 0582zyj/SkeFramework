@@ -32,7 +32,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <summary>
         /// 获取用户角色列表
         /// </summary>
-        /// <param name="UserNo"></param>
+        /// <param name="userNo"></param>
         /// <returns></returns>
         public JsonResponses GetRolesAssign(long UserNo)
         {
@@ -42,7 +42,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetRolesAssignUrl
                 };
-                request.SetValue("UserNo", UserNo);
+                request.SetValue("userNo", UserNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),
@@ -90,7 +90,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <summary>
         /// 获取机构角色列表
         /// </summary>
-        /// <param name="UserNo"></param>
+        /// <param name="userNo"></param>
         /// <returns></returns>
         public JsonResponses GetUserOrgAssign(string UserNo)
         {
@@ -100,7 +100,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetUserOrgAssignUrl
                 };
-                request.SetValue("UserNo",Convert.ToInt64( UserNo));
+                request.SetValue("userNo",Convert.ToInt64( UserNo));
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),
@@ -158,8 +158,8 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetManagementAssignUrl
                 };
-                request.SetValue("RolesNo", RolesNo);
-                request.SetValue("ManagementType", ManagementType); 
+                request.SetValue("rolesNo", RolesNo);
+                request.SetValue("managementType", ManagementType); 
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),
@@ -206,7 +206,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <summary>
         /// 获取权限菜单
         /// </summary>
-        /// <param name="ManagementNo"></param>
+        /// <param name="managementNo"></param>
         /// <returns></returns>
         public JsonResponses GetMenuAssign(long ManagementNo)
         {
@@ -216,7 +216,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetMenuAssignUrl
                 };
-                request.SetValue("ManagementNo", ManagementNo);
+                request.SetValue("managementNo", ManagementNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),
@@ -266,7 +266,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <summary>
         /// 获取机构角色列表
         /// </summary>
-        /// <param name="UserNo"></param>
+        /// <param name="userNo"></param>
         /// <returns></returns>
         public JsonResponses GetOrgAssign(long OrgNo)
         {
@@ -276,7 +276,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetOrgAssignUrl
                 };
-                request.SetValue("OrgNo", OrgNo);
+                request.SetValue("orgNo", OrgNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),
@@ -324,7 +324,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <summary>
         /// 获取菜单权限
         /// </summary>
-        /// <param name="MenuNo"></param>
+        /// <param name="menuNo"></param>
         /// <returns></returns>
         public JsonResponses GetMenuManagmentAssign(long MenuNo)
         {
@@ -334,7 +334,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetMenuManagmentAssignUrl
                 };
-                request.SetValue("MenuNo", MenuNo);
+                request.SetValue("menuNo", MenuNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),

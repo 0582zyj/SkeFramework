@@ -72,8 +72,8 @@ namespace MicrosServices.SDK.PermissionSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PageIndex", page.PageIndex);
-                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("pageIndex", page.PageIndex);
+                request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.Url = GetPlatformPageUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
@@ -137,12 +137,12 @@ namespace MicrosServices.SDK.PermissionSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PlatformNo", menu.PlatformNo);
-                request.SetValue("Name", menu.Name);
-                request.SetValue("Value", menu.Value);
-                request.SetValue("DefaultUserName", menu.DefaultUserName);
-                request.SetValue("DefaultUserNo", menu.DefaultUserNo);
-                request.SetValue("InputUser", menu.InputUser);
+                request.SetValue("platformNo", menu.PlatformNo);
+                request.SetValue("name", menu.Name);
+                request.SetValue("value", menu.Value);
+                request.SetValue("defaultUserName", menu.DefaultUserName);
+                request.SetValue("defaultUserNo", menu.DefaultUserNo);
+                request.SetValue("inputUser", menu.InputUser);
                 request.Url = AddPlatformUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -169,11 +169,11 @@ namespace MicrosServices.SDK.PermissionSystem
             {
                 RequestBase request = new RequestBase();
                 request.SetValue("id", platform.id);
-                request.SetValue("PlatformNo", platform.PlatformNo);
-                request.SetValue("Name", platform.Name);
-                request.SetValue("Value", platform.Value);
-                request.SetValue("DefaultUserName", platform.DefaultUserName);
-                request.SetValue("DefaultUserNo", platform.DefaultUserNo);
+                request.SetValue("platformNo", platform.PlatformNo);
+                request.SetValue("name", platform.Name);
+                request.SetValue("value", platform.Value);
+                request.SetValue("defaultUserName", platform.DefaultUserName);
+                request.SetValue("defaultUserNo", platform.DefaultUserNo);
                 request.Url = UpdatePlatformUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -228,7 +228,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetOptionValueUrl
                 };
-                request.SetValue("PlatformNo", PlatformNo);
+                request.SetValue("platformNo", PlatformNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.Url,

@@ -25,7 +25,7 @@ namespace MicrosServices.SDK.UserCenter
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("UserNo", UserNo);
+                request.SetValue("userNo", UserNo);
                 request.Url = GetUserSettingInfoUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {

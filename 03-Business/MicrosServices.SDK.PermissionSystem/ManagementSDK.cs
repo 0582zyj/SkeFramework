@@ -72,8 +72,8 @@ namespace MicrosServices.SDK.PermissionSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PageIndex", page.PageIndex);
-                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("pageIndex", page.PageIndex);
+                request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", ManagementNo);
                 request.Url = GetPageUrl;
@@ -138,15 +138,15 @@ namespace MicrosServices.SDK.PermissionSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("ParentNo", menu.ParentNo);
-                request.SetValue("Name", menu.Name);
-                request.SetValue("Description", menu.Description);
-                request.SetValue("Value", menu.Value);
-                request.SetValue("Type", menu.Type);
-                request.SetValue("Sort", menu.Sort);
-                request.SetValue("PlatformNo", menu.PlatformNo);
-                request.SetValue("Enabled", menu.Enabled);
-                request.SetValue("InputUser", menu.InputUser);
+                request.SetValue("parentNo", menu.ParentNo);
+                request.SetValue("name", menu.Name);
+                request.SetValue("description", menu.Description);
+                request.SetValue("value", menu.Value);
+                request.SetValue("type", menu.Type);
+                request.SetValue("sort", menu.Sort);
+                request.SetValue("platformNo", menu.PlatformNo);
+                request.SetValue("enabled", menu.Enabled);
+                request.SetValue("inputUser", menu.InputUser);
                 request.Url = AddUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -173,14 +173,14 @@ namespace MicrosServices.SDK.PermissionSystem
             {
                 RequestBase request = new RequestBase();
                 request.SetValue("id", menu.id);
-                request.SetValue("ManagementNo", menu.ManagementNo);
-                request.SetValue("ParentNo", menu.ParentNo);
-                request.SetValue("Name", menu.Name);
-                request.SetValue("Value", menu.Value);
-                request.SetValue("Type", menu.Type);
-                request.SetValue("Sort", menu.Sort);
-                request.SetValue("PlatformNo", menu.PlatformNo);
-                request.SetValue("Enabled", menu.Enabled);
+                request.SetValue("managementNo", menu.ManagementNo);
+                request.SetValue("parentNo", menu.ParentNo);
+                request.SetValue("name", menu.Name);
+                request.SetValue("value", menu.Value);
+                request.SetValue("type", menu.Type);
+                request.SetValue("sort", menu.Sort);
+                request.SetValue("platformNo", menu.PlatformNo);
+                request.SetValue("enabled", menu.Enabled);
                 request.Url = UpdateUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -265,8 +265,8 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetManagementOptionValuesUrl
                 };
-                request.SetValue("PlatformNo", PlatformNo);
-                request.SetValue("ManagementType", ManagementType); 
+                request.SetValue("platformNo", PlatformNo);
+                request.SetValue("managementType", ManagementType); 
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),
@@ -292,7 +292,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <summary>
         /// 获取菜单权限值
         /// </summary>
-        /// <param name="MenuNo"></param>
+        /// <param name="menuNo"></param>
         /// <returns></returns>
         public List<ManagementOptionValue> GetMenuManagementOptions(long MenuNo)
         {
@@ -326,7 +326,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <summary>
         /// 获取用户权限值
         /// </summary>
-        /// <param name="MenuNo"></param>
+        /// <param name="menuNo"></param>
         /// <returns></returns>
         public List<ManagementOptionValue> GetUserManagementList(string  UserNo)
         {
@@ -337,7 +337,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetUserManagementListUrl
                 };
-                request.SetValue("UserNo", UserNo);
+                request.SetValue("userNo", UserNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),

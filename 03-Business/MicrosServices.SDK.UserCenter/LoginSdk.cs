@@ -23,10 +23,10 @@ namespace MicrosServices.SDK.UserCenter
             {
                 RequestBase request = new RequestBase();
                 request.Url = LoginUrl;
-                request.SetValue("UserName", loginInfo.UserName);
-                request.SetValue("Password", loginInfo.Password);
-                request.SetValue("LoginerInfo", loginInfo.LoginerInfo);
-                request.SetValue("Platform", loginInfo.Platform);
+                request.SetValue("userName", loginInfo.UserName);
+                request.SetValue("password", loginInfo.Password);
+                request.SetValue("loginerInfo", loginInfo.LoginerInfo);
+                request.SetValue("platform", loginInfo.Platform);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.Url,

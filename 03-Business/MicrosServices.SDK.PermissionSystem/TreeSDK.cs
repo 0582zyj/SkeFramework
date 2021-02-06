@@ -32,7 +32,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetMenuTreeListUrl
                 };
-                request.SetValue("PlatformNo", PlatformNo);
+                request.SetValue("platformNo", PlatformNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),
@@ -66,7 +66,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetManagementTreeListUrl
                 };
-                request.SetValue("PlatformNo", PlatformNo);
+                request.SetValue("platformNo", PlatformNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),
@@ -100,7 +100,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 {
                     Url = GetOrganizationTreeListUrl
                 };
-                request.SetValue("PlatformNo", PlatformNo);
+                request.SetValue("platformNo", PlatformNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),

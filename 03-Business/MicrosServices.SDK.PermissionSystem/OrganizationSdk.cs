@@ -39,8 +39,8 @@ namespace MicrosServices.SDK.PermissionSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PageIndex", page.PageIndex);
-                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("pageIndex", page.PageIndex);
+                request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", OrgNo);
                 request.Url = GetPageUrl;
@@ -105,14 +105,14 @@ namespace MicrosServices.SDK.PermissionSystem
             {
                 RequestBase request = new RequestBase();
                 request.SetValue("id", model.id);
-                request.SetValue("OrgNo", model.OrgNo);
-                request.SetValue("ParentNo", model.ParentNo);
-                request.SetValue("Name", model.Name);
-                request.SetValue("Description", model.Description);
-                request.SetValue("Category", model.Category);
-                request.SetValue("PlatformNo", model.PlatformNo);
-                request.SetValue("Enabled", model.Enabled);
-                request.SetValue("InputUser", model.InputUser);
+                request.SetValue("orgNo", model.OrgNo);
+                request.SetValue("parentNo", model.ParentNo);
+                request.SetValue("name", model.Name);
+                request.SetValue("description", model.Description);
+                request.SetValue("category", model.Category);
+                request.SetValue("platformNo", model.PlatformNo);
+                request.SetValue("enabled", model.Enabled);
+                request.SetValue("inputUser", model.InputUser);
                 request.Url = AddUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -138,13 +138,13 @@ namespace MicrosServices.SDK.PermissionSystem
             {
                 RequestBase request = new RequestBase();
                 request.SetValue("id", model.id);
-                request.SetValue("OrgNo", model.OrgNo);
-                request.SetValue("ParentNo", model.ParentNo);
-                request.SetValue("Name", model.Name);
-                request.SetValue("Description", model.Description);
-                request.SetValue("Category", model.Category);
-                request.SetValue("PlatformNo", model.PlatformNo);
-                request.SetValue("Enabled", model.Enabled);
+                request.SetValue("orgNo", model.OrgNo);
+                request.SetValue("parentNo", model.ParentNo);
+                request.SetValue("name", model.Name);
+                request.SetValue("description", model.Description);
+                request.SetValue("category", model.Category);
+                request.SetValue("platformNo", model.PlatformNo);
+                request.SetValue("enabled", model.Enabled);
                 request.Url = UpdateUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {

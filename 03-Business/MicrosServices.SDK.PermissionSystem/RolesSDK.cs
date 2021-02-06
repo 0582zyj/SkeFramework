@@ -69,8 +69,8 @@ namespace MicrosServices.SDK.PermissionSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PageIndex", page.PageIndex);
-                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("pageIndex", page.PageIndex);
+                request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.Url = GetPageUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
@@ -134,12 +134,12 @@ namespace MicrosServices.SDK.PermissionSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("ParentNo", menu.ParentNo);
-                request.SetValue("Name", menu.Name);
-                request.SetValue("Description", menu.Description);
-                request.SetValue("PlatformNo", menu.PlatformNo);
-                request.SetValue("Enabled", menu.Enabled);
-                request.SetValue("InputUser", menu.InputUser);
+                request.SetValue("parentNo", menu.ParentNo);
+                request.SetValue("name", menu.Name);
+                request.SetValue("description", menu.Description);
+                request.SetValue("platformNo", menu.PlatformNo);
+                request.SetValue("enabled", menu.Enabled);
+                request.SetValue("inputUser", menu.InputUser);
                 request.Url = AddUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -166,13 +166,13 @@ namespace MicrosServices.SDK.PermissionSystem
             {
                 RequestBase request = new RequestBase();
                 request.SetValue("id", menu.id);
-                request.SetValue("RolesNo", menu.RolesNo);
-                request.SetValue("ParentNo", menu.ParentNo);
-                request.SetValue("Description", menu.Description);
-                request.SetValue("Name", menu.Name);
-                request.SetValue("ManagementValue", menu.ManagementValue);
-                request.SetValue("PlatformNo", menu.PlatformNo);
-                request.SetValue("Enabled", menu.Enabled);
+                request.SetValue("rolesNo", menu.RolesNo);
+                request.SetValue("parentNo", menu.ParentNo);
+                request.SetValue("description", menu.Description);
+                request.SetValue("name", menu.Name);
+                request.SetValue("managementValue", menu.ManagementValue);
+                request.SetValue("platformNo", menu.PlatformNo);
+                request.SetValue("enabled", menu.Enabled);
                 request.Url = UpdateUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {

@@ -20,14 +20,14 @@ namespace MicrosServices.SDK.PermissionSystem
     /// </summary>
     public class MenuSdk
     {
-        private static readonly string GetMenuListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetList";
-        private static readonly string GetMenuPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetPageList";
-        private static readonly string GetMenuInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetInfo";
-        private static readonly string AddMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Create";
-        private static readonly string DeleteMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Delete";
-        private static readonly string UpdateMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/Update";
-        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetOptionValues";
-       private static readonly string GetUserMenusListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Menu/GetUserMenusList";
+        private static readonly string GetMenuListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/GetList";
+        private static readonly string GetMenuPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/GetPageList";
+        private static readonly string GetMenuInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/GetInfo";
+        private static readonly string AddMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/Create";
+        private static readonly string DeleteMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/Delete";
+        private static readonly string UpdateMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/Update";
+        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/GetOptionValues";
+       private static readonly string GetUserMenusListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/GetUserMenusList";
        
         #region 列表
         /// <summary>
@@ -74,8 +74,8 @@ namespace MicrosServices.SDK.PermissionSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PageIndex", page.PageIndex);
-                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("pageIndex", page.PageIndex);
+                request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", MenuNo);
                 request.Url = GetMenuPageUrl;
@@ -110,7 +110,7 @@ namespace MicrosServices.SDK.PermissionSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("UserNo", UserNo);
+                request.SetValue("userNo", UserNo);
                 request.Url = GetUserMenusListUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -178,15 +178,15 @@ namespace MicrosServices.SDK.PermissionSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("ParentNo", menu.ParentNo);
-                request.SetValue("Name", menu.Name);
-                request.SetValue("Value", menu.Value);
+                request.SetValue("parentNo", menu.ParentNo);
+                request.SetValue("name", menu.Name);
+                request.SetValue("value", menu.Value);
                 request.SetValue("icon", menu.icon);
                 request.SetValue("url", menu.url);
-                request.SetValue("Sort", menu.Sort);
-                request.SetValue("PlatformNo", menu.PlatformNo);
-                request.SetValue("Enabled", menu.Enabled);
-                request.SetValue("InputUser", menu.InputUser);
+                request.SetValue("sort", menu.Sort);
+                request.SetValue("platformNo", menu.PlatformNo);
+                request.SetValue("enabled", menu.Enabled);
+                request.SetValue("inputUser", menu.InputUser);
                 request.Url = AddMenuUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -213,15 +213,15 @@ namespace MicrosServices.SDK.PermissionSystem
             {
                 RequestBase request = new RequestBase();
                 request.SetValue("id", menu.id);
-                request.SetValue("MenuNo", menu.MenuNo);
-                request.SetValue("ParentNo", menu.ParentNo);
-                request.SetValue("Name", menu.Name);
-                request.SetValue("Value", menu.Value);
+                request.SetValue("menuNo", menu.MenuNo);
+                request.SetValue("parentNo", menu.ParentNo);
+                request.SetValue("name", menu.Name);
+                request.SetValue("value", menu.Value);
                 request.SetValue("icon", menu.icon);
                 request.SetValue("url", menu.url);
-                request.SetValue("Sort", menu.Sort);
-                request.SetValue("PlatformNo", menu.PlatformNo);
-                request.SetValue("Enabled", menu.Enabled);
+                request.SetValue("sort", menu.Sort);
+                request.SetValue("platformNo", menu.PlatformNo);
+                request.SetValue("enabled", menu.Enabled);
                 request.Url = UpdateMenuUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
