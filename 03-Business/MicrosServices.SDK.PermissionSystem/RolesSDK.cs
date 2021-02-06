@@ -17,13 +17,13 @@ namespace MicrosServices.SDK.PermissionSystem
 {
     public class RolesSDK
     {
-        private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetList";
-        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetPageList";
-        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetInfo";
-        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/Create";
-        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/Delete";
-        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/Update";
-        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Roles/GetOptionValues";
+        private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/roles/getList";
+        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/roles/getPageList";
+        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/roles/getInfo";
+        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/roles/create";
+        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/roles/delete";
+        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/roles/update";
+        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/roles/getOptionValues";
       
         /// <summary>
         /// 获取菜单所有列表

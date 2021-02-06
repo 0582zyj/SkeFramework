@@ -15,18 +15,18 @@ namespace MicrosServices.SDK.PermissionSystem
 {
    public class AssignSDK
     {
-        private static readonly string GetUserOrgAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/GetUserOrgAssign";
-        private static readonly string CreateUserOrgsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/CreateUserOrgs";
-        private static readonly string GetRolesAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/GetRolesAssign";
-        private static readonly string CreateUserRolesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/CreateUserRoles";
-        private static readonly string GetManagementAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/GetManagementAssign";
-        private static readonly string CreateManagementRolesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/CreateManagementRoles";
-        private static readonly string GetMenuAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/GetMenuAssign";
-        private static readonly string CreateManagementMenusUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/CreateManagementMenus";
-        private static readonly string GetOrgAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/GetOrgAssign";
-        private static readonly string CreateOrgRolesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/CreateOrgRoles";
-        private static readonly string GetMenuManagmentAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/GetMenuManagmentAssign";
-        private static readonly string CreateMenuManagementsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Assign/CreateMenuManagements";
+        private static readonly string GetUserOrgAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/getUserOrgAssign";
+        private static readonly string CreateUserOrgsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/createUserOrgs";
+        private static readonly string GetRolesAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/getRolesAssign";
+        private static readonly string CreateUserRolesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/createUserRoles";
+        private static readonly string GetManagementAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/getManagementAssign";
+        private static readonly string CreateManagementRolesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/createManagementRoles";
+        private static readonly string GetMenuAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/getMenuAssign";
+        private static readonly string CreateManagementMenusUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/createManagementMenus";
+        private static readonly string GetOrgAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/getOrgAssign";
+        private static readonly string CreateOrgRolesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/createOrgRoles";
+        private static readonly string GetMenuManagmentAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/getMenuManagmentAssign";
+        private static readonly string CreateMenuManagementsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/createMenuManagements";
 
         #region 用户角色
         /// <summary>

@@ -20,13 +20,13 @@ namespace MicrosServices.SDK.PermissionSystem
     /// </summary>
     public class MenuSdk
     {
-        private static readonly string GetMenuListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/GetList";
-        private static readonly string GetMenuPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/GetPageList";
-        private static readonly string GetMenuInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/GetInfo";
-        private static readonly string AddMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/Create";
-        private static readonly string DeleteMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/Delete";
-        private static readonly string UpdateMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/Update";
-        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/GetOptionValues";
+        private static readonly string GetMenuListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/getList";
+        private static readonly string GetMenuPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/getPageList";
+        private static readonly string GetMenuInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/getInfo";
+        private static readonly string AddMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/create";
+        private static readonly string DeleteMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/delete";
+        private static readonly string UpdateMenuUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/update";
+        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/getOptionValues";
        private static readonly string GetUserMenusListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/GetUserMenusList";
        
         #region 列表

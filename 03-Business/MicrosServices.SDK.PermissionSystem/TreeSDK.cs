@@ -14,9 +14,9 @@ namespace MicrosServices.SDK.PermissionSystem
 {
    public class TreeSDK
     {
-        private readonly string GetMenuTreeListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Tree/GetMenuTreeList";
-        private readonly string GetManagementTreeListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Tree/GetManagementTreeList";
-        private readonly string GetOrganizationTreeListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Tree/GetOrganizationTreeList";
+        private readonly string GetMenuTreeListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/tree/getMenuTreeList";
+        private readonly string GetManagementTreeListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/tree/getManagementTreeList";
+        private readonly string GetOrganizationTreeListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/tree/getOrganizationTreeList";
 
         /// <summary>
         /// 获取菜单树

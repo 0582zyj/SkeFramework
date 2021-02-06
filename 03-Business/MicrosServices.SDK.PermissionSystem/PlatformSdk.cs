@@ -19,13 +19,13 @@ namespace MicrosServices.SDK.PermissionSystem
     /// </summary>
     public class PlatformSdk
     {
-        private static readonly string GetPlatformListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/GetList";
-        private static readonly string GetPlatformPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/GetPageList";
-        private static readonly string GetPlatformInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/GetInfo";
-        private static readonly string AddPlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/Create";
-        private static readonly string DeletePlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/Delete";
-        private static readonly string UpdatePlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/Update";
-        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Platform/GetOptionValues";
+        private static readonly string GetPlatformListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/platform/getList";
+        private static readonly string GetPlatformPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/platform/getPageList";
+        private static readonly string GetPlatformInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/platform/getInfo";
+        private static readonly string AddPlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/platform/create";
+        private static readonly string DeletePlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/platform/delete";
+        private static readonly string UpdatePlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/platform/update";
+        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/platform/getOptionValues";
 
 
         /// <summary>

@@ -17,16 +17,16 @@ namespace MicrosServices.SDK.PermissionSystem
 {
     public class ManagementSDK
     {
-        private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetList";
-        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetPageList";
-        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetInfo";
-        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/Create";
-        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/Delete";
-        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/Update";
-        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetOptionValues";
-        private static readonly string GetMenuManagementOptionsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetMenuManagementOptions";
-        private static readonly string GetUserManagementListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetUserManagementList";
-        private static readonly string GetManagementOptionValuesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Management/GetManagementOptionValues";
+        private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getList";
+        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getPageList";
+        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getInfo";
+        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/create";
+        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/felete";
+        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/update";
+        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getOptionValues";
+        private static readonly string GetMenuManagementOptionsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getMenuManagementOptions";
+        private static readonly string GetUserManagementListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getUserManagementList";
+        private static readonly string GetManagementOptionValuesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getManagementOptionValues";
         
         /// <summary>
         /// 获取菜单所有列表

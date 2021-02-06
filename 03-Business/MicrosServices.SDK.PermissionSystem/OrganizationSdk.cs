@@ -20,13 +20,13 @@ namespace MicrosServices.SDK.PermissionSystem
     /// </summary>
     public class OrganizationSdk
     {
-        private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Organization/GetList";
-        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Organization/GetPageList";
-        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Organization/GetInfo";
-        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Organization/Create";
-        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Organization/Delete";
-        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Organization/Update";
-        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Organization/GetOptionValues";
+        private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/organization/getList";
+        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/organization/getPageList";
+        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/organization/getInfo";
+        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/organization/create";
+        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/organization/delete";
+        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/organization/update";
+        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/organization/getOptionValues";
      
         /// <summary>
         /// 获取分页列表
