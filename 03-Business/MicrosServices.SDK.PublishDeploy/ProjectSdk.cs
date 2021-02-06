@@ -17,14 +17,14 @@ namespace MicrosServices.SDK.PublishDeploy
 {
    public class ProjectSdk
     {
-        private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/GetList";
-        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/GetPageList";
-        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/GetInfo";
-        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/Create";
-        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/Delete";
-        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/Update";
-        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/GetOptionValues";
-        private static readonly string PublishDeployUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Project/Publish";
+        private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/project/getList";
+        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/project/getPageList";
+        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/project/getInfo";
+        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/project/create";
+        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/project/delete";
+        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/project/update";
+        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/project/getOptionValues";
+        private static readonly string PublishDeployUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/project/publish";
         
 
         /// <summary>
@@ -71,8 +71,8 @@ namespace MicrosServices.SDK.PublishDeploy
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PageIndex", page.PageIndex);
-                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("pageIndex", page.PageIndex);
+                request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.Url = GetPageUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()

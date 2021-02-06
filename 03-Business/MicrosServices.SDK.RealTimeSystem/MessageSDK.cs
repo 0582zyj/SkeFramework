@@ -16,11 +16,11 @@ namespace MicrosServices.SDK.RealTimeSystem
 {
    public class MessageSDK
     {
-        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Message/GetPageList";
-        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Message/GetInfo";
-        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Message/Create";
-        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Message/Delete";
-        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Message/Update";
+        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/message/getPageList";
+        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/message/getInfo";
+        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/message/create";
+        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/message/delete";
+        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/message/update";
 
         /// <summary>
         /// 获取菜单所有列表
@@ -33,8 +33,8 @@ namespace MicrosServices.SDK.RealTimeSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PageIndex", page.PageIndex);
-                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("pageIndex", page.PageIndex);
+                request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", MessageNo);
                 request.Url = GetPageUrl;
@@ -99,15 +99,15 @@ namespace MicrosServices.SDK.RealTimeSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("AppId", model.AppId);
-                request.SetValue("Message", model.Message);
-                request.SetValue("UserId", model.UserId);
-                request.SetValue("SendUserId", model.SendUserId);
-                request.SetValue("Status", model.Status);
-                request.SetValue("HandleResult", model.HandleResult);
-                request.SetValue("InputTime", model.InputTime);
-                request.SetValue("HandleTime", model.HandleTime);
-                request.SetValue("AvailTime", model.AvailTime);
+                request.SetValue("appId", model.AppId);
+                request.SetValue("message", model.Message);
+                request.SetValue("userId", model.UserId);
+                request.SetValue("sendUserId", model.SendUserId);
+                request.SetValue("status", model.Status);
+                request.SetValue("handleResult", model.HandleResult);
+                request.SetValue("inputTime", model.InputTime);
+                request.SetValue("handleTime", model.HandleTime);
+                request.SetValue("availTime", model.AvailTime);
                 request.Url = AddUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {

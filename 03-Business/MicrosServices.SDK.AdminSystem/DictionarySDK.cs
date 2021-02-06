@@ -16,14 +16,14 @@ namespace MicrosServices.SDK.AdminSystem
 {
    public class DictionarySDK
     {
-        private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Dictionary/GetList";
-        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Dictionary/GetPageList";
-        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Dictionary/GetInfo";
-        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Dictionary/Create";
-        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Dictionary/Delete";
-        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Dictionary/Update";
-        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Dictionary/GetOptionValues";
-        private static readonly string GetDictionaryOptionValuesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/Dictionary/GetDictionaryOptionValues";
+        private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/getList";
+        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/getPageList";
+        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/getInfo";
+        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/create";
+        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/delete";
+        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/update";
+        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/getOptionValues";
+        private static readonly string GetDictionaryOptionValuesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/getDictionaryOptionValues";
 
         /// <summary>
         /// 获取菜单所有列表
@@ -69,8 +69,8 @@ namespace MicrosServices.SDK.AdminSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PageIndex", page.PageIndex);
-                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("pageindex", page.PageIndex);
+                request.SetValue("pagesize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", DictionaryNo);
                 request.Url = GetPageUrl;
@@ -135,16 +135,16 @@ namespace MicrosServices.SDK.AdminSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("DicType", model.DicType);
-                request.SetValue("DicKey", model.DicKey);
-                request.SetValue("DicValue", model.DicValue);
-                request.SetValue("Descriptions", model.Descriptions);
-                request.SetValue("PlatformNo", model.PlatformNo);
-                request.SetValue("Enabled", model.Enabled);
-                request.SetValue("InputUser", model.InputUser);
-                request.SetValue("InputTime", model.InputTime);
-                request.SetValue("UpdateUser", model.UpdateUser);
-                request.SetValue("UpdateTime", model.UpdateTime);
+                request.SetValue("dicType", model.DicType);
+                request.SetValue("dicKey", model.DicKey);
+                request.SetValue("dicValue", model.DicValue);
+                request.SetValue("descriptions", model.Descriptions);
+                request.SetValue("platformNo", model.PlatformNo);
+                request.SetValue("enabled", model.Enabled);
+                request.SetValue("inputUser", model.InputUser);
+                request.SetValue("inputTime", model.InputTime);
+                request.SetValue("updateUser", model.UpdateUser);
+                request.SetValue("updateTime", model.UpdateTime);
                 request.Url = AddUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -170,12 +170,12 @@ namespace MicrosServices.SDK.AdminSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("DicType", model.DicType);
-                request.SetValue("DicKey", model.DicKey);
-                request.SetValue("DicValue", model.DicValue);
-                request.SetValue("Descriptions", model.Descriptions);
-                request.SetValue("PlatformNo", model.PlatformNo);
-                request.SetValue("Enabled", model.Enabled);
+                request.SetValue("dicType", model.DicType);
+                request.SetValue("dicKey", model.DicKey);
+                request.SetValue("dicValue", model.DicValue);
+                request.SetValue("descriptions", model.Descriptions);
+                request.SetValue("platformno", model.PlatformNo);
+                request.SetValue("enabled", model.Enabled);
                 request.SetValue("id", model.id);
                 request.Url = UpdateUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
@@ -230,8 +230,8 @@ namespace MicrosServices.SDK.AdminSystem
                 {
                     Url = GetDictionaryOptionValuesUrl
                 };
-                request.SetValue("PlatformNo", PlatformNo);
-                request.SetValue("DictionaryType", DictionaryType);
+                request.SetValue("platformNo", PlatformNo);
+                request.SetValue("dictionaryType", DictionaryType);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.GetReqUrl(),

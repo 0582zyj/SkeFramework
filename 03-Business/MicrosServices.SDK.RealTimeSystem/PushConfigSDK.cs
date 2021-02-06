@@ -16,11 +16,11 @@ namespace MicrosServices.SDK.RealTimeSystem
 {
     public class PushConfigSDK
     {
-        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/PushConfig/GetPageList";
-        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/PushConfig/GetInfo";
-        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/PushConfig/Create";
-        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/PushConfig/Delete";
-        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/PushConfig/Update";
+        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/pushConfig/getPageList";
+        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/pushConfig/getInfo";
+        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/pushConfig/create";
+        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/pushConfig/delete";
+        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/pushConfig/update";
 
         /// <summary>
         /// 获取菜单所有列表
@@ -33,8 +33,8 @@ namespace MicrosServices.SDK.RealTimeSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PageIndex", page.PageIndex);
-                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("pageIndex", page.PageIndex);
+                request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", PushconfigNo);
                 request.Url = GetPageUrl;
@@ -99,18 +99,18 @@ namespace MicrosServices.SDK.RealTimeSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("AppId", model.AppId);
-                request.SetValue("Descriptions", model.Descriptions);
-                request.SetValue("Enabled", model.Enabled);
-                request.SetValue("ExtraProps", model.ExtraProps);
-                request.SetValue("PushPort", model.PushPort);
-                request.SetValue("PushType", model.PushType);
-                request.SetValue("Status", model.Status);
-                request.SetValue("Enabled", model.Enabled);
-                request.SetValue("InputUser", model.InputUser);
-                request.SetValue("InputTime", model.InputTime);
-                request.SetValue("UpdateUser", model.UpdateUser);
-                request.SetValue("UpdateTime", model.UpdateTime);
+                request.SetValue("appId", model.AppId);
+                request.SetValue("descriptions", model.Descriptions);
+                request.SetValue("enabled", model.Enabled);
+                request.SetValue("extraProps", model.ExtraProps);
+                request.SetValue("pushPort", model.PushPort);
+                request.SetValue("pushType", model.PushType);
+                request.SetValue("status", model.Status);
+                request.SetValue("enabled", model.Enabled);
+                request.SetValue("inputUser", model.InputUser);
+                request.SetValue("inputTime", model.InputTime);
+                request.SetValue("updateUser", model.UpdateUser);
+                request.SetValue("updateTime", model.UpdateTime);
                 request.Url = AddUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -136,14 +136,14 @@ namespace MicrosServices.SDK.RealTimeSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("AppId", model.AppId);
-                request.SetValue("Descriptions", model.Descriptions);
-                request.SetValue("Enabled", model.Enabled);
-                request.SetValue("ExtraProps", model.ExtraProps);
-                request.SetValue("PushPort", model.PushPort);
-                request.SetValue("PushType", model.PushType);
-                request.SetValue("Status", model.Status);
-                request.SetValue("UpdateUser", model.UpdateUser);
+                request.SetValue("appId", model.AppId);
+                request.SetValue("descriptions", model.Descriptions);
+                request.SetValue("enabled", model.Enabled);
+                request.SetValue("extraProps", model.ExtraProps);
+                request.SetValue("pushPort", model.PushPort);
+                request.SetValue("pushType", model.PushType);
+                request.SetValue("status", model.Status);
+                request.SetValue("updateUser", model.UpdateUser);
                 request.SetValue("id", model.id);
                 request.Url = UpdateUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()

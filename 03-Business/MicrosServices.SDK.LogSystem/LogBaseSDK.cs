@@ -18,7 +18,7 @@ namespace MicrosServices.SDK.LogSystem
 {
     public  class LogBaseSDK
     {
-        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/log/GetPageList";
+        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/log/etPageList";
        
         /// <summary>
         /// 获取菜单所有列表
@@ -31,12 +31,12 @@ namespace MicrosServices.SDK.LogSystem
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PageIndex", page.PageIndex,true);
-                request.SetValue("PageIndex", page.PageIndex);
-                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("pageIndex", page.PageIndex,true);
+                request.SetValue("pageIndex", page.PageIndex);
+                request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", logQueryForm.keywords);
                 request.SetValue("queryNo", logQueryForm.queryNo);
-                request.SetValue("HandleUser", logQueryForm.HandleUser);
+                request.SetValue("handleUser", logQueryForm.HandleUser);
                 request.Url = GetPageUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {

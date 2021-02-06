@@ -70,8 +70,8 @@ namespace MicrosServices.SDK.PublishDeploy
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("PageIndex", page.PageIndex);
-                request.SetValue("PageSize", page.PageSize);
+                request.SetValue("pageIndex", page.PageIndex);
+                request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.Url = GetPageUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
@@ -134,12 +134,12 @@ namespace MicrosServices.SDK.PublishDeploy
             try
             {
                 RequestBase request = new RequestBase();
-                request.SetValue("ServerNo", menu.ServerNo);
-                request.SetValue("Name", menu.Name);
-                request.SetValue("Description", menu.Description);
-                request.SetValue("IP", menu.IP);
-                request.SetValue("Port", menu.Port);
-                request.SetValue("InputUser", menu.InputUser);
+                request.SetValue("serverNo", menu.ServerNo);
+                request.SetValue("name", menu.Name);
+                request.SetValue("description", menu.Description);
+                request.SetValue("ip", menu.IP);
+                request.SetValue("port", menu.Port);
+                request.SetValue("inputUser", menu.InputUser);
                 request.Url = AddUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -166,11 +166,11 @@ namespace MicrosServices.SDK.PublishDeploy
             {
                 RequestBase request = new RequestBase();
                 request.SetValue("id", platform.id);
-                request.SetValue("ServerNo", platform.ServerNo);
-                request.SetValue("Name", platform.Name);
-                request.SetValue("Description", platform.Description);
-                request.SetValue("IP", platform.IP);
-                request.SetValue("Port", platform.Port);
+                request.SetValue("serverNo", platform.ServerNo);
+                request.SetValue("name", platform.Name);
+                request.SetValue("description", platform.Description);
+                request.SetValue("ip", platform.IP);
+                request.SetValue("port", platform.Port);
                 request.Url = UpdateUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
