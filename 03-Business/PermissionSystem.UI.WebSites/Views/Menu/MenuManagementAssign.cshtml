@@ -23,11 +23,11 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="MenuNo">菜单编号</label>
-                                    <input type="text" name="MenuNo" class="form-control" id="MenuNo" v-model="dataItem.MenuInfo.MenuNo" placeholder="权限编号" readonly="readonly">
+                                    <input type="text" name="MenuNo" class="form-control" id="MenuNo" v-model="dataItem.menu.MenuNo" placeholder="权限编号" readonly="readonly">
                                 </div>
                                 <div class="form-group">
                                     <label for="Name">菜单名称</label>
-                                    <input type="text" name="Name" class="form-control" id="Name" v-model="dataItem.MenuInfo.Name" placeholder="权限名称" readonly="readonly">
+                                    <input type="text" name="Name" class="form-control" id="Name" v-model="dataItem.menu.Name" placeholder="权限名称" readonly="readonly">
                                 </div>
                                 <label>权限列表</label>
                                 <div class="form-group" v-for="(option,index) in dataItem.optionValues">

@@ -16,7 +16,7 @@ namespace MicrosServices.Helper.Core.VO
         /// <summary>
         /// 权限信息
         /// </summary>
-        public PsManagement ManagementInfo { get; set; }
+        public PsManagement management { get; set; }
         /// <summary>
         /// 菜单列表
         /// </summary>

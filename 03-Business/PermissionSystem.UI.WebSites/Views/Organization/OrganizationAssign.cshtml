@@ -23,11 +23,11 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="OrgNo">机构编号</label>
-                                    <input type="text" name="OrgNo" class="form-control" id="OrgNo" v-model="dataItem.OrgInfo.OrgNo" placeholder="角色编号" readonly="readonly">
+                                    <input type="text" name="OrgNo" class="form-control" id="OrgNo" v-model="dataItem.orgInfo.OrgNo" placeholder="角色编号" readonly="readonly">
                                 </div>
                                 <div class="form-group">
                                     <label for="Name">机构名称</label>
-                                    <input type="text" name="Name" class="form-control" id="Name" v-model="dataItem.OrgInfo.Name" placeholder="角色名称" readonly="readonly">
+                                    <input type="text" name="Name" class="form-control" id="Name" v-model="dataItem.orgInfo.Name" placeholder="角色名称" readonly="readonly">
                                 </div>
                                 <label for="exampleInputPassword1">角色列表</label>
                                 <div class="form-group" v-for="(option,index) in dataItem.optionValues">

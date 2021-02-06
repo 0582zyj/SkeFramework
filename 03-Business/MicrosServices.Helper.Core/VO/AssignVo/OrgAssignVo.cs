@@ -16,11 +16,11 @@ namespace MicrosServices.Helper.Core.VO
         /// <summary>
         /// 机构名称
         /// </summary>
-        public string OrgName { get; set; }
+        public string orgName { get; set; }
         /// <summary>
         /// 机构信息
         /// </summary>
-        public PsOrganization OrgInfo { get; set; }
+        public PsOrganization orgInfo { get; set; }
         /// <summary>
         /// 角色列表
         /// </summary>

@@ -17,7 +17,7 @@ namespace MicrosServices.Helper.Core
         /// <summary>
         /// 角色信息
         /// </summary>
-        public PsRoles RolesInfo { get; set; }
+        public PsRoles roles { get; set; }
         /// <summary>
         /// 权限列表
         /// </summary>

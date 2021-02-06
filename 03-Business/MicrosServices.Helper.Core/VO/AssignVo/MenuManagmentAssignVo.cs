@@ -16,7 +16,7 @@ namespace MicrosServices.Helper.Core.VO.AssignVo
         /// <summary>
         /// 菜单信息
         /// </summary>
-        public PsMenu MenuInfo { get; set; }
+        public PsMenu menu { get; set; }
         /// <summary>
         /// 菜单列表
         /// </summary>
