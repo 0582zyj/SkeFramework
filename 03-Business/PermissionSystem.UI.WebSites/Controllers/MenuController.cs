@@ -158,7 +158,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpPost]
         public JsonResult MenuAssignUpdate(ManagementMenusForm model)
         {
-            model.InputUser = AppBusiness.loginModel.UserNo;
+            model.inputUser = AppBusiness.loginModel.UserNo;
             JsonResponses responses = assignSDK.CreateManagementMenus(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
@@ -195,7 +195,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpPost]
         public JsonResult MenuManagementsUpdate(MenuManagementsForm model)
         {
-            model.InputUser = AppBusiness.loginModel.UserNo;
+            model.inputUser = AppBusiness.loginModel.UserNo;
             JsonResponses responses = assignSDK.CreateMenuManagements(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }

@@ -160,7 +160,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpPost]
         public JsonResult RolesAssignUpdate(UserRolesForm model)
         {
-            model.InputUser = AppBusiness.loginModel.UserNo;
+            model.inputUser = AppBusiness.loginModel.UserNo;
             JsonResponses responses = assignSDK.CreateUserRoles(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }

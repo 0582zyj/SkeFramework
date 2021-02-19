@@ -28,10 +28,10 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         public ActionResult<JsonResponses> CreateUserRoles([FromBody]UserRolesForm model)
         {
             var ResultCode = -1;
-            DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(model.UserNo);
-            if (model.RolesNos != null)
+            DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(model.userNo);
+            if (model.rolesNos != null)
             {
-                foreach (var nos in model.RolesNos)
+                foreach (var nos in model.rolesNos)
                 {
                     DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(nos);
                 }
@@ -61,10 +61,10 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         public ActionResult<JsonResponses> CreateUserOrgs([FromBody]UserOrgsForm model)
         {
             var ResultCode = -1;
-            DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(model.UserNo);
-            if (model.OrgNos != null)
+            DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(model.userNo);
+            if (model.orgNos != null)
             {
-                foreach (var nos in model.OrgNos)
+                foreach (var nos in model.orgNos)
                 {
                     DataHandleManager.Instance().PsOrganizationHandle.CheckOrgNoIsExist(nos);
                 }
@@ -94,10 +94,10 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         public ActionResult<JsonResponses> CreateManagementRoles([FromBody]ManagementRolesForm model)
         {
             var ResultCode = -1;
-            DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(model.RolesNo);
-            if (model.ManagementNos != null)
+            DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(model.rolesNo);
+            if (model.managementNos != null)
             {
-                foreach (var nos in model.ManagementNos)
+                foreach (var nos in model.managementNos)
                 {
                     DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(nos);
                 }
@@ -127,10 +127,10 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         public ActionResult<JsonResponses> CreateManagementMenus([FromBody]ManagementMenusForm model)
         {
             var ResultCode = -1;
-            DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.ManagementNo);
-            if (model.MenuNos != null)
+            DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.managementNo);
+            if (model.menuNos != null)
             {
-                foreach (var nos in model.MenuNos)
+                foreach (var nos in model.menuNos)
                 {
                     DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(nos);
                 }
@@ -160,10 +160,10 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         public ActionResult<JsonResponses> CreateOrgRoles([FromBody]OrgRolesForm model)
         {
             var ResultCode = -1;
-            DataHandleManager.Instance().PsOrganizationHandle.CheckOrgNoIsExist(model.OrgNo);
-            if (model.RolesNos != null)
+            DataHandleManager.Instance().PsOrganizationHandle.CheckOrgNoIsExist(model.orgNo);
+            if (model.rolesNos != null)
             {
-                foreach (var nos in model.RolesNos)
+                foreach (var nos in model.rolesNos)
                 {
                     DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(nos);
                 }
@@ -193,10 +193,10 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         public ActionResult<JsonResponses> CreateMenuManagements([FromBody]MenuManagementsForm model)
         {
             var ResultCode = -1;
-            DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(model.MenuNo);
-            if (model.ManagementNos != null)
+            DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(model.menuNo);
+            if (model.managementNos != null)
             {
-                foreach (var nos in model.ManagementNos)
+                foreach (var nos in model.managementNos)
                 {
                     DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(nos);
                 }

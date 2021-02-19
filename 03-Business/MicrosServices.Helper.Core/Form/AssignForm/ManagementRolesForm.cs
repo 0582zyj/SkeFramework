@@ -14,14 +14,14 @@ namespace MicrosServices.Helper.Core.Form
         /// <summary>
         /// 操作者
         /// </summary>
-        public string InputUser { get; set; }
+        public string inputUser { get; set; }
         /// <summary>
         /// 角色编号
         /// </summary>
-        public long RolesNo { get; set; }
+        public long rolesNo { get; set; }
         /// <summary>
         /// 权限编号数组
         /// </summary>
-        public long[] ManagementNos { get; set; }
+        public long[] managementNos { get; set; }
     }
 }
