@@ -20,11 +20,11 @@ namespace MicrosServices.Helper.Core.VO
         /// <summary>
         /// 用户账号
         /// </summary>
-        private long userNo { get; set; }
+        public long userNo { get; set; }
         /// <summary>
         /// 用户信息
         /// </summary>
-        public UcUsersSetting UsersSettingInfo { get; set; }
+        public UcUsersSetting usersSettingInfo { get; set; }
         /// <summary>
         /// 角色列表
         /// </summary>
