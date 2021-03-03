@@ -114,9 +114,13 @@ namespace SkeFramework.NetSerialPort.Protocols
         /// <param name="callback">A callback for when data is received</param>
         void BeginReceive(ReceivedDataCallback callback);
         /// <summary>
-        /// 停止接收消息，但保持连接打开
+        /// 接收超时，停止接收消息，但保持连接打开
         /// </summary>
         void StopReceive();
+        ///// <summary>
+        ///// 帧数据发送后，等待回复超时的处理。
+        ///// </summary>
+        //void OvertimeReceive(); 
         #endregion
 
     }

@@ -350,7 +350,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                             taskList[i].Complete(TaskState.Completed);
                             this.taskDocker.RemoveTask(taskList[i]);
                             this.connectionDocker.SetCaseAsDead(taskList[i]);
-                            Console.WriteLine("处理超时任务:" + taskList[i].Name.ToString() + " ");
+                            string log = String.Format("{0}:处理超时任务:{1}", DateTime.Now.ToString("hh:mm:ss"), taskList[i].Name);
+                            Console.WriteLine(log);
                             //break;
                         }
                         else
@@ -402,6 +403,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             IConnection connection = this.connectionDocker.GetCase(networkData.RemoteHost.TaskTag);
             if (connection != null && connection is RefactorRequestChannel)
             {
+                string content = connection.Encoder.ByteEncode(networkData.Buffer);
+                string log = String.Format("{0}:协议层消息处理【{1}】：{2}",
+                    DateTime.Now.ToString("hh:mm:ss"), networkData.RemoteHost.ToString(), content);
+                Console.WriteLine(log);
                 connection.Receiving = false;
                 RefactorRequestChannel requestChannel = (RefactorRequestChannel)connection;
                 if (requestChannel.Sender.TotalSendTimes!= NetworkConstants.WAIT_FOR_COMPLETE)

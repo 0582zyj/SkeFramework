@@ -113,7 +113,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
                 }
                 else
                 {
-                    caseObj.Dead = true;
+                    caseObj.StopReceive();
                 }
             }
         }

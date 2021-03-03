@@ -33,16 +33,19 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// </summary>
         protected IConnectionConfig connectionConfig;
 
-        //2.声明事件；   
+        /// <summary>
+        /// 声明接收事件
+        /// </summary>
         protected event ReceivedDataCallback ReceiveList;
-
         public event ReceivedDataCallback Receive
         {
             add { ReceiveList += value; }
             // ReSharper disable once ValueParameterNotUsed
             remove { ReceiveList -= value; }
         }
-
+        /// <summary>
+        /// 声明发送事件
+        /// </summary>
         protected event SendDataCallback SendList;
         public event SendDataCallback SendCallback
         {
@@ -71,19 +74,42 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             this.WasDisposed = true;
         }
         #endregion
-
+        /// <summary>
+        /// 远端节点
+        /// </summary>
         public INode RemoteHost { get; set; }
+        /// <summary>
+        /// 当前节点
+        /// </summary>
         public INode Local { get; set; }
+        /// <summary>
+        /// 消息编码器
+        /// </summary>
         public IMessageEncoder Encoder { get; set; }
+        /// <summary>
+        /// 消息解码器
+        /// </summary>
         public IMessageDecoder Decoder { get; set; }
+        /// <summary>
+        /// 字节处理器
+        /// </summary>
         public IByteBufAllocator Allocator { get; set; }
 
         #region 请求状态
+        /// <summary>
+        /// 启动时间
+        /// </summary>
         public DateTime Created { get; private set; }
+        /// <summary>
+        /// 超时时间设置
+        /// </summary>
         public TimeSpan Timeout
         {
             get; set;
         }
+        /// <summary>
+        /// 是否已过期
+        /// </summary>
         public bool Dead
         {
             get { return DateTime.Now.Subtract(this.Created.Add(this.Timeout)).Ticks > 0; }
@@ -101,14 +127,18 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// 任务结束是否立即关闭协议
         /// </summary>
         public bool WasDisposed { get;  set; }
-
+        /// <summary>
+        /// 当前是否正在接受
+        /// </summary>
         public bool Receiving { get; set; }
-
+        /// <summary>
+        /// 协议是否已打开
+        /// </summary>
+        /// <returns></returns>
         public bool IsOpen()
         {
             return _reactor.IsActive;
         }
-
         /// <summary>
         /// 响应控制命令码
         /// </summary>
@@ -140,70 +170,30 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
                 return true;
             }
         }
+        
+        #region 开启和关闭
+        /// <summary>
+        /// 配置
+        /// </summary>
+        /// <param name="config"></param>
         public abstract void Configure(IConnectionConfig config);
-
+        /// <summary>
+        /// 打开
+        /// </summary>
         public void Open()
         {
 
         }
-
+        /// <summary>
+        /// 关闭
+        /// </summary>
         public void Close()
         {
             _reactor.CloseConnection(this);
         }
+        #endregion
         
-        public virtual void Send(NetworkData data)
-        {
-            _reactor.Send(data);
-            if (SendList != null)
-            {
-                SendList(data, this);  
-            }
-        }
-
-        public void Send(byte[] buffer, int index, int length, INode destination)
-        {
-            if (destination == null)
-            {
-                destination = this._reactor.LocalEndpoint;
-            }
-            //_reactor.Send(buffer, index, length, destination);
-            NetworkData data = NetworkData.Create(destination, buffer, length);
-            this.Send(data);
-        }
-      
-        /// <summary>
-        /// 接受消息触发
-        /// </summary>
-        /// <param name="data"></param>
-        public void InvokeReceiveIfNotNull(NetworkData data)
-        {
-            OnReceive(data);
-        }
-        /// <summary>
-        /// 方法被实现直接调用，以将数据发送给它
-        ///     <see cref="IConnection" />.
-        ///     Can also be called by the socket itself if this reactor doesn't use <see cref="ReactorProxyResponseChannel" />.
-        /// </summary>
-        /// <param name="data">The data to pass directly to the recipient</param>
-        public virtual void OnReceive(NetworkData data)
-        {
-            BeginReceive();
-            if (this.ReceiveList != null)
-            {
-                this.ReceiveList(data,this);   //发出警报
-            }
-        }
-        public void BeginReceive()
-        {
-            BeginReceiveInternal();
-           
-        }
-        public void BeginReceive(ReceivedDataCallback callback)
-        {
-            Receive += callback;
-            BeginReceiveInternal();
-        }
+        #region 发送数据
         /// <summary>
         /// Case发送帧 </summary>
         /// <param name="frame">    发送帧 </param>
@@ -219,9 +209,77 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             this.Sender.Interval = interval;
             this.Sender.TotalSendTimes = sendTimes;
             this.Sender.BeginSend();
+            BeginReceive();
         }
         /// <summary>
-        /// 开始发送
+        /// 发送数据
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="index"></param>
+        /// <param name="length"></param>
+        /// <param name="destination"></param>
+        public void Send(byte[] buffer, int index, int length, INode destination)
+        {
+            if (destination == null)
+            {
+                destination = this._reactor.LocalEndpoint;
+            }
+            NetworkData data = NetworkData.Create(destination, buffer, length);
+            this.Send(data);
+        }
+        /// <summary>
+        /// 发送数据
+        /// </summary>
+        /// <param name="data"></param>
+        public virtual void Send(NetworkData data)
+        {
+            _reactor.Send(data);
+            if (SendList != null)
+            {
+                SendList(data, this);
+            }
+        }
+        #endregion
+
+        #region 接受数据
+        /// <summary>
+        /// 接受消息触发
+        /// </summary>
+        /// <param name="data"></param>
+        public void InvokeReceiveIfNotNull(NetworkData data)
+        {
+            OnReceive(data);
+        }
+        /// <summary>
+        /// 方法被实现直接调用，以将数据发送给它
+        /// </summary>
+        /// <param name="data">The data to pass directly to the recipient</param>
+        public virtual void OnReceive(NetworkData data)
+        {
+            if (this.ReceiveList != null)
+            {
+                this.ReceiveList(data,this);   //发出警报
+            }
+        }
+        #endregion
+
+        public void BeginReceive()
+        {
+            Receiving = true;
+            BeginReceiveInternal();
+        }
+        public void StopReceive()
+        {
+            Receiving = false;
+            StopReceiveInternal();
+        }
+        public void BeginReceive(ReceivedDataCallback callback)
+        {
+            Receive += callback;
+            BeginReceiveInternal();
+        }
+        /// <summary>
+        /// 执行任务
         /// </summary>
         /// <param name="connectionTask"></param>
         public abstract void ExecuteTaskSync(ConnectionTask connectionTask);
@@ -229,7 +287,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// 开始接受
         /// </summary>
         public abstract void BeginReceiveInternal();
-
+        /// <summary>
+        /// 结束接受
+        /// </summary>
+        public abstract void StopReceiveInternal();
         #region IDisposable members
 
         public void Dispose()
@@ -250,9 +311,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             }
         }
 
-        public void StopReceive()
-        {
-        }
+       
 
         #endregion
     }

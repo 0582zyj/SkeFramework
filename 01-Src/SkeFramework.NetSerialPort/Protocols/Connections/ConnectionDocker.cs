@@ -14,10 +14,23 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
     /// </summary>
     public class ConnectionDocker
     {
-        private readonly ConcurrentStack<IConnection> caseList = new ConcurrentStack<IConnection>();
+        /// <summary>
+        /// 阻塞式协议队列
+        /// </summary>
+        private readonly ConcurrentDictionary<string,IConnection> caseDictionaryList = new ConcurrentDictionary<string, IConnection>();
+
         internal IList<IConnection> BusinessCaseList
         {
-            get { return caseList.ToList().AsReadOnly(); }
+            get
+            {
+                lock (caseDictionaryList)
+                {
+                    // 因为有多个线程会访问它，但又不想在协议线程中要lock（taksList）而增加了任务操作的负责度和更多的错误源。
+                    List<IConnection> snapshot = new List<IConnection>();
+                    snapshot.AddRange(caseDictionaryList.Values);
+                    return snapshot.AsReadOnly();
+                }
+            }
         }
         /// <summary>
         /// 添加Case对象到发送列表中。
@@ -29,9 +42,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             {
                 if (caseObj != null && !BusinessCaseList.Contains(caseObj))
                 {
-                    lock (caseList)
+                    lock (caseDictionaryList)
                     {
-                        caseList.Push(caseObj);
+                        caseDictionaryList.AddOrUpdate(caseObj.ControlCode, caseObj,(k,v)=>caseObj);
                     }
                 }
             }
@@ -49,9 +62,16 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             try
             {
-                lock (caseList)
+                lock (caseDictionaryList)
                 {
-                   caseList.TryPop(out caseObj);
+                    IConnection connection;
+                    bool result= caseDictionaryList.TryRemove(caseObj.ControlCode,out connection);
+                    if (result)
+                    {
+                        string log = String.Format("{0}:处理超时的协议:Name-{1};Time-{2}", DateTime.Now.ToString("hh:mm:ss"),
+                                                    connection.ControlCode, connection.Created.ToString());
+                        Console.WriteLine(log);
+                    }
                 }
             }
             catch (Exception ex)
@@ -68,7 +88,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             try
             {
-                lock (caseList)
+                lock (caseDictionaryList)
                 {
                     return BusinessCaseList.OrderBy(o => o.Created).ToList()
                         .Find(o => o.ControlCode == cmd.ToString());
@@ -89,7 +109,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             try
             {
-                lock (caseList)
+                lock (caseDictionaryList)
                 {
                     IList<IConnection> connections = this.BusinessCaseList.
                             Where(o => o.Receiving&& cmdList.Contains(o.ControlCode)).OrderByDescending(o => o.Created).ToList();
@@ -111,7 +131,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             try
             {
-                lock (caseList)
+                lock (caseDictionaryList)
                 {
                     return BusinessCaseList.ToList().Find(o => o.RemoteHost == node);
                 }
@@ -129,7 +149,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         internal void SetCaseAsDead(ConnectionTask task)
         {
             IConnection csObj = null;
-            lock (caseList)
+            lock (caseDictionaryList)
             {
                 foreach (IConnection cs in BusinessCaseList)
                 {
@@ -152,15 +172,13 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             try
             {
-                lock (caseList)
+                lock (caseDictionaryList)
                 {
                     foreach (var cases in BusinessCaseList)
                     {
                         if (cases.Dead == true)
                         {
-                            RemoveCase(cases);
-                            string msg = string.Format("处理超时的协议：Name-{0};Time-{1}", cases.ControlCode, cases.Created.ToString());
-                            Console.WriteLine(msg);
+                            RemoveCase(cases);                         
                         }
                     }
                 }
@@ -178,7 +196,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             try
             {
-                lock (caseList)
+                lock (caseDictionaryList)
                 {
                     foreach (var cases in BusinessCaseList)
                     {

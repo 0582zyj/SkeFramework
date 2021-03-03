@@ -36,14 +36,17 @@ namespace SkeFramework.NetSerialPort.Protocols.Constants
         /// </summary>
         public const int WAIT_FOR_COMPLETE = -1;
         /// <summary>
-        ///  默认任务重发间隔时间[毫秒]
-        /// </summary>
-        public const int DefaultTaskInterval =1000;
-        /// <summary>
         /// 默认消息解析超时时间[秒]
         /// </summary>
         public const long DefaultPraseTimeOut = 10;
-
+        /// <summary>
+        ///  默认任务重发间隔时间[毫秒]
+        /// </summary>
+        public const int DefaultTaskInterval = 3000;
+        /// <summary>
+        /// 默认任务重发次数
+        /// </summary>
+        public const int DefaultTaskCount = 3;
         /// <summary>
         /// 检查健康状况
         /// </summary>

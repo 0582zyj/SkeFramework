@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Protocols.Connections.Tasks;
 using SkeFramework.NetSerialPort.Protocols.Constants;
@@ -41,7 +42,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// 获取或设置任务名。
         /// 注：它是对任务的描述。对于它的意义，主要看应用开发和协议开发之间的协商和业务的需要。
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get;private set; }
 
         /// <summary>
         /// 获取或设置任务参数。
@@ -62,6 +63,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// 任务运行开始时间
         /// </summary>
         public DateTime ProcessingTime { get; private set; }
+
+        public CancellationToken cancellationToken { get; private set; }
         #endregion
 
         /// <summary>
@@ -80,6 +83,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             Name = name;
             Param = param;
             TaskState = TaskState.NewTask;
+            cancellationToken = new CancellationToken();
         }
 
         #region 任务状态：新任务》处理中》完成/超时

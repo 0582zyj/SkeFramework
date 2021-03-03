@@ -1,4 +1,5 @@
-﻿using SkeFramework.NetSerialPort.Protocols.Requests;
+﻿using SkeFramework.NetSerialPort.Protocols.Constants;
+using SkeFramework.NetSerialPort.Protocols.Requests;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,10 +12,11 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
 {
     public class TaskManager
     {
-        /// <summary>
-        /// 任务列表。
+       /// <summary>
+        /// 阻塞式任务队列
         /// </summary>
-        private readonly ConcurrentStack<ConnectionTask> taskList = new ConcurrentStack<ConnectionTask>();
+        private readonly BlockingCollection<ConnectionTask> taskListBlocking = new BlockingCollection<ConnectionTask>();
+        
         /// <summary>
         /// 获取或设置任务关联的协议。
         /// </summary>
@@ -35,12 +37,12 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
         {
             get
             {
-                lock (taskList)
+                lock (taskListBlocking)
                 {
                     // 这里以只读的方式返回了taskList在此时间片的一个副本。
                     // 因为有多个线程会访问它，但又不想在协议线程中要lock（taksList）而增加了任务操作的负责度和更多的错误源。
                     List<ConnectionTask> snapshot = new List<ConnectionTask>();
-                    snapshot.AddRange(taskList);
+                    snapshot.AddRange(taskListBlocking);
                     return snapshot.AsReadOnly();
                 }
             }
@@ -52,9 +54,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
         internal bool RemoveTask(ConnectionTask task)
         {
             bool result;
-            lock (taskList)
+            lock (taskListBlocking)
             {
-                result= taskList.TryPop(out task);
+                ConnectionTask connectionTask;
+                result = taskListBlocking.TryTake(out connectionTask, NetworkConstants.DefaultTaskInterval, task.cancellationToken);
             }
             if (result)
             {
@@ -71,15 +74,15 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
         {
             if (task == null)
                 return;
-            lock (taskList)
+            lock (taskListBlocking)
             {
-                if (!taskList.Contains(task))
+                if (!taskListBlocking.Contains(task))
                 {
                     if (task.GetRelatedProtocol() == null)
                     {
                         task.SetRelatedProtocol(this.relatedProtocol);
                     }
-                    taskList.Push(task);
+                    taskListBlocking.Add(task, task.cancellationToken);
                     //((EventWaitHandle)this.relatedProtocol.protocolEvents[(int)ProtocolEvents.TaskArrived]).Set();
                     string LogMsg = string.Format("协议“{0}”增加了一个“{1}”任务。", "未定义协议名称", task.Name);
                 }
