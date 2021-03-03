@@ -83,6 +83,9 @@
     <Compile Include="Protocols\Constants\NetworkDataDocker.cs" />
     <Compile Include="Protocols\DataFrame\FrameBase.cs" />
     <Compile Include="Protocols\IConnection.cs" />
+    <Compile Include="Protocols\Listenser\ChannelListensers\DefaultChannelPromise.cs" />
+    <Compile Include="Protocols\Listenser\Interfaces\IChannelListener.cs" />
+    <Compile Include="Protocols\Listenser\Interfaces\IChannelPromise.cs" />
     <Compile Include="Protocols\Listenser\SenderListenser.cs" />
     <Compile Include="Protocols\Requests\RefactorProxyRequestChannel.cs" />
     <Compile Include="Protocols\Requests\RefactorRequestChannel.cs" />

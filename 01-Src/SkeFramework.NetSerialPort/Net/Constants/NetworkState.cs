@@ -55,7 +55,7 @@ namespace SkeFramework.NetSerialPort.Net.Constants
             TimeSpan tss = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             long NowTimeSpan = Convert.ToInt64(tss.TotalMilliseconds);
             long TimeOutSpan = this.Buffer.ReceiveTimeSpan + TimeOutSeconds * 1000;
-            if (this.TimeOutSeconds > 0 && this.Buffer.ReceiveTimeSpan>0 
+            if (this.TimeOutSeconds > 0 && this.Buffer.ReceiveTimeSpan>0  && this.Buffer.ReadableBytes>0
                 && (TimeOutSpan < NowTimeSpan))
             {
                 byte[] removeByte = this.Buffer.ReadBytes(this.Buffer.ReadableBytes);
