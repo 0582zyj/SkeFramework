@@ -9,6 +9,7 @@ using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols.Configs;
 using SkeFramework.NetSerialPort.Protocols.Configs.Enums;
 using SkeFramework.NetSerialPort.Protocols.Connections;
+using SkeFramework.NetSerialPort.Protocols.Connections.Tasks;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Protocols.Listenser;
 using SkeFramework.NetSerialPort.Topology;
@@ -20,18 +21,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
     /// </summary>
     public abstract class RefactorRequestChannel : IConnection
     {
-        /// <summary>
-        /// 通信基类
-        /// </summary>
-        private readonly ReactorBase _reactor;
-        /// <summary>
-        /// 协议发送监听器
-        /// </summary>
-        public SenderListenser Sender;
-        /// <summary>
-        /// 链接配置
-        /// </summary>
-        protected IConnectionConfig connectionConfig;
 
         /// <summary>
         /// 声明接收事件
@@ -53,6 +42,23 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             // ReSharper disable once ValueParameterNotUsed
             remove { SendList -= value; }
         }
+
+        /// <summary>
+        /// 通信基类
+        /// </summary>
+        private readonly ReactorBase _reactor;
+        /// <summary>
+        /// 协议发送监听器
+        /// </summary>
+        public SenderListenser Sender;
+        /// <summary>
+        /// 链接配置
+        /// </summary>
+        protected IConnectionConfig connectionConfig;
+        /// <summary>
+        /// 上次活跃时间
+        /// </summary>
+        protected DateTime LastActiveTime;
         #region 构造函数
         protected RefactorRequestChannel(ReactorBase reactor, string controlCode)
             : this(reactor, reactor.LocalEndpoint, controlCode)
@@ -67,13 +73,14 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             Local = reactor.LocalEndpoint;
             RemoteHost = node == null ? reactor.LocalEndpoint.Clone() as INode : node;
             this.Created = DateTime.Now;
+            this.LastActiveTime = DateTime.Now;
             Dead = false;
             ControlCode = controlCode;
-            Timeout = NetworkConstants.BackoffIntervals[4];
+            Timeout = NetworkConstants.BackoffIntervals[3];
             this.Sender = new SenderListenser(this);
-            this.WasDisposed = true;
         }
         #endregion
+      
         /// <summary>
         /// 远端节点
         /// </summary>
@@ -126,7 +133,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// <summary>
         /// 任务结束是否立即关闭协议
         /// </summary>
-        public bool WasDisposed { get;  set; }
+        public bool WasDisposed { get { return DateTime.Now.Subtract(this.LastActiveTime.Add(this.Timeout)).Ticks > 0; } }
         /// <summary>
         /// 当前是否正在接受
         /// </summary>
@@ -143,6 +150,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// 响应控制命令码
         /// </summary>
         public string ControlCode { get; set; }
+        /// <summary>
+        /// 链接状态
+        /// </summary>
+        public ResultStatusCode connectionStatus { get; set; }
         #endregion
 
         public int MessagesInSendQueue
@@ -182,7 +193,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// </summary>
         public void Open()
         {
-
+            this.connectionStatus = ResultStatusCode.CONNECTION_OPEN;
         }
         /// <summary>
         /// 关闭
@@ -190,6 +201,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         public void Close()
         {
             _reactor.CloseConnection(this);
+            this.connectionStatus = ResultStatusCode.CONNECTION_CLOSE;
         }
         #endregion
         
@@ -248,6 +260,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// <param name="data"></param>
         public void InvokeReceiveIfNotNull(NetworkData data)
         {
+            StopReceive();
             OnReceive(data);
         }
         /// <summary>
@@ -263,21 +276,30 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         }
         #endregion
 
+        #region 接收/超时
         public void BeginReceive()
         {
-            Receiving = true;
-            BeginReceiveInternal();
+            this.Receiving = true;
+            this.LastActiveTime = DateTime.Now;
+            this.BeginReceiveInternal();
         }
-        public void StopReceive()
-        {
-            Receiving = false;
-            StopReceiveInternal();
-        }
+       
         public void BeginReceive(ReceivedDataCallback callback)
         {
             Receive += callback;
             BeginReceiveInternal();
         }
+        public void StopReceive()
+        {
+            if (this.Sender.TotalSendTimes != NetworkConstants.WAIT_FOR_COMPLETE)
+            {
+                this.Receiving = false;
+                this.Sender.EndSend();
+            }
+            StopReceiveInternal();
+        }
+        #endregion
+
         /// <summary>
         /// 执行任务
         /// </summary>
@@ -291,9 +313,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// 结束接受
         /// </summary>
         public abstract void StopReceiveInternal();
-        #region IDisposable members
 
-        public void Dispose()
+        #region IDisposable members
+        public virtual void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
@@ -301,18 +323,11 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
 
         protected void Dispose(bool disposing)
         {
-            if (!WasDisposed)
+            if (disposing)
             {
-                WasDisposed = true;
-                if (disposing)
-                {
-                    Close();
-                }
+                Close();
             }
         }
-
-       
-
         #endregion
     }
 }

@@ -12,55 +12,23 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
     [Serializable]
     public class TaskResult
     {
-        /// <summary>
-        /// 任务操作成功标识。
-        /// </summary>
-        private bool success;
-        /// <summary>
-        /// 任务结果描述信息。
-        /// </summary>
-        private string description;
-        /// <summary>
-        /// 任务结果编码
-        /// </summary>
-        private int resultCode;
-        /// <summary>
-        /// 任务操作完成后数据的返回。
-        /// </summary>
-        private object param;
 
         /// <summary>
         /// 任务结果编码
         /// </summary>
-        public int ResultCode
-        {
-            get { return resultCode; }
-            set { resultCode = value; }
-        }
+        public int ResultCode { get; set; }
         /// <summary>
         /// 任务操作成功标识。
         /// </summary>
-        public bool Success
-        {
-            get { return success; }
-            set { success = value; }
-        }
+        public bool Success { get; set; }
         /// <summary>
         /// 获取或设置任务结果描述信息。
         /// </summary>
-        public string Description
-        {
-            get { return description; }
-            set { description = value; }
-        }
+        public string Description { get; set; }
         /// <summary>
         /// 任务操作完成后数据的返回。
         /// </summary>
-        public object Param
-        {
-            get { return param; }
-            set { param = value; }
-        }
+        public object Param { get; set; }
         public TaskResult()
         {
         }
@@ -73,14 +41,14 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
         public TaskResult(bool success, ResultStatusCode status, string description, object param)
         {
             this.Success = success;
-            this.resultCode = status.GetStatusCode();
+            this.ResultCode = status.GetStatusCode();
             this.Description = description;
             this.Param = param;
         }
 
         public override string ToString()
         {
-            return string.Format("TaskResult:{0};ResultCode:{1};Description:{2}", this.success, this.resultCode, this.description);
+            return string.Format("TaskResult:{0};ResultCode:{1};Description:{2}", this.Success, this.ResultCode, this.Description);
         }
     }
 }

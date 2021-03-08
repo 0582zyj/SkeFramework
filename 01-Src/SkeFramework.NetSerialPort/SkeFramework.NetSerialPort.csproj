@@ -82,6 +82,7 @@
     <Compile Include="Net\Constants\NetworkState.cs" />
     <Compile Include="Protocols\Constants\NetworkDataDocker.cs" />
     <Compile Include="Protocols\DataFrame\FrameBase.cs" />
+    <Compile Include="Protocols\DataFrame\PacketFrameBase.cs" />
     <Compile Include="Protocols\IConnection.cs" />
     <Compile Include="Protocols\Listenser\ChannelListensers\DefaultChannelPromise.cs" />
     <Compile Include="Protocols\Listenser\Interfaces\IChannelListener.cs" />

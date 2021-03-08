@@ -40,12 +40,13 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
 
         public override void StopReceiveInternal()
         {
-            this.Receiving = false;
-            Sender.EndSend();
-            NetworkData networkData= NetworkData.Empty;
-            networkData.ResultData = new TaskResult(false, ResultStatusCode.TIME_OUT, ResultStatusCode.TIME_OUT.GetDesc(), this.networkData);
-            //超时回调通知   
-            this.InvokeReceiveIfNotNull(networkData);
+            if (this.connectionStatus == ResultStatusCode.TIME_OUT)
+            {
+                NetworkData networkData = NetworkData.Empty;
+                networkData.ResultData = new TaskResult(false, ResultStatusCode.TIME_OUT, ResultStatusCode.TIME_OUT.GetDesc(), this.networkData);
+                //超时回调通知   
+                base.OnReceive(networkData);
+            }
         }
 
         public override void Configure(IConnectionConfig config)

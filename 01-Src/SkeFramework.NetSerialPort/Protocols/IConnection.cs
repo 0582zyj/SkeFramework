@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
 using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Connections.Tasks;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Topology;
 
@@ -81,6 +82,10 @@ namespace SkeFramework.NetSerialPort.Protocols
         /// 协议控制码
         /// </summary>
         string ControlCode { get; set; }
+        /// <summary>
+        /// 链接状态
+        /// </summary>
+        ResultStatusCode connectionStatus { get; set; }
         #region Method
         /// <summary>
         /// 选项配置此传输

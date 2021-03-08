@@ -24,7 +24,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
     /// </summary>
     public class ReactorConnectionAdapter : IConnection
     {
-
+        #region 事件
         public event ReceivedDataCallback Receive
         {
             add { _reactor.OnReceive += value; }
@@ -36,6 +36,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             add { _reactor.OnSend += value; }
             remove { _reactor.OnSend -= value; }
         }
+        #endregion
 
         /// <summary>
         /// 通信
@@ -55,56 +56,91 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             this.protocolEvents[(int)ProtocolEvents.TaskArrived] = new AutoResetEvent(false);
         }
 
-
+        /// <summary>
+        /// 编码器
+        /// </summary>
         public IMessageEncoder Encoder
         {
             get { return _reactor.Encoder; }
         }
-
+        /// <summary>
+        /// 解码器
+        /// </summary>
         public IMessageDecoder Decoder
         {
             get { return _reactor.Decoder; }
         }
-
+        /// <summary>
+        /// 缓冲区
+        /// </summary>
         public IByteBufAllocator Allocator
         {
             get { return _reactor.Allocator; }
         }
-
+        /// <summary>
+        /// 创建事件
+        /// </summary>
         public DateTime Created { get; private set; }
+        /// <summary>
+        /// 远端节点
+        /// </summary>
         public INode RemoteHost { get; private set; }
+        /// <summary>
+        /// 本地节点
+        /// </summary>
         public INode Local
         {
             get { return _reactor.LocalEndpoint; }
         }
-
+        /// <summary>
+        /// 过期时间
+        /// </summary>
         public TimeSpan Timeout { get; private set; }
-
+        /// <summary>
+        /// 是否过期
+        /// </summary>
         public bool Dead { get { return DateTime.Now.Subtract(this.Created.Add(this.Timeout)).Ticks > 0; } set { } }
-
+        /// <summary>
+        /// 是否释放
+        /// </summary>
         public bool WasDisposed { get;  set; }
-
+        /// <summary>
+        /// 是否接收中
+        /// </summary>
         public bool Receiving { get; set; }
-
+        /// <summary>
+        /// 是否打开
+        /// </summary>
+        /// <returns></returns>
         public bool IsOpen()
         {
             return _reactor.IsActive;
         }
-
         /// <summary>
         /// 响应控制命令码
         /// </summary>
         public string ControlCode { get; set; }
-
+        /// <summary>
+        /// 链接状态
+        /// </summary>
+        public ResultStatusCode connectionStatus { get; set; }
+        /// <summary>
+        /// 正在发送数量
+        /// </summary>
         public int MessagesInSendQueue
         {
             get { return 0; }
         }
-
+        #region Initialize
+        /// <summary>
+        /// 启动配置
+        /// </summary>
+        /// <param name="config"></param>
         public void Configure(IConnectionConfig config)
         {
             _reactor.Configure(config);
         }
+        #endregion
 
         #region 开启关闭
         /// <summary>
@@ -131,6 +167,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                     if (!ProtocolThreadIsAlive)
                     {
                         this.ProtocolThreadIsAlive = true;
+                        this.connectionStatus = ResultStatusCode.CONNECTION_OPEN;
                         this.ThreadProtocol = new Thread(new ThreadStart(ProtocolThreadProcess));
                         ((ManualResetEvent)protocolEvents[(int)ProtocolEvents.ProtocolExit]).Reset();
                         this.ThreadProtocol.Name = "未命名规约";
@@ -249,7 +286,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// 数据处理缓冲区
         /// </summary>
         public NetworkDataDocker networkDataDocker;
-
         #endregion
 
         #region 协议线程的处理过程
@@ -273,6 +309,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                         {
                             case (int)ProtocolEvents.ProtocolExit:
                                 this.ProtocolThreadIsAlive = false;
+                                this.connectionStatus = ResultStatusCode.CONNECTION_CLOSE;
                                 break;
                             case (int)ProtocolEvents.TaskArrived:
                                 ProcessNewTask();
@@ -379,7 +416,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// （因此如果您需要在协议中创建自己的线程或窗体等，可以重载此函数来实现）。
         /// 通过重载UnInitialize()来释放资源。基类中此函数未做任何工作。
         /// </summary>
-        protected virtual void Initialize() { }
+        protected virtual void Initialize() {  }
         /// <summary>
         /// 协议线程退出时的工作可以重载此函数来实现。
         /// 注：协议有一个自己的运作协议线程，当该线程在退出前会调用此函数。基类中此函数未做任何工作。
@@ -394,28 +431,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// 协议一收到任务，此函数将被调用。
         /// </summary>
         /// <param name="newTask">收到的任务。</param>
-        protected virtual void ProcessTask(ConnectionTask connectionTask) { }
-        /// <summary>
-        /// 处理端口缓冲区收到的端口数据。
-        /// </summary>
-        protected virtual void ProcessReceivedData(NetworkData networkData)
-        {
-            IConnection connection = this.connectionDocker.GetCase(networkData.RemoteHost.TaskTag);
-            if (connection != null && connection is RefactorRequestChannel)
-            {
-                string content = connection.Encoder.ByteEncode(networkData.Buffer);
-                string log = String.Format("{0}:协议层消息处理【{1}】：{2}",
-                    DateTime.Now.ToString("hh:mm:ss"), networkData.RemoteHost.ToString(), content);
-                Console.WriteLine(log);
-                connection.Receiving = false;
-                RefactorRequestChannel requestChannel = (RefactorRequestChannel)connection;
-                if (requestChannel.Sender.TotalSendTimes!= NetworkConstants.WAIT_FOR_COMPLETE)
-                {
-                    requestChannel.Sender.EndSend();
-                }
-            }
-        }
-      
+        protected virtual void ProcessTask(ConnectionTask connectionTask) { }      
         #endregion
 
         #region 协议任务处理过程
@@ -516,7 +532,22 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             //触发整条记录的处理
             return frameBase;
         }
-
+        /// <summary>
+        /// 处理端口缓冲区收到的端口数据。
+        /// </summary>
+        protected virtual void ProcessReceivedData(NetworkData networkData)
+        {
+            IConnection connection = this.connectionDocker.GetCase(networkData.RemoteHost.TaskTag);
+            if (connection != null && connection is RefactorRequestChannel)
+            {
+                string content = connection.Encoder.ByteEncode(networkData.Buffer);
+                string log = String.Format("{0}:协议层消息处理【{1}】：{2}",
+                    DateTime.Now.ToString("hh:mm:ss"), networkData.RemoteHost.ToString(), content);
+                Console.WriteLine(log);
+                RefactorRequestChannel requestChannel = (RefactorRequestChannel)connection;
+                requestChannel.StopReceive();
+            }
+        }
         #endregion
 
         #region IDisposable methods

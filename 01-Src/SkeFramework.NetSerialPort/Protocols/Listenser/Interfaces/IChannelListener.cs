@@ -15,7 +15,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser.Interfaces
         /// 消息接受
         /// </summary>
         /// <param name="datas"></param>
-        /// <param name="controlerId"></param>
-        void OnReceivedDataPoint(NetworkData datas, string controlerId);
+        /// <param name="taskId"></param>
+        void OnReceivedDataPoint(NetworkData datas, string taskId);
     }
 }

@@ -36,7 +36,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
 
         protected override void ReceivedData(NetworkData availableData, RefactorResponseChannel responseChannel)
         {
-            responseChannel.OnReceive(availableData);
+            responseChannel.InvokeReceiveIfNotNull(availableData);
         }
     }
 }

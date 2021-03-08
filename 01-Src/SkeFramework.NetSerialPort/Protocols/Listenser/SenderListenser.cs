@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.NetSerialPort.Protocols.Connections.Tasks;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Protocols.Requests;
 
@@ -113,6 +114,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
                 }
                 else
                 {
+                    caseObj.connectionStatus = ResultStatusCode.TIME_OUT;
                     caseObj.StopReceive();
                 }
             }

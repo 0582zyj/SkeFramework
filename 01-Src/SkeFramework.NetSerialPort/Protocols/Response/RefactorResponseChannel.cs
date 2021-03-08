@@ -10,6 +10,7 @@ using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
 using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Connections.Tasks;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Protocols.Requests;
 using SkeFramework.NetSerialPort.Topology;
@@ -105,8 +106,11 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
         {
             get { return 0; }
         }
+        /// <summary>
+        /// 链接状态
+        /// </summary>
+        public ResultStatusCode connectionStatus { get; set; }
 
-        
 
         public abstract void Configure(IConnectionConfig config);
 
@@ -128,6 +132,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
 
         public void StopReceive()
         {
+            if (requestChannel != null)
+            {
+                this.requestChannel.StopReceive();
+            }
             StopReceiveInternal();
         }
 
@@ -166,10 +174,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
         /// <param name="data">The data to pass directly to the recipient</param>
         public virtual void OnReceive(NetworkData data)
         {
-            if (requestChannel != null)
-            {
-                requestChannel.Dead = false;
-            }
             if (this.ReceiveList != null)
             {
                 this.ReceiveList(data, this);   //发出警报
@@ -181,13 +185,15 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
 
         public void InvokeReceiveIfNotNull(NetworkData data)
         {
+
+            StopReceive();
             OnReceive(data);
         }
 
        
         #region IDisposable members
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
