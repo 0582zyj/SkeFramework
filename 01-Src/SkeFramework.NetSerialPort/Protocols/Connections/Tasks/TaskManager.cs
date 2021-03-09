@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
 {
-    public class TaskManager
+    public class TaskManager:IDisposable
     {
        /// <summary>
         /// 阻塞式任务队列
@@ -111,5 +111,21 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
                
             }
         }
+
+        #region IDisposable members
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.taskListBlocking.Dispose();
+            }
+        }
+        #endregion
     }
 }

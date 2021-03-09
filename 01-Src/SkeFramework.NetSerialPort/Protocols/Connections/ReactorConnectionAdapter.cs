@@ -558,7 +558,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             GC.SuppressFinalize(this);
         }
 
-        protected void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (!WasDisposed)
             {
@@ -569,6 +569,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                     {
                         ((IDisposable)_reactor).Dispose();
                         _reactor = null;
+                    }
+                    if (this.taskDocker != null)
+                    {
+                        this.taskDocker.Dispose();
                     }
                 }
             }

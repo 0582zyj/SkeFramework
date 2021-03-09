@@ -25,7 +25,7 @@ namespace SkeFramework.NetSerialPort.Topology.Nodes
             set;
         }
 
-        SerialPort INode.ToEndPoint()
+        public virtual SerialPort ToEndPoint()
         {
             return null;
         }

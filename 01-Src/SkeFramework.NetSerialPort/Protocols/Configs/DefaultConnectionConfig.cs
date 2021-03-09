@@ -48,7 +48,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Configs
         }
 
 
-        IList<KeyValuePair<string, object>> IConnectionConfig.Options
+        public IList<KeyValuePair<string, object>> Options
         {
             get
             {

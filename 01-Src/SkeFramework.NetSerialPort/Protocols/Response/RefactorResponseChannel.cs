@@ -193,13 +193,13 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
        
         #region IDisposable members
 
-        public virtual void Dispose()
+        public   void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        protected void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (!WasDisposed)
             {
