@@ -10,13 +10,14 @@ using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Protocols.Requests;
 using SkeFramework.NetSerialPort.Topology;
 using SkeFramework.NetProtocol.Constants;
+using SkeFramework.NetProtocol.BusinessCase.Abstracts;
 
 namespace SkeFramework.NetProtocol.BusinessCase.Requests
 {
     /// <summary>
     /// 搜索指令
     /// </summary>
-    public class BroadcastSearchRequest : RefactorRequestChannel
+    internal sealed class BroadcastSearchRequest : SingleRequestChannel
     {
         public BroadcastSearchRequest(ReactorBase reactor)
         : this(reactor, null)
@@ -38,11 +39,7 @@ namespace SkeFramework.NetProtocol.BusinessCase.Requests
             byte[] sendByte =( connectionTask.Param as List<byte>).ToArray();// Encoding.Default.GetBytes(message);
             NetworkData frame = NetworkData.Create(this.Local, sendByte, sendByte.Length);
             CaseSendFrame(frame, NetworkConstants.DefaultTaskInterval, NetworkConstants.WAIT_FOR_COMPLETE);
-
         }
-        public override void BeginReceiveInternal()
-        {
-           
-        }
+      
     }
 }

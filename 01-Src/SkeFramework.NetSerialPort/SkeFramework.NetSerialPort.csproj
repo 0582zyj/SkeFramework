@@ -31,6 +31,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+	  <PackageId>SkeFramework.NetSerialPort</PackageId>
+	  <Version>1.02.00</Version>
+	  <Authors>ZYJUN</Authors>
+	  <Company>NetSke</Company>
+	</PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -41,14 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessCase\Abstracts\ComplexRequestChannel.cs" />
+    <Compile Include="BusinessCase\Abstracts\FileReadRequestChannel.cs" />
+    <Compile Include="BusinessCase\Abstracts\FileWriteRequestChannel.cs" />
+    <Compile Include="BusinessCase\Abstracts\SingleRequestChannel.cs" />
     <Compile Include="BusinessCase\Requests\BroadcastSearchRequest.cs" />
     <Compile Include="BusinessCase\Response\DefaultResponse.cs" />
     <Compile Include="Constants\ProtocolConst.cs" />
     <Compile Include="DataConfig\OptionKeyExtendEnums.cs" />
-    <Compile Include="DataFrame\BusinessFrames\Abstracts\BodyFrameBase.cs" />
+    <Compile Include="DataFrame\BusinessFrames\Abstracts\SerialAbstractFrame.cs" />
+    <Compile Include="DataFrame\SHSerialFrame.cs" />
+    <Compile Include="DataFrame\SHSerialPacket.cs" />
     <Compile Include="DataUtils\CrcCheck.cs" />
-    <Compile Include="DataFrame\BusinessFrames\Interfaces\IDataFrame.cs" />
-    <Compile Include="DataFrame\BusinessFrames\Services\ATDataFrame.cs" />
     <Compile Include="DataHandle\Services\ATHandleBase\ATDataHandle.cs" />
     <Compile Include="DataHandle\Services\ATHandleBase\IATDataHandle.cs" />
     <Compile Include="DataHandle\HandleBase\DataHandleBase.cs" />
@@ -69,7 +73,8 @@
     <Content Include="Resources\Lib\SkeFramework.NetSerialPort.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DataFrame\ProtocolFrames\" />
+    <Folder Include="DataFrame\BusinessFrames\Interfaces\" />
+    <Folder Include="DataFrame\BusinessFrames\Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,8 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SkeFramework.NetProtocol.Constants;
-using SkeFramework.NetProtocol.DataFrame.Interfaces;
-using SkeFramework.NetProtocol.DataFrame.Services;
 
 namespace SkeFramework.NetProtocol.BusinessCase.Response
 {

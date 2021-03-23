@@ -42,9 +42,7 @@ namespace SkeFramework.NetProtocol.DataHandle.HandleBase
         /// <param name="value"></param>
         public virtual void RequestReactorFunction(int functionType, AsyncCallback asyncCallback, int timeout, object value)
         {
-            ConnectionTask task = new ConnectionTask();
-            task.Name = functionType.ToString();
-            task.Param = value;
+            ConnectionTask task = new ConnectionTask(functionType.ToString(), value);
             ((ReactorConnectionAdapter)ProtocolProxyAgent.Instance().reactorConnectionAdapter).ExecuteTaskAsync(task, asyncCallback, timeout);
         }
     }

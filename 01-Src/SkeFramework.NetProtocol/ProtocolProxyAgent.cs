@@ -7,6 +7,8 @@ using SkeFramework.NetSerialPort.Protocols.Connections;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Topology;
 using SkeFramework.NetProtocol.DataHandle;
+using SkeFramework.NetSerialPort.Protocols.Listenser.Interfaces;
+using SkeFramework.NetSerialPort.Protocols.Listenser.ChannelListensers;
 
 namespace SkeFramework.NetProtocol
 {
@@ -34,14 +36,15 @@ namespace SkeFramework.NetProtocol
         }
         #endregion
 
+
         /// <summary>
         /// 通信基类
         /// </summary>
-        protected IReactor reactor;
+        private IReactor reactor;
         /// <summary>
         /// 协议适配类
         /// </summary>
-        protected IConnection connectionAdapter;
+        private IConnection connectionAdapter;
         /// <summary>
         /// 协议适配类
         /// </summary>
@@ -57,9 +60,9 @@ namespace SkeFramework.NetProtocol
             }
         }
         /// <summary>
-        /// 界面监听消息列表
+        /// 协议监听容器
         /// </summary>
-        protected List<IDataPointListener> _mDataPointListeners = null;
+        private IChannelPromise channelListenser = new DefaultChannelPromise();
 
         #region 协议处理代理
         /// <summary>
@@ -68,27 +71,30 @@ namespace SkeFramework.NetProtocol
         /// <returns></returns>
         public bool IsReactorOpen
         {
-            get {
+            get
+            {
                 if (this.reactor == null)
                 {
                     return false;
                 }
                 return this.reactor.IsActive;
-            }private set{}
+            }
+            private set { }
         }
         /// <summary>
         /// 启动一个通信
         /// </summary>
         /// <param name="nodeConfig"></param>
-        public virtual bool StartReactor(NodeConfig nodeConfig)
+        public bool StartReactor(NodeConfig nodeConfig)
         {
             try
             {
                 var bootstrapper = new ServerBootstrap()
                .WorkerThreads(2)
+               //.SetConfig(new DefaultConnectionConfig().SetOption(OptionKeyEnums.ParseTimeOut.ToString(), 5))
                .Build();
                 reactor = bootstrapper.NewReactor(NodeBuilder.BuildNode().Host(nodeConfig));
-                reactor.ConnectionAdapter = new ProtocolUT("12", (ReactorBase)reactor);
+                reactor.ConnectionAdapter = new ProtocolUT("SerialProtocol", (ReactorBase)reactor);
                 reactor.Start();
                 connectionAdapter = reactor.ConnectionAdapter;
                 return true;
@@ -96,58 +102,55 @@ namespace SkeFramework.NetProtocol
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                
+
             }
             return false;
+        }
+        /// <summary>
+        /// 停止
+        /// </summary>
+        public void StopReactor()
+        {
+            try
+            {
+                if (this.IsReactorOpen)
+                {
+                    connectionAdapter.StopReceive();
+                    reactor.Stop();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+
+            }
         }
         #endregion
 
         #region 界面消息监听处理
+        public void DataPointListener_Send(NetworkData networkData, IConnection requestChannel)
+        {
+            string content = requestChannel.Encoder.ByteEncode(networkData.Buffer);
+        }
         public void DataPointListener_Receive(NetworkData incomingData, IConnection responseChannel)
         {
-            if (_mDataPointListeners != null && _mDataPointListeners.Count>0)
-            {
-                foreach(var item in _mDataPointListeners)
-                {
-                    item.OnReceivedDataPoint(incomingData, responseChannel.Local.TaskTag);
-                }
-            }
+            channelListenser.OnReceivedDataPoint(incomingData, responseChannel.RemoteHost.TaskTag);
         }
         /// <summary>
         /// 添加一个监听者
         /// </summary>
         /// <param name="listener"></param>
-
-        public void AddDataPointListener(IDataPointListener listener)
+        public void AddDataPointListener(IChannelListener listener)
         {
-            if (null == listener)
-            {
-                return;
-            }
-            if (null == _mDataPointListeners)
-            {
-                _mDataPointListeners = new List< IDataPointListener>();
-            }
-            if (_mDataPointListeners.Contains(listener))
-            {
-                return;
-            }
-            _mDataPointListeners.Add(listener);
+            channelListenser.AddDataPointListener(listener);
         }
         /// <summary>
         /// 移除一个监听者
         /// </summary>
         /// <param name="listener"></param>
-        public void RemoveDataPointListener(IDataPointListener listener)
+        public void RemoveDataPointListener(IChannelListener listener)
         {
-            if (null == listener)
-            {
-                return;
-            }
-            if (_mDataPointListeners!=null&& _mDataPointListeners.Contains(listener))
-            {
-                _mDataPointListeners.Remove(listener);
-            }
+            channelListenser.RemoveDataPointListener(listener);
         }
         #endregion
 

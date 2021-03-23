@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("SkeFramework.NetSerialPort")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("串口通信库的快速实现库")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NetSke")]
 [assembly: AssemblyProduct("SkeFramework.NetSerialPort")]
