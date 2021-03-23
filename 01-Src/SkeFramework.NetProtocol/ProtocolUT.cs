@@ -16,10 +16,7 @@ namespace SkeFramework.NetProtocol
         /// 规约基类，具体实现根据工厂方法实例化
         /// </summary>
         private IConnection commCase_Send = null;
-        ///// <summary>
-        ///// ErLangLinkCase 跟云主机Erlang进行通信【30S】 
-        ///// </summary>
-        //private ErLangLinkCase linkCase = null;
+      
       
         public ProtocolUT(string ProtocolName, ReactorBase reactor)
             : base(reactor)
@@ -31,13 +28,7 @@ namespace SkeFramework.NetProtocol
         /// </summary>
         protected override void Initialize()
         {
-            //if (linkCase != null)
-            //{
-            //    linkCase.Task.Dead = true;
-            //    linkCase.Dead = true;
-            //}
-            //linkCase = new ErLangLinkCase(new ProtocolTask("linkCase", null), this);
-            //linkCase.SendFrameStart();
+         
         }
         /// <summary>
         /// 协议一收到任务，此函数将被调用。
@@ -96,30 +87,8 @@ namespace SkeFramework.NetProtocol
             if (result.Equals(FrameBase.ResultOfParsingFrame.ReceivingCompleted))
             {
                 int len = (int)OriginalBuffer[2];
-                if (OriginalBuffer.Length < len + 7)//数据接收不完整
-                {
-                    Console.WriteLine("串口丢弃数据-->>" + this.Encoder.ByteEncode(OriginalBuffer));
-                    return null;
-                }
                 return frame;
             }
-            else
-            {
-
-            }
-            byte[] RawBuffer = null;
-            StringBuilder builder = new StringBuilder();
-            builder.Append(Encoding.ASCII.GetString(OriginalBuffer));
-            string receive_content = builder.ToString();
-            int CRLF_AT = -1;
-            CRLF_AT = receive_content.IndexOf("\r\n", 2);
-            if (CRLF_AT != -1)
-            {
-                string content = receive_content.Substring(0, CRLF_AT + 2);
-                RawBuffer = Encoding.ASCII.GetBytes(content);
-                return new FrameBase(RawBuffer, new byte[] { });
-            }
-            Console.WriteLine("串口丢弃数据-->>" + receive_content);
             return null;
         }
         /// <summary>
@@ -129,10 +98,6 @@ namespace SkeFramework.NetProtocol
         /// <returns></returns>
         public override IConnection GetConnection(FrameBase frame)
         {
-            if (frame is FrameBase)
-            {
-                return base.GetConnection(frame);
-            }
             return base.GetConnection(frame);
         }
     }
