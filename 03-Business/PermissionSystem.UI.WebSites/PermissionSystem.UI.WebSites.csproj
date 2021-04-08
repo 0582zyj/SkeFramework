@@ -293,6 +293,7 @@
     <Content Include="Views\PushConfig\PushConfigUpdate.cshtml" />
     <Content Include="Views\PushConfig\PushConfigAdd.cshtml" />
     <Content Include="Views\Message\MessageList.cshtml" />
+    <Content Include="Views\Message\EmailList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

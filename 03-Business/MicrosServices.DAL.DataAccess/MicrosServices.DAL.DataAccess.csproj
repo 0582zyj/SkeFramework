@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RealTimeSystem\RtEmailHandles\IRtEmailHandleCommon.cs" />
+    <Compile Include="RealTimeSystem\RtEmailHandles\RtEmailHandleCommon.cs" />
     <Compile Include="RealTimeSystem\RtMessageHandles\IRtMessageHandleCommon.cs" />
     <Compile Include="RealTimeSystem\RtMessageHandles\RtMessageHandleCommon.cs" />
     <Compile Include="RealTimeSystem\RtPushConfigHandle\IRtPushconfigHandleCommon.cs" />

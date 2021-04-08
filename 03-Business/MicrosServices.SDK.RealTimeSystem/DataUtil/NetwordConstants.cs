@@ -10,6 +10,9 @@ namespace MicrosServices.SDK.RealTimeSystem.DataUtil
     {
         public const string BASE_URL_IIS = "http://localhost/RealTimeApi";
         public const string BASE_URL_LOCAL = "https://localhost:44397";
+        public const string BASE_URL_REMOTE = "http://8.129.235.184:9700";
+        public const string BASE_URL_REMOTE_LOCAL = "http://127.0.0.1:9700";
+
 
         #region 单例模式
         /// <summary>
@@ -29,7 +32,7 @@ namespace MicrosServices.SDK.RealTimeSystem.DataUtil
             return mSingleInstance;
         }
         #endregion
-        private string config = "local";
+        private string config = "remote";
         public string GetBaseUrl()
         {
             switch (config)
@@ -38,6 +41,10 @@ namespace MicrosServices.SDK.RealTimeSystem.DataUtil
                     return NetwordConstants.BASE_URL_LOCAL;
                 case "local":
                     return NetwordConstants.BASE_URL_IIS;
+                case "remote":
+                    return NetwordConstants.BASE_URL_REMOTE;
+                case "remote_local":
+                    return NetwordConstants.BASE_URL_REMOTE_LOCAL;
                 default:
                     break;
             }

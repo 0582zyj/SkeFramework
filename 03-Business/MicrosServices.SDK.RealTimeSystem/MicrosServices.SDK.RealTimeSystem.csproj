@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmailSDK.cs" />
     <Compile Include="MessageSDK.cs" />
     <Compile Include="PushConfigSDK.cs" />
     <Compile Include="DataUtil\NetwordConstants.cs" />

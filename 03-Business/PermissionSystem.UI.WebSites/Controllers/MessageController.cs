@@ -15,6 +15,8 @@ namespace PermissionSystem.UI.WebSites.Controllers
     {
 
         private MessageSDK messageSDK = new MessageSDK();
+        private EmailSDK emailSDK = new EmailSDK();
+
         #region 基础页面
         /// <summary>
         /// 列表页面
@@ -53,9 +55,31 @@ namespace PermissionSystem.UI.WebSites.Controllers
             PageResponse<RtMessage> pageResponse = messageSDK.GetPageList(page, keywords, MessageId);
             return Json(new PageResponseView<RtMessage>(pageResponse), JsonRequestBehavior.AllowGet);
         }
-      
+
         #endregion
 
 
+        #region 邮件基础页面
+        /// <summary>
+        /// 列表页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EmailList()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 获取列表信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetRtEmailList(int curPage = 1, string keywords = "")
+        {
+            PageModel page = new PageModel(curPage);
+            PageResponse<RtEmail> pageResponse = emailSDK.GetPageList(page, keywords);
+            return Json(new PageResponseView<RtEmail>(pageResponse), JsonRequestBehavior.AllowGet);
+        }
+        #endregion 
     }
 }
