@@ -11,6 +11,10 @@ namespace SkeFramework.NetSerialPort
     /// </summary>
     public class ProjectVersion
     {
+        //V1.00.02.01
+        //2021-04-09
+        //(1)新增大小端字节流读写工具
+        //
         //V1.00.02.00
         //2021-03-03
         //(1)优化检查超时日志的输出
