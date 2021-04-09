@@ -23,6 +23,8 @@ using MicrosServices.BLL.Business.BaseSystem.BsDictionaryHandle;
 using MicrosServices.Entities.Common.RealTimeSystem;
 using MicrosServices.BLL.Business.RealTimeSystem.RtPushConfigHandles;
 using MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles;
+using MicrosServices.BLL.Business.RealTimeSystem.RtEmailHandles;
+using MicrosServices.BLL.Business.RealTimeSystem.RtShortMessageHandles;
 
 namespace ULCloudLockTool.BLL.Business.Achieve
 {
@@ -125,6 +127,14 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             {
                 return new RtMessageHandle(GetConfigDataSerialer<RtMessage>(RtMessage.TableName)) as IDataTableHandle;
             }
+            else if (IsSubclassOf(typeof(RtEmail), dataType))
+            {
+                return new RtEmailHandle(GetConfigDataSerialer<RtEmail>(RtEmail.TableName)) as IDataTableHandle;
+            }
+            else if (IsSubclassOf(typeof(RtShortMessage), dataType))
+            {
+                return new RtShortMessageHandle(GetConfigDataSerialer<RtShortMessage>(RtShortMessage.TableName)) as IDataTableHandle;
+            }
             #endregion
             return null;
         }
@@ -187,7 +197,10 @@ namespace ULCloudLockTool.BLL.Business.Achieve
                     return new DBRepository<RtPushconfig, RtPushconfig>() as IRepository<TData>;
                 case RtMessage.TableName:
                     return new DBRepository<RtMessage, RtMessage>() as IRepository<TData>;
-
+                case RtEmail.TableName:
+                    return new DBRepository<RtEmail, RtEmail>() as IRepository<TData>;
+                case RtShortMessage.TableName:
+                    return new DBRepository<RtShortMessage, RtShortMessage>() as IRepository<TData>;
                     #endregion
             }
             return null;

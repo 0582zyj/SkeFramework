@@ -83,6 +83,8 @@
     <Compile Include="RealTimeSystem\RtMessageHandles\RtMessageHandle.cs" />
     <Compile Include="RealTimeSystem\RtPushConfigHandles\IRtPushconfigHandle.cs" />
     <Compile Include="RealTimeSystem\RtPushConfigHandles\RtPushconfigHandle.cs" />
+    <Compile Include="RealTimeSystem\RtShortMessageHandles\RtShortMessageHandle.cs" />
+    <Compile Include="RealTimeSystem\RtShortMessageHandles\RtShortMessageHandles.cs" />
     <Compile Include="UserCenter\UcUsersSettingHandles\IUcUsersSettingHandle.cs" />
     <Compile Include="UserCenter\UcUsersSettingHandles\UcUsersSettingHandle.cs" />
     <Compile Include="UserCenter\UsersHandles\IUcUsersHandle.cs" />

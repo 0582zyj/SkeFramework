@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,6 +56,21 @@ namespace SkeFramework.Core.Network.Responses
             return this.code == JsonResponses.SuccessCode;
         }
         /// <summary>
+        /// 结果类型转换
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetDataValue<T>()
+        {
+            Type parentType = this.data.GetType();
+            Type childType = typeof(T);
+            if (parentType == childType || parentType.IsSubclassOf(childType))
+            {
+                return (T)this.data;
+            }
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(data));
+        }
+        /// <summary>
         /// 克隆
         /// </summary>
         /// <returns></returns>
@@ -62,6 +78,8 @@ namespace SkeFramework.Core.Network.Responses
         {
             return new JsonResponses(this.code, this.msg, this.data);
         }
+
+        
 
     }
 }

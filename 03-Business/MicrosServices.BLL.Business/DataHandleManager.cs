@@ -23,6 +23,8 @@ using MicrosServices.Entities.Common.BaseSystem;
 using MicrosServices.BLL.Business.RealTimeSystem.RtPushConfigHandles;
 using MicrosServices.Entities.Common.RealTimeSystem;
 using MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles;
+using MicrosServices.BLL.Business.RealTimeSystem.RtShortMessageHandles;
+using MicrosServices.BLL.Business.RealTimeSystem.RtEmailHandles;
 
 namespace MicrosServices.BLL.Business
 {
@@ -147,6 +149,21 @@ namespace MicrosServices.BLL.Business
                 return DataHandleFactory.GetDataHandle<RtMessageHandle, RtMessage>();
             }
         }
+        public IRtEmailHandle RtEmailHandle
+        {
+            get
+            {
+                return DataHandleFactory.GetDataHandle<RtEmailHandle, RtEmail>();
+            }
+        }
+        public IRtShortMessageHandle RtShortMessageHandle
+        {
+            get
+            {
+                return DataHandleFactory.GetDataHandle<RtShortMessageHandle, RtShortMessage>();
+            }
+        }
+
         #endregion
     }
 }

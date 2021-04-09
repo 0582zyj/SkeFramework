@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MicrosServices.DAL.DataAccess.RealTimeSystem.RtEmailHandles
+namespace MicrosServices.DAL.DataAccess.RealTimeSystem.RtShortMessageHandles
 {
     /// <summary>
-    /// 邮件记录数据库访问接口
+    /// 短信记录数据库访问接口
     /// </summary>
-    public interface IRtEmailHandleCommon : IDataTableHandle<RtEmail>
+    public interface IRtShortMessageHandleCommon : IDataTableHandle<RtShortMessage>
     {
     }
 }
+

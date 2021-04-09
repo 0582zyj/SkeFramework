@@ -294,6 +294,7 @@
     <Content Include="Views\PushConfig\PushConfigAdd.cshtml" />
     <Content Include="Views\Message\MessageList.cshtml" />
     <Content Include="Views\Message\EmailList.cshtml" />
+    <Content Include="Views\Message\ShortMessageList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

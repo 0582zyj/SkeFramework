@@ -32,7 +32,7 @@ namespace MicrosServices.SDK.RealTimeSystem.DataUtil
             return mSingleInstance;
         }
         #endregion
-        private string config = "remote";
+        private string config = "remote_local";
         public string GetBaseUrl()
         {
             switch (config)

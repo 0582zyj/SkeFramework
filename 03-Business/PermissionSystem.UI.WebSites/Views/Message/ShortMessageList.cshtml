@@ -1,13 +1,13 @@
 ﻿@{
-    ViewBag.Title = "列表";
+    ViewBag.Title = "短信列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
  <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>邮件推送列表</h1>
+    <h1>短信列表</h1>
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> 主页</a></li>
-        <li><a href="javascript:void(0);"><i class="fa fa-bar-chart"></i> 邮件推送管理</a></li>
+        <li><a href="javascript:void(0);"><i class="fa fa-bar-chart"></i> 短信管理</a></li>
     </ol>
 </section>
 <!-- Main content -->
@@ -44,11 +44,11 @@
                             <tr class="show-datatable-list-title">
                                 <th>ID</th>
                                 <th>应用ID</th>
-                                <th>邮件发送人</th>
-                                <th>邮件接收人</th>
-                                <th>主题</th>
+                                <th>手机号码</th>
+                                <th>模板ID</th>
+                                <th>参数</th>
                                 <th>消息</th>
-                                <th>内容类型</th>
+                                <th>类型</th>
                                 <th>运行状态</th>
                                 <th>处理结果</th>
                                 <th>创建时间</th>
@@ -60,9 +60,9 @@
                             <tr v-for="item in dataList">
                                 <td>{{item.id}}</td>
                                 <td>{{item.AppId}}</td>
-                                <td>{{item.FromEmail}}</td>
-                                <td>{{item.ToEmail}}</td>
-                                <td>{{item.Subject}}</td>
+                                <td>{{item.Mobile}}</td>
+                                <td>{{item.TemplateId}}</td>
+                                <td>{{item.Params}}</td>
                                 <td>{{item.Message}}</td>
                                 <td>{{item.Type}}</td>
                                 <td>{{item.Status}}</td>
@@ -75,7 +75,7 @@
                         <!--insert tbody here-->
                     </table>
                 </div>
-                <templatepage v-on:getdata="GetList" url="@Url.Action("GetRtEmailList", "Message")" v-bind:prop="prop"></templatepage>
+                <templatepage v-on:getdata="GetList" url="@Url.Action("GetRtShortMessageList", "Message")" v-bind:prop="prop"></templatepage>
             </div>
         </div>
         <!-- /.box -->
@@ -86,7 +86,7 @@
         var vm = new Vue({
             el: "#section-content",
             data: {
-                GetListUrl: "@Url.Action("GetRtEmailList", "Message")",
+                GetListUrl: "@Url.Action("GetRtShortMessageList", "Message")",
                 dataList: [],
                 search: { keywords: ""}
             },
@@ -121,7 +121,7 @@
             methods: {
                 GetList: function (data) {
                     this.dataList = data;
-                },                
+                },
                 btnSearch: function () {
                     if (this.$children.length > 0) {
                         this.$children[0].go(1);

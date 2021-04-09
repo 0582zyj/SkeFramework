@@ -49,6 +49,7 @@
     <Compile Include="Common\RealTimeSystem\RtEmail.cs" />
     <Compile Include="Common\RealTimeSystem\RtMessage.cs" />
     <Compile Include="Common\RealTimeSystem\RtPushconfig.cs" />
+    <Compile Include="Common\RealTimeSystem\RtShortMessage.cs" />
     <Compile Include="Common\UserCenter\UcAuthorizeBlackip.cs" />
     <Compile Include="Common\UserCenter\UcLoginLog.cs" />
     <Compile Include="Common\PermissionSystem\PsManagement.cs" />

@@ -51,6 +51,8 @@
     <Compile Include="RealTimeSystem\RtMessageHandles\RtMessageHandleCommon.cs" />
     <Compile Include="RealTimeSystem\RtPushConfigHandle\IRtPushconfigHandleCommon.cs" />
     <Compile Include="RealTimeSystem\RtPushConfigHandle\RtPushconfigHandleCommon.cs" />
+    <Compile Include="RealTimeSystem\RtShortMessageHandles\IRtShortMessageHandleCommon.cs" />
+    <Compile Include="RealTimeSystem\RtShortMessageHandles\RtShortMessageHandleCommon.cs" />
     <Compile Include="Repository\BaseSystem\BsDictionaryHandle\BsDictionaryHandleCommon.cs" />
     <Compile Include="Repository\BaseSystem\BsDictionaryHandle\IBsDictionaryHandleCommon.cs" />
     <Compile Include="Repository\PermissionSystem\ManagementHandles\IPsManagementHandleCommon.cs" />
