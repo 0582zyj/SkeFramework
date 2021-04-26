@@ -63,6 +63,7 @@
     <Compile Include="Common\PermissionSystem\PsUserOrg.cs" />
     <Compile Include="Common\PermissionSystem\PsUserRoles.cs" />
     <Compile Include="Common\UserCenter\UcUsers.cs" />
+    <Compile Include="Common\UserCenter\UcUsersInfo.cs" />
     <Compile Include="Common\UserCenter\UcUsersSetting.cs" />
     <Compile Include="Constants\ConstData.cs" />
     <Compile Include="Constants\HandleUserEumns.cs" />

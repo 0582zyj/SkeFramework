@@ -25,6 +25,8 @@ using MicrosServices.BLL.Business.RealTimeSystem.RtPushConfigHandles;
 using MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles;
 using MicrosServices.BLL.Business.RealTimeSystem.RtEmailHandles;
 using MicrosServices.BLL.Business.RealTimeSystem.RtShortMessageHandles;
+using MicrosServices.Entities.Common.UserCenter;
+using MicrosServices.BLL.Business.UserCenter.UcUsersInfoHandles;
 
 namespace ULCloudLockTool.BLL.Business.Achieve
 {
@@ -96,6 +98,10 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             else if (IsSubclassOf(typeof(UcUsersSetting), dataType))
             {
                 return new UcUsersSettingHandle(GetConfigDataSerialer<UcUsersSetting>(UcUsersSetting.TableName)) as IDataTableHandle;
+            }
+            else if (IsSubclassOf(typeof(UcUsersInfo), dataType))
+            {
+                return new UcUsersInfoHandle(GetConfigDataSerialer<UcUsersInfo>(UcUsersInfo.TableName)) as IDataTableHandle;
             }
             #endregion
             #region PublishDeploy
@@ -179,6 +185,8 @@ namespace ULCloudLockTool.BLL.Business.Achieve
                     return new DBRepository<UcUsersSetting, UcUsersSetting>() as IRepository<TData>;
                 case UcLoginLog.TableName:
                     return new DBRepository<UcLoginLog, UcLoginLog>() as IRepository<TData>;
+                case UcUsersInfo.TableName:
+                    return new DBRepository<UcUsersInfo, UcUsersInfo>() as IRepository<TData>;
                 #endregion
                 #region PublishDeploy
                 case PdServer.TableName:

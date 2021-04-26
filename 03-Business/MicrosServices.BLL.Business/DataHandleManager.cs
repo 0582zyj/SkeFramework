@@ -25,6 +25,8 @@ using MicrosServices.Entities.Common.RealTimeSystem;
 using MicrosServices.BLL.Business.RealTimeSystem.RtMessageHandles;
 using MicrosServices.BLL.Business.RealTimeSystem.RtShortMessageHandles;
 using MicrosServices.BLL.Business.RealTimeSystem.RtEmailHandles;
+using MicrosServices.BLL.Business.UserCenter.UcUsersInfoHandles;
+using MicrosServices.Entities.Common.UserCenter;
 
 namespace MicrosServices.BLL.Business
 {
@@ -109,6 +111,11 @@ namespace MicrosServices.BLL.Business
         public IUcLoginLogHandle UcLoginLogHandle
         {
             get { return DataHandleFactory.GetDataHandle<UcLoginLogHandle, UcLoginLog>(); }
+        }
+
+        public IUcUsersInfoHandle UcUsersInfoHandle
+        {
+            get { return DataHandleFactory.GetDataHandle<UcUsersInfoHandle, UcUsersInfo>(); }
         }
         #endregion
 
