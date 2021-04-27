@@ -50,8 +50,9 @@
     <Compile Include="Enums\RequestTypeEnums.cs" />
     <Compile Include="Https\BrowserPara.cs" />
     <Compile Include="Https\HttpHelper.cs" />
-    <Compile Include="Https\InternetUtil.cs" />
+    <Compile Include="DataUtility\InternetUtil.cs" />
     <Compile Include="Https\Services\HttpClientUtil.cs" />
+    <Compile Include="Https\Services\HttpWebRequestUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\RequestBase.cs" />
     <Compile Include="Responses\JsonResponses.cs" />

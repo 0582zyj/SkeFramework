@@ -10,6 +10,7 @@ using SkeFramework.Core.Network.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -73,18 +74,15 @@ namespace MicrosServices.SDK.PermissionSystem
             PageResponse<PsMenu> menus = new PageResponse<PsMenu>();
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("pageIndex", page.PageIndex);
                 request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", MenuNo);
                 request.Url = GetMenuPageUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+              
+                string result = HttpHelper.Example.GetWebData(request);
+           
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -203,7 +201,7 @@ namespace MicrosServices.SDK.PermissionSystem
             return JsonResponses.Failed;
         }
         /// <summary>
-        /// 新增菜单
+        /// 修改菜单
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
@@ -211,7 +209,7 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm as RequestBase;
                 request.SetValue("id", menu.id);
                 request.SetValue("menuNo", menu.MenuNo);
                 request.SetValue("parentNo", menu.ParentNo);
@@ -223,12 +221,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("platformNo", menu.PlatformNo);
                 request.SetValue("enabled", menu.Enabled);
                 request.Url = UpdateMenuUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)

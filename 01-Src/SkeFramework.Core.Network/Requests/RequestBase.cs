@@ -1,13 +1,27 @@
-﻿using System;
+﻿using SkeFramework.Core.Network.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SkeFramework.Core.Network.Requests
 {
-   public class RequestBase
+    public class RequestBase: ICloneable
     {
+        public static readonly RequestBase Get = new RequestBase(HttpMethod.Get.Method.ToString(), ContentTypeEnums.GETFORM);
+        public static readonly RequestBase PostForm = new RequestBase(HttpMethod.Post.Method.ToString(), ContentTypeEnums.POSTFORM);
+        public static readonly RequestBase PostJson = new RequestBase(HttpMethod.Post.Method.ToString(), ContentTypeEnums.POSTJSON);
+        public RequestBase()
+        {
+        }
+        public RequestBase(string Method, ContentTypeEnums contentType)
+        {
+            this.Method = Method;
+            this.contentType = contentType;
+        }
+       
         /// <summary>
         /// 请求方法
         /// </summary>
@@ -16,11 +30,26 @@ namespace SkeFramework.Core.Network.Requests
         /// 请求URL
         /// </summary>
         public string Url { get; set; }
-        //采用排序的Dictionary的好处是方便对数据包进行签名，不用再签名之前再做一次排序
-        private Dictionary<string, string> HeaderValue = new Dictionary<string, string>();
-        //采用排序的Dictionary的好处是方便对数据包进行签名，不用再签名之前再做一次排序
+        /// <summary>
+        /// 内容类型
+        /// </summary>
+        public ContentTypeEnums contentType { get; set; }
+        /// <summary>
+        /// Head
+        /// </summary>
+        public Dictionary<string, string> HeaderValue = new Dictionary<string, string>();
+        /// <summary>
+        /// 参数
+        /// </summary>
         public SortedDictionary<string, object> ParameterValue = new SortedDictionary<string, object>();
-        public void SetValue(string key, object value,bool IsHeader=false)
+        
+        /// <summary>
+        /// 设置参数值
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="IsHeader"></param>
+        public void SetValue(string key, object value, bool IsHeader = false)
         {
             if (IsHeader)
             {
@@ -31,16 +60,12 @@ namespace SkeFramework.Core.Network.Requests
                 ParameterValue[key] = value;
             }
         }
-        public Dictionary<string, string> GetHeaderValue
-        {
-        get { return this.HeaderValue; }
-        set { this.HeaderValue = value; }
-        }
-        /**
-        * 根据字段名获取某个字段的值
-        * @param key 字段名
-         * @return key对应的字段值
-        */
+        /// <summary>
+        /// 根据字段名获取某个字段的值
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="IsHeader"></param>
+        /// <returns></returns>
         public object GetValue(string key, bool IsHeader)
         {
             object o = null;
@@ -58,7 +83,7 @@ namespace SkeFramework.Core.Network.Requests
             return o;
         }
         /// <summary>
-        /// 获取Api请求地址
+        /// 获取Api请求地址【参数拼接】
         /// </summary>
         /// <returns></returns>
         public string GetReqUrl()
@@ -78,7 +103,6 @@ namespace SkeFramework.Core.Network.Requests
                 {
                     continue;
                 }
-
                 if (pair.Key != "sign" && pair.Value.ToString() != "")
                 {
                     buff += pair.Key + "=" + pair.Value + "&";
@@ -88,6 +112,13 @@ namespace SkeFramework.Core.Network.Requests
             return buff;
         }
 
+        public object Clone()
+        {
+            return new RequestBase(this.Method, this.contentType);
+        }
+
+       
+        
     }
 }
 

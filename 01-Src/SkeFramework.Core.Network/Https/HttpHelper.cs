@@ -13,6 +13,8 @@ using SkeFramework.Core.Network.Enums;
 using SkeFramework.Core.Network.Requests;
 using SkeFramework.Core.Network.Responses;
 using SkeFramework.Core.Common.Enums;
+using SkeFramework.Core.Network.Https.Services;
+using System.Net.Http;
 
 namespace SkeFramework.Core.Network.Https
 {
@@ -195,30 +197,34 @@ namespace SkeFramework.Core.Network.Https
             }
         }
 
-        public string HttpPost(string Url, RequestBase postData)
+        /// <summary>
+        /// 请求方法
+        /// </summary>
+        /// <param name="bPara">设置请求参数</param>
+        /// <returns></returns>
+        public string GetWebData(RequestBase request)
         {
             try
             {
-                LogAgent.Info("[Request][HttpPost]->Url:{0};Request:{1}", Url, JsonConvert.SerializeObject(postData));
-                HttpWebRequest request = WebRequest.CreateHttp(Url);
-                request.Method = "POST";
-                request.ContentType = "application/x-www-form-urlencoded";
-                //request.CookieContainer = cookie;
-                StringBuilder stringBuilder = new StringBuilder();
-                foreach (string key in postData.ParameterValue.Keys)
+                BrowserPara bPara = new BrowserPara();
+                switch (request.contentType)
                 {
-                    stringBuilder.AppendFormat("&{0}={1}", key, postData.ParameterValue[key]);
+                    case ContentTypeEnums.POSTDATA:
+                        var boundary = "---------------" + DateTime.Now.Ticks.ToString("x");
+                        bPara.contentTypeGet = ContentTypeEnums.POSTDATA.GetEnumDescription() + ";boundary = " + boundary;
+                        break;
+                    default:
+                        bPara.contentTypeGet = request.contentType.GetEnumDescription();
+                        break;
                 }
-                byte[] buffer = Encoding.UTF8.GetBytes(stringBuilder.ToString().Trim('&'));
-                Stream requestStream = request.GetRequestStream();
-                requestStream.Write(buffer, 0, buffer.Length);
-                requestStream.Close();
-
-                WebResponse response = request.GetResponse();
-                StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
-                string postDataResult= reader.ReadToEnd();
-                LogAgent.Info("[Response][HttpPost]->Url:{0};{1}", Url, postDataResult);
-                return postDataResult;
+                if (request.Method== HttpMethod.Get.Method.ToString())
+                {
+                    bPara.Uri = request.GetReqUrl();
+                    return HttpWebRequestUtil.HttpGet(bPara);
+                }
+                bPara.Uri = request.Url;
+                bPara.PostData = request.GetRequestData();
+                return HttpWebRequestUtil.HttpPost(bPara);
             }
             catch (Exception ex)
             {
@@ -226,7 +232,5 @@ namespace SkeFramework.Core.Network.Https
                 return JsonConvert.SerializeObject(responses);
             }
         }
-
-
     }
 }
