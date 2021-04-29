@@ -38,10 +38,8 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetRolesAssignUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetRolesAssignUrl;
                 request.SetValue("userNo", UserNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -96,10 +94,8 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetUserOrgAssignUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetUserOrgAssignUrl;
                 request.SetValue("userNo",Convert.ToInt64( UserNo));
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -154,10 +150,8 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetManagementAssignUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetManagementAssignUrl;
                 request.SetValue("rolesNo", RolesNo);
                 request.SetValue("managementType", ManagementType); 
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
@@ -182,10 +176,8 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = CreateManagementRolesUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = CreateManagementRolesUrl;
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
                     Uri = request.Url,
@@ -212,10 +204,8 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetMenuAssignUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetMenuAssignUrl;
                 request.SetValue("managementNo", ManagementNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -272,10 +262,8 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetOrgAssignUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetOrgAssignUrl;
                 request.SetValue("orgNo", OrgNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {
@@ -330,10 +318,8 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetMenuManagmentAssignUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetMenuManagmentAssignUrl;
                 request.SetValue("menuNo", MenuNo);
                 string result = HttpHelper.Example.GetWebData(new BrowserPara()
                 {

@@ -30,7 +30,7 @@ namespace MicrosServices.SDK.LogSystem
             PageResponse<UcLoginLog> menus = new PageResponse<UcLoginLog>();
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("pageIndex", page.PageIndex,true);
                 request.SetValue("pageIndex", page.PageIndex);
                 request.SetValue("pageSize", page.PageSize);
@@ -38,12 +38,7 @@ namespace MicrosServices.SDK.LogSystem
                 request.SetValue("queryNo", logQueryForm.queryNo);
                 request.SetValue("handleUser", logQueryForm.HandleUser);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {

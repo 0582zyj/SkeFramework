@@ -35,16 +35,9 @@ namespace MicrosServices.SDK.AdminSystem
             List<BsDictionary> menus = new List<BsDictionary>();
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetListUrl
-                };
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetListUrl;
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -68,18 +61,13 @@ namespace MicrosServices.SDK.AdminSystem
             PageResponse<BsDictionary> menus = new PageResponse<BsDictionary>();
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("pageindex", page.PageIndex);
                 request.SetValue("pagesize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", DictionaryNo);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -102,15 +90,10 @@ namespace MicrosServices.SDK.AdminSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("id", id.ToString());
                 request.Url = GetInfoUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -134,7 +117,7 @@ namespace MicrosServices.SDK.AdminSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("dicType", model.DicType);
                 request.SetValue("dicKey", model.DicKey);
                 request.SetValue("dicValue", model.DicValue);
@@ -146,12 +129,7 @@ namespace MicrosServices.SDK.AdminSystem
                 request.SetValue("updateUser", model.UpdateUser);
                 request.SetValue("updateTime", model.UpdateTime);
                 request.Url = AddUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -169,7 +147,7 @@ namespace MicrosServices.SDK.AdminSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("dicType", model.DicType);
                 request.SetValue("dicKey", model.DicKey);
                 request.SetValue("dicValue", model.DicValue);
@@ -178,12 +156,7 @@ namespace MicrosServices.SDK.AdminSystem
                 request.SetValue("enabled", model.Enabled);
                 request.SetValue("id", model.id);
                 request.Url = UpdateUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -201,15 +174,10 @@ namespace MicrosServices.SDK.AdminSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", id);
                 request.Url = DeleteUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -226,18 +194,11 @@ namespace MicrosServices.SDK.AdminSystem
         {
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetDictionaryOptionValuesUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetDictionaryOptionValuesUrl;
                 request.SetValue("platformNo", PlatformNo);
                 request.SetValue("dictionaryType", DictionaryType);
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {

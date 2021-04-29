@@ -32,18 +32,13 @@ namespace MicrosServices.SDK.RealTimeSystem
             PageResponse<RtPushconfig> menus = new PageResponse<RtPushconfig>();
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("pageIndex", page.PageIndex);
                 request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", PushconfigNo);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -66,15 +61,10 @@ namespace MicrosServices.SDK.RealTimeSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("id", id.ToString());
                 request.Url = GetInfoUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -98,7 +88,7 @@ namespace MicrosServices.SDK.RealTimeSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("appId", model.AppId);
                 request.SetValue("descriptions", model.Descriptions);
                 request.SetValue("enabled", model.Enabled);
@@ -112,12 +102,7 @@ namespace MicrosServices.SDK.RealTimeSystem
                 request.SetValue("updateUser", model.UpdateUser);
                 request.SetValue("updateTime", model.UpdateTime);
                 request.Url = AddUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -135,7 +120,7 @@ namespace MicrosServices.SDK.RealTimeSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("appId", model.AppId);
                 request.SetValue("descriptions", model.Descriptions);
                 request.SetValue("enabled", model.Enabled);
@@ -146,12 +131,7 @@ namespace MicrosServices.SDK.RealTimeSystem
                 request.SetValue("updateUser", model.UpdateUser);
                 request.SetValue("id", model.id);
                 request.Url = UpdateUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -169,15 +149,10 @@ namespace MicrosServices.SDK.RealTimeSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", id);
                 request.Url = DeleteUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)

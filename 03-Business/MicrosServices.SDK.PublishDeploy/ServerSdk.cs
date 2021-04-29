@@ -36,16 +36,10 @@ namespace MicrosServices.SDK.PublishDeploy
             List<PdServer> menus = new List<PdServer>();
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetListUrl
-                };
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetListUrl;
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -69,16 +63,12 @@ namespace MicrosServices.SDK.PublishDeploy
             PageResponse<PdServer> menus = new PageResponse<PdServer>();
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("pageIndex", page.PageIndex);
                 request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -101,15 +91,10 @@ namespace MicrosServices.SDK.PublishDeploy
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("id", id.ToString());
                 request.Url = GetInfoUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -133,7 +118,7 @@ namespace MicrosServices.SDK.PublishDeploy
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("serverNo", menu.ServerNo);
                 request.SetValue("name", menu.Name);
                 request.SetValue("description", menu.Description);
@@ -141,12 +126,7 @@ namespace MicrosServices.SDK.PublishDeploy
                 request.SetValue("port", menu.Port);
                 request.SetValue("inputUser", menu.InputUser);
                 request.Url = AddUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -164,7 +144,7 @@ namespace MicrosServices.SDK.PublishDeploy
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", platform.id);
                 request.SetValue("serverNo", platform.ServerNo);
                 request.SetValue("name", platform.Name);
@@ -172,12 +152,7 @@ namespace MicrosServices.SDK.PublishDeploy
                 request.SetValue("ip", platform.IP);
                 request.SetValue("port", platform.Port);
                 request.Url = UpdateUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -196,15 +171,10 @@ namespace MicrosServices.SDK.PublishDeploy
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", id);
                 request.Url = DeleteUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -221,15 +191,9 @@ namespace MicrosServices.SDK.PublishDeploy
         {
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetOptionValueUrl
-                };
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    Method = RequestTypeEnums.GET
-                });
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetOptionValueUrl;
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {

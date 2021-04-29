@@ -30,7 +30,7 @@ namespace MicrosServices.SDK.RealTimeSystem
             PageResponse<RtEmail> menus = new PageResponse<RtEmail>();
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("pageIndex", page.PageIndex);
                 request.SetValue("pageSize", page.PageSize);
                 request.SetValue("from", from);
@@ -38,12 +38,7 @@ namespace MicrosServices.SDK.RealTimeSystem
                 request.SetValue("subject", subject);
                 request.SetValue("message", message);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
