@@ -21,18 +21,13 @@ namespace MicrosServices.SDK.UserCenter
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = LoginUrl;
                 request.SetValue("userName", loginInfo.UserName);
                 request.SetValue("password", loginInfo.Password);
                 request.SetValue("loginerInfo", loginInfo.LoginerInfo);
                 request.SetValue("platform", loginInfo.Platform);
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)

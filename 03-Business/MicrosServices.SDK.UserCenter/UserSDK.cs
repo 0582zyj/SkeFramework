@@ -30,7 +30,7 @@ namespace MicrosServices.SDK.UserCenter
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.Url = RegisterPlatfromUrl;
                 request.SetValue("username", registerPlatform.UserName);
                 request.SetValue("password", registerPlatform.Password);
@@ -39,12 +39,7 @@ namespace MicrosServices.SDK.UserCenter
                 request.SetValue("email", registerPlatform.Email);
                 request.SetValue("inputUser", registerPlatform.InputUser);
                 request.SetValue("platformNo", registerPlatform.PlatformNo); 
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                return  JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -65,15 +60,10 @@ namespace MicrosServices.SDK.UserCenter
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.Url = CancelPlatformUrl;
                 request.SetValue("userNo", UserNo);
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -94,17 +84,12 @@ namespace MicrosServices.SDK.UserCenter
             PageResponse<UcUsers> lists = new PageResponse<UcUsers>();
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("pageIndex", page.PageIndex);
                 request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
