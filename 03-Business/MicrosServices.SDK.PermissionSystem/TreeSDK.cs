@@ -28,16 +28,10 @@ namespace MicrosServices.SDK.PermissionSystem
             List<TreeNodeInfo> menus = new List<TreeNodeInfo>();
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetMenuTreeListUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetMenuTreeListUrl;
                 request.SetValue("platformNo", PlatformNo);
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -62,16 +56,10 @@ namespace MicrosServices.SDK.PermissionSystem
             List<TreeNodeInfo> menus = new List<TreeNodeInfo>();
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetManagementTreeListUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetManagementTreeListUrl;
                 request.SetValue("platformNo", PlatformNo);
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -96,16 +84,10 @@ namespace MicrosServices.SDK.PermissionSystem
             List<TreeNodeInfo> menus = new List<TreeNodeInfo>();
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetOrganizationTreeListUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetOrganizationTreeListUrl;
                 request.SetValue("platformNo", PlatformNo);
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {

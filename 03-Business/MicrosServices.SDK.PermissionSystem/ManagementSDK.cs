@@ -38,16 +38,9 @@ namespace MicrosServices.SDK.PermissionSystem
             List<PsManagement> menus = new List<PsManagement>();
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetListUrl
-                };
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetListUrl;
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -71,18 +64,13 @@ namespace MicrosServices.SDK.PermissionSystem
             PageResponse<PsManagement> menus = new PageResponse<PsManagement>();
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("pageIndex", page.PageIndex);
                 request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", ManagementNo);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -105,15 +93,10 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("id", id.ToString());
                 request.Url = GetInfoUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -137,7 +120,7 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("parentNo", menu.ParentNo);
                 request.SetValue("name", menu.Name);
                 request.SetValue("description", menu.Description);
@@ -148,12 +131,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("enabled", menu.Enabled);
                 request.SetValue("inputUser", menu.InputUser);
                 request.Url = AddUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -171,7 +149,7 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+               RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", menu.id);
                 request.SetValue("managementNo", menu.ManagementNo);
                 request.SetValue("parentNo", menu.ParentNo);
@@ -182,12 +160,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("platformNo", menu.PlatformNo);
                 request.SetValue("enabled", menu.Enabled);
                 request.Url = UpdateUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -205,15 +178,10 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase();
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", id);
                 request.Url = DeleteUrl;
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.POST_FORM
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
             catch (Exception ex)
@@ -230,16 +198,9 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetOptionValueUrl
-                };
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetOptionValueUrl;
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -261,18 +222,11 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetManagementOptionValuesUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetManagementOptionValuesUrl;
                 request.SetValue("platformNo", PlatformNo);
                 request.SetValue("managementType", ManagementType); 
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -299,16 +253,10 @@ namespace MicrosServices.SDK.PermissionSystem
             List<ManagementOptionValue> managements = new List<ManagementOptionValue>();
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetMenuManagementOptionsUrl
-                };
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.Url,
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetMenuManagementOptionsUrl;
+              
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {
@@ -333,17 +281,11 @@ namespace MicrosServices.SDK.PermissionSystem
             List<ManagementOptionValue> managements = new List<ManagementOptionValue>();
             try
             {
-                RequestBase request = new RequestBase
-                {
-                    Url = GetUserManagementListUrl
-                };
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetUserManagementListUrl;
+
                 request.SetValue("userNo", UserNo);
-                string result = HttpHelper.Example.GetWebData(new BrowserPara()
-                {
-                    Uri = request.GetReqUrl(),
-                    PostData = request.GetRequestData(),
-                    Method = RequestTypeEnums.GET
-                });
+                string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
                 {

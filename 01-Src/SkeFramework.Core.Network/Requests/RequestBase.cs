@@ -8,13 +8,30 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.Core.Network.Requests
 {
+    /// <summary>
+    /// 请求基类
+    /// </summary>
     public class RequestBase: ICloneable
     {
-        public static readonly RequestBase Get = new RequestBase(HttpMethod.Get.Method.ToString(), ContentTypeEnums.GETFORM);
-        public static readonly RequestBase PostForm = new RequestBase(HttpMethod.Post.Method.ToString(), ContentTypeEnums.POSTFORM);
-        public static readonly RequestBase PostJson = new RequestBase(HttpMethod.Post.Method.ToString(), ContentTypeEnums.POSTJSON);
+        public static readonly RequestBase Get = new RequestBase(ContentTypeEnums.GETFORM);
+        public static readonly RequestBase PostForm = new RequestBase(ContentTypeEnums.POSTFORM);
+        public static readonly RequestBase PostJson = new RequestBase(ContentTypeEnums.POSTJSON);
         public RequestBase()
         {
+        }
+
+        public RequestBase(ContentTypeEnums contentType)
+        {
+            this.contentType = contentType;
+            switch (this.contentType)
+            {
+                case ContentTypeEnums.GETFORM:
+                    this.Method = HttpMethod.Get.Method.ToString();
+                    break;
+                default:
+                    this.Method = HttpMethod.Post.Method.ToString();
+                    break;
+            }
         }
         public RequestBase(string Method, ContentTypeEnums contentType)
         {
@@ -114,7 +131,7 @@ namespace SkeFramework.Core.Network.Requests
 
         public object Clone()
         {
-            return new RequestBase(this.Method, this.contentType);
+            return MemberwiseClone();
         }
 
        
