@@ -21,7 +21,7 @@ namespace MicrosServices.SDK.UserCenter
         {
             try
             {
-                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.Url = LoginUrl;
                 request.SetValue("userName", loginInfo.UserName);
                 request.SetValue("password", loginInfo.Password);

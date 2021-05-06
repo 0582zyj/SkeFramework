@@ -1,4 +1,5 @@
-﻿using SkeFramework.Core.Network.Enums;
+﻿using Newtonsoft.Json;
+using SkeFramework.Core.Network.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +60,14 @@ namespace SkeFramework.Core.Network.Requests
         /// 参数
         /// </summary>
         public SortedDictionary<string, object> ParameterValue = new SortedDictionary<string, object>();
-        
+        /// <summary>
+        /// 设置Json数据
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetJsonValue(object value)
+        {
+            this.SetValue("body", value);
+        }
         /// <summary>
         /// 设置参数值
         /// </summary>
@@ -113,6 +121,10 @@ namespace SkeFramework.Core.Network.Requests
         /// <returns></returns>
         public string GetRequestData()
         {
+            if (contentType == ContentTypeEnums.POSTJSON)
+            {
+                return JsonConvert.SerializeObject(ParameterValue["body"]);
+            }
             string buff = "&";
             foreach (KeyValuePair<string, object> pair in ParameterValue)
             {
