@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `bs_dictionary`;
 CREATE TABLE `bs_dictionary` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `DicNo` bigint(20) DEFAULT NULL COMMENT '字典码值',
-  `DicType` varchar(100) DEFAULT NULL COMMENT '字典类型',
+  `RegistryType` varchar(100) DEFAULT NULL COMMENT '字典类型',
   `DicKey` varchar(100) DEFAULT NULL COMMENT '键',
   `DicValue` varchar(200) DEFAULT NULL COMMENT '值',
   `Descriptions` varchar(512) DEFAULT NULL COMMENT '描述',

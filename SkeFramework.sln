@@ -162,7 +162,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicrosServices.API.RealTime
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosServices.SDK.RealTimeSystem", "03-Business\MicrosServices.SDK.RealTimeSystem\MicrosServices.SDK.RealTimeSystem.csproj", "{AE2124BC-A2A5-47A4-92C5-88115B8F714B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Core.WebSocket", "01-Src\SkeFramework.Core.WebSocket\SkeFramework.Core.WebSocket.csproj", "{04897621-13EE-4493-BF98-651FE928F2D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkeFramework.Core.WebSocket", "01-Src\SkeFramework.Core.WebSocket\SkeFramework.Core.WebSocket.csproj", "{04897621-13EE-4493-BF98-651FE928F2D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

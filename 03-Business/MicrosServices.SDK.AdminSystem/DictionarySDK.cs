@@ -118,7 +118,7 @@ namespace MicrosServices.SDK.AdminSystem
             try
             {
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
-                request.SetValue("dicType", model.DicType);
+                request.SetValue("RegistryType", model.RegistryType);
                 request.SetValue("dicKey", model.DicKey);
                 request.SetValue("dicValue", model.DicValue);
                 request.SetValue("descriptions", model.Descriptions);
@@ -148,7 +148,7 @@ namespace MicrosServices.SDK.AdminSystem
             try
             {
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
-                request.SetValue("dicType", model.DicType);
+                request.SetValue("RegistryType", model.RegistryType);
                 request.SetValue("dicKey", model.DicKey);
                 request.SetValue("dicValue", model.DicValue);
                 request.SetValue("descriptions", model.Descriptions);
