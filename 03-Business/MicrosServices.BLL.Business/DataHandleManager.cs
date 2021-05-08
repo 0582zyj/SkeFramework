@@ -27,6 +27,7 @@ using MicrosServices.BLL.Business.RealTimeSystem.RtShortMessageHandles;
 using MicrosServices.BLL.Business.RealTimeSystem.RtEmailHandles;
 using MicrosServices.BLL.Business.UserCenter.UcUsersInfoHandles;
 using MicrosServices.Entities.Common.UserCenter;
+using MicrosServices.BLL.Business.BaseSystem.BsDictionaryTypeHandle;
 
 namespace MicrosServices.BLL.Business
 {
@@ -141,6 +142,11 @@ namespace MicrosServices.BLL.Business
         public IBsDictionaryHandle BsDictionaryHandle
         {
             get { return DataHandleFactory.GetDataHandle<BsDictionaryHandle, BsDictionary>(); }
+        }
+
+        public IBsDictionaryTypeHandle BsDictionaryTypeHandle
+        {
+            get { return DataHandleFactory.GetDataHandle<BsDictionaryTypeHandle, BsDictionaryType>(); }
         }
         #endregion
 

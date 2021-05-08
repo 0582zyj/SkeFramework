@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Common\ApiGateway\AppToken.cs" />
     <Compile Include="Common\BaseSystem\BsDictionary.cs" />
+    <Compile Include="Common\BaseSystem\BsDictionaryType.cs" />
     <Compile Include="Common\PublishDeploy\PdProject.cs" />
     <Compile Include="Common\PublishDeploy\PdPublish.cs" />
     <Compile Include="Common\PublishDeploy\PdServer.cs" />

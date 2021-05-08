@@ -27,6 +27,7 @@ using MicrosServices.BLL.Business.RealTimeSystem.RtEmailHandles;
 using MicrosServices.BLL.Business.RealTimeSystem.RtShortMessageHandles;
 using MicrosServices.Entities.Common.UserCenter;
 using MicrosServices.BLL.Business.UserCenter.UcUsersInfoHandles;
+using MicrosServices.BLL.Business.BaseSystem.BsDictionaryTypeHandle;
 
 namespace ULCloudLockTool.BLL.Business.Achieve
 {
@@ -123,6 +124,10 @@ namespace ULCloudLockTool.BLL.Business.Achieve
             {
                 return new BsDictionaryHandle(GetConfigDataSerialer<BsDictionary>(BsDictionary.TableName)) as IDataTableHandle;
             }
+            else if (IsSubclassOf(typeof(BsDictionaryType), dataType))
+            {
+                return new BsDictionaryTypeHandle(GetConfigDataSerialer<BsDictionaryType>(BsDictionaryType.TableName)) as IDataTableHandle;
+            }
             #endregion
             #region RealTimeSystem
             else if (IsSubclassOf(typeof(RtPushconfig), dataType))
@@ -199,6 +204,8 @@ namespace ULCloudLockTool.BLL.Business.Achieve
                 #region BaseSystem
                 case BsDictionary.TableName:
                     return new DBRepository<BsDictionary, BsDictionary>() as IRepository<TData>;
+                case BsDictionaryType.TableName:
+                    return new DBRepository<BsDictionaryType, BsDictionaryType>() as IRepository<TData>;
                 #endregion
                 #region RealTimeSystem
                 case RtPushconfig.TableName:

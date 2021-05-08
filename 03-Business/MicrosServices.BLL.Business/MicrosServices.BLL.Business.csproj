@@ -47,6 +47,8 @@
     <Compile Include="Achieve\DALDataHandleFactory.cs" />
     <Compile Include="BaseSystem\BsDictionaryHandle\BsDictionaryHandle.cs" />
     <Compile Include="BaseSystem\BsDictionaryHandle\IBsDictionaryHandle.cs" />
+    <Compile Include="BaseSystem\BsDictionaryTypeHandle\BsDictionaryTypeHandle.cs" />
+    <Compile Include="BaseSystem\BsDictionaryTypeHandle\IBsDictionaryTypeHandle.cs" />
     <Compile Include="DataHandleManager.cs" />
     <Compile Include="PermissionSystem\ManagementHandles\IPsManagementHandle.cs" />
     <Compile Include="PermissionSystem\ManagementHandles\PsManagementHandle.cs" />

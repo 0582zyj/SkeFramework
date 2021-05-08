@@ -10647,9 +10647,9 @@ TableComment 0 新宋体,8,N</a:FontList>
 <a:Code>DicType</a:Code>
 <a:CreationDate>1620379877</a:CreationDate>
 <a:Creator>zengyingjun</a:Creator>
-<a:ModificationDate>1620435018</a:ModificationDate>
+<a:ModificationDate>1620435786</a:ModificationDate>
 <a:Modifier>zengyingjun</a:Modifier>
-<a:Comment>注册类型</a:Comment>
+<a:Comment>字典类型</a:Comment>
 <a:DefaultValue>NULL</a:DefaultValue>
 <a:DataType>varchar(100)</a:DataType>
 <a:Length>100</a:Length>
