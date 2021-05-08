@@ -12,7 +12,7 @@ namespace MicrosServices.Helper.Core.Extends
         /// <summary>
         /// 编码
         /// </summary>
-        public string RegistryType { get; set; }
+        public string DicType { get; set; }
         /// <summary>
         /// 键
         /// </summary>

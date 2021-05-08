@@ -28,12 +28,12 @@ namespace MicrosServices.DAL.DataAccess.Repository.BaseSystem.BsDictionaryHandle
         /// </summary>
         /// <param name="Code"></param>
         /// <returns></returns>
-        public List<DictionaryOptionValue> GetOptionValues( string RegistryType, long PlatformNo=ConstData.DefaultNo)
+        public List<DictionaryOptionValue> GetOptionValues( string DicType, long PlatformNo=ConstData.DefaultNo)
         {
             List<DbParameter> ParaList = new List<DbParameter>();
-            string sSQL = String.Format("SELECT DicNo as Value,DicValue as Name,DicKey,RegistryType  FROM {0} ", _mTableName);
-            sSQL += " WHERE RegistryType=@RegistryType ";
-            ParaList.Add(DbFactory.Instance().CreateDataParameter("@RegistryType", RegistryType));
+            string sSQL = String.Format("SELECT DicNo as Value,DicValue as Name,DicKey,DicType  FROM {0} ", _mTableName);
+            sSQL += " WHERE DicType=@DicType ";
+            ParaList.Add(DbFactory.Instance().CreateDataParameter("@DicType", DicType));
             if (PlatformNo != ConstData.DefaultNo)
             {
                 sSQL += " AND PlatformNo=@PlatformNo ";

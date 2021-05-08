@@ -28,7 +28,7 @@ namespace MicrosServices.API.AdminServer.Controllers
             Expression<Func<BsDictionary, bool>> where = null;
             if (!String.IsNullOrEmpty(keywords))
             {
-                where = (o => o.DicValue.Contains(keywords) || (o.RegistryType.Contains(keywords) || o.DicValue.Contains(keywords)));
+                where = (o => o.DicValue.Contains(keywords) || (o.DicType.Contains(keywords) || o.DicValue.Contains(keywords)));
             }
             List<BsDictionary> list = DataHandleManager.Instance().BsDictionaryHandle.GetList(where).ToList();
             return new JsonResponses(list);
@@ -45,7 +45,7 @@ namespace MicrosServices.API.AdminServer.Controllers
             string QueryNo = "_" + query.queryNo;
             string keywords = query.keywords;
             Expression<Func<BsDictionary, bool>> where = null;
-            where = (o => o.DicValue.Contains(keywords) || (o.RegistryType.Contains(keywords) || o.DicValue.Contains(keywords)));
+            where = (o => o.DicValue.Contains(keywords) || (o.DicType.Contains(keywords) || o.DicValue.Contains(keywords)));
             page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().BsDictionaryHandle.Count(where)));//取记录数
             List<BsDictionary> list = DataHandleManager.Instance().BsDictionaryHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
             PageResponse<BsDictionary> response = new PageResponse<BsDictionary>

@@ -43,7 +43,7 @@ namespace MicrosServices.BLL.Business.BaseSystem.BsDictionaryHandle
                 UpdateModel.UpdateTime = DateTime.Now;
                 UpdateModel.DicKey = model.DicKey;
                 UpdateModel.DicValue = model.DicValue;
-                UpdateModel.RegistryType = model.RegistryType;
+                UpdateModel.DicType = model.DicType;
                 UpdateModel.Descriptions = model.Descriptions;
                 UpdateModel.PlatformNo = model.PlatformNo;
                 UpdateModel.Enabled = model.Enabled;

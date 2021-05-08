@@ -20,7 +20,7 @@ namespace MicrosServices.Entities.Common.BaseSystem
         [Description("字典编号")]
         public Int64 DicNo { get; set; }
         [Description("编码")]
-        public string RegistryType { get; set; }
+        public string DicType { get; set; }
         [Description("键")]
         public string DicKey { get; set; }
         [Description("值")]
