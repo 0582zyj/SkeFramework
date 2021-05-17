@@ -10233,22 +10233,22 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:Column>
 <o:Column Id="o409">
 <a:ObjectID>17927813-C22D-45AA-A2E5-891D5F23D273</a:ObjectID>
-<a:Name>startTime</a:Name>
-<a:Code>startTime</a:Code>
+<a:Name>StartTime</a:Name>
+<a:Code>StartTime</a:Code>
 <a:CreationDate>1618386224</a:CreationDate>
 <a:Creator>zengyingjun</a:Creator>
-<a:ModificationDate>1618386588</a:ModificationDate>
+<a:ModificationDate>1621237485</a:ModificationDate>
 <a:Modifier>zengyingjun</a:Modifier>
 <a:Comment>开始时间</a:Comment>
 <a:DataType>datetime</a:DataType>
 </o:Column>
 <o:Column Id="o410">
 <a:ObjectID>BE9D6527-7BFB-449E-9C21-6A50DC37305B</a:ObjectID>
-<a:Name>endTime</a:Name>
-<a:Code>endTime</a:Code>
+<a:Name>EndTime</a:Name>
+<a:Code>EndTime</a:Code>
 <a:CreationDate>1618386224</a:CreationDate>
 <a:Creator>zengyingjun</a:Creator>
-<a:ModificationDate>1618386596</a:ModificationDate>
+<a:ModificationDate>1621237485</a:ModificationDate>
 <a:Modifier>zengyingjun</a:Modifier>
 <a:Comment>结束时间</a:Comment>
 <a:DefaultValue>NULL</a:DefaultValue>
@@ -10256,22 +10256,22 @@ TableComment 0 新宋体,8,N</a:FontList>
 </o:Column>
 <o:Column Id="o411">
 <a:ObjectID>A5B6563A-D916-4B57-A762-8DF77E109E0A</a:ObjectID>
-<a:Name>repeatLimit</a:Name>
-<a:Code>repeatLimit</a:Code>
+<a:Name>RepeatLimit</a:Name>
+<a:Code>RepeatLimit</a:Code>
 <a:CreationDate>1618386224</a:CreationDate>
 <a:Creator>zengyingjun</a:Creator>
-<a:ModificationDate>1618386606</a:ModificationDate>
+<a:ModificationDate>1621237485</a:ModificationDate>
 <a:Modifier>zengyingjun</a:Modifier>
 <a:Comment>重复次数</a:Comment>
 <a:DataType>int</a:DataType>
 </o:Column>
 <o:Column Id="o412">
 <a:ObjectID>9AA0BCA0-6C0F-46C6-8D22-2F0E5EB152BB</a:ObjectID>
-<a:Name>repeatMode</a:Name>
-<a:Code>repeatMode</a:Code>
+<a:Name>RepeatMode</a:Name>
+<a:Code>RepeatMode</a:Code>
 <a:CreationDate>1618386224</a:CreationDate>
 <a:Creator>zengyingjun</a:Creator>
-<a:ModificationDate>1618386636</a:ModificationDate>
+<a:ModificationDate>1621237485</a:ModificationDate>
 <a:Modifier>zengyingjun</a:Modifier>
 <a:Comment>循环星期</a:Comment>
 <a:DefaultValue>NULL</a:DefaultValue>
