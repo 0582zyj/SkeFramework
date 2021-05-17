@@ -1,13 +1,13 @@
 ﻿@{
-    ViewBag.Title = "字典新增";
+    ViewBag.Title = "修改";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>字典新增</h1>
+    <h1>字典类型修改</h1>
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> 主页</a></li>
-        <li><a href="@Url.Action("DictionaryList","BsDictionary")"><i class="fa fa-bar-chart"></i>字典管理</a></li>
+        <li><a href="@Url.Action("BsDictionaryTypeList","DictionaryType")"><i class="fa fa-bar-chart"></i> 字典类型管理</a></li>
     </ol>
 </section>
 <!-- Main content -->
@@ -22,25 +22,15 @@
                     <div class="tab-pane active" id="profile">
                         <form class="form-horizontal">
                             <div class="form-group">
+                                <label for="id" class="col-sm-2 control-label">ID</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="id" id="id" v-model="dataItem.id" required maxlength="200" placeholder="ID" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="DicType" class="col-sm-2 control-label">字典类型</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control" name="DicType" id="DicType" v-model="dataItem.DicType" readonly="readonly">
-                                        <option v-for="option in dictionaryTypeList" v-bind:value="option.DicType">
-                                            {{ option.Name }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="DicKey" class="col-sm-2 control-label">键</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="DicKey" id="DicKey" v-model="dataItem.DicKey" required maxlength="100" placeholder="键">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="DicValue" class="col-sm-2 control-label">值</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="DicValue" id="DicValue" v-model="dataItem.DicValue" required maxlength="200" placeholder="值">
+                                    <input type="text" class="form-control" name="DicType" id="DicType" v-model="dataItem.DicType" required maxlength="100" placeholder="字典类型">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -50,13 +40,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="PlatformNo" class="col-sm-2 control-label">平台</label>
+                                <label for="PlatformNo" class="col-sm-2 control-label">平台编号</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo">
-                                        <option v-for="option in platformList" v-bind:value="option.Value">
-                                            {{ option.Name }}
-                                        </option>
-                                    </select>
+                                    <input type="text" class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo" required maxlength="200" placeholder="平台编号" readonly="readonly">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -89,58 +75,36 @@
         var vm = new Vue({
             el: "#section-content",
             data: {
-                listJumpUrl: "@Url.Action("DictionaryList", "Dictionary")",
-                addPostUrl: "@Url.Action("BsDictionaryAdd", "Dictionary")",
-                getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
-                getDicTypeOptionValueUrl: "@Url.Action("GetOptionValues", "DictionaryType")",
-                dictionaryTypeList: {},
-                dataItem: { Enabled:1},
-                platformList: {},
+                listJumpUrl: "@Url.Action("DictionaryTypeList", "DictionaryType")",
+                updatePostUrl: "@Url.Action("BsDictionaryTypeUpdate", "DictionaryType")",
+                getItemUrl: "@Url.Action("GetBsDictionaryTypeInfo", "DictionaryType")",
+                dataItem: {},
                 enabledList: [
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
                 ],
+                id:"@Request.QueryString["id"].ToString()"
             },
             created: function () {
-                this.initDicTypeList();
                 this.Init();
             },
             methods: {
                 Init: function () {
                     var _self = this;
-                    _self.platformList = {};
-                    axios.get(this.getPlatformOptionValueUrl)
-                        .then(function (response) {
-                            if (response.status == 200) {
-                                _self.platformList = response.data;
-                                if (response.data.length > 0) {
-                                    _self.dataItem.PlatformNo = response.data[0].Value
-                                }
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                },
-                initDicTypeList: function () {
-                    var _self = this;
-                    _self.dictionaryTypeList = {};
-                    axios.get(this.getDicTypeOptionValueUrl)
-                        .then(function (response) {
-                            if (response.status == 200) {
-                                _self.dictionaryTypeList = response.data;
-                                if (response.data.length > 0) {
-                                    _self.dataItem.DicType = response.data[0].DicType
-                                }
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
+                    _self.dataItem = {};
+                    axios.get(this.getItemUrl,{ params: {id: this.id } } )
+                     .then(function (response) {
+                         if (response.status == 200) {
+                             _self.dataItem = response.data;
+                         }
+                     })
+                     .catch(function (error) {
+                         console.log(error);
+                     });
                 },
                 submit: function () {
                     var _self = this;
-                    axios.post(this.addPostUrl, this.dataItem)
+                    axios.post(this.updatePostUrl, this.dataItem)
                      .then(function (response) {
                          if (response.status == 200) {
                              alert(response.data.msg);

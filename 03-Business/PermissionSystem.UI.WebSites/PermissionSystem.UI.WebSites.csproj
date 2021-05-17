@@ -154,6 +154,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DictionaryTypeController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
@@ -295,6 +296,9 @@
     <Content Include="Views\Message\MessageList.cshtml" />
     <Content Include="Views\Message\EmailList.cshtml" />
     <Content Include="Views\Message\ShortMessageList.cshtml" />
+    <Content Include="Views\DictionaryType\DictionaryTypeList.cshtml" />
+    <Content Include="Views\DictionaryType\DictionaryTypeUpdate.cshtml" />
+    <Content Include="Views\DictionaryType\DictionaryTypeAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

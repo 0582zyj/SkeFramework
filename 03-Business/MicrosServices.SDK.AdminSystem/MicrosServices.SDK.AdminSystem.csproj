@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataUtil\NetwordConstants.cs" />
+    <Compile Include="DictionaryTypeSDK.cs" />
     <Compile Include="DictionarySDK.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
