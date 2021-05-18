@@ -22,5 +22,10 @@ namespace MicrosServices.BLL.Business.BaseSystem.BsDictionaryTypeHandle
         /// <param name="model"></param>
         /// <returns></returns>
         int DictionaryTypeUpdate(BsDictionaryType model);
+        /// <summary>
+        /// 检查字典类型是否可删除
+        /// </summary>
+        /// <param name="dicType"></param>
+        bool CheckDictionaryTypeCanDelete(int id);
     }
 }

@@ -40,13 +40,42 @@ namespace MicrosServices.DAL.DataAccess.Repository.BaseSystem.BsDictionaryHandle
                 ParaList.Add(DbFactory.Instance().CreateDataParameter("@PlatformNo", PlatformNo));
             }
            
-          
             DataTable dataTable = RepositoryHelper.GetDataTable(CommandType.Text, sSQL, ParaList.ToArray());
             if (dataTable != null || dataTable.Rows.Count > 0)
             {
                 return JsonConvert.DeserializeObject<List<DictionaryOptionValue>>(JsonConvert.SerializeObject(dataTable));
             }
             return new List<DictionaryOptionValue>();
+        }
+
+        /// <summary>
+        /// 更新状态
+        /// </summary>
+        /// <param name="dicType"></param>
+        /// <param name="enabled"></param>
+        /// <returns></returns>
+        public bool UpdateDictionaryEnabled(string dicType, int enabled)
+        {
+            string sSQL = String.Format(@"UPDATE {0} SET Enabled=@Enabled WHERE DicType=@DicType", _mTableName);
+            List<DbParameter> ParaList = new List<DbParameter>();
+            ParaList.Add(DbFactory.Instance().CreateDataParameter("@DicType", dicType));
+            ParaList.Add(DbFactory.Instance().CreateDataParameter("@Enabled", enabled));
+            return RepositoryHelper.ExecuteNonQuery(CommandType.Text, sSQL, ParaList.ToArray()) > 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 更新字典类型
+        /// </summary>
+        /// <param name="newDicType"></param>
+        /// <param name="oldDicType"></param>
+        /// <returns></returns>
+        public bool UpdateDictionartType(string newDicType, string oldDicType)
+        {
+            string sSQL = String.Format(@"UPDATE {0} SET DicType=@NewDicType WHERE DicType=@DicType", _mTableName);
+            List<DbParameter> ParaList = new List<DbParameter>();
+            ParaList.Add(DbFactory.Instance().CreateDataParameter("@DicType", oldDicType));
+            ParaList.Add(DbFactory.Instance().CreateDataParameter("@NewDicType", newDicType));
+            return RepositoryHelper.ExecuteNonQuery(CommandType.Text, sSQL, ParaList.ToArray()) > 0 ? true : false;
         }
     }
 }

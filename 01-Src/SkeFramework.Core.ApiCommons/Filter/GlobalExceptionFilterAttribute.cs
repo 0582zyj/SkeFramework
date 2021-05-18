@@ -25,7 +25,6 @@ namespace SkeFramework.Core.ApiCommons.Filter
                 //针对不同的自定义异常，做不同处理
                 jsonResponses.code = errorCodeException.GetErrorCode();
                 jsonResponses.msg = errorCodeException.GetErrorMsg();
-              
             }
             else  if (context.Exception.GetType() == typeof(WebSocketException))
             {
@@ -34,7 +33,7 @@ namespace SkeFramework.Core.ApiCommons.Filter
                 jsonResponses.code = errorCodeException.ErrorCode;
                 jsonResponses.msg = errorCodeException.Message;
             }
-            if (context.Exception.GetType() == typeof(ArgumentException))
+            else if(context.Exception.GetType() == typeof(ArgumentException))
             {
                 //针对不同的自定义异常，做不同处理
                 ArgumentException errorCodeException = (ArgumentException)ex;          

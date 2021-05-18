@@ -18,6 +18,12 @@ namespace SkeFramework.Core.ApiCommons.Exceptions
             this.code = code;
             this.msg = message;
         }
+
+        public ErrorCodeException(string message) : base(message)
+        {
+            this.code = 400;
+            this.msg = message;
+        }
         /// <summary>
         /// 获取错误代码
         /// </summary>

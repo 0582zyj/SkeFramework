@@ -18,5 +18,20 @@ namespace MicrosServices.DAL.DataAccess.Repository.BaseSystem.BsDictionaryHandle
         /// <param name="Code"></param>
         /// <returns></returns>
         List<DictionaryOptionValue> GetOptionValues(string Code, long PlatformNo = ConstData.DefaultNo);
+
+        /// <summary>
+        /// 更新状态
+        /// </summary>
+        /// <param name="dicType"></param>
+        /// <param name="enabled"></param>
+        /// <returns></returns>
+        bool UpdateDictionaryEnabled(string dicType, int enabled);
+        /// <summary>
+        /// 更新字典类型
+        /// </summary>
+        /// <param name="newDicType"></param>
+        /// <param name="oldDicType"></param>
+        /// <returns></returns>
+        bool UpdateDictionartType(string newDicType, string oldDicType);
     }
 }

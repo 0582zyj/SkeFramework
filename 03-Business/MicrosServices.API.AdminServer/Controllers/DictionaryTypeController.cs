@@ -82,7 +82,6 @@ namespace MicrosServices.API.AdminServer.Controllers
             var ResultCode = -1;
             ResultCode = DataHandleManager.Instance().BsDictionaryTypeHandle.DictionaryTypeInsert(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
-
         }
         /// <summary>
         /// 更新提交方法
@@ -103,6 +102,7 @@ namespace MicrosServices.API.AdminServer.Controllers
         public ActionResult<JsonResponses> Delete([FromForm]int id)
         {
             var ResultCode = -1;
+            DataHandleManager.Instance().BsDictionaryTypeHandle.CheckDictionaryTypeCanDelete(id);
             ResultCode = DataHandleManager.Instance().BsDictionaryTypeHandle.Delete(id);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
         }

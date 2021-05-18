@@ -1,5 +1,6 @@
 ﻿using MicrosServices.DAL.DataAccess.Repository.BaseSystem.BsDictionaryTypeHandle;
 using MicrosServices.Entities.Common.BaseSystem;
+using MicrosServices.Helper.Core.Constants;
 using SkeFramework.Core.SnowFlake;
 using SkeFramework.DataBase.Interfaces;
 using System;
@@ -39,6 +40,14 @@ namespace MicrosServices.BLL.Business.BaseSystem.BsDictionaryTypeHandle
             BsDictionaryType UpdateModel = this.GetModelByKey(model.id.ToString());
             if (UpdateModel != null)
             {
+                if(model.Enabled==(int) EnabledType.INACTIVE)
+                {
+                    DataHandleManager.Instance().BsDictionaryHandle.UpdateDictionaryEnabled(UpdateModel.DicType, (int)EnabledType.INACTIVE);
+                }
+                if (!UpdateModel.DicType.Equals(model.DicType))
+                {
+                    DataHandleManager.Instance().BsDictionaryHandle.UpdateDictionartType(model.DicType, UpdateModel.DicType);
+                }
                 UpdateModel.UpdateTime = DateTime.Now;
                 UpdateModel.DicType = model.DicType;
                 UpdateModel.Descriptions = model.Descriptions;
@@ -47,6 +56,18 @@ namespace MicrosServices.BLL.Business.BaseSystem.BsDictionaryTypeHandle
                 return this.Update(UpdateModel);
             }
             return 0;
+        }
+
+        /// <summary>
+        /// 检查字典类型是否可删除
+        /// </summary>
+        /// <param name="dicType"></param>
+        public bool CheckDictionaryTypeCanDelete(int id)
+        {
+            BsDictionaryType current = this.GetModelByKey(id.ToString());
+            if (current == null)
+                return false;
+            return DataHandleManager.Instance().BsDictionaryHandle.CheckDictionaryTypeIsExist(current.DicType);
         }
     }
 }

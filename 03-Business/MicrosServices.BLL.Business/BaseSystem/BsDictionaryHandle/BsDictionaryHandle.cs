@@ -5,6 +5,7 @@ using SkeFramework.DataBase.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,6 +51,22 @@ namespace MicrosServices.BLL.Business.BaseSystem.BsDictionaryHandle
                 return this.Update(UpdateModel);
             }
             return 0;
+        }
+
+        /// <summary>
+        /// 检查字段类型是否已有字典
+        /// </summary>
+        /// <param name="dicType"></param>
+        /// <returns></returns>
+        public bool CheckDictionaryTypeIsExist(string dicType)
+        {
+            Expression<Func<BsDictionary, bool>> where = (o => o.DicType == dicType);
+            long count = this.Count(where);
+            if (count > 0)
+            {
+                throw new ArgumentException("已存在字典类型数据,不允许删除。");
+            }
+            return false;
         }
     }
 }

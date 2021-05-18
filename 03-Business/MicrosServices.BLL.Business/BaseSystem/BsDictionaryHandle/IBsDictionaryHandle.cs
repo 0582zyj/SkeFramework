@@ -22,5 +22,12 @@ namespace MicrosServices.BLL.Business.BaseSystem.BsDictionaryHandle
         /// <param name="model"></param>
         /// <returns></returns>
         int DictionaryUpdate(BsDictionary model);
+        /// <summary>
+        /// 检查字段类型是否已有字典
+        /// </summary>
+        /// <param name="dicType"></param>
+        /// <returns></returns>
+        bool CheckDictionaryTypeIsExist(string dicType);
+
     }
 }
