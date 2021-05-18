@@ -64,7 +64,7 @@ namespace MicrosServices.BLL.Business.BaseSystem.BsDictionaryHandle
             long count = this.Count(where);
             if (count > 0)
             {
-                throw new ArgumentException("已存在字典类型数据,不允许删除。");
+                throw new ArgumentException("已存在字典数据,不允许删除。");
             }
             return false;
         }

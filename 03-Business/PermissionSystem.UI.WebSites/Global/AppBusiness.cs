@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using MicrosServices.Entities.Common;
+using MicrosServices.Helper.Core.Extends;
 using MicrosServices.SDK.PermissionSystem;
 using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Models;
@@ -66,7 +67,26 @@ namespace PermissionSystem.UI.WebSites.Global
             //{
             //}
         }
-    
+
+        public static List<ManagementOptionValue> UserManagementList
+        {
+            get
+            {
+                if (HttpContext.Current.Session == null || HttpContext.Current.Session["UserManagementList"] == null)
+                {
+                    LoginModel loginModel = AppBusiness.loginModel;
+                    if (AppBusiness.loginModel != null)
+                    {
+                        string UserNo = AppBusiness.loginModel.UserNo;
+                        HttpContext.Current.Session["UserManagementList"] = new ManagementSDK().GetUserManagementList(UserNo);
+                        HttpContext.Current.Session.Timeout = 30;
+                    }
+                }
+
+                return (List<ManagementOptionValue>)HttpContext.Current.Session["UserManagementList"];
+            }
+            private set { }
+        }
 
     }
 }

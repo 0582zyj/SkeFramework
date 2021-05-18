@@ -180,8 +180,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpGet]
         public JsonResult GetUserManagementList()
         {
-            string UserNo = AppBusiness.loginModel.UserNo;
-            List<ManagementOptionValue > optionValues = managementSDK.GetUserManagementList(UserNo);
+            List<ManagementOptionValue > optionValues =AppBusiness.UserManagementList;
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
 
