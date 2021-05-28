@@ -6166,9 +6166,9 @@ Shadow=0</a:DisplayPreferences>
 <a:Code>Type</a:Code>
 <a:CreationDate>1573572489</a:CreationDate>
 <a:Creator>ZYJUN</a:Creator>
-<a:ModificationDate>1573572528</a:ModificationDate>
-<a:Modifier>ZYJUN</a:Modifier>
-<a:Comment>权限类型【0默认权限，1普通权限，2菜单权限】</a:Comment>
+<a:ModificationDate>1621555687</a:ModificationDate>
+<a:Modifier>zengyingjun</a:Modifier>
+<a:Comment>权限类型【0默认权限，1普通权限，2菜单权限,3权限菜单】</a:Comment>
 <a:DataType>int</a:DataType>
 </o:Column>
 <o:Column Id="o86">
