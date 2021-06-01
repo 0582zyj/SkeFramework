@@ -28,7 +28,7 @@ namespace MicrosServices.DAL.DataAccess.Repository.BaseSystem.BsDictionaryHandle
         /// </summary>
         /// <param name="Code"></param>
         /// <returns></returns>
-        public List<DictionaryOptionValue> GetOptionValues( string DicType, long PlatformNo=ConstData.DefaultNo)
+        public List<DictionaryOptionValue> GetOptionValues(string DicType, long PlatformNo=ConstData.DefaultNo)
         {
             List<DbParameter> ParaList = new List<DbParameter>();
             string sSQL = String.Format("SELECT DicNo as Value,DicValue as Name,DicKey,DicType  FROM {0} ", _mTableName);

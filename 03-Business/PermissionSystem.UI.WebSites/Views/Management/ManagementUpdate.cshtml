@@ -65,7 +65,7 @@
                                 <label for="Type" class="col-sm-2 control-label">权限类型</label>
                                 <div class="col-sm-10">
                                     <select class="form-control" name="Type" id="Type" v-model="dataItem.Type">
-                                        <option v-for="option in managmentTypeList" v-bind:value="option.Value">
+                                        <option v-for="option in managmentTypeList" v-bind:value="option.DicKey">
                                             {{ option.Name }}
                                         </option>
                                     </select>
@@ -121,16 +121,12 @@
                 updatePostUrl: "@Url.Action("PsManagementUpdate", "Management")",
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 getManagementOptionValueUrl: "@Url.Action("GetManagementOptionValues", "Management",new { ManagementType = (int)MicrosServices.Helper.Core.Constants.ManagementType.MENU_TYPE })",
+                getDictionaryOptionValueUrl: "@Url.Action("GetOptionValues", "Dictionary", new { dicType = PermissionSystem.UI.WebSites.Global.AppBusiness.DictionaryKey_ManagementType })",
                 getItemUrl: "@Url.Action("GetPsManagementInfo", "Management")",
                 dataItem: {},
                 platformList: {},
                 managementList: {},
-                managmentTypeList: [
-                    { Name: '默认权限', Value: 0 },
-                    { Name: '普通权限', Value: 1 },
-                    { Name: '菜单权限', Value: 2 },
-                    { Name: '权限菜单', Value: 3 },
-                ],
+                managmentTypeList: [],
                 enabledList: [
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
@@ -138,6 +134,7 @@
                 id:"@Request.QueryString["id"].ToString()"
             },
             created: function () {
+                this.getManagmentTypeList();
                 this.Init();
             },
             methods: {
@@ -168,6 +165,21 @@
                         .then(function (response) {
                             if (response.status == 200) {
                                 _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                getManagmentTypeList: function () {
+                    var _self = this;
+                    _self.managmentTypeList = {};
+                    axios.get(this.getDictionaryOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                if (response.data.length > 0) {
+                                    _self.managmentTypeList = response.data;
+                                }
                             }
                         })
                         .catch(function (error) {

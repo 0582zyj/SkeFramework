@@ -1,4 +1,5 @@
 ﻿using MicrosServices.Entities.Common.BaseSystem;
+using MicrosServices.Helper.Core.Extends;
 using MicrosServices.SDK.AdminSystem;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
@@ -105,6 +106,19 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
 
+        #endregion
+
+        #region 字典键值对
+        /// <summary>
+        /// 获取列表信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetOptionValues(string dicType)
+        {
+            List<DictionaryOptionValue> optionValues = dictionarySDK.GetOptionValues(dicType);
+            return Json(optionValues, JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
     }

@@ -111,9 +111,9 @@ namespace MicrosServices.API.AdminServer.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetOptionValues(string Code)
+        public ActionResult<JsonResponses> GetOptionValues(string dicType)
         {
-            List<DictionaryOptionValue> optionValues = DataHandleManager.Instance().BsDictionaryHandle.GetOptionValues(Code);
+            List<DictionaryOptionValue> optionValues = DataHandleManager.Instance().BsDictionaryHandle.GetOptionValues(dicType);
             return new JsonResponses(optionValues);
         }
 

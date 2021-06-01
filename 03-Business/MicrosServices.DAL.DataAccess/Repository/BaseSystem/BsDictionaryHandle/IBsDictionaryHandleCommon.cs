@@ -17,7 +17,7 @@ namespace MicrosServices.DAL.DataAccess.Repository.BaseSystem.BsDictionaryHandle
         /// </summary>
         /// <param name="Code"></param>
         /// <returns></returns>
-        List<DictionaryOptionValue> GetOptionValues(string Code, long PlatformNo = ConstData.DefaultNo);
+        List<DictionaryOptionValue> GetOptionValues(string dicType, long PlatformNo = ConstData.DefaultNo);
 
         /// <summary>
         /// 更新状态

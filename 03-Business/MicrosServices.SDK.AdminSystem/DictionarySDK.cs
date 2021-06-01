@@ -1,4 +1,5 @@
 ﻿using MicrosServices.Entities.Common.BaseSystem;
+using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Extends;
 using Newtonsoft.Json;
 using SkeFramework.Core.Network.DataUtility;
@@ -23,7 +24,6 @@ namespace MicrosServices.SDK.AdminSystem
         private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/delete";
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/getOptionValues";
-        private static readonly string GetDictionaryOptionValuesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/getDictionaryOptionValues";
 
         /// <summary>
         /// 获取菜单所有列表
@@ -82,6 +82,29 @@ namespace MicrosServices.SDK.AdminSystem
             }
             return menus;
         }
+
+        public List<DictionaryOptionValue> GetOptionValues(string dicType)
+        {
+            try
+            {
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.SetValue("dicType", dicType);
+                request.Url = GetOptionValueUrl;
+                string result = HttpHelper.Example.GetWebData(request);
+                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
+                if (responses.code == JsonResponses.SuccessCode)
+                {
+                    object data = responses.data;
+                    return JsonConvert.DeserializeObject<List<DictionaryOptionValue>>(JsonConvert.SerializeObject(data));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return new List<DictionaryOptionValue>();
+        }
+
         /// <summary>
         /// 根据主键ID获取信息
         /// </summary>
@@ -190,14 +213,13 @@ namespace MicrosServices.SDK.AdminSystem
         /// 获取键值对
         /// </summary>
         /// <returns></returns>
-        public List<DictionaryOptionValue> GetDictionaryOptionValues(long PlatformNo, long DictionaryType)
+        public List<DictionaryOptionValue> GetDictionaryOptionValues(string dicType)
         {
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
-                request.Url = GetDictionaryOptionValuesUrl;
-                request.SetValue("platformNo", PlatformNo);
-                request.SetValue("dictionaryType", DictionaryType);
+                request.Url = GetOptionValueUrl;
+                request.SetValue("dicType", dicType);
                 string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
