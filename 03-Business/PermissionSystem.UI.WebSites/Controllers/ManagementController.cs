@@ -4,6 +4,7 @@ using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.Extends;
 using MicrosServices.Helper.Core.Form;
+using MicrosServices.Helper.Core.VO.AssignVo;
 using MicrosServices.SDK.PermissionSystem;
 using Newtonsoft.Json;
 using PermissionSystem.UI.WebSites.Global;
@@ -171,7 +172,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         }
         #endregion
 
-        #region
+        #region 
         /// <summary>
         /// 获取菜单权限值
         /// </summary>
@@ -194,6 +195,43 @@ namespace PermissionSystem.UI.WebSites.Controllers
             List<TreeNodeInfo> treeNodes = treeSDK.GetManagementTreeList(AppBusiness.loginModel.PlatformNo);
             //将获取的节点集合转换为json格式字符串，并返回
             return JsonConvert.SerializeObject(treeNodes);
+        }
+        #endregion
+
+        #region 分组权限页面
+        /// <summary>
+        /// 权限分配
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ManagementGroupAssign(long ManagementNo)
+        {
+            return View();
+        }
+        /// <summary>
+        /// 更新提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult GetManagementGroupAssign(long ManagementNo)
+        {
+            ManagmentGroupAssignVo assignVo = new ManagmentGroupAssignVo();
+            JsonResponses jsonResponses = assignSDK.GetGroupManagmentsAssign(ManagementNo);
+            if (jsonResponses.ValidateResponses())
+            {
+                assignVo = JsonConvert.DeserializeObject<ManagmentGroupAssignVo>(JsonConvert.SerializeObject(jsonResponses.data));
+            }
+            return Json(assignVo, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 更新提交方法
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult ManagementGroupAssignUpdate(ManagementRolesForm model)
+        {
+            model.inputUser = AppBusiness.loginModel.UserNo;
+            JsonResponses responses = assignSDK.CreateManagementRoles(model);
+            return Json(responses, JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

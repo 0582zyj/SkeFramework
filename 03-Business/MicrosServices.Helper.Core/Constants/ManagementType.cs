@@ -14,5 +14,6 @@ namespace MicrosServices.Helper.Core.Constants
     {
         [EnumAttribute( "操作权限")] OPERATE_TYPE=1,
         [EnumAttribute( "菜单权限")] MENU_TYPE=2,
+        [EnumAttribute("分组权限")] GROUP_TYPE = 3,
     }
 }

@@ -299,6 +299,7 @@
     <Content Include="Views\DictionaryType\DictionaryTypeList.cshtml" />
     <Content Include="Views\DictionaryType\DictionaryTypeUpdate.cshtml" />
     <Content Include="Views\DictionaryType\DictionaryTypeAdd.cshtml" />
+    <Content Include="Views\Management\ManagementGroupAssign.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MicrosServices.Helper.Core.Form.AssignForm
 {
+    /// <summary>
+    /// 菜单权限新增
+    /// </summary>
     public class MenuManagementsForm
     {
         /// <summary>

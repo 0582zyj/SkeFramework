@@ -28,6 +28,9 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string GetMenuManagmentAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/getMenuManagmentAssign";
         private static readonly string CreateMenuManagementsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/createMenuManagements";
 
+        private static readonly string GetGroupManagmentsAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/getGroupManagmentsAssign";
+        private static readonly string CreateGroupManagmentsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/createGroupManagments";
+        
         #region 用户角色
         /// <summary>
         /// 获取用户角色列表
@@ -73,9 +76,9 @@ namespace MicrosServices.SDK.PermissionSystem
         }
         #endregion
 
-        #region 机构角色
+        #region 用户机构
         /// <summary>
-        /// 获取机构角色列表
+        /// 获取用户机构列表
         /// </summary>
         /// <param name="userNo"></param>
         /// <returns></returns>
@@ -96,7 +99,7 @@ namespace MicrosServices.SDK.PermissionSystem
             return JsonResponses.Failed;
         }
         /// <summary>
-        /// 机构角色授权
+        /// 用户机构授权
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -162,53 +165,6 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
-        #endregion
-
-        #region 权限菜单
-        /// <summary>
-        /// 获取权限菜单
-        /// </summary>
-        /// <param name="managementNo"></param>
-        /// <returns></returns>
-        public JsonResponses GetMenuAssign(long ManagementNo)
-        {
-            try
-            {
-                RequestBase request = RequestBase.Get.Clone() as RequestBase;
-                request.Url = GetMenuAssignUrl;
-                request.SetValue("managementNo", ManagementNo);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            return JsonResponses.Failed;
-        }
-
-        /// <summary>
-        /// 权限菜单授权
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public JsonResponses CreateManagementMenus(ManagementMenusForm model)
-        {
-            try
-            {
-                RequestBase request = RequestBase.PostJson as RequestBase;
-                request.Url = CreateManagementMenusUrl;
-                request.SetJsonValue(model);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-            return JsonResponses.Failed;
-        }
-
         #endregion
 
         #region 机构角色
@@ -300,6 +256,101 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return JsonResponses.Failed;
         }
+        #endregion
+
+        #region 权限菜单
+        /// <summary>
+        /// 获取权限菜单
+        /// </summary>
+        /// <param name="managementNo"></param>
+        /// <returns></returns>
+        public JsonResponses GetMenuAssign(long ManagementNo)
+        {
+            try
+            {
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetMenuAssignUrl;
+                request.SetValue("managementNo", ManagementNo);
+                string result = HttpHelper.Example.GetWebData(request);
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+
+        /// <summary>
+        /// 权限菜单授权
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public JsonResponses CreateManagementMenus(ManagementMenusForm model)
+        {
+            try
+            {
+                RequestBase request = RequestBase.PostJson as RequestBase;
+                request.Url = CreateManagementMenusUrl;
+                request.SetJsonValue(model);
+                string result = HttpHelper.Example.GetWebData(request);
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+
+        #endregion
+
+        #region 分组权限
+        /// <summary>
+        /// 获取分组权限列表
+        /// </summary>
+        /// <param name="managementNo"></param>
+        /// <param name="gROUP_TYPE"></param>
+        /// <returns></returns>
+        public JsonResponses GetGroupManagmentsAssign(long managementNo)
+        {
+            try
+            {
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.Url = GetGroupManagmentsAssignUrl;
+                request.SetValue("managementNo", managementNo);
+                string result = HttpHelper.Example.GetWebData(request);
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+
+        /// <summary>
+        /// 分组权限列表授权
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public JsonResponses CreateGroupManagments(GroupManagementsForm model)
+        {
+            try
+            {
+                RequestBase request = RequestBase.PostJson as RequestBase;
+                request.Url = CreateGroupManagmentsUrl;
+                request.SetJsonValue(model);
+                string result = HttpHelper.Example.GetWebData(request);
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+
         #endregion
     }
 }

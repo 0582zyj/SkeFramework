@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MicrosServices.Helper.Core.Form
 {
     /// <summary>
-    /// 机构角色
+    /// 机构角色新增
     /// </summary>
     public class OrgRolesForm
     {

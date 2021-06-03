@@ -31,7 +31,7 @@ namespace MicrosServices.SDK.PermissionSystem
             return mSingleInstance;
         }
         #endregion
-        private string config = "remote";
+        private string config = "iis";
         public string GetBaseUrl()
         {
             switch(config)

@@ -73,7 +73,7 @@
                                 <td>{{item.ParentNo}}</td>
                                 <td>{{item.Name}}</td>
                                 <td>{{item.Value}}</td>
-                                <td>{{item.Type|formateMenuType(typeList)}}</td>
+                                <td>{{item.Type|formateMenuType(managmentTypeList)}}</td>
                                 <td>{{item.Sort}}</td>
                                 <td>{{item.PlatformNo|formatePlatform(platformList)}}</td>
                                 <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
@@ -81,6 +81,7 @@
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toEdit(item.id)" v-if="checkAssign('management.update',menuManagementList)==true">修改</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toDelete(item.id)" v-if="checkAssign('management.delete',menuManagementList)==true">删除</a>
                                     <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toAssign(item.ManagementNo)" v-if="item.Type==2 && checkAssign('management.menu.assign',menuManagementList)==true">菜单分配</a>
+                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" v-on:click="toGroupAssign(item.ManagementNo)" v-if="item.Type==3 && checkAssign('management.menu.assign',menuManagementList)==true">权限分配</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -101,20 +102,19 @@
                 updateJumpUrl: "@Url.Action("ManagementUpdate", "Management")",
                 addJumpUrl: "@Url.Action("ManagementAdd", "Management")",
                 deleteUrl: "@Url.Action("PsManagementDelete", "Management")",
-                assginUrl:"@Url.Action("MenuAssign", "Menu")",
+                assginUrl: "@Url.Action("MenuAssign", "Menu")",
+                assginGroupUrl: "@Url.Action("ManagementGroupAssign", "Management")",
                 GetListUrl: "@Url.Action("GetPsManagementList", "Management")",
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 GetUserManagementListUrl: "@Url.Action("GetUserManagementList", "Management")",
+                getDictionaryOptionValueUrl: "@Url.Action("GetOptionValues", "Dictionary", new { dicType = PermissionSystem.UI.WebSites.Global.AppBusiness.DictionaryKey_ManagementType })",
                 dataList: [],
                 platformList: {},
                 enabledList: [
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
                 ],
-                typeList: [
-                    { Name: '操作权限', Value: 1 },
-                    { Name: '菜单权限', Value: 2 },
-                ],
+                managmentTypeList: [],
                 search: { keywords: "", ManagementNo: -1 }
             },
             filters: {
@@ -130,7 +130,7 @@
                 formateMenuType: function (type, list) {
                     let result = type;
                     list.map(res => {
-                        if (type == res.Value) {
+                        if (type == res.DicKey) {
                             result = res.Name;
                         }
                     });
@@ -153,6 +153,7 @@
                 }
             },
             created: function () {
+                this.getManagmentTypeList();
                 this.Init();
             },
             methods: {
@@ -180,6 +181,21 @@
                         });
                     
                 },
+                getManagmentTypeList: function () {
+                    var _self = this;
+                    _self.managmentTypeList = {};
+                    axios.get(this.getDictionaryOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                if (response.data.length > 0) {
+                                    _self.managmentTypeList = response.data;
+                                }
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
                 GetList: function (data) {
                     this.dataList = data;
                 },
@@ -192,6 +208,10 @@
                 toAssign: function (_ManagementNo) {
                     window.location.href = this.assginUrl + '?ManagementNo=' + _ManagementNo;
                 },
+                toGroupAssign: function (_ManagementNo) {
+                    window.location.href = this.assginGroupUrl + '?ManagementNo=' + _ManagementNo;
+                },
+                
                 toDelete: function (_id) {
                     axios.post(this.deleteUrl, { id: _id })
                      .then(function (response) {

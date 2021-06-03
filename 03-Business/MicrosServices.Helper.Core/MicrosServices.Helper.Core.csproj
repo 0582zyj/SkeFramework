@@ -46,6 +46,7 @@
     <Compile Include="Extends\CheckOptionValue.cs" />
     <Compile Include="Extends\DictionaryOptionValue.cs" />
     <Compile Include="Extends\ManagementOptionValue.cs" />
+    <Compile Include="Form\AssignForm\GroupManagementsForm.cs" />
     <Compile Include="Form\AssignForm\ManagementMenusForm.cs" />
     <Compile Include="Form\AssignForm\MenuManagementsForm.cs" />
     <Compile Include="Form\AssignForm\OrgRolesForm.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Form\AssignForm\ManagementRolesForm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserCenter\FORM\LoginInfoForm.cs" />
+    <Compile Include="VO\AssignVo\ManagmentGroupAssignVo.cs" />
     <Compile Include="VO\AssignVo\MenuAssignVo.cs" />
     <Compile Include="VO\AssignVo\MenuManagmentAssignVo.cs" />
     <Compile Include="VO\MenuSideBar.cs" />

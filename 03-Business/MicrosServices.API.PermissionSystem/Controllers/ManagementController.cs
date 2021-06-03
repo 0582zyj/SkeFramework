@@ -183,9 +183,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpGet]
         public ActionResult<JsonResponses> GetUserManagementList([FromQuery]string UserNo)
         {
-            List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetUserMenusList(UserNo).ToList();
-            List<long> MenuNos = list.Select(o => o.MenuNo).ToList();
-            List<ManagementOptionValue> optionValues = DataHandleManager.Instance().PsMenuManagementHandle.GetManagementOptionValues(MenuNos, (int)ManagementType.OPERATE_TYPE);
+            List<ManagementOptionValue> optionValues = DataHandleManager.Instance().PsManagementHandle.GetUserManagementList(UserNo);
             return new JsonResponses(optionValues);
         }
         #endregion

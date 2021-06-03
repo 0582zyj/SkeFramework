@@ -85,6 +85,39 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
         #endregion
 
+        #region 机构角色授权
+        /// <summary>
+        /// 角色授权
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> CreateOrgRoles([FromBody]OrgRolesForm model)
+        {
+            var ResultCode = -1;
+            DataHandleManager.Instance().PsOrganizationHandle.CheckOrgNoIsExist(model.orgNo);
+            if (model.rolesNos != null)
+            {
+                foreach (var nos in model.rolesNos)
+                {
+                    DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(nos);
+                }
+            }
+            ResultCode = DataHandleManager.Instance().PsOrgRolesHandle.OrgRolesInsert(model);
+            return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
+        }
+
+        /// <summary>
+        /// 获取用户角色列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetOrgAssign([FromQuery]long OrgNo)
+        {
+            OrgAssignVo assignVo = DataHandleManager.Instance().PsOrgRolesHandle.GetOrgAssign(OrgNo);
+            return new JsonResponses(assignVo);
+        }
+        #endregion
+
         #region 角色权限授权
         /// <summary>
         /// 角色授权
@@ -151,39 +184,6 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
         #endregion
 
-        #region 机构角色授权
-        /// <summary>
-        /// 角色授权
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult<JsonResponses> CreateOrgRoles([FromBody]OrgRolesForm model)
-        {
-            var ResultCode = -1;
-            DataHandleManager.Instance().PsOrganizationHandle.CheckOrgNoIsExist(model.orgNo);
-            if (model.rolesNos != null)
-            {
-                foreach (var nos in model.rolesNos)
-                {
-                    DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(nos);
-                }
-            }
-            ResultCode = DataHandleManager.Instance().PsOrgRolesHandle.OrgRolesInsert(model);
-            return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
-        }
-
-        /// <summary>
-        /// 获取用户角色列表
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult<JsonResponses> GetOrgAssign([FromQuery]long OrgNo)
-        {
-            OrgAssignVo assignVo = DataHandleManager.Instance().PsOrgRolesHandle.GetOrgAssign(OrgNo);
-            return new JsonResponses(assignVo);
-        }
-        #endregion
-
         #region 菜单权限授权
         /// <summary>
         /// 菜单权限授权
@@ -218,6 +218,39 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 return new JsonResponses(JsonResponses.FailedCode, ErrorResultType.ERROR_MENUNO_NOT_EXISET.ToString());
             }
             MenuManagmentAssignVo assignVo = DataHandleManager.Instance().PsMenuManagementHandle.GetMenuManagmentAssignVo(MenuNo);
+            return new JsonResponses(assignVo);
+        }
+        #endregion
+
+        #region 分组权限授权
+        /// <summary>
+        /// 分组权限列表授权
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult<JsonResponses> CreateGroupManagments([FromBody]GroupManagementsForm model)
+        {
+            var ResultCode = -1;
+            DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.managementNo);
+            if (model.managementNos != null)
+            {
+                foreach (var nos in model.managementNos)
+                {
+                    DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(nos);
+                }
+            }
+            ResultCode = DataHandleManager.Instance().PsMenuManagementHandle.CreateGroupManagments(model);
+            return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
+        }
+        /// <summary>
+        /// 获取分组权限列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetGroupManagmentsAssign([FromQuery]long managementNo)
+        {
+            DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(managementNo);
+            ManagmentGroupAssignVo assignVo = DataHandleManager.Instance().PsMenuManagementHandle.GetGroupManagmentsAssign(managementNo);
             return new JsonResponses(assignVo);
         }
         #endregion
