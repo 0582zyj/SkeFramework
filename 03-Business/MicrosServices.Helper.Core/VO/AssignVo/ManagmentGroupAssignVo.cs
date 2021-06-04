@@ -13,6 +13,7 @@ namespace MicrosServices.Helper.Core.VO.AssignVo
     /// </summary>
     public class ManagmentGroupAssignVo
     {
+        public string inputUser { get; set; }
         /// <summary>
         /// 分组权限信息
         /// </summary>

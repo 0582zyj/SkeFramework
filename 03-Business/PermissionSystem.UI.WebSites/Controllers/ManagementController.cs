@@ -4,6 +4,7 @@ using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.Extends;
 using MicrosServices.Helper.Core.Form;
+using MicrosServices.Helper.Core.Form.AssignForm;
 using MicrosServices.Helper.Core.VO.AssignVo;
 using MicrosServices.SDK.PermissionSystem;
 using Newtonsoft.Json;
@@ -227,10 +228,10 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult ManagementGroupAssignUpdate(ManagementRolesForm model)
+        public JsonResult ManagementGroupAssignUpdate(GroupManagementsForm model)
         {
             model.inputUser = AppBusiness.loginModel.UserNo;
-            JsonResponses responses = assignSDK.CreateManagementRoles(model);
+            JsonResponses responses = assignSDK.CreateGroupManagments(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
         #endregion
