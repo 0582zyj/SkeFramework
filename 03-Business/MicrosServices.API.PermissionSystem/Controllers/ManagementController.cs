@@ -141,7 +141,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpGet]
         public ActionResult<JsonResponses> GetOptionValues()
         {
-            List<OptionValue> optionValues = DataHandleManager.Instance().PsManagementHandle.GetOptionValues();
+            List<OptionValue> optionValues = DataHandleManager.Instance().PsManagementHandle.GetOptionValues(new List<long>());
             return new JsonResponses(optionValues);
         }
 

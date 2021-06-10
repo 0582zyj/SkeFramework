@@ -144,9 +144,9 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetManagementAssign([FromQuery]long RolesNo, [FromQuery] long ManagementType)
+        public ActionResult<JsonResponses> GetManagementAssign([FromQuery]long RolesNo, [FromQuery] long[] ManagementType)
         {
-            ManagmentAssignVo managmentAssignVo = DataHandleManager.Instance().PsManagementRolesHandle.GetManagementAssign(RolesNo, ManagementType);
+            ManagmentAssignVo managmentAssignVo = DataHandleManager.Instance().PsManagementRolesHandle.GetManagementAssign(RolesNo, ManagementType.ToList());
             return new JsonResponses(managmentAssignVo);
         }
         #endregion

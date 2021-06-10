@@ -147,14 +147,15 @@ namespace PermissionSystem.UI.WebSites.Controllers
             return View();
         }
         /// <summary>
-        /// 更新提交方法
+        /// 获取角色权限列表
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public JsonResult GetManagementAssign(long RolesNo)
         {
             ManagmentAssignVo assignVo = new ManagmentAssignVo();
-            JsonResponses jsonResponses= assignSDK.GetManagementAssign(RolesNo,(int)ManagementType.MENU_TYPE);
+            List<int> ManagementTypeList = new List<int>() { (int)ManagementType.MENU_TYPE, (int)ManagementType.GROUP_TYPE };
+            JsonResponses jsonResponses= assignSDK.GetManagementAssign(RolesNo, ManagementTypeList);
             if(jsonResponses.ValidateResponses()) {
                 assignVo = JsonConvert.DeserializeObject<ManagmentAssignVo>(JsonConvert.SerializeObject( jsonResponses.data));
             }

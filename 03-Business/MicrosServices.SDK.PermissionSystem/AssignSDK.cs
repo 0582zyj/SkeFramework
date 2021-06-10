@@ -127,14 +127,14 @@ namespace MicrosServices.SDK.PermissionSystem
         /// </summary>
         /// <param name="RoleNo"></param>
         /// <returns></returns>
-        public JsonResponses GetManagementAssign(long RolesNo, long ManagementType)
+        public JsonResponses GetManagementAssign(long RolesNo, List<int> ManagementTypeList)
         {
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetManagementAssignUrl;
                 request.SetValue("rolesNo", RolesNo);
-                request.SetValue("managementType", ManagementType); 
+                request.SetValue("managementType", ManagementTypeList); 
                 string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
