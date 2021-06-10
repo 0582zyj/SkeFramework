@@ -12,5 +12,9 @@ namespace MicrosServices.Entities.Constants
         /// 默认项
         /// </summary>
         public const long DefaultNo = -1;
+        /// <summary>
+        /// 默认项
+        /// </summary>
+        public const int DefaultInt = -1;
     }
 }

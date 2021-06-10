@@ -2,6 +2,7 @@
 using SkeFramework.Core.Network.Enums;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -132,7 +133,15 @@ namespace SkeFramework.Core.Network.Requests
                 {
                     continue;
                 }
-                if (pair.Key != "sign" && pair.Value.ToString() != "")
+                if (pair.Value.GetType().IsGenericType && pair.Value.GetType().GetGenericTypeDefinition() == typeof(List<>))
+                {
+                    List<string> vs = pair.Value as List<string>;
+                    foreach(var item in vs)
+                    {
+                        buff += pair.Key + "=" + item + "&";
+                    }
+                }
+                else if (pair.Key != "sign" && pair.Value.ToString() != "")
                 {
                     buff += pair.Key + "=" + pair.Value + "&";
                 }
@@ -143,6 +152,8 @@ namespace SkeFramework.Core.Network.Requests
 
         public object Clone()
         {
+            this.HeaderValue.Clear();
+            this.ParameterValue.Clear();
             return MemberwiseClone();
         }
 

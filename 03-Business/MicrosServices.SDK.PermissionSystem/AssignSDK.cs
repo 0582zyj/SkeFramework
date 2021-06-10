@@ -131,10 +131,11 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
+                List<string> paramList = JsonConvert.DeserializeObject<List<string>>(JsonConvert.SerializeObject(ManagementTypeList));
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetManagementAssignUrl;
                 request.SetValue("rolesNo", RolesNo);
-                request.SetValue("managementType", ManagementTypeList); 
+                request.SetValue("managementType", paramList); 
                 string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }

@@ -9,6 +9,7 @@ using MicrosServices.Helper.Core;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.Form;
 using MicrosServices.Helper.Core.Form.AssignForm;
+using MicrosServices.Helper.Core.Form.Query;
 using MicrosServices.Helper.Core.VO;
 using MicrosServices.Helper.Core.VO.AssignVo;
 using SkeFramework.Core.Network.Responses;
@@ -144,9 +145,9 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetManagementAssign([FromQuery]long RolesNo, [FromQuery] long[] ManagementType)
+        public ActionResult<JsonResponses> GetManagementAssign([FromQuery]RoleManagmentQuery model)
         {
-            ManagmentAssignVo managmentAssignVo = DataHandleManager.Instance().PsManagementRolesHandle.GetManagementAssign(RolesNo, ManagementType.ToList());
+            ManagmentAssignVo managmentAssignVo = DataHandleManager.Instance().PsManagementRolesHandle.GetManagementAssign(model.RolesNo, model.ManagementType.ToList());
             return new JsonResponses(managmentAssignVo);
         }
         #endregion

@@ -52,6 +52,7 @@
     <Compile Include="Form\AssignForm\OrgRolesForm.cs" />
     <Compile Include="Form\AssignForm\UserOrgsForm.cs" />
     <Compile Include="Form\AssignForm\UserRolesForm.cs" />
+    <Compile Include="Form\Query\RoleManagmentQuery.cs" />
     <Compile Include="RealTimeSystems\VO\ClientVo.cs" />
     <Compile Include="RealTimeSystems\VO\ConnectVo.cs" />
     <Compile Include="UserCenter\FORM\RegisterPlatformForm.cs" />
