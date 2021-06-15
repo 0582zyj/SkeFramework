@@ -21,7 +21,7 @@ namespace PermissionSystem.UI.WebSites.Global
         public const string SessionKey_SideBarList = "SideBarList";
         public const string SessionKey_UserManagementList = "UserManagementList";
         public const string DictionaryKey_ManagementType = "system.permission.type";
-
+        public const string DictionaryKey_OrganizationType = "system.organization.type";
         /// <summary>
         /// 登录信息
         /// </summary>

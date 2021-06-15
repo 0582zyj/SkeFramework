@@ -91,6 +91,7 @@
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 GetUserManagementListUrl: "@Url.Action("GetUserManagementList", "Management")",
                 dataList: [],
+                menuManagementList: [],
                 enabledList: [
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
@@ -103,6 +104,7 @@
                     list.map(res => {
                         if (enabled == res.Value) {
                             result = res.Name;
+                            return result;
                         }
                     });
                     return result;
@@ -112,6 +114,7 @@
                     list.map(res => {
                         if (PlatformNo == res.Value) {
                             result = res.Name;
+                            return result;
                         }
                     });
                     return result;
@@ -124,6 +127,7 @@
                 }
             },
             created: function () {
+                this.InitUserManagementList();
                 this.Init();
             },
             methods: {
@@ -139,6 +143,9 @@
                         .catch(function (error) {
                             console.log(error);
                         });
+                },
+                InitUserManagementList: function () {
+                    var _self = this;
                     _self.menuManagementList = {};
                     axios.get(this.GetUserManagementListUrl)
                         .then(function (response) {
@@ -149,7 +156,6 @@
                         .catch(function (error) {
                             console.log(error);
                         });
-
                 },
                 GetList: function (data) {
                     this.dataList = data;

@@ -103,10 +103,14 @@
             },
             created: function () {
                 this.initDicTypeList();
+                this.initPlatformList();
                 this.Init();
             },
             methods: {
                 Init: function () {
+                   
+                },
+                initPlatformList: function () {
                     var _self = this;
                     _self.platformList = {};
                     axios.get(this.getPlatformOptionValueUrl)

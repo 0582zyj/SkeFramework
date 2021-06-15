@@ -107,18 +107,14 @@
                 assginUrl: "@Url.Action("OrganizationAssign", "Organization")",
                 GetUserManagementListUrl: "@Url.Action("GetUserManagementList", "Management")",
                 GetTreeListUrl: "@Url.Action("GetOrganizationTreeList", "Organization")",
+                getOrgCategoryDictionaryUrl: "@Url.Action("GetOptionValues", "Dictionary", new { dicType = PermissionSystem.UI.WebSites.Global.AppBusiness.DictionaryKey_OrganizationType })",
                 dataList: [],
                 platformList: {},
                 enabledList: [
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
                 ],
-                categoryList: [
-                    { Name: '集团', Value: 0 },
-                    { Name: '公司', Value: 1 },
-                    { Name: '部门', Value: 2 },
-                    { Name: '工作组', Value: 3 },
-                ],
+                categoryList: [],
                 search: { keywords: "", OrgNo:-1}
             },
             filters: {
@@ -129,7 +125,8 @@
                     }
                     list.map(res => {
                             if (enabled == res.Value) {
-                                result= res.Name;
+                                result = res.Name;
+                                return result;
                         }
                     });
                     return result;
@@ -142,6 +139,7 @@
                     list.map(res => {
                         if (PlatformNo == res.Value) {
                             result = res.Name;
+                            return result;
                         }
                     });
                     return result;
@@ -152,8 +150,9 @@
                         return result;
                     }
                     list.map(res => {
-                        if (Category == res.Value) {
+                        if (Category == res.DicKey) {
                             result = res.Name;
+                            return result;
                         }
                     });
                     return result;
@@ -166,6 +165,7 @@
                 }
             },
             created: function () {
+                this.getOrgCategoryList();
                 this.Init();
             },
             methods: {
@@ -186,6 +186,21 @@
                         .then(function (response) {
                             if (response.status == 200) {
                                 _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                getOrgCategoryList: function () {
+                    var _self = this;
+                    _self.categoryList = {};
+                    axios.get(this.getOrgCategoryDictionaryUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                if (response.data.length > 0) {
+                                    _self.categoryList = response.data;
+                                }
                             }
                         })
                         .catch(function (error) {

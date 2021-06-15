@@ -106,6 +106,7 @@
                     list.map(res => {
                         if (enabled == res.Value) {
                             result = res.Name;
+                            return result;
                         }
                     });
                     return result;
@@ -115,6 +116,7 @@
                     list.map(res => {
                         if (PlatformNo == res.Value) {
                             result = res.Name;
+                            return result;
                         }
                     });
                     return result;
