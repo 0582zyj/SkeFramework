@@ -40,11 +40,15 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
         {
             if (AppBusiness.loginModel != null)
             {
-                System.Web.HttpContext.Current.Session.Remove("LoginModel");
+                System.Web.HttpContext.Current.Session.Remove(AppBusiness.SessionKey_LoginModel);
             }
             if (AppBusiness.SideBarList != null)
             {
-                System.Web.HttpContext.Current.Session.Remove("SideBarList");
+                System.Web.HttpContext.Current.Session.Remove(AppBusiness.SessionKey_SideBarList);
+            }
+            if (AppBusiness.UserManagementList != null)
+            {
+                System.Web.HttpContext.Current.Session.Remove(AppBusiness.SessionKey_UserManagementList);
             }
             return RedirectToAction("Login", "Login");
         }

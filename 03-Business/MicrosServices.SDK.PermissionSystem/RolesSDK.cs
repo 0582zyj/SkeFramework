@@ -124,6 +124,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("platformNo", menu.PlatformNo);
                 request.SetValue("enabled", menu.Enabled);
                 request.SetValue("inputUser", menu.InputUser);
+                request.SetValue("managementValue", menu.ManagementValue);
                 string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
