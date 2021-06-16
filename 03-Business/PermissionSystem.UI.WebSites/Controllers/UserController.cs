@@ -110,6 +110,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpPost]
         public JsonResult UserOrgsAssignUpdate(UserOrgsForm model)
         {
+            model.inputUser = AppBusiness.loginModel.UserNo;
             JsonResponses responses = assignSDK.CreateUserOrgs(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }

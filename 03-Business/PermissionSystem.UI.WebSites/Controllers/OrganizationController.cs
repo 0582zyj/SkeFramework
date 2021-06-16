@@ -171,6 +171,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpPost]
         public JsonResult RolesAssignUpdate(OrgRolesForm model)
         {
+            model.inputUser = AppBusiness.loginModel.UserNo;
             JsonResponses responses = assignSDK.CreateOrgRoles(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
