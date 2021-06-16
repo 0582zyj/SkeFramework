@@ -123,7 +123,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
-            int result = DataHandleManager.Instance().PsMenuHandle.Delete(id);
+            int result = DataHandleManager.Instance().PsMenuHandle.MenuDelete(id);
             if (result > 0)
             {
                 return JsonResponses.Success;
