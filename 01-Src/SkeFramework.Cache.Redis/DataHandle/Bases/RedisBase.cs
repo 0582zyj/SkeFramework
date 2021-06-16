@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ServiceStack.Redis;
+using CSRedis;
 
 namespace SkeFramework.Cache.Redis.DataAccess.Bases
 {
@@ -15,7 +15,7 @@ namespace SkeFramework.Cache.Redis.DataAccess.Bases
         /// <summary>
         /// redis客户端
         /// </summary>
-        public static IRedisClient redisClient { get; private set; }
+        public static CSRedisClient redisClient { get; private set; }
         private bool _disposed = false;
         static RedisBase()
         {
@@ -48,14 +48,14 @@ namespace SkeFramework.Cache.Redis.DataAccess.Bases
         /// </summary>
         public void Save()
         {
-            redisClient.Save();
+          
         }
         /// <summary>
         /// 异步保存数据DB文件到硬盘
         /// </summary>
         public void SaveAsync()
         {
-            redisClient.SaveAsync();
+            
         }
     }
 }

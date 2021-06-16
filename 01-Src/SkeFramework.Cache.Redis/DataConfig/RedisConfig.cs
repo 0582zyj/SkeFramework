@@ -16,95 +16,112 @@ namespace SkeFramework.Cache.Redis.Entities
     {
         #region 公开属性
         /// <summary>
-        /// 可写的Redis链接地址
+        /// 可读的Redis链接地址【127.0.0.1:6379】
         /// </summary>
-        [ConfigurationProperty("WriteServerConStr", IsRequired = false)]
-        public string WriteServerConStr
+        [ConfigurationProperty("serverUrl", IsRequired = false)]
+        public string serverUrl
         {
             get
             {
-                return (string)base["WriteServerConStr"];
+                return (string)base["serverUrl"];
             }
             set
             {
-                base["WriteServerConStr"] = value;
+                base["serverUrl"] = value;
             }
         }
         /// <summary>
-        /// 可读的Redis链接地址【多个地址以逗号分开】
+        /// Redis服务器数据库
         /// </summary>
-        [ConfigurationProperty("ReadServerConStr", IsRequired = false)]
-        public string ReadServerConStr
+        [ConfigurationProperty("defaultDatabase", IsRequired = false, DefaultValue = 0)]
+        public int defaultDatabase
         {
             get
             {
-                return (string)base["ReadServerConStr"];
+                return (int)base["defaultDatabase"];
             }
             set
             {
-                base["ReadServerConStr"] = value;
+                base["defaultDatabase"] = value;
             }
         }
         /// <summary>
-        /// 最大写链接数
+        /// 连接池大小
         /// </summary>
-        [ConfigurationProperty("MaxWritePoolSize", IsRequired = false, DefaultValue = 5)]
-        public int MaxWritePoolSize
+        [ConfigurationProperty("poolsize", IsRequired = false, DefaultValue = 50)]
+        public int poolsize
         {
             get
             {
-                int _maxWritePoolSize = (int)base["MaxWritePoolSize"];
-                return _maxWritePoolSize > 0 ? _maxWritePoolSize : 5;
+                return (int)base["poolsize"];
             }
             set
             {
-                base["MaxWritePoolSize"] = value;
+                base["poolsize"] = value;
             }
         }
         /// <summary>
-        /// 最大读链接数
+        /// 初始链接大小
         /// </summary>
-        [ConfigurationProperty("MaxReadPoolSize", IsRequired = false, DefaultValue = 5)]
-        public int MaxReadPoolSize
+        [ConfigurationProperty("preheat", IsRequired = false, DefaultValue = 5)]
+        public int preheat
         {
             get
             {
-                int _maxReadPoolSize = (int)base["MaxReadPoolSize"];
-                return _maxReadPoolSize > 0 ? _maxReadPoolSize : 5;
+                return (int)base["preheat"];
             }
             set
             {
-                base["MaxReadPoolSize"] = value;
+                base["preheat"] = value;
             }
         }
         /// <summary>
-        /// 本地缓存到期时间，单位:秒
+        /// 连接池中元素的空闲时间（MS），适用于连接远程redis服务器
         /// </summary>
-        [ConfigurationProperty("LocalCacheTime", IsRequired = false, DefaultValue = 36000)]
-        public int LocalCacheTime
+        [ConfigurationProperty("idleTimeout", IsRequired = false, DefaultValue = 20000)]
+        public int idleTimeout
         {
             get
             {
-                return (int)base["LocalCacheTime"];
+                int _idleTimeout = (int)base["idleTimeout"];
+                return _idleTimeout > 0 ? _idleTimeout : 50;
             }
             set
             {
-                base["LocalCacheTime"] = value;
+                base["idleTimeout"] = value;
             }
         }
         /// <summary>
-        /// 自动重启
+        /// 连接超时 (MS)
         /// </summary>
-        [ConfigurationProperty("AutoStart", IsRequired = false, DefaultValue = true)]
-        public bool AutoStart
+        [ConfigurationProperty("connectTimeout", IsRequired = false, DefaultValue = 5000)]
+        public int connectTimeout
         {
             get
             {
-                return (bool)base["AutoStart"];
+                int _connectTimeout = (int)base["connectTimeout"];
+                return _connectTimeout > 0 ? _connectTimeout : 5000;
             }
             set
             {
-                base["AutoStart"] = value;
+                base["connectTimeout"] = value;
+            }
+        }
+
+        /// <summary>
+        /// 发送/接收超时 (MS)
+        /// </summary>
+        [ConfigurationProperty("syncTimeout", IsRequired = false, DefaultValue = 5000)]
+        public int syncTimeout
+        {
+            get
+            {
+                int _syncTimeout = (int)base["syncTimeout"];
+                return _syncTimeout > 0 ? _syncTimeout : 10000;
+            }
+            set
+            {
+                base["syncTimeout"] = value;
             }
         }
         #endregion
@@ -112,7 +129,7 @@ namespace SkeFramework.Cache.Redis.Entities
         #region The public method
         public static RedisConfig GetConfig()
         {
-            RedisConfig section = GetConfig("RedisConfig");
+            RedisConfig section = GetConfig("CSRedisConfig");
             return section;
         }
 
@@ -122,6 +139,22 @@ namespace SkeFramework.Cache.Redis.Entities
             if (section == null)
                 throw new ConfigurationErrorsException("Section " + sectionName + " is not found.");
             return section;
+        }
+        /// <summary>
+        /// 获取连接地址
+        /// </summary>
+        /// <returns></returns>
+        public string GetRedisConnectionUrl()
+        {
+            List<string> server = new List<string>();
+            server.Add(serverUrl);
+            server.Add(defaultDatabase.ToString());
+            server.Add(poolsize.ToString());
+            server.Add(preheat.ToString());
+            server.Add(idleTimeout.ToString());
+            server.Add(connectTimeout.ToString());
+            server.Add(syncTimeout.ToString());
+            return String.Join( ",", server);
         }
         #endregion
 

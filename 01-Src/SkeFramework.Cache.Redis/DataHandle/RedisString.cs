@@ -19,28 +19,21 @@ namespace SkeFramework.Cache.Redis.DataAccess
         /// </summary>
         public bool Set(string key, string value)
         {
-            return RedisBase.redisClient.Set<string>(key, value);
+            return RedisBase.redisClient.Set(key, value);
         }
         /// <summary>
         /// 设置key的value并设置过期时间
         /// </summary>
-        public bool Set(string key, string value, DateTime dt)
+        public bool Set(string key, string value, int expireSeconds)
         {
-            return RedisBase.redisClient.Set<string>(key, value, dt);
+            return RedisBase.redisClient.Set(key, value, expireSeconds);
         }
         /// <summary>
         /// 设置key的value并设置过期时间
         /// </summary>
         public bool Set(string key, string value, TimeSpan sp)
         {
-            return RedisBase.redisClient.Set<string>(key, value, sp);
-        }
-        /// <summary>
-        /// 设置多个key/value
-        /// </summary>
-        public void Set(Dictionary<string, string> dic)
-        {
-            RedisBase.redisClient.SetAll(dic);
+            return RedisBase.redisClient.Set(key, value, sp);
         }
         #endregion
 
@@ -50,7 +43,7 @@ namespace SkeFramework.Cache.Redis.DataAccess
         /// </summary>
         public long Append(string key, string value)
         {
-            return RedisBase.redisClient.AppendToValue(key, value);
+            return RedisBase.redisClient.Append(key, value);
         }
         #endregion
 
@@ -60,21 +53,21 @@ namespace SkeFramework.Cache.Redis.DataAccess
         /// </summary>
         public string Get(string key)
         {
-            return RedisBase.redisClient.GetValue(key);
+            return RedisBase.redisClient.Get(key);
         }
         /// <summary>
         /// 获取多个key的value值
         /// </summary>
         public List<string> Get(List<string> keys)
         {
-            return RedisBase.redisClient.GetValues(keys);
+            return RedisBase.redisClient.MGet(keys.ToArray()).ToList();
         }
         /// <summary>
         /// 获取多个key的value值
         /// </summary>
         public List<T> Get<T>(List<string> keys)
         {
-            return RedisBase.redisClient.GetValues<T>(keys);
+            return RedisBase.redisClient.MGet<T>(keys.ToArray()).ToList();
         }
         #endregion
 
@@ -84,9 +77,7 @@ namespace SkeFramework.Cache.Redis.DataAccess
         /// </summary>
         public string GetAndSetValue(string key, string value)
         {
-            string valueOld = this.Get(key);
-            this.Set(key, value);
-            return valueOld;
+            return RedisBase.redisClient.GetSet(key, value);
         }
         #endregion
     }

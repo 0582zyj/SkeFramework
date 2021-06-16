@@ -32,18 +32,5 @@ namespace SkeFramework.Cache.Redis
                 return redisString;
             }
         }
-
-        private RedisList redisList;
-
-        public RedisList GetRedisListHandle()
-        {
-            if (redisList == null)
-            {
-                redisList = new RedisList();
-            }
-            return redisList;
-        }
-
-       
     }
 }
