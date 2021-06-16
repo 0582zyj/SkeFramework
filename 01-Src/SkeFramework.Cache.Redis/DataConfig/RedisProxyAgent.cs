@@ -21,6 +21,7 @@ namespace SkeFramework.Cache.Redis
         private static void CreateManager()
         {
             RedisHelper.Initialization(new CSRedisClient(redisConfig.GetRedisConnectionUrl()));
+            Console.WriteLine("CSRedisClient Initialization Success");
         }
 
         /// <summary>

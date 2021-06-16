@@ -4,7 +4,6 @@ using MicrosServices.Helper.Core.UserCenter.FORM;
 using MicrosServices.SDK.PermissionSystem;
 using MicrosServices.SDK.UserCenter;
 using Newtonsoft.Json;
-using PermissionSystem.SDK.Redis.Platform;
 using PermissionSystem.UI.WebSites.Global;
 using PermissionSystem.UI.WebSites.Models;
 using SkeFramework.Core.Network.DataUtility;
@@ -21,7 +20,6 @@ namespace PermissionSystem.UI.WebSites.Controllers
     {
         private PlatformSdk platformSdk = new PlatformSdk();
         private UserSDK userSDK = new UserSDK();
-        private PlatformRedisSDK platformRedisSDK = new PlatformRedisSDK();
 
         #region 页面
         /// <summary>

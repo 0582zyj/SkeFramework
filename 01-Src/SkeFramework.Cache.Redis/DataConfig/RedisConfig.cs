@@ -31,6 +31,21 @@ namespace SkeFramework.Cache.Redis.Entities
             }
         }
         /// <summary>
+        /// 密码
+        /// </summary>
+        [ConfigurationProperty("password", IsRequired = true)]
+        public string password
+        {
+            get
+            {
+                return (string)base["password"];
+            }
+            set
+            {
+                base["password"] = value;
+            }
+        }
+        /// <summary>
         /// Redis服务器数据库
         /// </summary>
         [ConfigurationProperty("defaultDatabase", IsRequired = false, DefaultValue = 0)]

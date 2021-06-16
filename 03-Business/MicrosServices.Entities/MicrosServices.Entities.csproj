@@ -82,6 +82,8 @@
   <ItemGroup>
     <Content Include="DataBase\SkeCloud.pdb" />
     <Content Include="DataBase\skecloud.sql" />
+    <Content Include="DataBase\skecloud20201103.sql" />
+    <Content Include="DataBase\skecloud20210616.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DataBase\SkeCloud.pdm" />
