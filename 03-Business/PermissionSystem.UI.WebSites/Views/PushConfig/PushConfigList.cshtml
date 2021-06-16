@@ -100,7 +100,7 @@
             filters: {
                 formateEnabled: function (enabled, list) {
                     let result = enabled;
-                    list.map(res => {
+                    Array.from(list).map(res => {
                         if (enabled == res.Value) {
                             result = res.Name;
                             return result;

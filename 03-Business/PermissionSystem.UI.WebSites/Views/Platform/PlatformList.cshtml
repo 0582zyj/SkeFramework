@@ -97,7 +97,7 @@
             filters: {
                 formateEnabled: function (enabled, list) {
                     let result = enabled;
-                    list.map(res => {
+                    Array.from(list).map(res => {
                         if (enabled == res.Value) {
                             result = res.Name;
                             return result;
@@ -159,7 +159,7 @@
                 checkAssign: function (value, list) {
                     let result = false;
                     if (list.length > 0) {
-                        list.map(res => {
+                        Array.from(list).map(res => {
                             if (value == res.Code) {
                                 result = true;
                             }
