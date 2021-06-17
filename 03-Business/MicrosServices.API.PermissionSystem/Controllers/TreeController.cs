@@ -38,6 +38,16 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             return new JsonResponses(list);
         }
 
+        /// <summary>
+        /// 获取角色树信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<JsonResponses> GetRolesTreeList([FromQuery] long PlatformNo)
+        {
+            List<TreeNodeInfo> list = DataHandleManager.Instance().PsRolesHandle.GetPlatformRolesTree(PlatformNo);
+            return new JsonResponses(list);
+        }
 
         /// <summary>
         /// 获取权限树信息
