@@ -116,7 +116,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         public ActionResult<JsonResponses> Delete([FromForm]int id)
         {
             var ResultCode = -1;
-            ResultCode = DataHandleManager.Instance().PsManagementHandle.Delete(id);
+            ResultCode = DataHandleManager.Instance().PsManagementHandle.ManagementDelete(id);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
         }
         /// <summary>

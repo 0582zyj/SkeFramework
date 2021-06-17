@@ -92,8 +92,6 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = managementSDK.ManagementAdd(model);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
-
-
         /// <summary>
         /// 更新提交方法
         /// </summary>

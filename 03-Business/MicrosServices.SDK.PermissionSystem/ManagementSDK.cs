@@ -21,7 +21,7 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getPageList";
         private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getInfo";
         private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/create";
-        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/felete";
+        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/delete";
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getOptionValues";
         private static readonly string GetMenuManagementOptionsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getMenuManagementOptions";
