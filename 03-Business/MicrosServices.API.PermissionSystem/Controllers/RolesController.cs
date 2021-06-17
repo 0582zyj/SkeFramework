@@ -115,7 +115,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
             var ResultCode = -1;
-            ResultCode = DataHandleManager.Instance().PsRolesHandle.Delete(id);
+            ResultCode = DataHandleManager.Instance().PsRolesHandle.RolesDelete(id);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
         }
         /// <summary>
@@ -127,7 +127,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         public ActionResult<JsonResponses> BatchDelete([FromBody]long[] RolesNos)
         {
             var ResultCode = -1;
-            ResultCode = DataHandleManager.Instance().PsRolesHandle.BatchDelete(RolesNos);
+            ResultCode = DataHandleManager.Instance().PsRolesHandle.BatchRolesDelete(RolesNos);
             return (ResultCode == RolesNos.Length ? JsonResponses.Success : JsonResponses.Failed);
         }
         #endregion
@@ -145,8 +145,6 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
 
         #endregion
-
-        
         
     }
 }

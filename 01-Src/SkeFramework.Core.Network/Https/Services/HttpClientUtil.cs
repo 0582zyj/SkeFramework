@@ -47,7 +47,7 @@ namespace SkeFramework.Core.Network.Https.Services
                 else
                     return null;
             }
-            catch (Exception ex)
+            catch 
             {
                 return null;
             }
@@ -70,7 +70,7 @@ namespace SkeFramework.Core.Network.Https.Services
                 else
                     return null;
             }
-            catch (Exception ex)
+            catch 
             {
                 return null;
             }
@@ -83,7 +83,7 @@ namespace SkeFramework.Core.Network.Https.Services
                 var responseString = client.GetStringAsync(url);
                 return responseString.Result;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
