@@ -21,6 +21,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
     {
         private RolesSDK rolesSDK = new RolesSDK();
         private AssignSDK assignSDK = new AssignSDK();
+        private TreeSDK treeSDK = new TreeSDK();
 
         #region 页面
         /// <summary>
@@ -124,6 +125,18 @@ namespace PermissionSystem.UI.WebSites.Controllers
             optionValues.Insert(0, OptionValue.Default);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 给页面提供json格式的节点数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public string GetRolesTreeList()
+        {
+            List<TreeNodeInfo> treeNodes = treeSDK.GetRolesTreeList(AppBusiness.loginModel.PlatformNo);
+            //将获取的节点集合转换为json格式字符串，并返回
+            return JsonConvert.SerializeObject(treeNodes);
+        }
         #endregion
 
         #region 用户角色页面
@@ -166,6 +179,6 @@ namespace PermissionSystem.UI.WebSites.Controllers
         }
         #endregion
 
-
+      
     }
 }
