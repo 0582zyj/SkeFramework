@@ -59,7 +59,6 @@
                             <tr class="show-datatable-list-title">
                                 <th>ID</th>
                                 <th>组织编号</th>
-                                <th>父节点</th>
                                 <th>组织名称</th>
                                 <th>描述</th>
                                 <th>分类</th>
@@ -72,7 +71,6 @@
                             <tr v-for="item in dataList">
                                 <td>{{item.id}}</td>
                                 <td>{{item.OrgNo}}</td>
-                                <td>{{item.ParentNo}}</td>
                                 <td>{{item.Name}}</td>
                                 <td>{{item.Description}}</td>
                                 <td>{{item.Category|formateCategory(categoryList)}}</td>

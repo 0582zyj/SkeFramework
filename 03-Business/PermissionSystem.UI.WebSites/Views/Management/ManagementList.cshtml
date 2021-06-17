@@ -57,7 +57,7 @@
                         <thead>
                             <tr class="show-datatable-list-title">
                                 <th>ID</th>
-                                <th>父节点</th>
+                                <th>权限编号</th>
                                 <th>名称</th>
                                 <th>权限值</th>
                                 <th>权限类型</th>
@@ -70,7 +70,7 @@
                         <tbody>
                             <tr v-for="item in dataList">
                                 <td>{{item.id}}</td>
-                                <td>{{item.ParentNo}}</td>
+                                <td>{{item.ManagementNo}}</td>
                                 <td>{{item.Name}}</td>
                                 <td>{{item.Value}}</td>
                                 <td>{{item.Type|formateMenuType(managmentTypeList)}}</td>
