@@ -56,7 +56,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// </summary>
         /// <param name="loginInfo"></param>
         /// <returns></returns>
-        public PageResponse<PsRoles> GetRolesPageList(PageModel page, string keywords = "")
+        public PageResponse<PsRoles> GetRolesPageList(PageModel page, string keywords = "",long RolesNo=-1)
         {
             PageResponse<PsRoles> menus = new PageResponse<PsRoles>();
             try
@@ -66,6 +66,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("pageIndex", page.PageIndex);
                 request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
+                request.SetValue("queryNo", RolesNo);
                 string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
                 if (responses.code == JsonResponses.SuccessCode)
@@ -191,7 +192,7 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetOptionValueUrl;
                 string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);

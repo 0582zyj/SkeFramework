@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Core.DataForm;
 using MicrosServices.Helper.Core;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Form;
@@ -42,15 +43,15 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] string keywords = "")
+        public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] QueryBaseFrom query)
         {
             try
             {
-                Expression<Func<PsRoles, bool>> where = null;
-                if (!String.IsNullOrEmpty(keywords))
-                {
-                    where = (o => o.Name.Contains(keywords));
-                }
+                query.InitQuery();
+                string QueryNo = "_" + query.queryNo;
+                string keywords = query.keywords;
+                Expression<Func<PsRoles, bool>> where = (o => o.Name.Contains(keywords)
+                && (o.TreeLevelNo.Contains(QueryNo) || o.RolesNo == query.queryNo));
                 page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().PsRolesHandle.Count(where)));//取记录数
                 List<PsRoles> list = DataHandleManager.Instance().PsRolesHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
                 PageResponse<PsRoles> response = new PageResponse<PsRoles>

@@ -108,7 +108,7 @@
                     { Name: '启用', Value: 1 },
                     { Name: '停用', Value: 0 },
                 ],
-                search: { keywords: ""}
+                search: { keywords: "", RolesNo:-1}
             },
             filters: {
                 formateEnabled: function (enabled, list) {
@@ -134,7 +134,7 @@
             },
             computed: {
                 prop: function () {
-                    return { keywords: this.search.keywords }
+                    return { keywords: this.search.keywords, RolesNo: this.search.RolesNo }
                 }
             },
             created: function () {
@@ -226,7 +226,7 @@
         },
         callback: {
             onClick: function (event, treeId, treeNode) {
-                vm.search.ManagementNo = treeNode.TreeNo;
+                vm.search.RolesNo = treeNode.TreeNo;
                 if (vm.$children.length > 0) {
                     vm.$children[0].go(1);
                 }
