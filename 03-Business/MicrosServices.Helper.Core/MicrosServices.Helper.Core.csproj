@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\ConstantsData.cs" />
     <Compile Include="Constants\EnabledType.cs" />
     <Compile Include="Constants\ManagementType.cs" />
     <Compile Include="Extends\CheckOptionValue.cs" />
