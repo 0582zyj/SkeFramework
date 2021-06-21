@@ -16,5 +16,9 @@ namespace MicrosServices.Entities.Constants
         /// 默认项
         /// </summary>
         public const int DefaultInt = -1;
+        /// <summary>
+        /// 默认密码
+        /// </summary>
+        public const  string DEFAULT_PASSWORD="123456";
     }
 }

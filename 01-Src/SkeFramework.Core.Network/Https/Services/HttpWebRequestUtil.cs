@@ -77,7 +77,7 @@ namespace SkeFramework.Core.Network.Https.Services
                 //request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip,deflate");
                 request.KeepAlive = false;
                 request.ContentType = browserPara.contentTypeGet;
-                request.Method = HttpMethod.Post.Method.ToString(); ;
+                request.Method = HttpMethod.Post.Method.ToString(); 
                 request.Timeout = browserPara.Timeout;
                 request.ContentLength = byteArray.Length;
                 //关闭缓存

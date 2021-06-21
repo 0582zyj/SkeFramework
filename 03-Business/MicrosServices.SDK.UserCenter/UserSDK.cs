@@ -16,9 +16,10 @@ namespace MicrosServices.SDK.UserCenter
 {
     public class UserSDK
     {
-        private static string RegisterPlatfromUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/user/registerPlatfrom";
+        private static string RegisterPlatfromUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/user/registerPlatform";
         private static string CancelPlatformUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/user/cancelPlatform";
         private static string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/user/pageList";
+        private static string GetUserInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/user/get";
 
         #region 平台管理
         /// <summary>
@@ -48,9 +49,6 @@ namespace MicrosServices.SDK.UserCenter
                 return JsonResponses.Failed;
             }
         }
-
-      
-
         /// <summary>
         /// 平台账号注册
         /// </summary>
@@ -73,6 +71,7 @@ namespace MicrosServices.SDK.UserCenter
             }
         }
         #endregion
+
         /// <summary>
         /// 获取用户分页列表
         /// </summary>
@@ -104,5 +103,32 @@ namespace MicrosServices.SDK.UserCenter
             }
             return lists;
         }
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <param name="UserNo"></param>
+        /// <returns></returns>
+        public UcUsers GetUserInfo(long UserNo)
+        {
+            try
+            {
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.SetValue("userNo", UserNo.ToString());
+                request.Url = GetUserInfoUrl;
+                string result = HttpHelper.Example.GetWebData(request);
+                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
+                if (responses.code == JsonResponses.SuccessCode)
+                {
+                    object data = responses.data;
+                    return JsonConvert.DeserializeObject<UcUsers>(JsonConvert.SerializeObject(data));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return null;
+        }
+
     }
 }

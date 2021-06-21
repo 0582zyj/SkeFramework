@@ -23,6 +23,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
     [ApiController]
     public class PlatformController : ControllerBase
     {
+        private UserSDK userSDK = new UserSDK();
 
         #region 基础查询
         /// <summary>
@@ -99,6 +100,20 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 platform.PlatformNo = AutoIDWorker.Example.GetAutoSequence();
                 PsPlatform ParentInfo = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(platform.ParentNo.ToString());
                 platform.TreeLevelNo = TreeLevelUtil.GetTreeLevelNo<PsPlatform>(ParentInfo, platform.ParentNo);
+                UcUsers users = this.userSDK.GetUserInfo(Convert.ToInt32(platform.DefaultUserNo));
+                if (users != null)
+                    return new JsonResponses("用户已存在");
+                RegisterPlatformForm registerPlatformForm = new RegisterPlatformForm();
+                registerPlatformForm.UserNo= platform.DefaultUserNo;
+                registerPlatformForm.UserName = platform.DefaultUserName;
+                registerPlatformForm.PlatformNo = platform.PlatformNo;
+                registerPlatformForm.Password = ConstData.DEFAULT_PASSWORD;
+                registerPlatformForm.Phone = "";
+                registerPlatformForm.Email = "";
+                registerPlatformForm.InputUser = platform.InputUser;
+                JsonResponses jsonResponses = userSDK.RegisterPlatfrom(registerPlatformForm);
+                if (!jsonResponses.ValidateResponses())
+                    return jsonResponses;
                 int result = DataHandleManager.Instance().PsPlatformHandle.Insert(platform);
                 if (result > 0)
                 {

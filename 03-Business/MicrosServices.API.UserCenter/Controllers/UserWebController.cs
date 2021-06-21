@@ -74,6 +74,7 @@ namespace MicrosServices.API.UserCenter.Controllers
         /// <param name="registerPlatform"></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("registerPlatform")]
         public ActionResult<JsonResponses> RegisterPlatform([FromForm]RegisterPlatformForm registerPlatform)
         {
             string MdfPas = MD5Helper.GetMD5String(registerPlatform.Password);
@@ -99,6 +100,7 @@ namespace MicrosServices.API.UserCenter.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("cancelPlatform")]
         public ActionResult<JsonResponses> CancelPlatform([FromForm]string UserNo)
         {
             if (!DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(UserNo))

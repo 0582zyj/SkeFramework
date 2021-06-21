@@ -84,25 +84,8 @@ namespace PermissionSystem.UI.WebSites.Controllers
         public JsonResult PsPlatformAdd(PsPlatform model)
         {
             model.InputUser = AppBusiness.loginModel.UserNo;
-            RegisterPlatformForm registerPlatform = new RegisterPlatformForm()
-            {
-                UserName = model.DefaultUserName,
-                UserNo = model.DefaultUserNo,
-                InputUser = model.InputUser,
-                Email = "",
-                Phone = "",
-                Password = "123456",
-                PlatformNo=model.PlatformNo
-            };
-            JsonResponses jsonResponses = userSDK.RegisterPlatfrom(registerPlatform);
-            if (jsonResponses.code == JsonResponses.SuccessCode)
-            {
-                RegisterPlatformForm registerResult = JsonConvert.DeserializeObject<RegisterPlatformForm>(JsonConvert.SerializeObject(jsonResponses.data));
-                model.DefaultUserNo = registerResult.UserNo;
-                JsonResponses responses = platformSdk.PlatformAdd(model);
-                return Json(responses, JsonRequestBehavior.AllowGet);
-            }
-            return Json(jsonResponses, JsonRequestBehavior.AllowGet);
+            JsonResponses responses = platformSdk.PlatformAdd(model);
+            return Json(responses, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// 更新提交方法
@@ -144,6 +127,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         {
             long PlatformNo = LoginModel.Instance().PlatformNo;
             List<OptionValue> optionValues = platformSdk.GetOptionValues(LoginModel.Instance().PlatformNo);
+            optionValues.Insert(0, OptionValue.Default);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
 
