@@ -75,7 +75,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<JsonResponses> GetInfo(int id)
+        public ActionResult<JsonResponses> GetInfo(long id)
         {
             PsPlatform Info = new PsPlatform();
             Info = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(id.ToString());
@@ -152,11 +152,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         {
             try
             {
-                //bool checkResult = true;
-                platform.UpdateTime = DateTime.Now;
-                PsPlatform ParentInfo = DataHandleManager.Instance().PsPlatformHandle.GetModelByKey(platform.ParentNo.ToString());
-                platform.TreeLevelNo = TreeLevelUtil.GetTreeLevelNo<PsPlatform>(ParentInfo, platform.ParentNo);
-                int result = DataHandleManager.Instance().PsPlatformHandle.Update(platform);
+                int result = DataHandleManager.Instance().PsPlatformHandle.PlatformUpdate(current);
                 if (result > 0)
                 {
                     return JsonResponses.Success;
