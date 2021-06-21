@@ -157,7 +157,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         {
             try
             {
-                int result = DataHandleManager.Instance().PsPlatformHandle.PlatformUpdate(current);
+                int result = DataHandleManager.Instance().PsPlatformHandle.PlatformUpdate(platform);
                 if (result > 0)
                 {
                     return JsonResponses.Success;
