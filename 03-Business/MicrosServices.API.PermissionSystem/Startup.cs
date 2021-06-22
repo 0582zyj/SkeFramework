@@ -54,10 +54,12 @@ namespace MicrosServices.API.PermissionSystem
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+           
             //异常业务处理中间件
             app.UseMiddleware(typeof(ExceptionMiddleWare));
             ////配置定时任务
             //app.UseCrontabJob();
+            app.UseAuthentication();
             //配置Http重定向
             app.UseHttpsRedirection();
             //配置MVC路由规则

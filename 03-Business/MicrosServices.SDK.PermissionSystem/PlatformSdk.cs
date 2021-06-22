@@ -113,19 +113,20 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <summary>
         /// 新增菜单
         /// </summary>
-        /// <param name="menu"></param>
+        /// <param name="platform"></param>
         /// <returns></returns>
-        public JsonResponses PlatformAdd(PsPlatform menu)
+        public JsonResponses PlatformAdd(PsPlatform platform)
         {
             try
             {
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
-                request.SetValue("platformNo", menu.PlatformNo);
-                request.SetValue("name", menu.Name);
-                request.SetValue("value", menu.Value);
-                request.SetValue("defaultUserName", menu.DefaultUserName);
-                request.SetValue("defaultUserNo", menu.DefaultUserNo);
-                request.SetValue("inputUser", menu.InputUser);
+                request.SetValue("platformNo", platform.PlatformNo);
+                request.SetValue("parentNo", platform.ParentNo);
+                request.SetValue("name", platform.Name);
+                request.SetValue("value", platform.Value);
+                request.SetValue("defaultUserName", platform.DefaultUserName);
+                request.SetValue("defaultUserNo", platform.DefaultUserNo);
+                request.SetValue("inputUser", platform.InputUser);
                 request.Url = AddPlatformUrl;
                 string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
@@ -147,11 +148,11 @@ namespace MicrosServices.SDK.PermissionSystem
             {
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", platform.id);
-                request.SetValue("platformNo", platform.PlatformNo);
                 request.SetValue("name", platform.Name);
                 request.SetValue("value", platform.Value);
                 request.SetValue("defaultUserName", platform.DefaultUserName);
-                request.SetValue("defaultUserNo", platform.DefaultUserNo);
+                request.SetValue("parentNo", platform.ParentNo);
+                request.SetValue("inputUser", platform.InputUser);
                 request.Url = UpdatePlatformUrl;
                 string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
