@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace SkeFramework.Core.Common.Networks
 {
-    class GlobalContextUtils
+    public class GlobalContextUtils
     {
         /// <summary>
         /// 所有已注册的服务和类实例容器。用于依赖项注入。
@@ -27,10 +27,10 @@ namespace SkeFramework.Core.Common.Networks
         /// 配置
         /// </summary>
         public static IConfiguration Configuration { get; set; }
-
+        /// <summary>
+        /// 站点
+        /// </summary>
         public static IHostingEnvironment HostingEnvironment { get; set; }
-
-        //public static SystemConfig SystemConfig { get; set; }
 
         public static string GetVersion()
         {
@@ -49,8 +49,8 @@ namespace SkeFramework.Core.Common.Networks
             sb.AppendLine("ContentRootPath:" + env.ContentRootPath);
             sb.AppendLine("WebRootPath:" + env.WebRootPath);
             sb.AppendLine("IsDevelopment:" + env.IsDevelopment());
+            sb.AppendLine("WebVersion:" + GetVersion());
             LogAgent.Write(LogLevel.Info ,sb.ToString());
-           
         }
 
         /// <summary>
@@ -63,5 +63,6 @@ namespace SkeFramework.Core.Common.Networks
             context.Context.Response.Headers.Add("Cache-Control", new[] { "public,max-age=" + second });
             context.Context.Response.Headers.Add("Expires", new[] { DateTime.UtcNow.AddYears(1).ToString("R") }); // Format RFC1123
         }
+
     }
 }

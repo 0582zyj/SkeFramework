@@ -22,10 +22,15 @@
   <ItemGroup>
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.ApiCommons\SkeFramework.Core.ApiCommons.csproj" />
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Encrypts\SkeFramework.Core.Encrypts.csproj" />
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.NetworkUtils\SkeFramework.Core.NetworkUtils.csproj" />
     <ProjectReference Include="..\MicrosServices.BLL.Business\MicrosServices.BLL.Business.csproj" />
     <ProjectReference Include="..\MicrosServices.DAL.DataAccess\MicrosServices.DAL.DataAccess.csproj" />
     <ProjectReference Include="..\MicrosServices.Entities\MicrosServices.Entities.csproj" />
     <ProjectReference Include="..\MicrosServices.Helper.Core\MicrosServices.Helper.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Handles\" />
   </ItemGroup>
 
 </Project>

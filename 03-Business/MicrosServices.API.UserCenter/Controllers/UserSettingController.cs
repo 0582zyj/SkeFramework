@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MicrosServices.API.UserCenter.Filters;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Core.Data.Vo;
 using SkeFramework.Core.Network.Responses;
+using SkeFramework.Core.NetworkUtils.Bootstrap;
 
 namespace MicrosServices.API.UserCenter.Controllers
 {
@@ -20,11 +23,10 @@ namespace MicrosServices.API.UserCenter.Controllers
         [HttpGet]
         [Route("get")]
         public ActionResult<JsonResponses> GetUserSettingInfo([FromQuery]string UserNo)
-        {
+        {            
             UcUsersSetting Info = new UcUsersSetting();
             Info = DataHandleManager.Instance().UcUsersSettingHandle.GetUcUsersSettingInfo(UserNo);
             return new JsonResponses(Info);
         }
-
     }
 }

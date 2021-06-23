@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SkeFramework.Core.Common.Networks;
 using System;
 
 namespace SkeFramework.Core.NetworkUtils
 {
+    /// <summary>
+    /// Session工具
+    /// </summary>
     public class SessionUtils
     {
         /// <summary>
@@ -13,13 +17,11 @@ namespace SkeFramework.Core.NetworkUtils
         /// <typeparam name="T">Session键值的类型</typeparam>
         /// <param name="key">Session的键名</param>
         /// <param name="value">Session的键值</param>
-        public void WriteSession<T>(string key, T value)
+        public static void WriteSession<T>(string key, T value)
         {
             if (string.IsNullOrEmpty(key))
-            {
                 return;
-            }
-            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetService(Type.GetType("IHttpContextAccessor")) as IHttpContextAccessor;
+            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
             hca?.HttpContext?.Session.SetString(key, JsonConvert.SerializeObject(value));
         }
 
@@ -28,7 +30,7 @@ namespace SkeFramework.Core.NetworkUtils
         /// </summary>
         /// <param name="key">Session的键名</param>
         /// <param name="value">Session的键值</param>
-        public void WriteSession(string key, string value)
+        public static void WriteSession(string key, string value)
         {
             WriteSession<string>(key, value);
         }
@@ -37,13 +39,11 @@ namespace SkeFramework.Core.NetworkUtils
         /// 读取Session的值
         /// </summary>
         /// <param name="key">Session的键名</param>        
-        public string GetSession(string key)
+        public static string GetSession(string key)
         {
             if (string.IsNullOrEmpty(key))
-            {
                 return string.Empty;
-            }
-            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetService(Type.GetType("IHttpContextAccessor")) as IHttpContextAccessor;
+            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
             return hca?.HttpContext?.Session.GetString(key) as string;
         }
 
@@ -51,17 +51,11 @@ namespace SkeFramework.Core.NetworkUtils
         /// 删除指定Session
         /// </summary>
         /// <param name="key">Session的键名</param>
-        public void RemoveSession(string key)
+        public static void RemoveSession(string key)
         {
             if (string.IsNullOrEmpty(key))
-            {
                 return;
-            }
-            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetService(Type.GetType("IHttpContextAccessor")) as IHttpContextAccessor;
-
-
-
-
+            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
             hca?.HttpContext?.Session.Remove(key);
         }
     }

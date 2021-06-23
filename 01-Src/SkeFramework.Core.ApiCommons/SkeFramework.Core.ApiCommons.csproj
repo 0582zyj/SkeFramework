@@ -33,10 +33,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SkeFramework.Core.NetworkUtils\SkeFramework.Core.NetworkUtils.csproj" />
     <ProjectReference Include="..\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ActionFilters\" />
     <Folder Include="Interceptors\" />
   </ItemGroup>
 

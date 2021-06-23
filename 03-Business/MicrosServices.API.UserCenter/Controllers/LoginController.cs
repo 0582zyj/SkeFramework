@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using MicrosServices.API.UserCenter.Filters;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
+using MicrosServices.Entities.Core.Data.Vo;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.UserCenter.FORM;
 using SkeFramework.Core.Encrypts;
 using SkeFramework.Core.Network.Responses;
+using SkeFramework.Core.NetworkUtils;
+using SkeFramework.Core.NetworkUtils.Bootstrap;
 
 namespace MicrosServices.API.UserCenter.Controllers
 {
@@ -16,7 +25,11 @@ namespace MicrosServices.API.UserCenter.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        // GET api/values
+        /// <summary>
+        /// 登录方法
+        /// </summary>
+        /// <param name="loginInfoForm"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult<JsonResponses> Login([FromForm]LoginInfoForm loginInfoForm)
         {
@@ -25,33 +38,48 @@ namespace MicrosServices.API.UserCenter.Controllers
             LoginResultType LoginResult = DataHandleManager.Instance().UcUsersHandle.PlatformLogin(loginInfoForm, ref users);
             if(LoginResult== LoginResultType.SUCCESS_LOGIN)
             {
+                this.LoginAfterSuccess(users);
                 return new JsonResponses(JsonResponses.Success.code,LoginResult.ToString(), users);
             }
             return new JsonResponses(JsonResponses.Failed.code, LoginResult.ToString(), LoginResult);
         }
-
-
-        // GET api/values
-        [HttpGet]
-        public ActionResult<JsonResponses> LoginGet([FromQuery]LoginInfoForm loginInfoForm)
+        /// <summary>
+        /// 登录成功后
+        /// </summary>
+        /// <param name="users"></param>
+        private void LoginAfterSuccess(UcUsers users)
         {
-            string MdfPas = MD5Helper.GetMD5String(loginInfoForm.Password);
-            UcUsers users = new UcUsers();
-            LoginResultType LoginResult = DataHandleManager.Instance().UcUsersHandle.Login(loginInfoForm.UserName, MdfPas, loginInfoForm.LoginerInfo,
-                loginInfoForm.Platform, ref users);
-            if (LoginResult == LoginResultType.SUCCESS_LOGIN)
+            string userNo = users.UserNo;
+            UcUsersSetting usersSetting= DataHandleManager.Instance().UcUsersSettingHandle.GetUcUsersSettingInfo(userNo);
+            if (usersSetting == null)
+                return;
+            OperatorVo operatorVo = new OperatorVo()
             {
-                return new JsonResponses(JsonResponses.Success.code, LoginResult.ToString(), LoginResult);
-            }
-            return new JsonResponses(JsonResponses.Failed.code, LoginResult.ToString(), LoginResult);
+                userNo = userNo,
+                platformNo = usersSetting.PlatformNo
+            };
+            SessionUtils.WriteSession(AuthorizeFilterAttribute.LoginSessionKey, operatorVo);
         }
 
-        // GET api/values
-        [HttpPost]
-        public ActionResult<JsonResponses> LoginPost([FromBody]LoginInfoForm loginInfoForm)
+
+        /// <summary>
+        /// 获取当前登录信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AuthorizeFilterAttribute(1)]
+        public ActionResult<JsonResponses> GetCurrentOperator()
         {
-            return new JsonResponses(JsonResponses.Failed.code, loginInfoForm.UserName, loginInfoForm.UserName);
+            OperatorVo operatorVo = HttpContext.Session.Get<OperatorVo>(AuthorizeFilterAttribute.LoginSessionKey);
+            return new JsonResponses(operatorVo);
         }
-
+        [HttpGet]
+        [AuthorizeFilterAttribute(1)]
+        public async Task<IActionResult> Logout()
+        {
+            SessionUtils.RemoveSession(AuthorizeFilterAttribute.LoginSessionKey);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return new JsonResult(JsonResponses.Success);
+        }
     }
 }

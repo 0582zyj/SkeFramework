@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,9 @@ namespace SkeFramework.Core.Common.Networks
         /// </summary>
         /// <param name="sName">名称</param>
         /// <param name="sValue">值</param>
-        public void WriteCookie(string sName, string sValue)
+        public static void WriteCookie(string sName, string sValue)
         {
-            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetService(Type.GetType("IHttpContextAccessor")) as IHttpContextAccessor;
+            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
             CookieOptions option = new CookieOptions
             {
                 Expires = DateTime.Now.AddDays(30)
@@ -34,9 +35,9 @@ namespace SkeFramework.Core.Common.Networks
         /// <param name="sName">名称</param>
         /// <param name="sValue">值</param>
         /// <param name="expires">过期时间(分钟)</param>
-        public void WriteCookie(string sName, string sValue, int expires)
+        public static void WriteCookie(string sName, string sValue, int expires)
         {
-            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetService(Type.GetType("IHttpContextAccessor")) as IHttpContextAccessor;
+            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
             CookieOptions option = new CookieOptions
             {
                 Expires = DateTime.Now.AddMinutes(expires)
@@ -49,9 +50,9 @@ namespace SkeFramework.Core.Common.Networks
         /// </summary>
         /// <param name="sName">名称</param>
         /// <returns>cookie值</returns>
-        public string GetCookie(string sName)
+        public static string GetCookie(string sName)
         {
-            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetService(Type.GetType("IHttpContextAccessor")) as IHttpContextAccessor;
+            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
             return hca?.HttpContext?.Request.Cookies[sName];
         }
 
@@ -59,9 +60,9 @@ namespace SkeFramework.Core.Common.Networks
         /// 删除Cookie对象
         /// </summary>
         /// <param name="sName">Cookie对象名称</param>
-        public void RemoveCookie(string sName)
+        public static void RemoveCookie(string sName)
         {
-            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetService(Type.GetType("IHttpContextAccessor")) as IHttpContextAccessor;
+            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
             hca?.HttpContext?.Response.Cookies.Delete(sName);
         }
     }

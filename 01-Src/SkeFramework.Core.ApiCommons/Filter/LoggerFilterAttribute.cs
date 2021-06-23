@@ -7,10 +7,18 @@ using System.Text;
 
 namespace SkeFramework.Core.ApiCommons.Filter
 {
-    
+    /// <summary>
+    /// 日志输出过滤器
+    /// </summary>
     public class LoggerFilterAttribute : ActionFilterAttribute
     {
+        /// <summary>
+        /// 模块名称
+        /// </summary>
         private string MoudleName { get; set; }
+        /// <summary>
+        /// 方法名称
+        /// </summary>
         private string MethodName { get; set; }
         /// <summary>
         /// 构造日志类型
@@ -38,12 +46,14 @@ namespace SkeFramework.Core.ApiCommons.Filter
                 string method = String.Format("method:               {0}", context.HttpContext.Request.Method.ToString());
                 string contentType = String.Format("contentType:          {0}", context.HttpContext.Request.ContentType == null ? "null" : context.HttpContext.Request.ContentType.ToString());
                 string parameter = String.Format("parameter:            {0}", JsonConvert.SerializeObject(context.ActionArguments));
-                LogAgent.Info(Moudle);
-                LogAgent.Info(RequestAddress);
-                LogAgent.Info(URL);
-                LogAgent.Info(method);
-                LogAgent.Info(contentType);
-                LogAgent.Info(parameter);
+                StringBuilder message = new StringBuilder();
+                message.AppendLine(Moudle);
+                message.AppendLine(RequestAddress);
+                message.AppendLine(URL);
+                message.AppendLine(method);
+                message.AppendLine(contentType);
+                message.AppendLine(parameter);
+                LogAgent.Info(message.ToString());
                 CounterToken counterToken = LogAgent.StartCounter();
                 context.ActionDescriptor.Properties.TryAdd("Action-" + context.HttpContext.TraceIdentifier, counterToken);
             }
@@ -70,7 +80,6 @@ namespace SkeFramework.Core.ApiCommons.Filter
                     LogAgent.StopCounterAndLog(counterToken, String.Format("结束[{0}-{1}]请求{2}", MoudleName, MethodName, context.ActionDescriptor.DisplayName));
                     return;
                 }
-
             }
             catch (Exception ex)
             {

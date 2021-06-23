@@ -12,7 +12,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MicrosServices.API.UserCenter.Filters;
 using SkeFramework.Core.ApiCommons.Middlewares;
+using SkeFramework.Core.Common.Networks;
+using SkeFramework.Core.NetworkUtils.Bootstrap;
 
 namespace MicrosServices.API.UserCenter
 {
@@ -33,6 +36,12 @@ namespace MicrosServices.API.UserCenter
         {
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSkeSession();
+            // Filter统一注入MVC框架
+            services.AddMvc(options =>
+            {
+                //options.Filters.Add(typeof(LoggerFilterAttribute));
+            });
         }
 
         /// <summary>
@@ -52,16 +61,15 @@ namespace MicrosServices.API.UserCenter
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+           
             //异常业务处理中间件
             app.UseMiddleware(typeof(ExceptionMiddleWare));
-
 
             app.UseHsts();
 
             app.UseHttpsRedirection();
-
-
-
+            app.UseSession();
+            app.UseGlobalServer(env);
 
             app.UseMvc(routes =>
             {
@@ -69,7 +77,7 @@ namespace MicrosServices.API.UserCenter
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
+           
 
         }
 

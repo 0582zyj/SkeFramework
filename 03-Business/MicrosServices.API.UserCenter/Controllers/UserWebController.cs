@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
+using MicrosServices.API.UserCenter.Filters;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Constants;
@@ -75,6 +76,7 @@ namespace MicrosServices.API.UserCenter.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("registerPlatform")]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> RegisterPlatform([FromForm]RegisterPlatformForm registerPlatform)
         {
             string MdfPas = MD5Helper.GetMD5String(registerPlatform.Password);
@@ -101,6 +103,7 @@ namespace MicrosServices.API.UserCenter.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("cancelPlatform")]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> CancelPlatform([FromForm]string UserNo)
         {
             if (!DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(UserNo))
@@ -114,7 +117,6 @@ namespace MicrosServices.API.UserCenter.Controllers
                 return new JsonResponses(JsonResponses.SuccessCode, LoginResult.ToString(), LoginResult);
             }
             return new JsonResponses(JsonResponses.FailedCode, LoginResult.ToString(), LoginResult);
-            
         }
     }
 }
