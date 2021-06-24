@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MicrosServices.API.PermissionSystem.Filters;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Constants;
@@ -13,6 +14,7 @@ using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.Extends;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
+using SkeFramework.Core.NetworkUtils;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -43,10 +45,12 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] QueryBaseFrom query)
         {
             try
             {
+                string key = SessionUtils.GetSession(AuthorizeFilterAttribute.LoginSessionKey);
                 query.InitQuery();
                 string QueryNo = "_" + query.queryNo;
                 string keywords = query.keywords;

@@ -35,11 +35,6 @@ namespace SkeFramework.Core.Network.Requests
                     break;
             }
         }
-        public RequestBase(string Method, ContentTypeEnums contentType)
-        {
-            this.Method = Method;
-            this.contentType = contentType;
-        }
        
         /// <summary>
         /// 请求方法
@@ -156,8 +151,6 @@ namespace SkeFramework.Core.Network.Requests
             this.ParameterValue.Clear();
             return MemberwiseClone();
         }
-
-       
         
     }
 }

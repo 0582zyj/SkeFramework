@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SkeFramework.Core.Network.Https.Services
@@ -17,6 +18,55 @@ namespace SkeFramework.Core.Network.Https.Services
     public class HttpWebRequestUtil
     {
 
+
+
+        /// <summary>
+        /// 保存网站返回Cookie
+        /// </summary>
+        private static CookieContainer cookieContainer;
+        /// <summary>
+        /// 保存网站返回Cookie字符串
+        /// </summary>
+        public static string CookieStr;
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Dictionary<string, string> m_cookies = new Dictionary<string, string>();
+     
+        /// <summary>
+        /// 获取指定键的cookies值
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static string GetCookie(string key)
+        {
+            if (!m_cookies.ContainsKey(key))
+            {
+                return string.Empty;
+            }
+            return m_cookies[key];
+        }
+      
+        /// <summary>
+        /// 处理响应的cookies
+        /// </summary>
+        /// <param name="cookies"></param>
+        public static void ProcessCookies(CookieCollection cookies)
+        {
+            foreach (Cookie cookie in cookies)
+            {
+                if (m_cookies.ContainsKey(cookie.Name))
+                {
+                    m_cookies[cookie.Name] = cookie.Value;
+                }
+                else
+                {
+                    m_cookies.Add(cookie.Name, cookie.Value);
+                }
+                cookieContainer.Add(cookie);
+            }
+        }
+
         public static string HttpGet(BrowserPara browserPara)
         {
             try
@@ -25,6 +75,7 @@ namespace SkeFramework.Core.Network.Https.Services
                 HttpWebRequest request = WebRequest.Create(browserPara.Uri) as HttpWebRequest;
                 //每次请求绕过代理，解决第一次调用慢的问题
                 request.Proxy = null;
+                request.CookieContainer = cookieContainer;
                 //多线程并发调用时默认2个http连接数限制的问题，讲其设为1000
                 ServicePoint currentServicePoint = request.ServicePoint;
                 currentServicePoint.ConnectionLimit = 1000;
@@ -42,6 +93,8 @@ namespace SkeFramework.Core.Network.Https.Services
                     {
                         StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
                         str = reader.ReadToEnd();
+                        CookieStr += response.Headers.Get("Set-Cookie");
+                        ProcessCookies(response.Cookies);
                     }
                     request.Abort();
                     request = null;
@@ -80,6 +133,7 @@ namespace SkeFramework.Core.Network.Https.Services
                 request.Method = HttpMethod.Post.Method.ToString(); 
                 request.Timeout = browserPara.Timeout;
                 request.ContentLength = byteArray.Length;
+                request.CookieContainer = cookieContainer;
                 //关闭缓存
                 request.AllowWriteStreamBuffering = false;
                 //每次请求绕过代理，解决第一次调用慢的问题
@@ -97,11 +151,15 @@ namespace SkeFramework.Core.Network.Https.Services
                 using (Stream dataStream = request.GetRequestStream())
                 {
                     dataStream.Write(byteArray, 0, byteArray.Length);
-                    WebResponse response = request.GetResponse();
-                    //获取服务器返回的数据流
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                     {
-                        responseFromServer = reader.ReadToEnd();
+                        //获取服务器返回的数据流
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            responseFromServer = reader.ReadToEnd();
+                        }
+                        CookieStr += response.Headers.Get("Set-Cookie");
+                        ProcessCookies(response.Cookies);
                     }
                     request.Abort();
                 }

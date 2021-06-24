@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SkeFramework.Core.ApiCommons.Middlewares;
+using SkeFramework.Core.NetworkUtils.Bootstrap;
 
 namespace MicrosServices.API.PermissionSystem
 {
@@ -35,6 +36,8 @@ namespace MicrosServices.API.PermissionSystem
             //添加定时任务
             //services.AddCrontabJob();
             //
+            services.AddSkeSession();
+            
         }
 
         /// <summary>
@@ -54,12 +57,15 @@ namespace MicrosServices.API.PermissionSystem
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-           
+            //注册服务提供者
+            app.UseGlobalServer(env);
+            //
+            app.UseSession();
             //异常业务处理中间件
             app.UseMiddleware(typeof(ExceptionMiddleWare));
             ////配置定时任务
             //app.UseCrontabJob();
-            app.UseAuthentication();
+            //app.UseAuthentication();
             //配置Http重定向
             app.UseHttpsRedirection();
             //配置MVC路由规则

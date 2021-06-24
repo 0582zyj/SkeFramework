@@ -9,7 +9,7 @@ namespace MicrosServices.SDK.PermissionSystem
    public class NetwordConstants
     {
         public const string BASE_URL_IIS = "http://localhost/PermissionApi";
-        public const string BASE_URL_PERMISSION = "https://localhost:5001";
+        public const string BASE_URL_PERMISSION = "https://localhost:44346";
         public const string BASE_URL_REMOTE = "http://8.129.235.184:9023";
         public const string BASE_URL_REMOTE_LOCAL = "http://127.0.0.1:9023";
 
@@ -31,7 +31,7 @@ namespace MicrosServices.SDK.PermissionSystem
             return mSingleInstance;
         }
         #endregion
-        private string config = "iis";
+        private string config = "dev";
         public string GetBaseUrl()
         {
             switch(config)
