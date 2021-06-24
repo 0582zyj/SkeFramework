@@ -1,4 +1,5 @@
 ﻿using SkeFramework.Core.Common.Collections;
+using SkeFramework.Core.Common.Network;
 using SkeFramework.Core.NetLog;
 using SkeFramework.Core.Network.Requests;
 using System;
@@ -19,9 +20,9 @@ namespace SkeFramework.Core.Network.Https.Services
     public class HttpWebRequestUtil
     {
         /// <summary>
-        /// 
+        /// 存储Cookie键值对
         /// </summary>
-        public static Dictionary<string, string> m_cookies = new Dictionary<string, string>();
+        private static Dictionary<string, string> m_cookies = new Dictionary<string, string>();
         /// <summary>
         /// 获取指定键的cookies值
         /// </summary>
@@ -37,6 +38,18 @@ namespace SkeFramework.Core.Network.Https.Services
             return String.Join(";", result.ToArray());
         }
 
+        public static void ProcessResponseCookies(HttpWebResponse response)
+        {
+            CookieCollection cookie = response.Cookies;
+            if (response.Cookies==null||response.Cookies.Count==0)
+            {
+                string[] cookieList= response.Headers.GetValues("Set-Cookie");
+                if (cookieList ==null || cookieList.Length==0)
+                    return;
+                cookie = CookieUtils.GetCookiesFromHeader(cookieList.FirstOrDefault());
+            }
+            ProcessCookies(cookie);
+        }
         /// <summary>
         /// 处理响应的cookies
         /// </summary>
@@ -74,7 +87,9 @@ namespace SkeFramework.Core.Network.Https.Services
                         request.Headers.Add(header.Key, header.Value);
                     }
                 }
-                request.Headers.Add("Cookie", GetCookie());
+                string cookie = GetCookie();
+                if (!String.IsNullOrEmpty(cookie))
+                    request.Headers.Add("Cookie", cookie);
                 string str;
                 using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                 {
@@ -83,6 +98,7 @@ namespace SkeFramework.Core.Network.Https.Services
                         StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
                         str = reader.ReadToEnd();
                     }
+                    ProcessResponseCookies(response);
                     request.Abort();
                     request = null;
                 }
@@ -133,7 +149,9 @@ namespace SkeFramework.Core.Network.Https.Services
                         request.Headers.Add(header.Key, header.Value);
                     }
                 }
-                request.Headers.Add("Cookie", GetCookie());
+                string cookie = GetCookie();
+                if (!String.IsNullOrEmpty(cookie))
+                    request.Headers.Add("Cookie", cookie);
                 string responseFromServer = String.Empty;
                 using (Stream dataStream = request.GetRequestStream())
                 {
@@ -145,7 +163,7 @@ namespace SkeFramework.Core.Network.Https.Services
                         {
                             responseFromServer = reader.ReadToEnd();
                         }
-                        ProcessCookies(response.Cookies);
+                        ProcessResponseCookies(response);
                     }
                     request.Abort();
                 }

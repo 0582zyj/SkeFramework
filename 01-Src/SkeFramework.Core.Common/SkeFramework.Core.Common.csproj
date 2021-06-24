@@ -48,6 +48,7 @@
     <Compile Include="DateTimes\DateTimeUtils.cs" />
     <Compile Include="Enums\EnumUtils.cs" />
     <Compile Include="ExtendAttributes\EnumAttribute.cs" />
+    <Compile Include="Network\CookieUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Randoms\RandomUtils.cs" />
     <Compile Include="Validates\ValidateUtils.cs" />

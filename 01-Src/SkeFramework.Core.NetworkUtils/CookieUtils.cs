@@ -3,7 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SkeFramework.Core.Common.Networks
@@ -11,7 +13,7 @@ namespace SkeFramework.Core.Common.Networks
     /// <summary>
     /// Cookie工具类
     /// </summary>
-   public class CookieUtils
+    public class CookieUtils
     {
 
         /// <summary>
@@ -65,5 +67,6 @@ namespace SkeFramework.Core.Common.Networks
             IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
             hca?.HttpContext?.Response.Cookies.Delete(sName);
         }
+
     }
 }
