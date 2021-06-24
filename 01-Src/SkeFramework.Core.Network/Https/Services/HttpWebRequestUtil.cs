@@ -1,4 +1,5 @@
-﻿using SkeFramework.Core.NetLog;
+﻿using SkeFramework.Core.Common.Collections;
+using SkeFramework.Core.NetLog;
 using SkeFramework.Core.Network.Requests;
 using System;
 using System.Collections.Generic;
@@ -18,28 +19,24 @@ namespace SkeFramework.Core.Network.Https.Services
     public class HttpWebRequestUtil
     {
         /// <summary>
-        /// 保存网站返回Cookie字符串
-        /// </summary>
-        public static string CookieStr;
-        /// <summary>
         /// 
         /// </summary>
         public static Dictionary<string, string> m_cookies = new Dictionary<string, string>();
-     
         /// <summary>
         /// 获取指定键的cookies值
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static string GetCookie(string key)
+        public static string GetCookie()
         {
-            if (!m_cookies.ContainsKey(key))
+            if (CollectionUtils.IsEmpty(m_cookies))
             {
-                return string.Empty;
+                return "";
             }
-            return m_cookies[key];
+            List<string> result = m_cookies.Select(o => String.Format("{0}={1}", o.Key, o.Value)).ToList();
+            return String.Join(";", result.ToArray());
         }
-      
+
         /// <summary>
         /// 处理响应的cookies
         /// </summary>
@@ -77,8 +74,7 @@ namespace SkeFramework.Core.Network.Https.Services
                         request.Headers.Add(header.Key, header.Value);
                     }
                 }
-                if(!String.IsNullOrEmpty(CookieStr))
-                    request.Headers.Add("Cookie", CookieStr);
+                request.Headers.Add("Cookie", GetCookie());
                 string str;
                 using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                 {
@@ -121,7 +117,7 @@ namespace SkeFramework.Core.Network.Https.Services
                 //request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip,deflate");
                 request.KeepAlive = false;
                 request.ContentType = browserPara.contentTypeGet;
-                request.Method = HttpMethod.Post.Method.ToString(); 
+                request.Method = HttpMethod.Post.Method.ToString();
                 request.Timeout = browserPara.Timeout;
                 request.ContentLength = byteArray.Length;
                 //关闭缓存
@@ -137,8 +133,7 @@ namespace SkeFramework.Core.Network.Https.Services
                         request.Headers.Add(header.Key, header.Value);
                     }
                 }
-                if (!String.IsNullOrEmpty(CookieStr))
-                    request.Headers.Add("Cookie", CookieStr);
+                request.Headers.Add("Cookie", GetCookie());
                 string responseFromServer = String.Empty;
                 using (Stream dataStream = request.GetRequestStream())
                 {
@@ -150,7 +145,6 @@ namespace SkeFramework.Core.Network.Https.Services
                         {
                             responseFromServer = reader.ReadToEnd();
                         }
-                        CookieStr += response.Headers.Get("Set-Cookie");
                         ProcessCookies(response.Cookies);
                     }
                     request.Abort();
