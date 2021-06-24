@@ -61,12 +61,8 @@ namespace MicrosServices.API.PermissionSystem.Filters
                 string key = SessionUtils.GetSession(LoginSessionKey);
                 if (String.IsNullOrEmpty(key))
                 {
-                    CookieCollection cookieCollection = new CookieCollection();
-                    foreach(var item in context.HttpContext.Request.Cookies)
-                    {
-                        cookieCollection.Add(new Cookie(item.Key, item.Value));
-                    }
-                    HttpWebRequestUtil.ProcessCookies(cookieCollection);
+                    string[] vs= context.HttpContext.Request.Headers.GetCommaSeparatedValues("cookie");
+                    HttpWebRequestUtil.CookieStr = vs.FirstOrDefault();
                     OperatorVo operatorVo=  new LoginSdk().GetCurrentOperator();
                     if (operatorVo == null)
                     {

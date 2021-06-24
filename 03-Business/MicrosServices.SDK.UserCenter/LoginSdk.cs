@@ -57,9 +57,9 @@ namespace MicrosServices.SDK.UserCenter
                 if (String.IsNullOrEmpty(result))
                     return null;
                 JsonResponses responses= JsonConvert.DeserializeObject<JsonResponses>(result);
-                if(responses.data is OperatorVo)
+                if(responses.ValidateResponses())
                 {
-                    return responses.data as OperatorVo;
+                    return JsonConvert.DeserializeObject<OperatorVo>(responses.data.ToString());
                 }
             }
             catch (Exception ex)

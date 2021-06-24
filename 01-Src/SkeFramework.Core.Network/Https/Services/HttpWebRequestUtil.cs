@@ -17,13 +17,6 @@ namespace SkeFramework.Core.Network.Https.Services
     /// </summary>
     public class HttpWebRequestUtil
     {
-
-
-
-        /// <summary>
-        /// 保存网站返回Cookie
-        /// </summary>
-        private static CookieContainer cookieContainer;
         /// <summary>
         /// 保存网站返回Cookie字符串
         /// </summary>
@@ -63,7 +56,6 @@ namespace SkeFramework.Core.Network.Https.Services
                 {
                     m_cookies.Add(cookie.Name, cookie.Value);
                 }
-                cookieContainer.Add(cookie);
             }
         }
 
@@ -75,7 +67,6 @@ namespace SkeFramework.Core.Network.Https.Services
                 HttpWebRequest request = WebRequest.Create(browserPara.Uri) as HttpWebRequest;
                 //每次请求绕过代理，解决第一次调用慢的问题
                 request.Proxy = null;
-                request.CookieContainer = cookieContainer;
                 //多线程并发调用时默认2个http连接数限制的问题，讲其设为1000
                 ServicePoint currentServicePoint = request.ServicePoint;
                 currentServicePoint.ConnectionLimit = 1000;
@@ -86,6 +77,8 @@ namespace SkeFramework.Core.Network.Https.Services
                         request.Headers.Add(header.Key, header.Value);
                     }
                 }
+                if(!String.IsNullOrEmpty(CookieStr))
+                    request.Headers.Add("Cookie", CookieStr);
                 string str;
                 using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                 {
@@ -93,8 +86,6 @@ namespace SkeFramework.Core.Network.Https.Services
                     {
                         StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
                         str = reader.ReadToEnd();
-                        CookieStr += response.Headers.Get("Set-Cookie");
-                        ProcessCookies(response.Cookies);
                     }
                     request.Abort();
                     request = null;
@@ -133,7 +124,6 @@ namespace SkeFramework.Core.Network.Https.Services
                 request.Method = HttpMethod.Post.Method.ToString(); 
                 request.Timeout = browserPara.Timeout;
                 request.ContentLength = byteArray.Length;
-                request.CookieContainer = cookieContainer;
                 //关闭缓存
                 request.AllowWriteStreamBuffering = false;
                 //每次请求绕过代理，解决第一次调用慢的问题
@@ -147,6 +137,8 @@ namespace SkeFramework.Core.Network.Https.Services
                         request.Headers.Add(header.Key, header.Value);
                     }
                 }
+                if (!String.IsNullOrEmpty(CookieStr))
+                    request.Headers.Add("Cookie", CookieStr);
                 string responseFromServer = String.Empty;
                 using (Stream dataStream = request.GetRequestStream())
                 {
