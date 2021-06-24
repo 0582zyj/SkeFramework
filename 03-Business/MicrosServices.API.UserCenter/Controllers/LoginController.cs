@@ -58,7 +58,7 @@ namespace MicrosServices.API.UserCenter.Controllers
                 userNo = userNo,
                 platformNo = usersSetting.PlatformNo
             };
-            SessionUtils.WriteSession(AuthorizeFilterAttribute.LoginSessionKey, operatorVo);
+            HttpContext.Session.Set(AuthorizeFilterAttribute.LoginSessionKey, operatorVo);
         }
 
 
@@ -77,7 +77,7 @@ namespace MicrosServices.API.UserCenter.Controllers
         [AuthorizeFilterAttribute(1)]
         public async Task<IActionResult> Logout()
         {
-            SessionUtils.RemoveSession(AuthorizeFilterAttribute.LoginSessionKey);
+            HttpContext.Session.Remove(AuthorizeFilterAttribute.LoginSessionKey);
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return new JsonResult(JsonResponses.Success);
         }

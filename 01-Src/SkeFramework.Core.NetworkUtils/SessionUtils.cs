@@ -17,46 +17,24 @@ namespace SkeFramework.Core.NetworkUtils
         /// <typeparam name="T">Session键值的类型</typeparam>
         /// <param name="key">Session的键名</param>
         /// <param name="value">Session的键值</param>
-        public static void WriteSession<T>(string key, T value)
+        public static void Set<T>(string key, T value)
         {
             if (string.IsNullOrEmpty(key))
                 return;
             IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
             hca?.HttpContext?.Session.SetString(key, JsonConvert.SerializeObject(value));
         }
-
-        /// <summary>
-        /// 写Session
-        /// </summary>
-        /// <param name="key">Session的键名</param>
-        /// <param name="value">Session的键值</param>
-        public static void WriteSession(string key, string value)
-        {
-            WriteSession<string>(key, value);
-        }
-
         /// <summary>
         /// 读取Session的值
         /// </summary>
-        /// <param name="key">Session的键名</param>        
-        public static string GetSession(string key)
+        /// <param name="key">Session的键名</param>   
+        public static T Get<T>(string key)
         {
             if (string.IsNullOrEmpty(key))
-                return string.Empty;
+                return default(T);
             IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
-            return hca?.HttpContext?.Session.GetString(key) as string;
-        }
-
-        /// <summary>
-        /// 删除指定Session
-        /// </summary>
-        /// <param name="key">Session的键名</param>
-        public static void RemoveSession(string key)
-        {
-            if (string.IsNullOrEmpty(key))
-                return;
-            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
-            hca?.HttpContext?.Session.Remove(key);
+            string value= hca?.HttpContext?.Session.GetString(key) as string;
+            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
     }
 }

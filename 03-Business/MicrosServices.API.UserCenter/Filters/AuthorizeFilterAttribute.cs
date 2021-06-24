@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using MicrosServices.Entities.Core.Data.Vo;
 using SkeFramework.Core.Network.Responses;
 using SkeFramework.Core.NetworkUtils;
 using System;
@@ -53,8 +54,8 @@ namespace MicrosServices.API.UserCenter.Filters
         {
             if (((AuthorizeValue >> (int)AuthorizeType.CheckLogin) & 0x01) > 0)
             {
-                string key = SessionUtils.GetSession(LoginSessionKey);
-                if (String.IsNullOrEmpty(key))
+                OperatorVo key = SessionUtils.Get<OperatorVo>(LoginSessionKey);
+                if (key==null)
                 {
                     context.Result = new JsonResult(new JsonResponses("未登录"));
                     return;

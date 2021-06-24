@@ -15,6 +15,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using SkeFramework.Core.NetworkUtils.Bootstrap;
 
 namespace MicrosServices.API.PermissionSystem.Filters
 {
@@ -57,9 +58,9 @@ namespace MicrosServices.API.PermissionSystem.Filters
         {
             if (((AuthorizeValue >> (int)AuthorizeType.CheckLogin) & 0x01) > 0)
             {
-              
-                string key = SessionUtils.GetSession(LoginSessionKey);
-                if (String.IsNullOrEmpty(key))
+
+                OperatorVo key = SessionUtils.Get<OperatorVo>(LoginSessionKey);
+                if (key==null)
                 {
                     CookieCollection cookieCollection = new CookieCollection();
                     foreach (var item in context.HttpContext.Request.Cookies)
@@ -73,7 +74,7 @@ namespace MicrosServices.API.PermissionSystem.Filters
                         context.Result = new JsonResult(new JsonResponses("未登录"));
                         return;
                     }
-                    SessionUtils.WriteSession(LoginSessionKey, operatorVo);
+                    SessionUtils.Set(LoginSessionKey, operatorVo);
                 }
             }
         }

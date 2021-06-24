@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using MicrosServices.API.PermissionSystem.Filters;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
-using MicrosServices.Entities.Constants;
+using MicrosServices.Entities.Core.Data.Vo;
 using MicrosServices.Entities.Core.DataForm;
 using MicrosServices.Helper.Core.Common;
 using MicrosServices.Helper.Core.Constants;
 using MicrosServices.Helper.Core.Extends;
 using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Responses;
-using SkeFramework.Core.NetworkUtils;
+using SkeFramework.Core.NetworkUtils.Bootstrap;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -50,7 +50,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         {
             try
             {
-                string key = SessionUtils.GetSession(AuthorizeFilterAttribute.LoginSessionKey);
+                OperatorVo key = HttpContext.Session.Get<OperatorVo>(AuthorizeFilterAttribute.LoginSessionKey);
                 query.InitQuery();
                 string QueryNo = "_" + query.queryNo;
                 string keywords = query.keywords;
