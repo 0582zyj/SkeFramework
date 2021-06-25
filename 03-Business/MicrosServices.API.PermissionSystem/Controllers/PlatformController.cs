@@ -5,6 +5,8 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MicrosServices.API.PermissionSystem.Controllers.BaseControllers;
+using MicrosServices.API.PermissionSystem.Filters;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Constants;
@@ -21,7 +23,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class PlatformController : ControllerBase
+    public class PlatformController : SkeControllers
     {
         private UserSDK userSDK = new UserSDK();
 
@@ -46,14 +48,20 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] string keywords = "")
         {
             try
             {
+                List<long> currentPlatformNos = this.GetCurrentUserPlatfromNos();
                 Expression<Func<PsPlatform, bool>> where = null;
                 if (!String.IsNullOrEmpty(keywords))
                 {
-                    where = (o => o.Name.Contains(keywords));
+                    where = o => o.Name.Contains(keywords) && currentPlatformNos.Contains(o.PlatformNo);
+                }
+                else
+                {
+                    where = o => currentPlatformNos.Contains(o.PlatformNo);
                 }
                 page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().PsPlatformHandle.Count(where)));//取记录数
                 List<PsPlatform> list = DataHandleManager.Instance().PsPlatformHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
@@ -91,6 +99,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> Create([FromForm] PsPlatform platform)
         {
             try
@@ -133,6 +142,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
          
@@ -149,6 +159,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> Update([FromForm] PsPlatform platform)
         {
             try
@@ -176,7 +187,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpGet]
         public ActionResult<JsonResponses> GetOptionValues([FromForm] long PlatformNo = ConstData.DefaultNo)
         {
-            List<OptionValue> optionValues = DataHandleManager.Instance().PsPlatformHandle.GetOptionValues( PlatformNo);
+            List<OptionValue> optionValues = DataHandleManager.Instance().PsPlatformHandle.GetOptionValues(PlatformNo);
             return new JsonResponses(optionValues);
         }
         #endregion

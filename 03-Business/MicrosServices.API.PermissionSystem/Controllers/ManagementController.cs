@@ -189,10 +189,11 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             return new JsonResponses(optionValues);
         }
         /// <summary>
-        /// 获取键值对
+        /// 获取用户权限列表
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> GetUserManagementList([FromQuery]string UserNo)
         {
             List<ManagementOptionValue> optionValues = DataHandleManager.Instance().PsManagementHandle.GetUserManagementList(UserNo);

@@ -50,7 +50,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         }
 
         /// <summary>
-        /// 获取权限树信息
+        /// 获取机构树信息
         /// </summary>
         /// <returns></returns>
         [HttpGet]

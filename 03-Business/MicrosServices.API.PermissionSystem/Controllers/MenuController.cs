@@ -5,6 +5,8 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MicrosServices.API.PermissionSystem.Controllers.BaseControllers;
+using MicrosServices.API.PermissionSystem.Filters;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Constants;
@@ -21,7 +23,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class MenuController : ControllerBase
+    public class MenuController : SkeControllers
     {
         #region 基础查询
         /// <summary>
@@ -44,15 +46,18 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] QueryBaseFrom query)
         {
             try
             {
+                List<long> currentPlatformNos = this.GetCurrentUserPlatfromNos();
                 query.InitQuery();
                 string QueryNo = "_" + query.queryNo;
                 string keywords = query.keywords;
                 Expression<Func<PsMenu, bool>> where = null;
-                where = (o => o.Name.Contains(keywords) && (o.TreeLevelNo.Contains(QueryNo)||o.MenuNo==query.queryNo));
+                where = o => o.Name.Contains(keywords) && (o.TreeLevelNo.Contains(QueryNo)||o.MenuNo==query.queryNo)
+                && currentPlatformNos.Contains(o.PlatformNo);
                 page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().PsMenuHandle.Count(where)));//取记录数
                 List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
                 PageResponse<PsMenu> response = new PageResponse<PsMenu>
@@ -88,6 +93,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> Create([FromForm] PsMenu menu)
         {
             try
@@ -121,6 +127,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
             int result = DataHandleManager.Instance().PsMenuHandle.MenuDelete(id);
@@ -136,6 +143,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> Update([FromForm] PsMenu menu)
         {
             try
@@ -175,9 +183,11 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> GetOptionValues()
         {
-            List<OptionValue> optionValues = DataHandleManager.Instance().PsMenuHandle.GetOptionValues();
+            List<long> currentPlatformNos = this.GetCurrentUserPlatfromNos();
+            List<OptionValue> optionValues = DataHandleManager.Instance().PsMenuHandle.GetOptionValues(currentPlatformNos);
             return new JsonResponses(optionValues);
         }
         #endregion
@@ -188,6 +198,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> GetUserMenusList(string UserNo)
         {
             List<PsMenu> list = DataHandleManager.Instance().PsMenuHandle.GetUserMenusList(UserNo).ToList();

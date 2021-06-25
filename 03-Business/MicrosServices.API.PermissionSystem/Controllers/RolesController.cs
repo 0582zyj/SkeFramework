@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MicrosServices.API.PermissionSystem.Controllers.BaseControllers;
+using MicrosServices.API.PermissionSystem.Filters;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
 using MicrosServices.Entities.Core.DataForm;
@@ -20,7 +22,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class RolesController : ControllerBase
+    public class RolesController : SkeControllers
     {
         #region 基础查询
         /// <summary>
@@ -43,15 +45,18 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> GetPageList([FromQuery]PageModel page, [FromQuery] QueryBaseFrom query)
         {
             try
             {
+                List<long> currentPlatformNos = this.GetCurrentUserPlatfromNos();
                 query.InitQuery();
                 string QueryNo = "_" + query.queryNo;
                 string keywords = query.keywords;
-                Expression<Func<PsRoles, bool>> where = (o => o.Name.Contains(keywords)
-                && (o.TreeLevelNo.Contains(QueryNo) || o.RolesNo == query.queryNo));
+                Expression<Func<PsRoles, bool>> where = o => o.Name.Contains(keywords)
+                && (o.TreeLevelNo.Contains(QueryNo) || o.RolesNo == query.queryNo)
+                  && currentPlatformNos.Contains(o.PlatformNo);
                 page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().PsRolesHandle.Count(where)));//取记录数
                 List<PsRoles> list = DataHandleManager.Instance().PsRolesHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
                 PageResponse<PsRoles> response = new PageResponse<PsRoles>
@@ -86,6 +91,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> Create([FromForm]PsRoles model)
         {
             var ResultCode = -1;
@@ -100,6 +106,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> Update([FromForm]PsRoles model)
         {
             var ResultCode = -1;
@@ -113,6 +120,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
             var ResultCode = -1;
@@ -125,6 +133,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name="ManagementNos"></param>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> BatchDelete([FromBody]long[] RolesNos)
         {
             var ResultCode = -1;
@@ -139,9 +148,11 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> GetOptionValues()
         {
-            List<OptionValue> optionValues = DataHandleManager.Instance().PsRolesHandle.GetOptionValues();
+            List<long> currentPlatformNos = this.GetCurrentUserPlatfromNos();
+            List<OptionValue> optionValues = DataHandleManager.Instance().PsRolesHandle.GetOptionValues(currentPlatformNos);
             return new JsonResponses(optionValues);
         }
 
