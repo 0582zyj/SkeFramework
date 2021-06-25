@@ -26,6 +26,7 @@ namespace SkeFramework.Core.SqlExpression.DataHandler.BinaryServices
             ExpressionType NodeTyoe = exp.NodeType;
             switch(NodeTyoe)
             {
+                case ExpressionType.OrElse:
                 case ExpressionType.Add:
                 case ExpressionType.Subtract:
                     return "(" + DealBinary(b_exp) + ")";
