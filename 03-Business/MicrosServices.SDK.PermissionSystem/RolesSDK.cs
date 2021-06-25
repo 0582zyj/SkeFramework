@@ -111,21 +111,22 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <summary>
         /// 新增菜单
         /// </summary>
-        /// <param name="menu"></param>
+        /// <param name="roles"></param>
         /// <returns></returns>
-        public JsonResponses RolesAdd(PsRoles menu)
+        public JsonResponses RolesAdd(PsRoles roles)
         {
             try
             {
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.Url = AddUrl;
-                request.SetValue("parentNo", menu.ParentNo);
-                request.SetValue("name", menu.Name);
-                request.SetValue("description", menu.Description);
-                request.SetValue("platformNo", menu.PlatformNo);
-                request.SetValue("enabled", menu.Enabled);
-                request.SetValue("inputUser", menu.InputUser);
-                request.SetValue("managementValue", menu.ManagementValue);
+                request.SetValue("parentNo", roles.ParentNo);
+                request.SetValue("name", roles.Name);
+                request.SetValue("description", roles.Description);
+                request.SetValue("platformNo", roles.PlatformNo);
+                request.SetValue("rolesType", roles.RolesType);
+                request.SetValue("enabled", roles.Enabled);
+                request.SetValue("inputUser", roles.InputUser);
+                request.SetValue("managementValue", roles.ManagementValue);
                 string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }
@@ -138,22 +139,23 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <summary>
         /// 新增菜单
         /// </summary>
-        /// <param name="menu"></param>
+        /// <param name="roles"></param>
         /// <returns></returns>
-        public JsonResponses RolesUpdate(PsRoles menu)
+        public JsonResponses RolesUpdate(PsRoles roles)
         {
             try
             {
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.Url = UpdateUrl;
-                request.SetValue("id", menu.id);
-                request.SetValue("rolesNo", menu.RolesNo);
-                request.SetValue("parentNo", menu.ParentNo);
-                request.SetValue("description", menu.Description);
-                request.SetValue("name", menu.Name);
-                request.SetValue("managementValue", menu.ManagementValue);
-                request.SetValue("platformNo", menu.PlatformNo);
-                request.SetValue("enabled", menu.Enabled);
+                request.SetValue("id", roles.id);
+                request.SetValue("rolesNo", roles.RolesNo);
+                request.SetValue("parentNo", roles.ParentNo);
+                request.SetValue("description", roles.Description);
+                request.SetValue("rolesType", roles.RolesType);
+                request.SetValue("name", roles.Name);
+                request.SetValue("managementValue", roles.ManagementValue);
+                request.SetValue("platformNo", roles.PlatformNo);
+                request.SetValue("enabled", roles.Enabled);
                 string result = HttpHelper.Example.GetWebData(request);
                 return JsonConvert.DeserializeObject<JsonResponses>(result);
             }

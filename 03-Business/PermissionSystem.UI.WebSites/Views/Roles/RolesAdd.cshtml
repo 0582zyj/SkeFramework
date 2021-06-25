@@ -50,6 +50,16 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="RolesType" class="col-sm-2 control-label">角色类型</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" name="RolesType" id="RolesType" v-model="dataItem.RolesType">
+                                        <option v-for="option in rolesTypeList" v-bind:value="option.DicKey">
+                                            {{ option.Name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="PlatformNo" class="col-sm-2 control-label">平台</label>
                                 <div class="col-sm-10">
                                     <select class="form-control" name="PlatformNo" id="PlatformNo" v-model="dataItem.PlatformNo">
@@ -93,7 +103,9 @@
                 addPostUrl: "@Url.Action("PsRolesAdd", "Roles")",
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 getRolesOptionValueUrl: "@Url.Action("GetOptionValues", "Roles")",
-                dataItem: { ParentNo: -1, Enabled: 1 },
+                getRolesTypeOptionValueUrl: "@Url.Action("GetOptionValues", "Dictionary", new { dicType = PermissionSystem.UI.WebSites.Global.AppBusiness.DictionaryKey_RolesType })",
+                rolesTypeList: [],
+                dataItem: { ParentNo: -1, Enabled: 1, RolesType: 0 },
                 platformList: {},
                 rolesList: {},
                 enabledList: [
@@ -102,6 +114,7 @@
                 ],
             },
             created: function () {
+                this.getRolesTypeOptionValue();
                 this.Init();
             },
             methods: {
@@ -131,6 +144,21 @@
                         .catch(function (error) {
                             console.log(error);
                         }); 
+                },
+                getRolesTypeOptionValue: function () {
+                    var _self = this;
+                    _self.rolesTypeList = {};
+                    axios.get(this.getRolesTypeOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                if (response.data.length > 0) {
+                                    _self.rolesTypeList = response.data;
+                                }
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                 },
                 submit: function () {
                     var _self = this;

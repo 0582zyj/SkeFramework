@@ -61,6 +61,7 @@
                                 <th>角色名称</th>
                                 <th>描述</th>
                                 <th>权限值</th>
+                                <th>角色类型</th>
                                 <th>平台编号</th>
                                 <th>启用状态</th>
                                 <th class="operation">操作</th>
@@ -72,6 +73,7 @@
                                 <td>{{item.Name}}</td>
                                 <td>{{item.Description}}</td>
                                 <td>{{item.ManagementValue}}</td>
+                                <td>{{item.RolesType|formateRolesType(rolesTypeList)}}</td>
                                 <td>{{item.PlatformNo|formatePlatform(platformList)}}</td>
                                 <td>{{item.Enabled|formateEnabled(enabledList)}} </td>
                                 <td class="operation">
@@ -102,7 +104,9 @@
                 assginUrl: "@Url.Action("ManagementAssign", "Management")",
                 getPlatformOptionValueUrl: "@Url.Action("GetOptionValues", "Platform")",
                 GetUserManagementListUrl: "@Url.Action("GetUserManagementList", "Management")",
+                getRolesTypeOptionValueUrl: "@Url.Action("GetOptionValues", "Dictionary", new { dicType = PermissionSystem.UI.WebSites.Global.AppBusiness.DictionaryKey_RolesType })",
                 dataList: [],
+                rolesTypeList: [],
                 platformList: {},
                 enabledList: [
                     { Name: '启用', Value: 1 },
@@ -111,6 +115,16 @@
                 search: { keywords: "", RolesNo:-1}
             },
             filters: {
+                formateRolesType: function (type, list) {
+                    let result = type;
+                    Array.from(list).map(res => {
+                        if (type == res.DicKey) {
+                            result = res.Name;
+                            return result;
+                        }
+                    });
+                    return result;
+                },
                 formateEnabled: function (enabled, list) {
                     let result = enabled;
                     Array.from(list).map(res => {
@@ -138,6 +152,7 @@
                 }
             },
             created: function () {
+                this.getRolesTypeOptionValue();
                 this.Init();
             },
             methods: {
@@ -158,6 +173,21 @@
                         .then(function (response) {
                             if (response.status == 200) {
                                 _self.platformList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                getRolesTypeOptionValue: function () {
+                    var _self = this;
+                    _self.rolesTypeList = {};
+                    axios.get(this.getRolesTypeOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                if (response.data.length > 0) {
+                                    _self.rolesTypeList = response.data;
+                                }
                             }
                         })
                         .catch(function (error) {
