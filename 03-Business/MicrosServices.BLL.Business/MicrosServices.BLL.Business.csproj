@@ -139,6 +139,10 @@
       <Project>{1420C94D-4ECE-4A05-BBCE-0D2EAC8F675E}</Project>
       <Name>MicrosServices.Helper.DataUtil</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MicrosServices.SDK.UserCenter\MicrosServices.SDK.UserCenter.csproj">
+      <Project>{3F3F0673-39D0-4356-8744-936A07A05844}</Project>
+      <Name>MicrosServices.SDK.UserCenter</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

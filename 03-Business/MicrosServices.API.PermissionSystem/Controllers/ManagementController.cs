@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MicrosServices.API.PermissionSystem.Controllers.BaseControllers;
 using MicrosServices.API.PermissionSystem.Filters;
 using MicrosServices.BLL.Business;
 using MicrosServices.Entities.Common;
@@ -22,7 +23,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class ManagementController : ControllerBase
+    public class ManagementController : SkeControllers
     {
         #region 基础查询
         /// <summary>
@@ -50,12 +51,13 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         {
             try
             {
-                OperatorVo key = HttpContext.Session.Get<OperatorVo>(AuthorizeFilterAttribute.LoginSessionKey);
+                List<long> currentPlatformNos = this.GetCurrentUserPlatfromNos();
                 query.InitQuery();
                 string QueryNo = "_" + query.queryNo;
                 string keywords = query.keywords;
                 Expression<Func<PsManagement, bool>> where = null;
-                where = (o => o.Name.Contains(keywords) && (o.TreeLevelNo.Contains(QueryNo) || o.ManagementNo == query.queryNo));
+                where = (o => o.Name.Contains(keywords) && (o.TreeLevelNo.Contains(QueryNo) || o.ManagementNo == query.queryNo)
+                && (currentPlatformNos.Contains( o.PlatformNo)));
                 page.setTotalCount(Convert.ToInt32(DataHandleManager.Instance().PsManagementHandle.Count(where)));//取记录数
                 List<PsManagement> list = DataHandleManager.Instance().PsManagementHandle.GetDefaultPagedList(page.PageIndex, page.PageSize, where).ToList();
                 PageResponse<PsManagement> response = new PageResponse<PsManagement>
@@ -90,6 +92,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> Create([FromForm]PsManagement model)
         {
             var ResultCode = -1;
@@ -104,6 +107,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> Update([FromForm]PsManagement model)
         {
             var ResultCode = -1;
@@ -117,6 +121,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> Delete([FromForm]int id)
         {
             var ResultCode = -1;
@@ -129,6 +134,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name="ManagementNos"></param>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> BatchDelete([FromBody]long[] ManagementNos)
         {
             var ResultCode = -1;
@@ -143,9 +149,11 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [AuthorizeFilterAttribute(1)]
         public ActionResult<JsonResponses> GetOptionValues()
         {
-            List<OptionValue> optionValues = DataHandleManager.Instance().PsManagementHandle.GetOptionValues(new List<int>());
+            List<long> currentPlatformNos = this.GetCurrentUserPlatfromNos();
+            List<OptionValue> optionValues = DataHandleManager.Instance().PsManagementHandle.GetOptionValues(new List<int>(), currentPlatformNos);
             return new JsonResponses(optionValues);
         }
 

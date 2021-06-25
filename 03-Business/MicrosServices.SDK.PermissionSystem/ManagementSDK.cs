@@ -72,7 +72,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.Url = GetPageUrl;
                 string result = HttpHelper.Example.GetWebData(request);
                 JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
+                if (responses.ValidateResponses())
                 {
                     object data = responses.data;
                     menus = JsonConvert.DeserializeObject<PageResponse<PsManagement>>(JsonConvert.SerializeObject(data));

@@ -135,12 +135,8 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         [HttpPost]
         public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
-            long count = DataHandleManager.Instance().PsManagementHandle.Count();
-            if (count > 0)
-            {
-                return new JsonResponses("当前平台信息不为空，暂不支持删除");
-            }
-            int result = DataHandleManager.Instance().PsPlatformHandle.Delete(id);
+         
+            int result = DataHandleManager.Instance().PsPlatformHandle.DeletePlatform(id);
             if (result > 0)
             {
                 return JsonResponses.Success;
