@@ -67,6 +67,7 @@
     <Compile Include="Common\UserCenter\UcUsersInfo.cs" />
     <Compile Include="Common\UserCenter\UcUsersSetting.cs" />
     <Compile Include="Constants\ConstData.cs" />
+    <Compile Include="Constants\Enums\RolesType.cs" />
     <Compile Include="Constants\HandleUserEumns.cs" />
     <Compile Include="Constants\LogTypeEumns.cs" />
     <Compile Include="Constants\MessageStatusEumns.cs" />

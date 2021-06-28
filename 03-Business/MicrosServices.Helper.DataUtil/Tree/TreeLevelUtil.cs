@@ -12,6 +12,7 @@ namespace MicrosServices.Helper.DataUtil.Tree
     /// </summary>
    public  class TreeLevelUtil
     {
+        public const string TreeSplit = "_";
         /// <summary>
         /// 获取树节点路径
         /// </summary>
@@ -35,11 +36,20 @@ namespace MicrosServices.Helper.DataUtil.Tree
             }
             return getTreeLevelVo(rootTreeNo,ParentNo);
         }
-       
 
         public static string getTreeLevelVo(string parentTreeLevel, long ParentNo)
         {
             return String.Format("{0}_{1}", parentTreeLevel, ParentNo);
+        }
+        /// <summary>
+        /// 提取父节点路径
+        /// </summary>
+        /// <param name="TreeLevel"></param>
+        /// <returns></returns>
+        public static List<long> GetParentNos(string TreeLevel)
+        {
+            string[] treeLevelList =TreeLevel.Split(new string[1] { TreeSplit }, StringSplitOptions.None);
+            return treeLevelList.Where(o =>!String.IsNullOrEmpty(o) && o != "-1").Select(o => Convert.ToInt64(o)).ToList();
         }
     }
 }
