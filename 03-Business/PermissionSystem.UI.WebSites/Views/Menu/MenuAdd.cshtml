@@ -114,6 +114,7 @@
                 ],
             },
             created: function () {
+                this.initPlatformList();
                 this.Init();
             },
             methods: {
@@ -129,6 +130,9 @@
                         .catch(function (error) {
                             console.log(error);
                         });
+                },
+                initPlatformList: function () {
+                    var _self = this;
                     _self.platformList = {};
                     axios.get(this.getPlatformOptionValueUrl)
                         .then(function (response) {

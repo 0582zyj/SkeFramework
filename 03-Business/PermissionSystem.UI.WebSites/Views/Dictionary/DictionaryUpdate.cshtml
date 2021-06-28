@@ -133,8 +133,9 @@
                 }
             },
             created: function () {
-                this.Init();
+                this.initPlatformList();
                 this.initDicTypeList();
+                this.Init();
             },
             methods: {
                 initDicTypeList: function () {
@@ -165,6 +166,9 @@
                      .catch(function (error) {
                          console.log(error);
                         });
+                },
+                initPlatformList: function () {
+                    var _self = this;
                     _self.platformList = {};
                     axios.get(this.getPlatformOptionValueUrl)
                         .then(function (response) {
@@ -178,7 +182,6 @@
                         .catch(function (error) {
                             console.log(error);
                         });
-               
                 },
                 submit: function () {
                     var _self = this;

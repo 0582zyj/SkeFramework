@@ -134,22 +134,14 @@
                 id:"@Request.QueryString["id"].ToString()"
             },
             created: function () {
+                this.initPlatformList();
                 this.getManagmentTypeList();
                 this.Init();
             },
             methods: {
                 Init: function () {
                     var _self = this;
-                    _self.dataItem = {};
-                    axios.get(this.getItemUrl,{ params: {id: this.id } } )
-                     .then(function (response) {
-                         if (response.status == 200) {
-                             _self.dataItem = response.data;
-                         }
-                     })
-                     .catch(function (error) {
-                         console.log(error);
-                        });
+
                     _self.managementList = {};
                     axios.get(this.getManagementOptionValueUrl)
                         .then(function (response) {
@@ -160,11 +152,27 @@
                         .catch(function (error) {
                             console.log(error);
                         });
+                    _self.dataItem = {};
+                    axios.get(this.getItemUrl, { params: { id: this.id } })
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.dataItem = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                },
+                initPlatformList: function () {
+                    var _self = this;
                     _self.platformList = {};
                     axios.get(this.getPlatformOptionValueUrl)
                         .then(function (response) {
                             if (response.status == 200) {
                                 _self.platformList = response.data;
+                                if (response.data.length > 0) {
+                                    _self.dataItem.PlatformNo = response.data[0].Value
+                                }
                             }
                         })
                         .catch(function (error) {

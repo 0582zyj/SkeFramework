@@ -152,6 +152,8 @@
                 }
             },
             created: function () {
+                
+                this.initPlatformList();
                 this.getRolesTypeOptionValue();
                 this.Init();
             },
@@ -168,11 +170,17 @@
                         .catch(function (error) {
                             console.log(error);
                         });
+                },
+                initPlatformList: function () {
+                    var _self = this;
                     _self.platformList = {};
                     axios.get(this.getPlatformOptionValueUrl)
                         .then(function (response) {
                             if (response.status == 200) {
                                 _self.platformList = response.data;
+                                if (response.data.length > 0) {
+                                    _self.dataItem.PlatformNo = response.data[0].Value
+                                }
                             }
                         })
                         .catch(function (error) {

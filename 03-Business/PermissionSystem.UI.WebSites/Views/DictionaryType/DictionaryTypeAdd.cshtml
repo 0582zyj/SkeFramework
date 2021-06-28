@@ -84,10 +84,12 @@
                 ],
             },
             created: function () {
-                this.Init();
+                this.initPlatformList();
             },
             methods: {
                 Init: function () {
+                },
+                initPlatformList: function () {
                     var _self = this;
                     _self.platformList = {};
                     axios.get(this.getPlatformOptionValueUrl)

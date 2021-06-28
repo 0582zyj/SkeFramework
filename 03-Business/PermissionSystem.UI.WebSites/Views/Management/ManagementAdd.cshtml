@@ -121,11 +121,26 @@
                 ],
             },
             created: function () {
+                this.initPlatformList();
                 this.getManagmentTypeList();
                 this.Init();
             },
             methods: {
                 Init: function () {
+                    var _self = this;
+                    _self.managementList = {};
+                    axios.get(this.getManagementOptionValueUrl)
+                        .then(function (response) {
+                            if (response.status == 200) {
+                                _self.managementList = response.data;
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                    
+                },
+                initPlatformList: function () {
                     var _self = this;
                     _self.platformList = {};
                     axios.get(this.getPlatformOptionValueUrl)
@@ -140,17 +155,6 @@
                         .catch(function (error) {
                             console.log(error);
                         });
-                    _self.managementList = {};
-                    axios.get(this.getManagementOptionValueUrl)
-                        .then(function (response) {
-                            if (response.status == 200) {
-                                _self.managementList = response.data;
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                    
                 },
                 getManagmentTypeList: function () {
                     var _self = this;
