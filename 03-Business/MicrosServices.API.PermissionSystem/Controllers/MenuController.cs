@@ -93,7 +93,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        [AuthorizeFilterAttribute(1)]
+        [AuthorizeFilterAttribute(2, "menu.add")]
         public ActionResult<JsonResponses> Create([FromForm] PsMenu menu)
         {
             try
@@ -127,7 +127,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [AuthorizeFilterAttribute(1)]
+        [AuthorizeFilterAttribute(2, "menu.update")]
         public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
             int result = DataHandleManager.Instance().PsMenuHandle.MenuDelete(id);
@@ -143,7 +143,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        [AuthorizeFilterAttribute(1)]
+        [AuthorizeFilterAttribute(2, "menu.delete")]
         public ActionResult<JsonResponses> Update([FromForm] PsMenu menu)
         {
             try

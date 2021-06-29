@@ -16,6 +16,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using SkeFramework.Core.NetworkUtils.Bootstrap;
+using MicrosServices.SDK.PermissionSystem;
 
 namespace MicrosServices.API.PermissionSystem.Filters
 {
@@ -26,7 +27,7 @@ namespace MicrosServices.API.PermissionSystem.Filters
     {
 
         public const string LoginSessionKey = "LoginSessionKey";
-        public enum AuthorizeType: int
+        public enum AuthorizeType : int
         {
             [Description("检查是否登录")]
             CheckLogin = 0,
@@ -40,6 +41,14 @@ namespace MicrosServices.API.PermissionSystem.Filters
         //需要的权限值
         public string BeTestedManagement { get; set; }
         /// <summary>
+        /// 登录请求
+        /// </summary>
+        private LoginSdk loginSdk;
+        /// <summary>
+        /// 权限校验
+        /// </summary>
+        private ManagementSDK managementSDK;
+        /// <summary>
         /// 检验当前登录人是否拥有权限
         /// </summary>
         /// /// <param name="authorizeType ">情况值（1为该页面需要登录可以进入，2为该页面只能有权限值的管理员才进入）</param>
@@ -47,8 +56,10 @@ namespace MicrosServices.API.PermissionSystem.Filters
         /// <returns>当拥有该权限则返回true,否则返回false</returns>
         public AuthorizeFilterAttribute(int authorizeType = 0, string ManagementValue = "")
         {
-            this.AuthorizeValue = authorizeType ;
+            this.AuthorizeValue = authorizeType;
             this.BeTestedManagement = ManagementValue;
+            loginSdk = new LoginSdk();
+            managementSDK = new ManagementSDK();
         }
         /// <summary>
         /// 授权校验
@@ -57,26 +68,46 @@ namespace MicrosServices.API.PermissionSystem.Filters
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             if (((AuthorizeValue >> (int)AuthorizeType.CheckLogin) & 0x01) > 0)
-            {
-
-                OperatorVo key = SessionUtils.Get<OperatorVo>(LoginSessionKey);
-                if (key==null)
+            {// 检查是否登录
+                OperatorVo operatorVo = CheckLogin(context);
+                if (operatorVo == null)
                 {
-                    CookieCollection cookieCollection = new CookieCollection();
-                    foreach (var item in context.HttpContext.Request.Cookies)
-                    {
-                        cookieCollection.Add(new Cookie(item.Key, item.Value));
-                    }
-                    HttpWebRequestUtil.ProcessCookies(cookieCollection);
-                    OperatorVo operatorVo=  new LoginSdk().GetCurrentOperator();
-                    if (operatorVo == null)
-                    {
-                        context.Result = new JsonResult(new JsonResponses("未登录"));
-                        return;
-                    }
-                    SessionUtils.Set(LoginSessionKey, operatorVo);
+                    context.Result = new JsonResult(new JsonResponses("未登录"));
+                    return;
                 }
             }
+            if (((AuthorizeValue >> (int)AuthorizeType.CheckPermission) & 0x01) > 0)
+            {// 检查权限
+                JsonResponses responses = managementSDK.VaildUserManagement(this.BeTestedManagement);
+                if (!responses.ValidateResponses())
+                {
+                    context.Result = new JsonResult(responses);
+                    return;
+                }
+            }
+        }
+        /// <summary>
+        /// 检查是否登录
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        private OperatorVo CheckLogin(AuthorizationFilterContext context)
+        {
+            OperatorVo operatorVo = SessionUtils.Get<OperatorVo>(LoginSessionKey);
+            if (operatorVo != null)
+                return operatorVo;
+            CookieCollection cookieCollection = new CookieCollection();
+            foreach (var item in context.HttpContext.Request.Cookies)
+            {
+                cookieCollection.Add(new Cookie(item.Key, item.Value));
+            }
+            HttpWebRequestUtil.ProcessCookies(cookieCollection);
+            operatorVo = loginSdk.GetCurrentOperator();
+            if (operatorVo != null)
+            {
+                SessionUtils.Set(LoginSessionKey, operatorVo);
+            }
+            return operatorVo;
         }
     }
 }

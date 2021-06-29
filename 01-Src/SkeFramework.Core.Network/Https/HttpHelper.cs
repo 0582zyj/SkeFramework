@@ -220,6 +220,7 @@ namespace SkeFramework.Core.Network.Https
                 if (request.Method== HttpMethod.Get.Method.ToString())
                 {
                     bPara.Uri = request.GetReqUrl();
+                    bPara.Method = RequestTypeEnums.GET;
                     return HttpWebRequestUtil.HttpGet(bPara);
                 }
                 bPara.Uri = request.Url;

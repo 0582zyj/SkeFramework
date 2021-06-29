@@ -90,7 +90,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [AuthorizeFilterAttribute(1)]
+        [AuthorizeFilterAttribute(2, "role.add")]
         public ActionResult<JsonResponses> Create([FromForm]PsOrganization model)
         {
             var ResultCode = -1;
@@ -105,7 +105,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [AuthorizeFilterAttribute(1)]
+        [AuthorizeFilterAttribute(2, "role.update")]
         public ActionResult<JsonResponses> Update([FromForm]PsOrganization model)
         {
             var ResultCode = -1;
@@ -119,7 +119,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [AuthorizeFilterAttribute(1)]
+        [AuthorizeFilterAttribute(2, "role.delete")]
         public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
             var ResultCode = -1;

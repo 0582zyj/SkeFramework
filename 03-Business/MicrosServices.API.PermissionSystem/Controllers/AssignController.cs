@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MicrosServices.API.PermissionSystem.Filters;
 using MicrosServices.BLL.Business;
 using MicrosServices.Helper.Core;
 using MicrosServices.Helper.Core.Constants;
@@ -22,10 +23,11 @@ namespace MicrosServices.API.PermissionSystem.Controllers
     {
         #region 用户角色授权
         /// <summary>
-        /// 角色授权
+        /// 用户角色授权
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(2, "user.role.assign")]
         public ActionResult<JsonResponses> CreateUserRoles([FromBody]UserRolesForm model)
         {
             var ResultCode = -1;
@@ -55,10 +57,11 @@ namespace MicrosServices.API.PermissionSystem.Controllers
 
         #region 用户机构授权
         /// <summary>
-        /// 机构授权
+        /// 用户机构授权
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(2, "user.org.assign")]
         public ActionResult<JsonResponses> CreateUserOrgs([FromBody]UserOrgsForm model)
         {
             var ResultCode = -1;
@@ -88,10 +91,11 @@ namespace MicrosServices.API.PermissionSystem.Controllers
 
         #region 机构角色授权
         /// <summary>
-        /// 角色授权
+        /// 机构角色授权
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(2, "org.role.assign")]
         public ActionResult<JsonResponses> CreateOrgRoles([FromBody]OrgRolesForm model)
         {
             var ResultCode = -1;
@@ -121,10 +125,11 @@ namespace MicrosServices.API.PermissionSystem.Controllers
 
         #region 角色权限授权
         /// <summary>
-        /// 角色授权
+        /// 角色权限授权
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(2, "role.management.assign")]
         public ActionResult<JsonResponses> CreateManagementRoles([FromBody]ManagementRolesForm model)
         {
             var ResultCode = -1;
@@ -154,10 +159,11 @@ namespace MicrosServices.API.PermissionSystem.Controllers
 
         #region 权限菜单授权
         /// <summary>
-        /// 角色授权
+        /// 权限菜单授权
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(2, "management.menu.assign")]
         public ActionResult<JsonResponses> CreateManagementMenus([FromBody]ManagementMenusForm model)
         {
             var ResultCode = -1;
@@ -191,6 +197,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(2, "menu.management.assign")]
         public ActionResult<JsonResponses> CreateMenuManagements([FromBody]MenuManagementsForm model)
         {
             var ResultCode = -1;
@@ -229,6 +236,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [AuthorizeFilterAttribute(2, "menu.management.assign")]
         public ActionResult<JsonResponses> CreateGroupManagments([FromBody]GroupManagementsForm model)
         {
             var ResultCode = -1;
@@ -239,6 +247,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
                 {
                     DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(nos);
                 }
+              
             }
             ResultCode = DataHandleManager.Instance().PsMenuManagementHandle.CreateGroupManagments(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);

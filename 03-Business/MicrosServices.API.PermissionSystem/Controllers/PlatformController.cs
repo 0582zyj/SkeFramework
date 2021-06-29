@@ -99,7 +99,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        [AuthorizeFilterAttribute(1)]
+        [AuthorizeFilterAttribute(2, "platform.add")]
         public ActionResult<JsonResponses> Create([FromForm] PsPlatform platform)
         {
             try
@@ -142,7 +142,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [AuthorizeFilterAttribute(1)]
+        [AuthorizeFilterAttribute(2, "platform.update")]
         public ActionResult<JsonResponses> Delete([FromForm] int id)
         {
          
@@ -159,7 +159,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [HttpPost]
-        [AuthorizeFilterAttribute(1)]
+        [AuthorizeFilterAttribute(2, "platform.delete")]
         public ActionResult<JsonResponses> Update([FromForm] PsPlatform platform)
         {
             try

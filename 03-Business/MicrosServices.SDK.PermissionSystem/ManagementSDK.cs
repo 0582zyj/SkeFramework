@@ -27,6 +27,8 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string GetMenuManagementOptionsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getMenuManagementOptions";
         private static readonly string GetUserManagementListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getUserManagementList";
         private static readonly string GetManagementOptionValuesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getManagementOptionValues";
+        private static readonly string VaildUserManagementUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/vaildUserManagement";
+
         
         /// <summary>
         /// 获取菜单所有列表
@@ -299,6 +301,31 @@ namespace MicrosServices.SDK.PermissionSystem
             }
             return managements;
         }
+
+        /// <summary>
+        /// 校验用户权限
+        /// </summary>
+        /// <param name="menuNo"></param>
+        /// <returns></returns>
+        public JsonResponses VaildUserManagement(string ManagementValue, string UserNo="")
+        {
+            try
+            {
+                RequestBase request = RequestBase.Get.Clone() as RequestBase;
+                request.SetValue("userNo", UserNo);
+                request.SetValue("managementValue", ManagementValue);
+                request.Url = VaildUserManagementUrl;
+                string result = HttpHelper.Example.GetWebData(request);
+                return JsonConvert.DeserializeObject<JsonResponses>(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return JsonResponses.Failed;
+        }
+
+        
         #endregion
 
     }
