@@ -40,6 +40,10 @@ namespace SkeFramework.DataBase.Common.DataCommon
                     PrepareCommand(command, conn, trans, cmdType, cmdText, commParemeters);
                     RepositoryHelper.doGetSQL(cmdText, commParemeters);
                     return command.ExecuteNonQuery();
+                    //CounterToken counterToken = LogAgent.StartCounter();
+                    //int result= command.ExecuteNonQuery();
+                    //LogAgent.StopCounterAndLog(counterToken, "[CreateSQL]-Insert:");
+                    //return result;
                 }
             }
         }

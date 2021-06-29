@@ -34,10 +34,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(model.userNo);
             if (model.rolesNos != null)
             {
-                foreach (var nos in model.rolesNos)
-                {
-                    DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(nos);
-                }
+                DataHandleManager.Instance().PsRolesHandle.CheckRolesNosIsExist(model.rolesNos.ToList());
             }
             ResultCode = DataHandleManager.Instance().PsUserRolesHandle.UserRolesInsert(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
@@ -68,10 +65,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             DataHandleManager.Instance().UcUsersHandle.CheckUserNoIsExist(model.userNo);
             if (model.orgNos != null)
             {
-                foreach (var nos in model.orgNos)
-                {
-                    DataHandleManager.Instance().PsOrganizationHandle.CheckOrgNoIsExist(nos);
-                }
+                DataHandleManager.Instance().PsOrganizationHandle.CheckOrgNosIsExist(model.orgNos.ToList());
             }
             ResultCode = DataHandleManager.Instance().PsUserOrgHandle.UserOrgsInsert(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
@@ -102,10 +96,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             DataHandleManager.Instance().PsOrganizationHandle.CheckOrgNoIsExist(model.orgNo);
             if (model.rolesNos != null)
             {
-                foreach (var nos in model.rolesNos)
-                {
-                    DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(nos);
-                }
+                DataHandleManager.Instance().PsRolesHandle.CheckRolesNosIsExist(model.rolesNos.ToList());
             }
             ResultCode = DataHandleManager.Instance().PsOrgRolesHandle.OrgRolesInsert(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
@@ -136,10 +127,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             DataHandleManager.Instance().PsRolesHandle.CheckRolesNoIsExist(model.rolesNo);
             if (model.managementNos != null)
             {
-                foreach (var nos in model.managementNos)
-                {
-                    DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(nos);
-                }
+                DataHandleManager.Instance().PsManagementHandle.CheckManagementNosIsExist(model.managementNos.ToList());
             }
             ResultCode = DataHandleManager.Instance().PsManagementRolesHandle.ManagementRolesInsert(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
@@ -170,10 +158,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.managementNo);
             if (model.menuNos != null)
             {
-                foreach (var nos in model.menuNos)
-                {
-                    DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(nos);
-                }
+                DataHandleManager.Instance().PsMenuHandle.CheckMenuNosIsExist(model.menuNos.ToList());
             }
             ResultCode = DataHandleManager.Instance().PsMenuManagementHandle.ManagementMenusInsert(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
@@ -204,10 +189,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             DataHandleManager.Instance().PsMenuHandle.CheckMenuNoIsExist(model.menuNo);
             if (model.managementNos != null)
             {
-                foreach (var nos in model.managementNos)
-                {
-                    DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(nos);
-                }
+                DataHandleManager.Instance().PsManagementHandle.CheckManagementNosIsExist(model.managementNos.ToList());
             }
             ResultCode = DataHandleManager.Instance().PsMenuManagementHandle.MenuManagementsInsert(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);
@@ -243,11 +225,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(model.managementNo);
             if (model.managementNos != null)
             {
-                foreach (var nos in model.managementNos)
-                {
-                    DataHandleManager.Instance().PsManagementHandle.CheckManagementNoIsExist(nos);
-                }
-              
+                DataHandleManager.Instance().PsManagementHandle.CheckManagementNosIsExist(model.managementNos.ToList());
             }
             ResultCode = DataHandleManager.Instance().PsMenuManagementHandle.CreateGroupManagments(model);
             return (ResultCode > 0 ? JsonResponses.Success : JsonResponses.Failed);

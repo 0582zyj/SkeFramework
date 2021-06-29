@@ -40,8 +40,7 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
         /// <returns></returns>
         public int Insert(TInterface entity, IDbTransaction trans = null)
         {
-            if (!(entity is TRealType)) return 0;
-            CounterToken counterToken = LogAgent.StartCounter();
+            if (!(entity is TRealType)) return 0;          
             var type = typeof(TInterface);
             var tablename = PropertiesHelper.Instance().GetTableName(type);
             if (string.IsNullOrEmpty(tablename)) return -1;
@@ -61,7 +60,6 @@ namespace SkeFramework.DataBase.DataAccess.DataHandle.Achieve
             var sSQL = string.Format("insert into {0}({1}) values({2});", tablename,
                  string.Join(",", sbColumnList.ToArray()),
                  string.Join(",", sbParaList.ToArray()));
-            LogAgent.StopCounterAndLog(counterToken, "[CreateSQL]-Insert:");
             return RepositoryHelper.ExecuteNonQuery(CommandType.Text, sSQL,trans, ParaList.ToArray());
         }
         /// <summary>
