@@ -199,6 +199,25 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             List<ManagementOptionValue> optionValues = DataHandleManager.Instance().PsManagementHandle.GetUserManagementList(UserNo);
             return new JsonResponses(optionValues);
         }
+        /// <summary>
+        /// 获取用户权限列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AuthorizeFilterAttribute(1)]
+        public ActionResult<JsonResponses> VaildUserManagement([FromQuery]string UserNo, [FromQuery]string ManagementValue)
+        {
+            if (String.IsNullOrEmpty(UserNo))
+            {
+                UserNo = this.GetCurrentUserNo();
+            }
+            List<ManagementOptionValue> optionValues = DataHandleManager.Instance().PsManagementHandle.GetUserManagementList(UserNo);
+            if (optionValues.FindIndex(o => o.Code == ManagementValue) > -1)
+            {
+                return JsonResponses.Success;
+            }
+            return new JsonResponses("暂无权限");
+        }
         #endregion
     }
 }

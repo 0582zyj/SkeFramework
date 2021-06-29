@@ -25,5 +25,16 @@ namespace MicrosServices.API.PermissionSystem.Controllers.BaseControllers
             platformList= DataHandleManager.Instance().PsPlatformHandle.GetChildPlatformNoList(operatorVo.platformNo);
             return platformList;
         }
+        /// <summary>
+        /// 获取当前登录账号
+        /// </summary>
+        /// <returns></returns>
+        protected string GetCurrentUserNo()
+        {
+            OperatorVo operatorVo = HttpContext.Session.Get<OperatorVo>(AuthorizeFilterAttribute.LoginSessionKey);
+            if (null == operatorVo)
+                return "";
+            return operatorVo.userNo;
+        }
     }
 }
