@@ -41,7 +41,7 @@ namespace MicrosServices.SDK.UserCenter
             {
                 case "dev":
                     return NetwordConstants.BASE_URL_PERMISSION;
-                case "local":
+                case "iis":
                     return NetwordConstants.BASE_URL_USERCENTER;
                 case "remote":
                     return NetwordConstants.BASE_URL_REMOTE;

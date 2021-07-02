@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using MicrosServices.Entities.Core.Data.Vo;
 using MicrosServices.Helper.Core.UserCenter.FORM;
 using Newtonsoft.Json;
@@ -32,7 +33,11 @@ namespace MicrosServices.SDK.UserCenter
                 request.SetValue("loginerInfo", loginInfo.LoginerInfo);
                 request.SetValue("platform", loginInfo.Platform);
                 string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                JsonResponses responses= JsonConvert.DeserializeObject<JsonResponses>(result);
+                if (responses.ValidateResponses())
+                {
+                 }
+                return responses;
             }
             catch (Exception ex)
             {

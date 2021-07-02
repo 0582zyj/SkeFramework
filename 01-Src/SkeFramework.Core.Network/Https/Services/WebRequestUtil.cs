@@ -126,8 +126,13 @@ namespace SkeFramework.Core.Network.Https.Services
                     req.Headers.Add(key, headerParams[key]);
                 }
             }
+          
             req.CookieContainer = HttpHelper.Example.cookies;
-            LogAgent.Info(req.CookieContainer.GetCookieHeader(new Uri(browserPara.Uri)));
+            if (req.CookieContainer.Count > 0)
+            {
+                CookieCollection cookieCollection = req.CookieContainer.GetCookies(new Uri(url));
+                req.Headers.Add("session_token", cookieCollection[0].Value);
+            }
             req.Proxy = null;
             req.ServicePoint.Expect100Continue = false;
             req.Method = method;
@@ -153,7 +158,10 @@ namespace SkeFramework.Core.Network.Https.Services
                 // 以字符流的方式读取HTTP响应
                 stream = rsp.GetResponseStream();
                 reader = new StreamReader(stream, encoding);
-                HttpHelper.Example.cookies = req.CookieContainer;//访问后更新cookie  
+                if (HttpHelper.Example.cookies.Count == 0)
+                {
+                    HttpHelper.Example.cookies = req.CookieContainer;
+                }
                 return reader.ReadToEnd();
             }
             finally
