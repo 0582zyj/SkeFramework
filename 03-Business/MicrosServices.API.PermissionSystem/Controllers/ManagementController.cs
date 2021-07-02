@@ -200,7 +200,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers
             return new JsonResponses(optionValues);
         }
         /// <summary>
-        /// 获取用户权限列表
+        /// 权限校验
         /// </summary>
         /// <returns></returns>
         [HttpGet]

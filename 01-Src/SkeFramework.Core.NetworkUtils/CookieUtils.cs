@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -68,5 +69,6 @@ namespace SkeFramework.Core.Common.Networks
             hca?.HttpContext?.Response.Cookies.Delete(sName);
         }
 
+     
     }
 }

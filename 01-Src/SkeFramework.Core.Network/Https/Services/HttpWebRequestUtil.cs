@@ -19,6 +19,9 @@ namespace SkeFramework.Core.Network.Https.Services
     /// </summary>
     public class HttpWebRequestUtil
     {
+
+
+ 
         /// <summary>
         /// 存储Cookie键值对
         /// </summary>
@@ -38,10 +41,10 @@ namespace SkeFramework.Core.Network.Https.Services
             return String.Join(";", result.ToArray());
         }
 
-        public static void ProcessResponseCookies(HttpWebResponse response)
+        public static void ProcessResponseCookies(HttpWebRequest request,HttpWebResponse response)
         {
             CookieCollection cookie = response.Cookies;
-            if (response.Cookies==null||response.Cookies.Count==0)
+            if (cookie == null|| cookie.Count==0)
             {
                 string[] cookieList= response.Headers.GetValues("Set-Cookie");
                 if (cookieList ==null || cookieList.Length==0)
@@ -60,12 +63,13 @@ namespace SkeFramework.Core.Network.Https.Services
             {
                 if (m_cookies.ContainsKey(cookie.Name))
                 {
-                    m_cookies[cookie.Name] = cookie.Value;
+                    //m_cookies[cookie.Name] = cookie.Value;
                 }
                 else
                 {
                     m_cookies.Add(cookie.Name, cookie.Value);
                 }
+                LogAgent.Info(cookie.Name + "==" + cookie.Value);
             }
         }
 
@@ -77,6 +81,7 @@ namespace SkeFramework.Core.Network.Https.Services
                 HttpWebRequest request = WebRequest.Create(browserPara.Uri) as HttpWebRequest;
                 //每次请求绕过代理，解决第一次调用慢的问题
                 request.Proxy = null;
+                //使用已经保存的cookies 
                 //多线程并发调用时默认2个http连接数限制的问题，讲其设为1000
                 ServicePoint currentServicePoint = request.ServicePoint;
                 currentServicePoint.ConnectionLimit = 1000;
@@ -89,7 +94,10 @@ namespace SkeFramework.Core.Network.Https.Services
                 }
                 string cookie = GetCookie();
                 if (!String.IsNullOrEmpty(cookie))
+                {
                     request.Headers.Add("Cookie", cookie);
+                }
+
                 string str;
                 using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
                 {
@@ -98,7 +106,7 @@ namespace SkeFramework.Core.Network.Https.Services
                         StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
                         str = reader.ReadToEnd();
                     }
-                    ProcessResponseCookies(response);
+                    ProcessResponseCookies(request,response);
                     request.Abort();
                     request = null;
                 }
@@ -131,8 +139,9 @@ namespace SkeFramework.Core.Network.Https.Services
                 request.ServicePoint.ConnectionLimit = 65500;
                 //指定压缩方法
                 //request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip,deflate");
+                //使用已经保存的cookies 
                 request.KeepAlive = false;
-                request.ContentType = browserPara.contentTypeGet;
+                request.ContentType = browserPara.ContentType;
                 request.Method = HttpMethod.Post.Method.ToString();
                 request.Timeout = browserPara.Timeout;
                 request.ContentLength = byteArray.Length;
@@ -163,7 +172,7 @@ namespace SkeFramework.Core.Network.Https.Services
                         {
                             responseFromServer = reader.ReadToEnd();
                         }
-                        ProcessResponseCookies(response);
+                        ProcessResponseCookies(request,response);
                     }
                     request.Abort();
                 }

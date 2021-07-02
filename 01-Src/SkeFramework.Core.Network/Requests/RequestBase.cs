@@ -25,21 +25,8 @@ namespace SkeFramework.Core.Network.Requests
         public RequestBase(ContentTypeEnums contentType)
         {
             this.contentType = contentType;
-            switch (this.contentType)
-            {
-                case ContentTypeEnums.GETFORM:
-                    this.Method = HttpMethod.Get.Method.ToString();
-                    break;
-                default:
-                    this.Method = HttpMethod.Post.Method.ToString();
-                    break;
-            }
         }
        
-        /// <summary>
-        /// 请求方法
-        /// </summary>
-        public string Method { get; set; }
         /// <summary>
         /// 请求URL
         /// </summary>

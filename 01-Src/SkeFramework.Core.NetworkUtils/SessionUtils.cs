@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SkeFramework.Core.Common.Networks;
@@ -35,6 +36,20 @@ namespace SkeFramework.Core.NetworkUtils
             IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
             string value= hca?.HttpContext?.Session.GetString(key) as string;
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+        }
+        /// <summary>
+        /// 获取SessionId
+        /// </summary>
+        /// <param name="session_token"></param>
+        /// <returns></returns>
+        public static String GetSessionId(string session_token)
+        {
+            IHttpContextAccessor hca = GlobalContextUtils.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
+            RequestHeaders requestHeaders = hca?.HttpContext?.Request.GetTypedHeaders();
+            string sessionToken = requestHeaders?.Get<string>(session_token);
+            if (!String.IsNullOrEmpty(sessionToken))
+                return sessionToken;
+            return hca?.HttpContext?.Session.Id;
         }
     }
 }

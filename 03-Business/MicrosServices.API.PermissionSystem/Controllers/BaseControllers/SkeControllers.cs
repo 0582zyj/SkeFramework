@@ -19,7 +19,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers.BaseControllers
         protected List<long> GetCurrentUserPlatfromNos()
         {
             List<long> platformList = new List<long>();
-            OperatorVo operatorVo = HttpContext.Session.Get<OperatorVo>(AuthorizeFilterAttribute.LoginSessionKey);
+            OperatorVo operatorVo = HttpContext.Session.Get<OperatorVo>(AuthorizeFilterAttribute.SESSION_LOGIN_USER);
             if (null == operatorVo)
                 return platformList;
             platformList= DataHandleManager.Instance().PsPlatformHandle.GetChildPlatformNoList(operatorVo.platformNo);
@@ -31,7 +31,7 @@ namespace MicrosServices.API.PermissionSystem.Controllers.BaseControllers
         /// <returns></returns>
         protected string GetCurrentUserNo()
         {
-            OperatorVo operatorVo = HttpContext.Session.Get<OperatorVo>(AuthorizeFilterAttribute.LoginSessionKey);
+            OperatorVo operatorVo = HttpContext.Session.Get<OperatorVo>(AuthorizeFilterAttribute.SESSION_LOGIN_USER);
             if (null == operatorVo)
                 return "";
             return operatorVo.userNo;

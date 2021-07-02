@@ -19,11 +19,7 @@ namespace SkeFramework.Core.Network.Https
         /// <summary>
         /// 请求方式
         /// </summary>
-        public RequestTypeEnums Method = RequestTypeEnums.POST_FORM;
-        /// <summary>
-        /// 请求方式
-        /// </summary>
-        public string HttpMethod { get; set; }
+        public string Method = "Post";
         /// <summary>
         /// 请求参数
         /// </summary>
@@ -39,7 +35,7 @@ namespace SkeFramework.Core.Network.Https
         /// <summary>
         /// 请求协议头 Key/Value
         /// </summary>
-        public Dictionary<string, string> Headers;
+        public Dictionary<string, string> Headers = new Dictionary<string, string>();
         /// <summary>
         /// 请求的媒体型
         /// </summary>
@@ -55,10 +51,15 @@ namespace SkeFramework.Core.Network.Https
         /// <summary>
         /// 请求的content-Type值 
         /// </summary>
-        public string contentTypeGet = "application/x-www-form-urlencoded";
+        public string ContentType = "application/x-www-form-urlencoded";
         /// <summary>
         /// 超时
         /// </summary>
         public int Timeout = 5000;
+        /// <summary>
+        /// 超时
+        /// </summary>
+        public int ReadWriteTimeout = 30000;
+        
     }
 }

@@ -12,9 +12,9 @@ namespace SkeFramework.Core.Network.Enums
     /// </summary>
     public enum ContentTypeEnums
     {
-        [EnumAttribute("application/json")] POSTJSON= 810,
-        [EnumAttribute("application/x-www-form-urlencoded")] GETFORM= 811,
-        [EnumAttribute("application/x-www-form-urlencoded")] POSTFORM= 812,
-        [EnumAttribute("multipart/form-data")] POSTDATA = 813,       
+        [EnumAttribute("application/json","Post")] POSTJSON= 810,
+        [EnumAttribute("application/x-www-form-urlencoded", "Get")] GETFORM= 811,
+        [EnumAttribute("application/x-www-form-urlencoded", "Post")] POSTFORM= 812,
+        [EnumAttribute("multipart/form-data", "Post")] POSTDATA = 813,       
     }
 }

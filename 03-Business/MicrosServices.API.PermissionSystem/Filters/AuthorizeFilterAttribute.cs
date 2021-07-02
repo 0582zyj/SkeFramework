@@ -23,10 +23,12 @@ namespace MicrosServices.API.PermissionSystem.Filters
     /// <summary>
     /// 授权过滤器
     /// </summary>
-    public class AuthorizeFilterAttribute : Attribute, IAuthorizationFilter
+    public class AuthorizeFilterAttribute :  Attribute, IAuthorizationFilter
     {
 
-        public const string LoginSessionKey = "LoginSessionKey";
+        public const string SESSION_LOGIN_USER = "session_login_user";
+        // 用户登录后的token
+        public const string SESSION_COOKIE_TOKEN = "session_token";
         public enum AuthorizeType : int
         {
             [Description("检查是否登录")]
@@ -93,19 +95,21 @@ namespace MicrosServices.API.PermissionSystem.Filters
         /// <returns></returns>
         private OperatorVo CheckLogin(AuthorizationFilterContext context)
         {
-            OperatorVo operatorVo = SessionUtils.Get<OperatorVo>(LoginSessionKey);
+            OperatorVo operatorVo = SessionUtils.Get<OperatorVo>(SESSION_LOGIN_USER);
             if (operatorVo != null)
                 return operatorVo;
+            string sessionId = SessionUtils.GetSessionId("session_token");
             CookieCollection cookieCollection = new CookieCollection();
             foreach (var item in context.HttpContext.Request.Cookies)
             {
                 cookieCollection.Add(new Cookie(item.Key, item.Value));
             }
+            cookieCollection.Add(new Cookie("session_token", sessionId));
             HttpWebRequestUtil.ProcessCookies(cookieCollection);
             operatorVo = loginSdk.GetCurrentOperator();
             if (operatorVo != null)
             {
-                SessionUtils.Set(LoginSessionKey, operatorVo);
+                SessionUtils.Set(SESSION_LOGIN_USER, operatorVo);
             }
             return operatorVo;
         }
