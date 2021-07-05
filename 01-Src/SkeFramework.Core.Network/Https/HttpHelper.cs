@@ -41,12 +41,23 @@ namespace SkeFramework.Core.Network.Https
         }
         #endregion
         
-        /// <summary>
-        /// 请求方法
-        /// </summary>
-        /// <param name="bPara">设置请求参数</param>
-        /// <returns></returns>
-        public string GetWebData(RequestBase request)
+        private void InitializeSessionToken(RequestBase request)
+        {
+            if (cookies.Count == 0)
+                return;
+            string Uri = request.Url;
+            CookieCollection cookieCollection = cookies.GetCookies(new Uri(Uri));
+            if (cookieCollection.Count == 0)
+                return;
+            request.SetValue("session_token", cookieCollection[0].Value,true);
+        }
+
+    /// <summary>
+    /// 请求方法
+    /// </summary>
+    /// <param name="bPara">设置请求参数</param>
+    /// <returns></returns>
+    public string GetWebData(RequestBase request)
         {
             try
             {
@@ -61,6 +72,8 @@ namespace SkeFramework.Core.Network.Https
                         bPara.ContentType = request.contentType.GetEnumDescription();
                         break;
                 }
+                InitializeSessionToken(request);
+                bPara.Headers = request.HeaderValue;
                 if (request.contentType== ContentTypeEnums.GETFORM)
                 {
                     bPara.Uri = request.GetReqUrl();

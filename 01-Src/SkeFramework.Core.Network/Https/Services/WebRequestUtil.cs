@@ -128,11 +128,7 @@ namespace SkeFramework.Core.Network.Https.Services
             }
           
             req.CookieContainer = HttpHelper.Example.cookies;
-            if (req.CookieContainer.Count > 0)
-            {
-                CookieCollection cookieCollection = req.CookieContainer.GetCookies(new Uri(url));
-                req.Headers.Add("session_token", cookieCollection[0].Value);
-            }
+          
             req.Proxy = null;
             req.ServicePoint.Expect100Continue = false;
             req.Method = method;

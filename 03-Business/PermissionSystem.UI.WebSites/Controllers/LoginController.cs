@@ -51,6 +51,7 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
             {
                 System.Web.HttpContext.Current.Session.Remove(AppBusiness.SessionKey_UserManagementList);
             }
+            HttpHelper.Example.cookies = new System.Net.CookieContainer();
             return RedirectToAction("Login", "Login");
         }
         #endregion
