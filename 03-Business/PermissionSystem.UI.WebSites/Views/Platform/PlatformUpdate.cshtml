@@ -102,7 +102,7 @@
                 Init: function () {
                     var _self = this;
                     _self.platformList = {};
-                    axios.get(this.getPlatformOptionValueUrl)
+                    axios.get(this.getPlatformOptionValueUrl + '?containDefault=true')
                         .then(function (response) {
                             if (response.status == 200) {
                                 _self.platformList = response.data;

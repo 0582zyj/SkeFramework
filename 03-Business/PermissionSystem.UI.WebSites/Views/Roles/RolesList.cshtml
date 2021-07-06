@@ -178,9 +178,6 @@
                         .then(function (response) {
                             if (response.status == 200) {
                                 _self.platformList = response.data;
-                                if (response.data.length > 0) {
-                                    _self.dataItem.PlatformNo = response.data[0].Value
-                                }
                             }
                         })
                         .catch(function (error) {

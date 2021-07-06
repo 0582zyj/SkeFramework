@@ -67,6 +67,7 @@ namespace SmartCloudIOT.UI.WebSite.Controllers
         [AllowAnonymous]
         public JsonResult Login( string UserName, string Password, string Captcha)
         {
+            HttpHelper.Example.SessionId= Session.SessionID.ToString();
             LoginInfoForm loginInfoForm = new LoginInfoForm();
             loginInfoForm.UserName = UserName;
             loginInfoForm.Password = Password;

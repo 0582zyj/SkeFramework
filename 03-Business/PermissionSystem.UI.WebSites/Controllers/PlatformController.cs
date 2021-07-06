@@ -114,11 +114,12 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetOptionValues()
+        public JsonResult GetOptionValues(bool containDefault=false)
         {
             long PlatformNo = LoginModel.Instance().PlatformNo;
             List<OptionValue> optionValues = platformSdk.GetOptionValues(LoginModel.Instance().PlatformNo);
-            optionValues.Insert(0, OptionValue.Default);
+            if(containDefault)
+                optionValues.Insert(0, OptionValue.Default);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }
 

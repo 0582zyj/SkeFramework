@@ -18,6 +18,9 @@ namespace SkeFramework.Core.Network.Https
         private WebRequestUtil webUtils;
 
         public CookieContainer cookies = new CookieContainer();
+
+        public string SessionId = String.Empty;
+
         public HttpHelper()
         {
             webUtils = new WebRequestUtil();
@@ -43,6 +46,11 @@ namespace SkeFramework.Core.Network.Https
         
         private void InitializeSessionToken(RequestBase request)
         {
+            if (!String.IsNullOrEmpty(this.SessionId))
+            {
+                request.SetValue("session_token", this.SessionId, true);
+                return;
+            }
             if (cookies.Count == 0)
                 return;
             string Uri = request.Url;
