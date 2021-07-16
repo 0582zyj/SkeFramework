@@ -2,7 +2,6 @@
 using MicrosServices.Helper.Core.Common;
 using Newtonsoft.Json;
 using SkeFramework.Core.Network.DataUtility;
-using SkeFramework.Core.Network.Enums;
 using SkeFramework.Core.Network.Https;
 using SkeFramework.Core.Network.Requests;
 using SkeFramework.Core.Network.Responses;

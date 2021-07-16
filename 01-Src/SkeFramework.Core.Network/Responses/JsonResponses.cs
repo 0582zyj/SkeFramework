@@ -70,6 +70,22 @@ namespace SkeFramework.Core.Network.Responses
             }
             return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(data));
         }
+
+        /// <summary>
+        /// 结果类型转换
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public List<T> GetDataList<T>()
+        {
+            Type parentType = this.data.GetType();
+            Type childType = typeof(T);
+            if (parentType == childType || parentType.IsSubclassOf(childType))
+            {
+                return new List<T>();
+            }
+            return JsonConvert.DeserializeObject<List<T>>(JsonConvert.SerializeObject(data));
+        }
         /// <summary>
         /// 克隆
         /// </summary>

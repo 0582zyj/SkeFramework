@@ -55,7 +55,7 @@ namespace SkeFramework.Core.Network.Https
         /// <summary>
         /// 超时
         /// </summary>
-        public int Timeout = 5000;
+        public int Timeout = 30000;
         /// <summary>
         /// 超时
         /// </summary>

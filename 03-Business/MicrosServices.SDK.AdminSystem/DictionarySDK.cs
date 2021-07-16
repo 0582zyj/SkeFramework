@@ -25,6 +25,7 @@ namespace MicrosServices.SDK.AdminSystem
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionary/getOptionValues";
 
+        private SdkUtil sdkUtil = new SdkUtil();
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -32,24 +33,17 @@ namespace MicrosServices.SDK.AdminSystem
         /// <returns></returns>
         public List<BsDictionary> GetList()
         {
-            List<BsDictionary> menus = new List<BsDictionary>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetListUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<BsDictionary>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<BsDictionary>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new List<BsDictionary>();
         }
         /// <summary>
         /// 获取菜单所有列表
@@ -67,14 +61,7 @@ namespace MicrosServices.SDK.AdminSystem
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", DictionaryNo);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    menus = JsonConvert.DeserializeObject<PageResponse<BsDictionary>>(JsonConvert.SerializeObject(data));
-                    return menus;
-                }
+                return sdkUtil.PostForResultVo<PageResponse<BsDictionary>>(request);
             }
             catch (Exception ex)
             {

@@ -43,7 +43,7 @@ namespace SkeFramework.Core.Network.Https
             }
         }
         #endregion
-        
+
         private void InitializeSessionToken(RequestBase request)
         {
             if (!String.IsNullOrEmpty(this.SessionId))
@@ -57,15 +57,15 @@ namespace SkeFramework.Core.Network.Https
             CookieCollection cookieCollection = cookies.GetCookies(new Uri(Uri));
             if (cookieCollection.Count == 0)
                 return;
-            request.SetValue("session_token", cookieCollection[0].Value,true);
+            request.SetValue("session_token", cookieCollection[0].Value, true);
         }
 
-    /// <summary>
-    /// 请求方法
-    /// </summary>
-    /// <param name="bPara">设置请求参数</param>
-    /// <returns></returns>
-    public string GetWebData(RequestBase request)
+        /// <summary>
+        /// 请求方法
+        /// </summary>
+        /// <param name="bPara">设置请求参数</param>
+        /// <returns></returns>
+        public string GetWebData(RequestBase request)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace SkeFramework.Core.Network.Https
                 }
                 InitializeSessionToken(request);
                 bPara.Headers = request.HeaderValue;
-                if (request.contentType== ContentTypeEnums.GETFORM)
+                if (request.contentType == ContentTypeEnums.GETFORM)
                 {
                     bPara.Uri = request.GetReqUrl();
                     bPara.Method = HttpMethod.Get.Method.ToString();

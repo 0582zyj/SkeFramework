@@ -34,7 +34,7 @@ namespace MicrosServices.SDK.UserCenter
             return mSingleInstance;
         }
         #endregion
-        private string config = "remote";
+        private string config = "remote_local";
         public string GetBaseUrl()
         {
             switch (config)

@@ -43,8 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataUtility\PageModel.cs" />
-    <Compile Include="DataUtility\RequestModel.cs" />
+    <Compile Include="DataEntities\PageModel.cs" />
+    <Compile Include="DataUtility\SdkUtil.cs" />
     <Compile Include="Enums\ContentTypeEnums.cs" />
     <Compile Include="Https\BrowserPara.cs" />
     <Compile Include="Https\HttpHelper.cs" />
@@ -70,9 +70,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Commom\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
