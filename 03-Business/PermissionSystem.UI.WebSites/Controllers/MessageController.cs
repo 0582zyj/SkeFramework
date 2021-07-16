@@ -41,7 +41,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = messageSDK.GetInfo(id);
             if (responses.code == JsonResponses.SuccessCode)
             {
-                Info = responses.data as RtMessage;
+                Info = responses.GetDataValue< RtMessage>();
             }
             return Json(Info, JsonRequestBehavior.AllowGet);
         }

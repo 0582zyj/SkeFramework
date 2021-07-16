@@ -60,10 +60,10 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = platformSdk.GetPsPlatformInfo(id);
             if (responses.code == JsonResponses.SuccessCode)
             {
-                Info = responses.data as PsPlatform;
+                Info = responses.GetDataValue<PsPlatform>();
             }
             return Json(Info, JsonRequestBehavior.AllowGet);
-           
+
         }
         /// <summary>
         /// 获取列表信息
@@ -104,7 +104,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         [HttpPost]
         public JsonResult PsPlatformDelete(int id)
         {
-            JsonResponses responses =platformSdk.PlatformDelete(id);
+            JsonResponses responses = platformSdk.PlatformDelete(id);
             return Json(responses, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -114,11 +114,11 @@ namespace PermissionSystem.UI.WebSites.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public JsonResult GetOptionValues(bool containDefault=false)
+        public JsonResult GetOptionValues(bool containDefault = false)
         {
             long PlatformNo = LoginModel.Instance().PlatformNo;
             List<OptionValue> optionValues = platformSdk.GetOptionValues(LoginModel.Instance().PlatformNo);
-            if(containDefault)
+            if (containDefault)
                 optionValues.Insert(0, OptionValue.Default);
             return Json(optionValues, JsonRequestBehavior.AllowGet);
         }

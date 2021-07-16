@@ -19,6 +19,7 @@ namespace MicrosServices.SDK.RealTimeSystem
 
         private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/shortmessage/getPageList";
 
+        private SdkUtil sdkUtil = new SdkUtil();
 
         /// <summary>
         /// 获取菜单所有列表
@@ -27,7 +28,6 @@ namespace MicrosServices.SDK.RealTimeSystem
         /// <returns></returns>
         public PageResponse<RtShortMessage> GetPageList(PageModel page)
         {
-            PageResponse<RtShortMessage> menus = new PageResponse<RtShortMessage>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
@@ -35,18 +35,13 @@ namespace MicrosServices.SDK.RealTimeSystem
                 request.SetValue("pageSize", page.PageSize);
             
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    return responses.GetDataValue<PageResponse<RtShortMessage>>();
-                }
+                return sdkUtil.PostForResultVo<PageResponse<RtShortMessage>>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new PageResponse<RtShortMessage>();
         }
     }
 }

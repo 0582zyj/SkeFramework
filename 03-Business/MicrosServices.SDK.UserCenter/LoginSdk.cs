@@ -3,6 +3,7 @@ using System.Net;
 using MicrosServices.Entities.Core.Data.Vo;
 using MicrosServices.Helper.Core.UserCenter.FORM;
 using Newtonsoft.Json;
+using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Enums;
 using SkeFramework.Core.Network.Https;
 using SkeFramework.Core.Network.Requests;
@@ -16,7 +17,7 @@ namespace MicrosServices.SDK.UserCenter
         private static string LoginUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/login/login";
         private static string GetCurrentOperatorUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/login/getCurrentOperator";
 
-        
+        private SdkUtil sdkUtil = new SdkUtil();
         /// <summary>
         /// 登录
         /// </summary>
@@ -32,12 +33,7 @@ namespace MicrosServices.SDK.UserCenter
                 request.SetValue("password", loginInfo.Password);
                 request.SetValue("loginerInfo", loginInfo.LoginerInfo);
                 request.SetValue("platform", loginInfo.Platform);
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses= JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.ValidateResponses())
-                {
-                 }
-                return responses;
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -58,14 +54,7 @@ namespace MicrosServices.SDK.UserCenter
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetCurrentOperatorUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                if (String.IsNullOrEmpty(result))
-                    return null;
-                JsonResponses responses= JsonConvert.DeserializeObject<JsonResponses>(result);
-                if(responses.ValidateResponses())
-                {
-                    return JsonConvert.DeserializeObject<OperatorVo>(responses.data.ToString());
-                }
+                return sdkUtil.PostForResultVo<OperatorVo>(request);
             }
             catch (Exception ex)
             {

@@ -64,7 +64,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = menuSdk.GetPsMenuInfo(id);
             if (responses.code == JsonResponses.SuccessCode)
             {
-                Info = responses.data as PsMenu;
+                Info = responses.GetDataValue< PsMenu>();
             }
             return Json(Info, JsonRequestBehavior.AllowGet);
         }

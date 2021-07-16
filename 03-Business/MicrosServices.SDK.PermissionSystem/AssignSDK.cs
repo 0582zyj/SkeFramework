@@ -1,6 +1,7 @@
 ﻿using MicrosServices.Helper.Core.Form;
 using MicrosServices.Helper.Core.Form.AssignForm;
 using Newtonsoft.Json;
+using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Enums;
 using SkeFramework.Core.Network.Https;
 using SkeFramework.Core.Network.Requests;
@@ -30,7 +31,9 @@ namespace MicrosServices.SDK.PermissionSystem
 
         private static readonly string GetGroupManagmentsAssignUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/getGroupManagmentsAssign";
         private static readonly string CreateGroupManagmentsUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/assign/createGroupManagments";
-        
+
+        private SdkUtil sdkUtil = new SdkUtil();
+
         #region 用户角色
         /// <summary>
         /// 获取用户角色列表
@@ -44,8 +47,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetRolesAssignUrl;
                 request.SetValue("userNo", UserNo);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -65,8 +67,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.PostJson as RequestBase;
                 request.Url = CreateUserRolesUrl;
                 request.SetJsonValue(model);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -89,8 +90,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetUserOrgAssignUrl;
                 request.SetValue("userNo",Convert.ToInt64( UserNo));
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -110,8 +110,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.PostJson as RequestBase;
                 request.Url = CreateUserOrgsUrl;
                 request.SetJsonValue(model);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -135,9 +134,8 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetManagementAssignUrl;
                 request.SetValue("rolesNo", RolesNo);
-                request.SetValue("managementType", paramList); 
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                request.SetValue("managementType", paramList);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -156,9 +154,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.PostJson as RequestBase;
                 request.Url = CreateManagementRolesUrl;
                 request.SetJsonValue(managementRolesForm);
-             
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -181,8 +177,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetOrgAssignUrl;
                 request.SetValue("orgNo", OrgNo);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -202,8 +197,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.PostJson as RequestBase;
                 request.Url = CreateOrgRolesUrl;
                 request.SetJsonValue(model);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -226,8 +220,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetMenuManagmentAssignUrl;
                 request.SetValue("menuNo", MenuNo);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -248,8 +241,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.PostJson as RequestBase;
                 request.Url = CreateMenuManagementsUrl;
                 request.SetJsonValue(model);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -272,8 +264,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetMenuAssignUrl;
                 request.SetValue("managementNo", ManagementNo);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -294,8 +285,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.PostJson as RequestBase;
                 request.Url = CreateManagementMenusUrl;
                 request.SetJsonValue(model);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -320,8 +310,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetGroupManagmentsAssignUrl;
                 request.SetValue("managementNo", managementNo);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -342,8 +331,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.PostJson as RequestBase;
                 request.Url = CreateGroupManagmentsUrl;
                 request.SetJsonValue(model);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {

@@ -1,5 +1,6 @@
 ﻿using MicrosServices.Entities.Common;
 using Newtonsoft.Json;
+using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Enums;
 using SkeFramework.Core.Network.Https;
 using SkeFramework.Core.Network.Requests;
@@ -16,6 +17,7 @@ namespace MicrosServices.SDK.UserCenter
     {
         private static string GetUserSettingInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/usersetting/get";
 
+        private SdkUtil sdkUtil = new SdkUtil();
         /// <summary>
         /// 根据主键ID获取信息
         /// </summary>
@@ -27,13 +29,7 @@ namespace MicrosServices.SDK.UserCenter
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("userNo", UserNo);
                 request.Url = GetUserSettingInfoUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<UcUsersSetting>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultVo<UcUsersSetting>(request);
             }
             catch (Exception ex)
             {

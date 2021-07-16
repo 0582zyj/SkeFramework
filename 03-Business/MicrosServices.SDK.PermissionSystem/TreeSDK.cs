@@ -1,5 +1,6 @@
 ﻿using MicrosServices.Entities.Common;
 using Newtonsoft.Json;
+using SkeFramework.Core.Network.DataUtility;
 using SkeFramework.Core.Network.Enums;
 using SkeFramework.Core.Network.Https;
 using SkeFramework.Core.Network.Requests;
@@ -18,6 +19,8 @@ namespace MicrosServices.SDK.PermissionSystem
         private readonly string GetManagementTreeListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/tree/getManagementTreeList";
         private readonly string GetOrganizationTreeListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/tree/getOrganizationTreeList";
         private readonly string GetRolesTreeListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/tree/getRolesTreeList";
+
+        private SdkUtil sdkUtil = new SdkUtil();
 
         /// <summary>
         /// 获取菜单树
@@ -63,25 +66,18 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <returns></returns>
         private List<TreeNodeInfo> GetTreeListByPlatform(long PlatformNo, string Url)
         {
-            List<TreeNodeInfo> menus = new List<TreeNodeInfo>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = Url;
                 request.SetValue("platformNo", PlatformNo);
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<TreeNodeInfo>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<TreeNodeInfo>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new List<TreeNodeInfo>();
         }
     }
 }

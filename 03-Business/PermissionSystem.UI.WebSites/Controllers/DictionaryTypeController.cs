@@ -56,7 +56,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = dictionaryTypeSDK.GetInfo(id);
             if (responses.code == JsonResponses.SuccessCode)
             {
-                Info = responses.data as BsDictionaryType;
+                Info = responses.GetDataValue<BsDictionaryType>();
             }
             return Json(Info, JsonRequestBehavior.AllowGet);
         }

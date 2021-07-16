@@ -60,7 +60,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = serverSdk.GetInfo(id);
             if (responses.code == JsonResponses.SuccessCode)
             {
-                Info = responses.data as PdProject;
+                Info = responses.GetDataValue< PdProject>();
             }
             return Json(Info, JsonRequestBehavior.AllowGet);
 

@@ -61,7 +61,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = organizationSdk.GetPsOrganizationInfo(id);
             if (responses.code == JsonResponses.SuccessCode)
             {
-                Info = responses.data as PsOrganization;
+                Info = responses.GetDataValue< PsOrganization>();
             }
             return Json(Info, JsonRequestBehavior.AllowGet);
 
@@ -107,8 +107,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
         {
             JsonResponses responses = organizationSdk.GetPsOrganizationInfo(id);
             if (responses.ValidateResponses())
-            {
-                PsOrganization platform = responses.data as PsOrganization;
+            {                
                 responses = organizationSdk.OrganizationDelete(id);
             }
             return Json(responses, JsonRequestBehavior.AllowGet);

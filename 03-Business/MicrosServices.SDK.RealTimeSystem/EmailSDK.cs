@@ -20,6 +20,7 @@ namespace MicrosServices.SDK.RealTimeSystem
         private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/email/getPageList";
 
 
+        private SdkUtil sdkUtil = new SdkUtil();
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -27,7 +28,6 @@ namespace MicrosServices.SDK.RealTimeSystem
         /// <returns></returns>
         public PageResponse<RtEmail> GetPageList(PageModel page, string from = "", string to = "", string subject = "", string message = "")
         {
-            PageResponse<RtEmail> menus = new PageResponse<RtEmail>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
@@ -38,20 +38,13 @@ namespace MicrosServices.SDK.RealTimeSystem
                 request.SetValue("subject", subject);
                 request.SetValue("message", message);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    menus = JsonConvert.DeserializeObject<PageResponse<RtEmail>>(JsonConvert.SerializeObject(data));
-                    return menus;
-                }
+                return sdkUtil.PostForResultVo<PageResponse<RtEmail>>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new PageResponse<RtEmail>();
         }
     }
 }

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MicrosServices.SDK.AdminSystem
 {
-   public class DictionaryTypeSDK
+    public class DictionaryTypeSDK
     {
         private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionarytype/getList";
         private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionarytype/getPageList";
@@ -24,6 +24,7 @@ namespace MicrosServices.SDK.AdminSystem
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionarytype/update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionarytype/getOptionValues";
 
+        private SdkUtil sdkUtil = new SdkUtil();
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -31,24 +32,17 @@ namespace MicrosServices.SDK.AdminSystem
         /// <returns></returns>
         public List<BsDictionaryType> GetList()
         {
-            List<BsDictionaryType> menus = new List<BsDictionaryType>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetListUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<BsDictionaryType>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<BsDictionaryType>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new List<BsDictionaryType>();
         }
         /// <summary>
         /// 获取菜单所有列表
@@ -57,7 +51,6 @@ namespace MicrosServices.SDK.AdminSystem
         /// <returns></returns>
         public PageResponse<BsDictionaryType> GetPageList(PageModel page, string keywords = "", long DictionaryNo = -1)
         {
-            PageResponse<BsDictionaryType> menus = new PageResponse<BsDictionaryType>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
@@ -66,20 +59,13 @@ namespace MicrosServices.SDK.AdminSystem
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", DictionaryNo);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    menus = JsonConvert.DeserializeObject<PageResponse<BsDictionaryType>>(JsonConvert.SerializeObject(data));
-                    return menus;
-                }
+                return sdkUtil.PostForResultVo<PageResponse<BsDictionaryType>>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new PageResponse<BsDictionaryType>();
         }
         /// <summary>
         /// 根据主键ID获取信息
@@ -92,14 +78,7 @@ namespace MicrosServices.SDK.AdminSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("id", id.ToString());
                 request.Url = GetInfoUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    responses.data = JsonConvert.DeserializeObject<BsDictionaryType>(JsonConvert.SerializeObject(data));
-                }
-                return responses;
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -126,8 +105,7 @@ namespace MicrosServices.SDK.AdminSystem
                 request.SetValue("updateUser", model.UpdateUser);
                 request.SetValue("updateTime", model.UpdateTime);
                 request.Url = AddUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -151,8 +129,7 @@ namespace MicrosServices.SDK.AdminSystem
                 request.SetValue("enabled", model.Enabled);
                 request.SetValue("id", model.id);
                 request.Url = UpdateUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -172,8 +149,7 @@ namespace MicrosServices.SDK.AdminSystem
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", id);
                 request.Url = DeleteUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -192,13 +168,7 @@ namespace MicrosServices.SDK.AdminSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetOptionValueUrl;
                 request.SetValue("platformNo", PlatformNo);
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<DictionaryOptionValue>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<DictionaryOptionValue>(request);
             }
             catch (Exception ex)
             {

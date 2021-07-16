@@ -22,6 +22,7 @@ namespace MicrosServices.SDK.RealTimeSystem
         private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/message/delete";
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/message/update";
 
+        private SdkUtil sdkUtil = new SdkUtil();
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -29,7 +30,6 @@ namespace MicrosServices.SDK.RealTimeSystem
         /// <returns></returns>
         public PageResponse<RtMessage> GetPageList(PageModel page, string keywords = "", long MessageNo = -1)
         {
-            PageResponse<RtMessage> menus = new PageResponse<RtMessage>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
@@ -38,20 +38,13 @@ namespace MicrosServices.SDK.RealTimeSystem
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", MessageNo);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    menus = JsonConvert.DeserializeObject<PageResponse<RtMessage>>(JsonConvert.SerializeObject(data));
-                    return menus;
-                }
+                return sdkUtil.PostForResultVo<PageResponse<RtMessage>>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new PageResponse<RtMessage>();
         }
         /// <summary>
         /// 根据主键ID获取信息
@@ -64,14 +57,7 @@ namespace MicrosServices.SDK.RealTimeSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("id", id.ToString());
                 request.Url = GetInfoUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    responses.data = JsonConvert.DeserializeObject<RtMessage>(JsonConvert.SerializeObject(data));
-                }
-                return responses;
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -99,8 +85,7 @@ namespace MicrosServices.SDK.RealTimeSystem
                 request.SetValue("handleTime", model.HandleTime);
                 request.SetValue("availTime", model.AvailTime);
                 request.Url = AddUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -120,8 +105,7 @@ namespace MicrosServices.SDK.RealTimeSystem
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", id);
                 request.Url = DeleteUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {

@@ -54,7 +54,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = pushConfigSDK.GetInfo(id);
             if (responses.code == JsonResponses.SuccessCode)
             {
-                Info = responses.data as RtPushconfig;
+                Info = responses.GetDataValue< RtPushconfig>();
             }
             return Json(Info, JsonRequestBehavior.AllowGet);
         }

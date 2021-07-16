@@ -29,7 +29,8 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string GetManagementOptionValuesUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/getManagementOptionValues";
         private static readonly string VaildUserManagementUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/management/vaildUserManagement";
 
-        
+        private SdkUtil sdkUtil = new SdkUtil();
+
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -61,9 +62,8 @@ namespace MicrosServices.SDK.PermissionSystem
         /// </summary>
         /// <param name="loginInfo"></param>
         /// <returns></returns>
-        public PageResponse<PsManagement> GetManagementPageList(PageModel page, string keywords = "",long ManagementNo=-1)
+        public PageResponse<PsManagement> GetManagementPageList(PageModel page, string keywords = "", long ManagementNo = -1)
         {
-            PageResponse<PsManagement> menus = new PageResponse<PsManagement>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
@@ -72,20 +72,13 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", ManagementNo);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.ValidateResponses())
-                {
-                    object data = responses.data;
-                    menus = JsonConvert.DeserializeObject<PageResponse<PsManagement>>(JsonConvert.SerializeObject(data));
-                    return menus;
-                }
+                return sdkUtil.PostForResultVo<PageResponse<PsManagement>>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new PageResponse<PsManagement>();
         }
         /// <summary>
         /// 根据主键ID获取信息
@@ -98,14 +91,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("id", id.ToString());
                 request.Url = GetInfoUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    responses.data = JsonConvert.DeserializeObject<PsManagement>(JsonConvert.SerializeObject(data));
-                }
-                return responses;
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -133,8 +119,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("enabled", menu.Enabled);
                 request.SetValue("inputUser", menu.InputUser);
                 request.Url = AddUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -151,7 +136,7 @@ namespace MicrosServices.SDK.PermissionSystem
         {
             try
             {
-               RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
+                RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", menu.id);
                 request.SetValue("managementNo", menu.ManagementNo);
                 request.SetValue("parentNo", menu.ParentNo);
@@ -162,8 +147,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("platformNo", menu.PlatformNo);
                 request.SetValue("enabled", menu.Enabled);
                 request.Url = UpdateUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -183,8 +167,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", id);
                 request.Url = DeleteUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -202,13 +185,7 @@ namespace MicrosServices.SDK.PermissionSystem
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetOptionValueUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<OptionValue>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<OptionValue>(request);
             }
             catch (Exception ex)
             {
@@ -220,21 +197,15 @@ namespace MicrosServices.SDK.PermissionSystem
         /// 获取键值对
         /// </summary>
         /// <returns></returns>
-        public List<ManagementOptionValue> GetManagementOptionValues(long PlatformNo,long ManagementType)
+        public List<ManagementOptionValue> GetManagementOptionValues(long PlatformNo, long ManagementType)
         {
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetManagementOptionValuesUrl;
                 request.SetValue("platformNo", PlatformNo);
-                request.SetValue("managementType", ManagementType); 
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<ManagementOptionValue>>(JsonConvert.SerializeObject(data));
-                }
+                request.SetValue("managementType", ManagementType);
+                return sdkUtil.PostForResultListVo<ManagementOptionValue>(request);
             }
             catch (Exception ex)
             {
@@ -243,7 +214,7 @@ namespace MicrosServices.SDK.PermissionSystem
             return new List<ManagementOptionValue>();
         }
 
-        
+
         #region 菜单权限列表
         /// <summary>
         /// 获取菜单权限值
@@ -252,25 +223,17 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <returns></returns>
         public List<ManagementOptionValue> GetMenuManagementOptions(long MenuNo)
         {
-            List<ManagementOptionValue> managements = new List<ManagementOptionValue>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetMenuManagementOptionsUrl;
-              
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<ManagementOptionValue>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<ManagementOptionValue>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return managements;
+            return new List<ManagementOptionValue>();
         }
 
         /// <summary>
@@ -278,28 +241,21 @@ namespace MicrosServices.SDK.PermissionSystem
         /// </summary>
         /// <param name="menuNo"></param>
         /// <returns></returns>
-        public List<ManagementOptionValue> GetUserManagementList(string  UserNo)
+        public List<ManagementOptionValue> GetUserManagementList(string UserNo)
         {
-            List<ManagementOptionValue> managements = new List<ManagementOptionValue>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetUserManagementListUrl;
 
                 request.SetValue("userNo", UserNo);
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<ManagementOptionValue>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<ManagementOptionValue>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return managements;
+            return new List<ManagementOptionValue>();
         }
 
         /// <summary>
@@ -307,7 +263,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// </summary>
         /// <param name="menuNo"></param>
         /// <returns></returns>
-        public JsonResponses VaildUserManagement(string ManagementValue, string UserNo="")
+        public JsonResponses VaildUserManagement(string ManagementValue, string UserNo = "")
         {
             try
             {
@@ -315,8 +271,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("userNo", UserNo);
                 request.SetValue("managementValue", ManagementValue);
                 request.Url = VaildUserManagementUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -325,7 +280,7 @@ namespace MicrosServices.SDK.PermissionSystem
             return JsonResponses.Failed;
         }
 
-        
+
         #endregion
 
     }

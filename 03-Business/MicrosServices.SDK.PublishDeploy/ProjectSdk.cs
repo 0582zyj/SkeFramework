@@ -25,7 +25,8 @@ namespace MicrosServices.SDK.PublishDeploy
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/project/update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/project/getOptionValues";
         private static readonly string PublishDeployUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/project/publish";
-        
+
+        private SdkUtil sdkUtil = new SdkUtil();
 
         /// <summary>
         /// 获取所有列表
@@ -34,24 +35,17 @@ namespace MicrosServices.SDK.PublishDeploy
         /// <returns></returns>
         public List<PdProject> GetList()
         {
-            List<PdProject> menus = new List<PdProject>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetListUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<PdProject>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<PdProject>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new List<PdProject>();
         }
         /// <summary>
         /// 获分页列表
@@ -60,7 +54,6 @@ namespace MicrosServices.SDK.PublishDeploy
         /// <returns></returns>
         public PageResponse<PdProject> GetPageList(PageModel page, string keywords = "")
         {
-            PageResponse<PdProject> menus = new PageResponse<PdProject>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
@@ -68,20 +61,13 @@ namespace MicrosServices.SDK.PublishDeploy
                 request.SetValue("pageIndex", page.PageIndex);
                 request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    menus = JsonConvert.DeserializeObject<PageResponse<PdProject>>(JsonConvert.SerializeObject(data));
-                    return menus;
-                }
+                return sdkUtil.PostForResultVo<PageResponse<PdProject>>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new PageResponse<PdProject>();
         }
         /// <summary>
         /// 根据主键ID获取信息
@@ -94,14 +80,7 @@ namespace MicrosServices.SDK.PublishDeploy
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("id", id.ToString());
                 request.Url = GetInfoUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    responses.data = JsonConvert.DeserializeObject<PdProject>(JsonConvert.SerializeObject(data));
-                }
-                return responses;
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -132,8 +111,7 @@ namespace MicrosServices.SDK.PublishDeploy
                 request.SetValue("InputUser", model.InputUser);
                 request.SetValue("InputTime", model.InputTime);
                 request.Url = AddUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -164,8 +142,7 @@ namespace MicrosServices.SDK.PublishDeploy
                 request.SetValue("notifyEmails", model.notifyEmails);
                 request.SetValue("InputUser", model.InputUser);
                 request.Url = UpdateUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -185,8 +162,7 @@ namespace MicrosServices.SDK.PublishDeploy
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", id);
                 request.Url = DeleteUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -204,13 +180,7 @@ namespace MicrosServices.SDK.PublishDeploy
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetOptionValueUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<OptionValue>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<OptionValue>(request);
             }
             catch (Exception ex)
             {
@@ -230,8 +200,7 @@ namespace MicrosServices.SDK.PublishDeploy
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", id);
                 request.Url = PublishDeployUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {

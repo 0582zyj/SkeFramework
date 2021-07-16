@@ -24,6 +24,7 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/roles/delete";
         private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/roles/update";
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/roles/getOptionValues";
+        private SdkUtil sdkUtil = new SdkUtil();
 
         /// <summary>
         /// 获取菜单所有列表
@@ -32,24 +33,17 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <returns></returns>
         public List<PsRoles> GetRolesList()
         {
-            List<PsRoles> menus = new List<PsRoles>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetListUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<PsRoles>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<PsRoles>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new List<PsRoles>();
         }
         /// <summary>
         /// 获取菜单所有列表
@@ -58,7 +52,6 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <returns></returns>
         public PageResponse<PsRoles> GetRolesPageList(PageModel page, string keywords = "",long RolesNo=-1)
         {
-            PageResponse<PsRoles> menus = new PageResponse<PsRoles>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
@@ -67,20 +60,13 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", RolesNo);
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    menus = JsonConvert.DeserializeObject<PageResponse<PsRoles>>(JsonConvert.SerializeObject(data));
-                    return menus;
-                }
+                return sdkUtil.PostForResultVo<PageResponse<PsRoles>>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new PageResponse<PsRoles>();
         }
         /// <summary>
         /// 根据主键ID获取信息
@@ -93,14 +79,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetInfoUrl;
                 request.SetValue("id", id.ToString());
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    responses.data = JsonConvert.DeserializeObject<PsRoles>(JsonConvert.SerializeObject(data));
-                }
-                return responses;
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -127,8 +106,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("enabled", roles.Enabled);
                 request.SetValue("inputUser", roles.InputUser);
                 request.SetValue("managementValue", roles.ManagementValue);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -156,8 +134,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("managementValue", roles.ManagementValue);
                 request.SetValue("platformNo", roles.PlatformNo);
                 request.SetValue("enabled", roles.Enabled);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -177,8 +154,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.Url = DeleteUrl;
                 request.SetValue("id", id);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -196,13 +172,7 @@ namespace MicrosServices.SDK.PermissionSystem
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetOptionValueUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<OptionValue>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<OptionValue>(request);
             }
             catch (Exception ex)
             {

@@ -28,7 +28,7 @@ namespace SkeFramework.Core.Network.DataUtility
         /// <returns></returns>
         public List<T> PostForResultListVo<T>(RequestBase request)
         {
-            JsonResponses resultObject = postForVo(request);
+            JsonResponses resultObject = PostForVo(request);
             if (resultObject.ValidateResponses() && resultObject != null)
             {
                 return resultObject.GetDataList<T>();
@@ -43,7 +43,7 @@ namespace SkeFramework.Core.Network.DataUtility
         /// <returns></returns>
         public T PostForResultVo<T>(RequestBase request)
         {
-            JsonResponses resultObject = postForVo(request);
+            JsonResponses resultObject = PostForVo(request);
             if (resultObject.ValidateResponses() && resultObject != null)
             {
                 return resultObject.GetDataValue<T>();
@@ -55,7 +55,7 @@ namespace SkeFramework.Core.Network.DataUtility
         /// </summary>
         /// <param name="request">请求参数</param>
         /// <returns></returns>
-        public JsonResponses postForVo(RequestBase request)
+        public JsonResponses PostForVo(RequestBase request)
         {
             string result = post(request);
             if (String.IsNullOrEmpty(result))

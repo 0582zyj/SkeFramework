@@ -21,6 +21,7 @@ namespace MicrosServices.SDK.UserCenter
         private static string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/user/pageList";
         private static string GetUserInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/user/get";
 
+        private SdkUtil sdkUtil = new SdkUtil();
         #region 平台管理
         /// <summary>
         /// 平台账号注册
@@ -39,9 +40,8 @@ namespace MicrosServices.SDK.UserCenter
                 request.SetValue("phone", registerPlatform.Phone);
                 request.SetValue("email", registerPlatform.Email);
                 request.SetValue("inputUser", registerPlatform.InputUser);
-                request.SetValue("platformNo", registerPlatform.PlatformNo); 
-                string result = HttpHelper.Example.GetWebData(request);
-               return  JsonConvert.DeserializeObject<JsonResponses>(result);
+                request.SetValue("platformNo", registerPlatform.PlatformNo);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -61,8 +61,7 @@ namespace MicrosServices.SDK.UserCenter
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.Url = CancelPlatformUrl;
                 request.SetValue("userNo", UserNo);
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -80,7 +79,6 @@ namespace MicrosServices.SDK.UserCenter
         /// <returns></returns>
         public PageResponse<UcUsers> GetUserPageList(PageModel page, string keywords)
         {
-            PageResponse<UcUsers> lists = new PageResponse<UcUsers>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
@@ -88,20 +86,13 @@ namespace MicrosServices.SDK.UserCenter
                 request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    lists = JsonConvert.DeserializeObject<PageResponse<UcUsers>>(JsonConvert.SerializeObject(data));
-                    return lists;
-                }
+                return sdkUtil.PostForResultVo<PageResponse<UcUsers>>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return lists;
+            return new PageResponse<UcUsers>();
         }
         /// <summary>
         /// 获取用户信息
@@ -115,13 +106,7 @@ namespace MicrosServices.SDK.UserCenter
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("userNo", UserNo.ToString());
                 request.Url = GetUserInfoUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<UcUsers>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultVo<UcUsers>(request);
             }
             catch (Exception ex)
             {

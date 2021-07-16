@@ -62,7 +62,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = rolesSDK.GetPsRolesInfo(id);
             if (responses.code == JsonResponses.SuccessCode)
             {
-                Info = responses.data as PsRoles;
+                Info = responses.GetDataValue< PsRoles>();
             }
             return Json(Info, JsonRequestBehavior.AllowGet);
         }

@@ -14,6 +14,7 @@ namespace MicrosServices.SDK.LogSystem
     public class LoginLogSDK
     {
         private LogBaseSDK baseSDK = new LogBaseSDK();
+        private SdkUtil sdkUtil = new SdkUtil();
 
         /// <summary>
         /// 获取发布日志

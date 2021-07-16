@@ -66,7 +66,7 @@ namespace PermissionSystem.UI.WebSites.Controllers
             JsonResponses responses = managementSDK.GetPsManagementInfo(id);
             if (responses.code == JsonResponses.SuccessCode)
             {
-                Info = responses.data as PsManagement;
+                Info = responses.GetDataValue< PsManagement>();
             }
             return Json(Info, JsonRequestBehavior.AllowGet);
         }

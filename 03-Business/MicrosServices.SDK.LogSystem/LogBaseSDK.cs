@@ -19,7 +19,8 @@ namespace MicrosServices.SDK.LogSystem
     public  class LogBaseSDK
     {
         private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/log/etPageList";
-       
+
+        private SdkUtil sdkUtil = new SdkUtil();
         /// <summary>
         /// 获取菜单所有列表
         /// </summary>
@@ -27,7 +28,6 @@ namespace MicrosServices.SDK.LogSystem
         /// <returns></returns>
         public PageResponse<UcLoginLog> GetUcLoginLogPageList(PageModel page, LogQueryForm logQueryForm)
         {
-            PageResponse<UcLoginLog> menus = new PageResponse<UcLoginLog>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
@@ -38,20 +38,13 @@ namespace MicrosServices.SDK.LogSystem
                 request.SetValue("queryNo", logQueryForm.queryNo);
                 request.SetValue("handleUser", logQueryForm.HandleUser);
                 request.Url = GetPageUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    menus = JsonConvert.DeserializeObject<PageResponse<UcLoginLog>>(JsonConvert.SerializeObject(data));
-                    return menus;
-                }
+                return sdkUtil.PostForResultVo<PageResponse<UcLoginLog>>(request);
             }
             catch (Exception ex)
             {
                LogAgent.Info(ex.ToString());
             }
-            return menus;
+            return new PageResponse<UcLoginLog>();
         }
     }
 }

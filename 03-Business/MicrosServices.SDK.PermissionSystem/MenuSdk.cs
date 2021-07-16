@@ -30,6 +30,7 @@ namespace MicrosServices.SDK.PermissionSystem
         private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/getOptionValues";
         private static readonly string GetUserMenusListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/menu/getUserMenusList";
 
+        private SdkUtil sdkUtil = new SdkUtil();
         #region 列表
         /// <summary>
         /// 获取菜单所有列表
@@ -38,24 +39,17 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <returns></returns>
         public List<PsMenu> GetMenuList()
         {
-            List<PsMenu> menus = new List<PsMenu>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetMenuListUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<PsMenu>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<PsMenu>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new List<PsMenu>();
         }
         /// <summary>
         /// 获取菜单所有列表
@@ -64,7 +58,7 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <returns></returns>
         public PageResponse<PsMenu> GetMenuPageList(PageModel page, string keywords, long MenuNo)
         {
-            PageResponse<PsMenu> menus = new PageResponse<PsMenu>();
+      
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
@@ -73,22 +67,13 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", MenuNo);
                 request.Url = GetMenuPageUrl;
-
-                string result = HttpHelper.Example.GetWebData(request);
-
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    menus = JsonConvert.DeserializeObject<PageResponse<PsMenu>>(JsonConvert.SerializeObject(data));
-                    return menus;
-                }
+                return sdkUtil.PostForResultVo<PageResponse<PsMenu>>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new PageResponse<PsMenu>();
         }
         /// <summary>
         /// 获取用户菜单列表
@@ -97,26 +82,18 @@ namespace MicrosServices.SDK.PermissionSystem
         /// <returns></returns>
         public List<PsMenu> GetUserMenusList(string UserNo)
         {
-            List<PsMenu> menus = new List<PsMenu>();
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("userNo", UserNo);
                 request.Url = GetUserMenusListUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    menus = JsonConvert.DeserializeObject<List<PsMenu>>(JsonConvert.SerializeObject(data));
-                    return menus;
-                }
+                return sdkUtil.PostForResultListVo<PsMenu>(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-            return menus;
+            return new List<PsMenu>();
         }
         #endregion
 
@@ -132,14 +109,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.SetValue("id", id.ToString());
                 request.Url = GetMenuInfoUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    responses.data = JsonConvert.DeserializeObject<PsMenu>(JsonConvert.SerializeObject(data));
-                }
-                return responses;
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -169,8 +139,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("enabled", menu.Enabled);
                 request.SetValue("inputUser", menu.InputUser);
                 request.Url = AddMenuUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -199,8 +168,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 request.SetValue("platformNo", menu.PlatformNo);
                 request.SetValue("enabled", menu.Enabled);
                 request.Url = UpdateMenuUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -221,8 +189,7 @@ namespace MicrosServices.SDK.PermissionSystem
                 RequestBase request = RequestBase.PostForm.Clone() as RequestBase;
                 request.SetValue("id", id);
                 request.Url = DeleteMenuUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                return JsonConvert.DeserializeObject<JsonResponses>(result);
+                return sdkUtil.PostForVo(request);
             }
             catch (Exception ex)
             {
@@ -240,13 +207,7 @@ namespace MicrosServices.SDK.PermissionSystem
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
                 request.Url = GetOptionValueUrl;
-                string result = HttpHelper.Example.GetWebData(request);
-                JsonResponses responses = JsonConvert.DeserializeObject<JsonResponses>(result);
-                if (responses.code == JsonResponses.SuccessCode)
-                {
-                    object data = responses.data;
-                    return JsonConvert.DeserializeObject<List<OptionValue>>(JsonConvert.SerializeObject(data));
-                }
+                return sdkUtil.PostForResultListVo<OptionValue>(request);
             }
             catch (Exception ex)
             {
