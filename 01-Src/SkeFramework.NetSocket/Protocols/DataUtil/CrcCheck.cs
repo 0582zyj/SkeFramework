@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Protocols.DataUtil
+namespace SkeFramework.NetSerialPort.Protocols.DataUtil
 {
     /// <summary>
     /// CRC校验通用计算类，可计算8位、16位或32位CRC校验值

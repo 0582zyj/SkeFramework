@@ -6,15 +6,16 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Buffers;
-using SkeFramework.NetSocket.Buffers.Allocators;
-using SkeFramework.NetSocket.Net.Reactor;
-using SkeFramework.NetSocket.Protocols.Configs;
-using SkeFramework.NetSocket.Protocols.Constants;
-using SkeFramework.NetSocket.Protocols.Requests;
-using SkeFramework.NetSocket.Topology;
+using SkeFramework.NetSerialPort.Buffers;
+using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Net.Reactor;
+using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Connections.Tasks;
+using SkeFramework.NetSerialPort.Protocols.Constants;
+using SkeFramework.NetSerialPort.Protocols.Requests;
+using SkeFramework.NetSerialPort.Topology;
 
-namespace SkeFramework.NetSocket.Protocols.Response
+namespace SkeFramework.NetSerialPort.Protocols.Response
 {
     /// <summary>
     /// 远程实例响应
@@ -47,9 +48,10 @@ namespace SkeFramework.NetSocket.Protocols.Response
             {
                 RemoteHost = reactor.LocalEndpoint.Clone() as INode;
             }
-            Timeout = NetworkConstants.BackoffIntervals[6];
+            this.Timeout = NetworkConstants.BackoffIntervals[6];
             this.Created = DateTime.Now;
-            Dead = false;
+            this.Dead = false;
+            this.WasDisposed = true;
         }
 
 
@@ -62,6 +64,13 @@ namespace SkeFramework.NetSocket.Protocols.Response
             add { ReceiveList += value; }
             // ReSharper disable once ValueParameterNotUsed
             remove { ReceiveList -= value; }
+        }
+        protected event SendDataCallback SendList;
+        public event SendDataCallback SendCallback
+        {
+            add { SendList += value; }
+            // ReSharper disable once ValueParameterNotUsed
+            remove { SendList -= value; }
         }
         #endregion
 
@@ -97,8 +106,11 @@ namespace SkeFramework.NetSocket.Protocols.Response
         {
             get { return 0; }
         }
+        /// <summary>
+        /// 链接状态
+        /// </summary>
+        public ResultStatusCode connectionStatus { get; set; }
 
-        
 
         public abstract void Configure(IConnectionConfig config);
 
@@ -120,6 +132,10 @@ namespace SkeFramework.NetSocket.Protocols.Response
 
         public void StopReceive()
         {
+            if (requestChannel != null)
+            {
+                this.requestChannel.StopReceive();
+            }
             StopReceiveInternal();
         }
 
@@ -131,11 +147,20 @@ namespace SkeFramework.NetSocket.Protocols.Response
         public virtual void Send(NetworkData data)
         {
             _reactor.Send(data);
+            if (SendList != null)
+            {
+                SendList(data, this);
+            }
         }
 
         public void Send(byte[] buffer, int index, int length, INode destination)
         {
-            _reactor.Send(buffer, index, length, destination);
+            if (destination == null)
+            {
+                destination = this._reactor.LocalEndpoint;
+            }
+            NetworkData data = NetworkData.Create(destination, buffer, length);
+            this.Send(data);
         }
 
         protected abstract void BeginReceiveInternal();
@@ -149,10 +174,6 @@ namespace SkeFramework.NetSocket.Protocols.Response
         /// <param name="data">The data to pass directly to the recipient</param>
         public virtual void OnReceive(NetworkData data)
         {
-            if (requestChannel != null)
-            {
-                requestChannel.Dead = false;
-            }
             if (this.ReceiveList != null)
             {
                 this.ReceiveList(data, this);   //发出警报
@@ -164,19 +185,21 @@ namespace SkeFramework.NetSocket.Protocols.Response
 
         public void InvokeReceiveIfNotNull(NetworkData data)
         {
+
+            StopReceive();
             OnReceive(data);
         }
 
        
         #region IDisposable members
 
-        public void Dispose()
+        public   void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        protected void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (!WasDisposed)
             {

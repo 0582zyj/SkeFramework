@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Buffers;
-using SkeFramework.NetSocket.Topology;
+using SkeFramework.NetSerialPort.Buffers;
+using SkeFramework.NetSerialPort.Topology;
 
-namespace SkeFramework.NetSocket.Protocols.Constants
+namespace SkeFramework.NetSerialPort.Protocols.Constants
 {
     /// <summary>
     /// 远程主机数据接收处理
@@ -32,13 +32,19 @@ namespace SkeFramework.NetSocket.Protocols.Constants
         /// <summary>
         /// 结果数据
         /// </summary>
-        public Object ResultData { get; set; }
+        public object ResultData { get; set; }
+
+        public byte[] GetReadableBuffer()
+        {
+            return Buffer.Take(Length).ToArray();
+        }
+
+        #region 生成一个远程数据对象
         /// <summary>
         /// 空数据
         /// </summary>
-        public static NetworkData Empty = new NetworkData() { Length = 0, RemoteHost =null };
+        public static NetworkData Empty = new NetworkData() { Length = 0, RemoteHost = null };
 
-        #region 生成一个远程数据对象
         public static NetworkData Create(INode node, byte[] data, int bytes)
         {
             return new NetworkData()

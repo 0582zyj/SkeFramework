@@ -1,11 +1,11 @@
-﻿using SkeFramework.NetSocket.Topology;
+﻿using SkeFramework.NetSerialPort.Topology;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Topology.ExtendNodes
+namespace SkeFramework.NetSerialPort.Topology.ExtendNodes
 {
     /// <summary>
     /// UDP通信参数

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket
+namespace SkeFramework.NetSerialPort
 {
     public class ProjectVersion
     {

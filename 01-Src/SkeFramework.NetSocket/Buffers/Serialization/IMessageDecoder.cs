@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Protocols;
+using SkeFramework.NetSerialPort.Protocols;
 
-namespace SkeFramework.NetSocket.Buffers
+namespace SkeFramework.NetSerialPort.Buffers
 {
     /// <summary>
     ///     Used to encode <see cref="NetworkData" /> inside Helios
@@ -20,9 +20,17 @@ namespace SkeFramework.NetSocket.Buffers
         void Decode(IConnection connection, IByteBuf buffer, out List<IByteBuf> decoded);
 
         /// <summary>
-        ///     Creates a deep clone of this <see cref="IMessageDecoder" /> instance with the exact same settings as the parent.
+        /// Creates a deep clone of this <see cref="IMessageDecoder" /> instance with the exact same settings as the parent.
         /// </summary>
         /// <returns></returns>
         IMessageDecoder Clone();
+        /// <summary>
+        /// 字符串编码为数组
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        byte[] ByteDecoder(string message);
     }
 }

@@ -1,11 +1,11 @@
-﻿using SkeFramework.NetSocket.Protocols.DataUtil;
+﻿using SkeFramework.NetSerialPort.Protocols.DataUtil;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Protocols.DataFrame.Abstracts
+namespace SkeFramework.NetSerialPort.Protocols.DataFrame.Abstracts
 {
     /// <summary>
     /// Crc帧基类。

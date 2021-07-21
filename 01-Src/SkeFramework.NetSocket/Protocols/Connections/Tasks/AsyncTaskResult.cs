@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Protocols.Connections.Tasks
+namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
 {
     /// <summary>
     /// 异步任务结果。

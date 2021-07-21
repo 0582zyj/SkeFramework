@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.1</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,14 +33,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.1</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Gitlab\ws-cloudlock\ULCloudLockTool\ULCloudLockTool.DAL.DataAccess\Lib\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SkeFramework.Core.NetLog">
-      <HintPath>..\SkeFramework.Core.NetLog\bin\Debug\SkeFramework.Core.NetLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,6 +54,7 @@
     <Compile Include="Bootstrap\Factory\IServerFactory.cs" />
     <Compile Include="Bootstrap\Factory\ServerFactoryBase.cs" />
     <Compile Include="Bootstrap\Factory\SPServerFactory.cs" />
+    <Compile Include="Bootstrap\Factory\UdpServerFactory.cs" />
     <Compile Include="Bootstrap\ServerBootstrap.cs" />
     <Compile Include="Buffers\Allocators\Achieves\DefaultByteBufAllocator.cs" />
     <Compile Include="Buffers\Allocators\IByteBufAllocator.cs" />
@@ -61,6 +62,10 @@
     <Compile Include="Buffers\ByteBuffers\IByteBuf.cs" />
     <Compile Include="Buffers\ByteBuffers\IReferenceCounted.cs" />
     <Compile Include="Buffers\Constants\ByteOrder.cs" />
+    <Compile Include="Buffers\EndianBinary\BinaryConverter.cs" />
+    <Compile Include="Buffers\EndianBinary\EndianBinaryReader.cs" />
+    <Compile Include="Buffers\EndianBinary\EndianBinaryWriter.cs" />
+    <Compile Include="Buffers\EndianBinary\EndianSwaper.cs" />
     <Compile Include="Buffers\Serialization\Achieves\NoOpDecoder.cs" />
     <Compile Include="Buffers\Serialization\Achieves\NoOpEncoder.cs" />
     <Compile Include="Buffers\Serialization\Encoders.cs" />
@@ -75,6 +80,9 @@
     <Compile Include="Protocols\DataFrame\Abstracts\CRCFrameBase.cs" />
     <Compile Include="Protocols\DataFrame\Interfaces\IDataFrame.cs" />
     <Compile Include="Protocols\DataUtil\CrcCheck.cs" />
+    <Compile Include="Protocols\Listenser\ChannelListensers\DefaultChannelPromise.cs" />
+    <Compile Include="Protocols\Listenser\Interfaces\IChannelListener.cs" />
+    <Compile Include="Protocols\Listenser\Interfaces\IChannelPromise.cs" />
     <Compile Include="Topology\NodeExtensions.cs" />
     <Compile Include="Topology\ExtendNodes\UdpNodeConfig.cs" />
     <Compile Include="Net\Udp\UdpProxyReactor.cs" />
@@ -109,6 +117,11 @@
     <Compile Include="Topology\Nodes\NodeConfig.cs" />
     <Compile Include="Topology\ExtendNodes\SerialNodeConfig.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SkeFramework.Core.NetLog\SkeFramework.Core.NetLog.csproj">
+      <Project>{b62bb163-9e25-40d5-be5e-8d515e5bfe16}</Project>
+      <Name>SkeFramework.Core.NetLog</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

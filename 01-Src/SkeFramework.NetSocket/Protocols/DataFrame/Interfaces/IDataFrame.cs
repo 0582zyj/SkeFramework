@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Protocols.DataFrame.Interfaces
+namespace SkeFramework.NetSerialPort.Protocols.DataFrame.Interfaces
 {
     class IDataFrame
     {

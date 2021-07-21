@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Topology.ExtendNodes
+namespace SkeFramework.NetSerialPort.Topology.ExtendNodes
 {
     /// <summary>
     /// 串口通信参数

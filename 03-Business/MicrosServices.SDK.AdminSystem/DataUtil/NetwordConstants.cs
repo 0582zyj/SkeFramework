@@ -10,6 +10,8 @@ namespace MicrosServices.SDK.AdminSystem
     {
         public const string BASE_URL_PUBLISHDEPLOY_LOCAL = "http://localhost/AdminServerApi";
         public const string BASE_URL_PUBLISHDEPLOY = "https://localhost:44397";
+        public const string BASE_URL_REMOTE = "http://8.129.235.184:9080";
+        public const string BASE_URL_REMOTE_LOCAL = "http://127.0.0.1:9080";
 
         #region 单例模式
         /// <summary>
@@ -29,7 +31,7 @@ namespace MicrosServices.SDK.AdminSystem
             return mSingleInstance;
         }
         #endregion
-        private string config = "local";
+        private string config = "remote_local";
         public string GetBaseUrl()
         {
             switch (config)
@@ -38,6 +40,10 @@ namespace MicrosServices.SDK.AdminSystem
                     return NetwordConstants.BASE_URL_PUBLISHDEPLOY;
                 case "local":
                     return NetwordConstants.BASE_URL_PUBLISHDEPLOY_LOCAL;
+                case "remote":
+                    return NetwordConstants.BASE_URL_REMOTE;
+                case "remote_local":
+                    return NetwordConstants.BASE_URL_REMOTE_LOCAL;
                 default:
                     break;
             }

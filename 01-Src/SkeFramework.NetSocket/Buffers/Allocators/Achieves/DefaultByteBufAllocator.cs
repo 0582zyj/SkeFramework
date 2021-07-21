@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Buffers.ByteBuffers.Achieves;
+using SkeFramework.NetSerialPort.Buffers.ByteBuffers.Achieves;
 
-namespace SkeFramework.NetSocket.Buffers.Allocators.Achieves
+namespace SkeFramework.NetSerialPort.Buffers.Allocators.Achieves
 {
     /// <summary>
     /// 默认字节缓冲处理器

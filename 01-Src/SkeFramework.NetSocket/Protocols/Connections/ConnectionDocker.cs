@@ -1,22 +1,36 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Protocols.Requests;
-using SkeFramework.NetSocket.Topology;
+using SkeFramework.NetSerialPort.Protocols.Requests;
+using SkeFramework.NetSerialPort.Topology;
 
-namespace SkeFramework.NetSocket.Protocols.Connections
+namespace SkeFramework.NetSerialPort.Protocols.Connections
 {
     /// <summary>
     /// 链接容器
     /// </summary>
     public class ConnectionDocker
     {
-        private readonly List<IConnection> caseList = new List<IConnection>();
+        /// <summary>
+        /// 阻塞式协议队列
+        /// </summary>
+        private readonly ConcurrentDictionary<string,IConnection> caseDictionaryList = new ConcurrentDictionary<string, IConnection>();
+
         internal IList<IConnection> BusinessCaseList
         {
-            get { return caseList.AsReadOnly(); }
+            get
+            {
+                lock (caseDictionaryList)
+                {
+                    // 因为有多个线程会访问它，但又不想在协议线程中要lock（taksList）而增加了任务操作的负责度和更多的错误源。
+                    List<IConnection> snapshot = new List<IConnection>();
+                    snapshot.AddRange(caseDictionaryList.Values);
+                    return snapshot.AsReadOnly();
+                }
+            }
         }
         /// <summary>
         /// 添加Case对象到发送列表中。
@@ -26,11 +40,11 @@ namespace SkeFramework.NetSocket.Protocols.Connections
         {
             try
             {
-                if (caseObj != null && !caseList.Contains(caseObj))
+                if (caseObj != null && !BusinessCaseList.Contains(caseObj))
                 {
-                    lock (caseList)
+                    lock (caseDictionaryList)
                     {
-                        caseList.Insert(0, caseObj);
+                        caseDictionaryList.AddOrUpdate(caseObj.ControlCode, caseObj,(k,v)=>caseObj);
                     }
                 }
             }
@@ -48,9 +62,16 @@ namespace SkeFramework.NetSocket.Protocols.Connections
         {
             try
             {
-                lock (caseList)
+                lock (caseDictionaryList)
                 {
-                    caseList.Remove(caseObj);
+                    IConnection connection;
+                    bool result= caseDictionaryList.TryRemove(caseObj.ControlCode,out connection);
+                    if (result)
+                    {
+                        string log = String.Format("{0}:处理超时的协议:Name-{1};Time-{2}", DateTime.Now.ToString("hh:mm:ss"),
+                                                    connection.ControlCode, connection.Created.ToString());
+                        Console.WriteLine(log);
+                    }
                 }
             }
             catch (Exception ex)
@@ -67,9 +88,9 @@ namespace SkeFramework.NetSocket.Protocols.Connections
         {
             try
             {
-                lock (caseList)
+                lock (caseDictionaryList)
                 {
-                    return caseList.OrderBy(o => o.Created).ToList()
+                    return BusinessCaseList.OrderBy(o => o.Created).ToList()
                         .Find(o => o.ControlCode == cmd.ToString());
                 }
             }
@@ -88,7 +109,7 @@ namespace SkeFramework.NetSocket.Protocols.Connections
         {
             try
             {
-                lock (caseList)
+                lock (caseDictionaryList)
                 {
                     IList<IConnection> connections = this.BusinessCaseList.
                             Where(o => o.Receiving&& cmdList.Contains(o.ControlCode)).OrderByDescending(o => o.Created).ToList();
@@ -110,9 +131,9 @@ namespace SkeFramework.NetSocket.Protocols.Connections
         {
             try
             {
-                lock (caseList)
+                lock (caseDictionaryList)
                 {
-                    return caseList.Find(o => o.RemoteHost == node);
+                    return BusinessCaseList.ToList().Find(o => o.RemoteHost == node);
                 }
             }
             catch (Exception ex)
@@ -128,9 +149,9 @@ namespace SkeFramework.NetSocket.Protocols.Connections
         internal void SetCaseAsDead(ConnectionTask task)
         {
             IConnection csObj = null;
-            lock (caseList)
+            lock (caseDictionaryList)
             {
-                foreach (IConnection cs in caseList)
+                foreach (IConnection cs in BusinessCaseList)
                 {
                     if (cs == task.GetRelatedProtocol())
                     {
@@ -139,7 +160,7 @@ namespace SkeFramework.NetSocket.Protocols.Connections
                     }
                 }
             }
-            if (csObj != null)
+            if (csObj != null&& csObj.WasDisposed)
             {
                 csObj.Dead = true;
             }
@@ -151,14 +172,13 @@ namespace SkeFramework.NetSocket.Protocols.Connections
         {
             try
             {
-                lock (caseList)
+                lock (caseDictionaryList)
                 {
-                    foreach (var cases in caseList)
+                    foreach (var cases in BusinessCaseList)
                     {
                         if (cases.Dead == true)
                         {
-                            RemoveCase(cases);
-                            Console.WriteLine("处理超时的协议:" + cases.Created.ToString() + " ");
+                            RemoveCase(cases);                         
                         }
                     }
                 }
@@ -166,6 +186,7 @@ namespace SkeFramework.NetSocket.Protocols.Connections
             catch (Exception ex)
             {
                 string msg = string.Format("处理超时的协议：{0}", ex.ToString());
+                Console.WriteLine(msg);
             }
         }
         /// <summary>
@@ -175,9 +196,9 @@ namespace SkeFramework.NetSocket.Protocols.Connections
         {
             try
             {
-                lock (caseList)
+                lock (caseDictionaryList)
                 {
-                    foreach (var cases in caseList)
+                    foreach (var cases in BusinessCaseList)
                     {
                         if (cases.Dead != true)
                         {

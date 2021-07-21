@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SkeFramework.NetSocket.Protocols.Configs.Enums
+namespace SkeFramework.NetSerialPort.Protocols.Configs.Enums
 {
     /// <summary>
     /// 默认静态配置

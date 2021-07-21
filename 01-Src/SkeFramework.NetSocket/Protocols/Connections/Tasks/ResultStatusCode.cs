@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Protocols.Connections.Tasks
+namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
 {
     /// <summary>
     /// 协议处理结果
@@ -18,14 +18,16 @@ namespace SkeFramework.NetSocket.Protocols.Connections.Tasks
         public static ResultStatusCode NOLOGIN = new ResultStatusCode(9, "未登录");
         public static ResultStatusCode NEW_TASK_COMING = new ResultStatusCode(10, "新任务挤出旧任务");
 
+        public static ResultStatusCode CONNECTION_OPEN = new ResultStatusCode(21, "已启动");
+        public static ResultStatusCode CONNECTION_CLOSE = new ResultStatusCode(23, "已关闭");
         /// <summary>
         /// 状态码
         /// </summary>
-        private readonly int _statusCode;
+        private readonly int statusCode;
         /// <summary>
         /// 描述
         /// </summary>
-        private string _desc;
+        private string desc;
         /// <summary>
         /// 消息处理结果状态码
         /// </summary>
@@ -33,8 +35,8 @@ namespace SkeFramework.NetSocket.Protocols.Connections.Tasks
         /// <param name="desc"></param>
         private ResultStatusCode(int statusCode, string desc)
         {
-            this._statusCode = statusCode;
-            this._desc = desc;
+            this.statusCode = statusCode;
+            this.desc = desc;
         }
         /// <summary>
         /// 消息处理结果状态码
@@ -42,7 +44,7 @@ namespace SkeFramework.NetSocket.Protocols.Connections.Tasks
         /// <returns></returns>
         public int GetStatusCode()
         {
-            return _statusCode;
+            return statusCode;
         }
         /// <summary>
         /// 获取消息处理结果状态码对应的描述信息
@@ -50,7 +52,7 @@ namespace SkeFramework.NetSocket.Protocols.Connections.Tasks
         /// <returns></returns>
         public string GetDesc()
         {
-            return _desc;
+            return desc;
         }
         /// <summary>
         /// 设置消息处理结果状态码的描述信息
@@ -58,7 +60,7 @@ namespace SkeFramework.NetSocket.Protocols.Connections.Tasks
         /// <param name="desc"></param>
         public void SetDesc(string desc)
         {
-            this._desc = desc;
+            this.desc = desc;
         }
     }
 }

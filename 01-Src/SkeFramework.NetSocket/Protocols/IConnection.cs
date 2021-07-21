@@ -4,23 +4,30 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Buffers;
-using SkeFramework.NetSocket.Buffers.Allocators;
-using SkeFramework.NetSocket.Protocols.Configs;
-using SkeFramework.NetSocket.Protocols.Constants;
-using SkeFramework.NetSocket.Topology;
+using SkeFramework.NetSerialPort.Buffers;
+using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Connections.Tasks;
+using SkeFramework.NetSerialPort.Protocols.Constants;
+using SkeFramework.NetSerialPort.Topology;
 
-namespace SkeFramework.NetSocket.Protocols
+namespace SkeFramework.NetSerialPort.Protocols
 {
     /// <summary>
     /// 用于处理接收数据的委托
     /// </summary>
-    /// <param name="incomingData">a <see cref="NetworkData"/> instance that contains information that's arrived over the network</param>
-    public delegate void ReceivedDataCallback(NetworkData incomingData, IConnection responseChannel);
+    /// <param name="sender"></param>
+    public delegate void ReceivedDataCallback(NetworkData sender, IConnection responseChannel);
+    /// <summary>
+    /// 用于处理发送数据的委托
+    /// </summary>
+    /// <param name="incomingData"></param>
+    public delegate void SendDataCallback(NetworkData incomingData, IConnection requestChannel);
 
     public interface IConnection : IDisposable
     {
         event ReceivedDataCallback Receive;
+        event SendDataCallback SendCallback;
 
         /// <summary>
         /// 消息编码
@@ -75,6 +82,10 @@ namespace SkeFramework.NetSocket.Protocols
         /// 协议控制码
         /// </summary>
         string ControlCode { get; set; }
+        /// <summary>
+        /// 链接状态
+        /// </summary>
+        ResultStatusCode connectionStatus { get; set; }
         #region Method
         /// <summary>
         /// 选项配置此传输
@@ -108,9 +119,13 @@ namespace SkeFramework.NetSocket.Protocols
         /// <param name="callback">A callback for when data is received</param>
         void BeginReceive(ReceivedDataCallback callback);
         /// <summary>
-        /// 停止接收消息，但保持连接打开
+        /// 接收超时，停止接收消息，但保持连接打开
         /// </summary>
         void StopReceive();
+        ///// <summary>
+        ///// 帧数据发送后，等待回复超时的处理。
+        ///// </summary>
+        //void OvertimeReceive(); 
         #endregion
 
     }

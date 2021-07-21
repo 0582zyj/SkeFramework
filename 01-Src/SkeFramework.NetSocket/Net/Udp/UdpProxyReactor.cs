@@ -1,16 +1,6 @@
-﻿using SkeFramework.NetSocket.Buffers;
-using SkeFramework.NetSocket.Buffers.Allocators;
-using SkeFramework.NetSocket.Net.Constants;
-using SkeFramework.NetSocket.Net.Reactor;
-using SkeFramework.NetSocket.Protocols;
-using SkeFramework.NetSocket.Protocols.Configs;
-using SkeFramework.NetSocket.Protocols.Connections;
-using SkeFramework.NetSocket.Protocols.Constants;
-using SkeFramework.NetSocket.Protocols.Requests;
-using SkeFramework.NetSocket.Protocols.Response;
-using SkeFramework.NetSocket.Topology;
-using SkeFramework.NetSocket.Topology.Nodes;
-using SkeFramework.NetSocket.Topology.ExtendNodes;
+﻿using SkeFramework.NetSerialPort.Topology;
+using SkeFramework.NetSerialPort.Topology.Nodes;
+using SkeFramework.NetSerialPort.Topology.ExtendNodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +8,19 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using SkeFramework.NetSocket.Protocols.DataFrame;
+using SkeFramework.NetSerialPort.Net.Reactor;
+using SkeFramework.NetSerialPort.Buffers;
+using SkeFramework.NetSerialPort.Protocols.Constants;
+using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Net.Constants;
+using SkeFramework.NetSerialPort.Protocols.Requests;
+using SkeFramework.NetSerialPort.Protocols.Connections;
+using SkeFramework.NetSerialPort.Protocols;
 using SkeFramework.Core.NetLog;
+using SkeFramework.NetSerialPort.Protocols.DataFrame;
 
-namespace SkeFramework.NetSocket.Net.Udp
+namespace SkeFramework.NetSerialPort.Net.Udp
 {
     /// <summary>
     /// UDP协议通信
@@ -57,7 +55,7 @@ namespace SkeFramework.NetSocket.Net.Udp
             : base(listener, encoder, decoder, allocator,
                 bufferSize)
         {
-            UdpNodeConfig nodeConfig = listener.nodeConfig as UdpNodeConfig;
+            UdpNodeConfig nodeConfig = listener.ToEndPoint<UdpNodeConfig>();
             LocalEndPoint = new IPEndPoint(IPAddress.Parse(nodeConfig.LocalAddress), nodeConfig.LocalPort);
             RemoteEndPoint = new IPEndPoint(IPAddress.Any, nodeConfig.LocalPort);
             ListenerSocket = new Socket(LocalEndPoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
@@ -70,7 +68,10 @@ namespace SkeFramework.NetSocket.Net.Udp
         public override void Configure(IConnectionConfig config)
         {
             if (config.HasOption<int>("receiveBufferSize"))
+            {
                 ListenerSocket.ReceiveBufferSize = config.GetOption<int>("receiveBufferSize");
+                this.BufferSize = ListenerSocket.ReceiveBufferSize;
+            }
             if (config.HasOption<int>("sendBufferSize"))
                 ListenerSocket.SendBufferSize = config.GetOption<int>("sendBufferSize");
             if (config.HasOption<bool>("reuseAddress"))
@@ -101,7 +102,7 @@ namespace SkeFramework.NetSocket.Net.Udp
             ListenerSocket.Bind(LocalEndPoint);
             ListenerSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
             ListenerSocket.BeginReceiveFrom(receiveState.RawBuffer, 0, receiveState.RawBuffer.Length, SocketFlags.None,
-                ref RemoteEndPoint, ReceiveCallback, receiveState);
+                ref RemoteEndPoint, PortDataReceived, receiveState);
 
         }
         /// <summary>
@@ -115,7 +116,7 @@ namespace SkeFramework.NetSocket.Net.Udp
         /// 处理数据
         /// </summary>
         /// <param name="receiveState"></param>
-        private void ReceiveCallback(IAsyncResult ar)
+        private void PortDataReceived(IAsyncResult ar)
         {
             var receiveState = (NetworkState)ar.AsyncState;
             try
@@ -125,42 +126,13 @@ namespace SkeFramework.NetSocket.Net.Udp
                 {
                     return;
                 }
-
                 var remoteAddress = (IPEndPoint)RemoteEndPoint;
-
                 receiveState.RemoteHost = remoteAddress.ToNode(ReactorType.Udp);
-
-                INode node = receiveState.RemoteHost;
-                if (SocketMap.ContainsKey(receiveState.RemoteHost.nodeConfig.ToString()))
-                {
-                    var connection = SocketMap[receiveState.RemoteHost.nodeConfig.ToString()];
-                    node = connection.RemoteHost;
-                }
-                else
-                {
-                    RefactorRequestChannel requestChannel = new RefactorProxyRequestChannel(this, node, "none");
-                    SocketMap.Add(node.nodeConfig.ToString(), requestChannel);
-                }
-                receiveState.Buffer.WriteBytes(receiveState.RawBuffer, 0, received);
-
-                Decoder.Decode(ConnectionAdapter, receiveState.Buffer, out List<IByteBuf> decoded);
-
-                foreach (var message in decoded)
-                {
-                    var networkData = NetworkData.Create(receiveState.RemoteHost, message);
-                    LogAgent.Info(String.Format("Socket收到数据-->>{0}", this.Encoder.ByteEncode(networkData.Buffer)));
-                    if (ConnectionAdapter is ReactorConnectionAdapter)
-                    {
-                        ((ReactorConnectionAdapter)ConnectionAdapter).networkDataDocker.AddNetworkData(networkData);
-                        ((EventWaitHandle)((ReactorConnectionAdapter)ConnectionAdapter).protocolEvents[(int)ProtocolEvents.PortReceivedData]).Set();
-                    }
-
-                }
-
+                this.ReceivedData(NetworkData.Create(this.Listener, receiveState.RawBuffer, received), receiveState);
                 //清除数据继续接收
-                receiveState.RawBuffer = new byte[receiveState.RawBuffer.Length];
+                receiveState.RawBuffer = new byte[this.BufferSize];
                 ListenerSocket.BeginReceiveFrom(receiveState.RawBuffer, 0, receiveState.RawBuffer.Length, SocketFlags.None,
-    ref RemoteEndPoint, ReceiveCallback, receiveState);
+    ref RemoteEndPoint, PortDataReceived, receiveState);
             }
             catch  //node disconnected
             {
@@ -197,7 +169,7 @@ namespace SkeFramework.NetSocket.Net.Udp
                     var state = CreateNetworkState(clientSocket.Local, destination, message, 0);
                     ListenerSocket.BeginSendTo(message.ToArray(), 0, message.ReadableBytes, SocketFlags.None,
                       LocalEndPoint, SendCallback, state);
-                    LogAgent.Info(String.Format("Socket发送数据-->>{0}", this.Encoder.ByteEncode(message.ToArray())));
+                    LogAgent.Info(String.Format("发送数据[UdpSocket]-->>{0}", this.Encoder.ByteEncode(message.ToArray())));
                     clientSocket.Receiving = true;
                 }
             }

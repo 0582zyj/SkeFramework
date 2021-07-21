@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Buffers.Allocators
+namespace SkeFramework.NetSerialPort.Buffers.Allocators
 {
     /// <summary>
     /// 字节缓冲区分配程序接口

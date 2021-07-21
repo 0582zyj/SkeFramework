@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Protocols;
+using SkeFramework.NetSerialPort.Protocols;
 
-namespace SkeFramework.NetSocket.Buffers
+namespace SkeFramework.NetSerialPort.Buffers
 {
     /// <summary>
     ///  字节编码接口

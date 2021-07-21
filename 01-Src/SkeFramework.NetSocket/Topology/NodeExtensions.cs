@@ -1,6 +1,6 @@
-﻿using SkeFramework.NetSocket.Net;
-using SkeFramework.NetSocket.Topology.Nodes;
-using SkeFramework.NetSocket.Topology.ExtendNodes;
+﻿using SkeFramework.NetSerialPort.Net;
+using SkeFramework.NetSerialPort.Topology.Nodes;
+using SkeFramework.NetSerialPort.Topology.ExtendNodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Topology
+namespace SkeFramework.NetSerialPort.Topology
 {
     /// <summary>
     /// 节点信息扩展方法

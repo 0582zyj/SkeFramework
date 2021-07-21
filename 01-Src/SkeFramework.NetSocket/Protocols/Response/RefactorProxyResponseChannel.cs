@@ -4,12 +4,14 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Net.Reactor;
-using SkeFramework.NetSocket.Protocols.Configs;
-using SkeFramework.NetSocket.Protocols.Requests;
-using SkeFramework.NetSocket.Topology;
+using SkeFramework.NetSerialPort.Net.Reactor;
+using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Configs.Enums;
+using SkeFramework.NetSerialPort.Protocols.Constants;
+using SkeFramework.NetSerialPort.Protocols.Requests;
+using SkeFramework.NetSerialPort.Topology;
 
-namespace SkeFramework.NetSocket.Protocols.Response
+namespace SkeFramework.NetSerialPort.Protocols.Response
 {
     /// <summary>
     /// 响应代理类
@@ -29,6 +31,14 @@ namespace SkeFramework.NetSocket.Protocols.Response
 
         public override void Configure(IConnectionConfig config)
         {
+            if (config.HasOption(OptionKeyEnums.ProtocolTimeOut.ToString()))
+            {
+                int ProtocolTimeOut = (int)config.GetOption(OptionKeyEnums.ProtocolTimeOut.ToString());
+                if(ProtocolTimeOut>-1 && ProtocolTimeOut < NetworkConstants.BackoffIntervals.Length)
+                {
+                    this.Timeout = NetworkConstants.BackoffIntervals[ProtocolTimeOut];
+                }
+            }
         }
 
         protected override void BeginReceiveInternal()

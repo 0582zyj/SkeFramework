@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Buffers.Serialization.Achieves;
+using SkeFramework.NetSerialPort.Buffers.Serialization.Achieves;
 
-namespace SkeFramework.NetSocket.Buffers.Serialization
+namespace SkeFramework.NetSerialPort.Buffers.Serialization
 {
    public static class Encoders
     {

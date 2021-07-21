@@ -1,4 +1,4 @@
-﻿using SkeFramework.NetSocket.Net;
+﻿using SkeFramework.NetSerialPort.Net;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Topology
+namespace SkeFramework.NetSerialPort.Topology
 {
     /// <summary>
     /// 通信节点配置

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SkeFramework.NetSocket.Net;
-using SkeFramework.NetSocket.Topology.Nodes;
-using SkeFramework.NetSocket.Topology.ExtendNodes;
+using SkeFramework.NetSerialPort.Net;
+using SkeFramework.NetSerialPort.Topology.Nodes;
+using SkeFramework.NetSerialPort.Topology.ExtendNodes;
 
-namespace SkeFramework.NetSocket.Topology
+namespace SkeFramework.NetSerialPort.Topology
 {
     /// <summary>
     /// 节点构建器类

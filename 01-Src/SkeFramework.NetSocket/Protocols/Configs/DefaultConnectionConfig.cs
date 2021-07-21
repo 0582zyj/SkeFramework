@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Protocols.Configs
+namespace SkeFramework.NetSerialPort.Protocols.Configs
 {
     /// <summary>
     /// 默认连接配置
@@ -48,7 +48,7 @@ namespace SkeFramework.NetSocket.Protocols.Configs
         }
 
 
-        IList<KeyValuePair<string, object>> IConnectionConfig.Options
+        public IList<KeyValuePair<string, object>> Options
         {
             get
             {

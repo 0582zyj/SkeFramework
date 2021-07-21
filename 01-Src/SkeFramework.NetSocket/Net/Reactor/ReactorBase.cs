@@ -6,17 +6,17 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Buffers;
-using SkeFramework.NetSocket.Buffers.Allocators;
-using SkeFramework.NetSocket.Net.Constants;
-using SkeFramework.NetSocket.Protocols;
-using SkeFramework.NetSocket.Protocols.Configs;
-using SkeFramework.NetSocket.Protocols.Connections;
-using SkeFramework.NetSocket.Protocols.Constants;
-using SkeFramework.NetSocket.Protocols.Response;
-using SkeFramework.NetSocket.Topology;
+using SkeFramework.NetSerialPort.Buffers;
+using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Net.Constants;
+using SkeFramework.NetSerialPort.Protocols;
+using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Connections;
+using SkeFramework.NetSerialPort.Protocols.Constants;
+using SkeFramework.NetSerialPort.Protocols.Response;
+using SkeFramework.NetSerialPort.Topology;
 
-namespace SkeFramework.NetSocket.Net.Reactor
+namespace SkeFramework.NetSerialPort.Net.Reactor
 {
     /// <summary>
     /// 网络抽象实现
@@ -28,8 +28,13 @@ namespace SkeFramework.NetSocket.Net.Reactor
 
         public event ReceivedDataCallback OnReceive
         {
-            add {  }
+            add { }
             // ReSharper disable once ValueParameterNotUsed
+            remove { }
+        }
+        public event SendDataCallback OnSend
+        {
+            add { }
             remove { }
         }
 
@@ -50,10 +55,6 @@ namespace SkeFramework.NetSocket.Net.Reactor
             ConnectionAdapter = new ReactorConnectionAdapter(this);
         }
         #endregion
-        ///// <summary>
-        ///// 监听者
-        ///// </summary>
-        //protected SerialPort Listener;
         /// <summary>
         /// 监听者
         /// </summary>
@@ -114,7 +115,7 @@ namespace SkeFramework.NetSocket.Net.Reactor
         /// </summary>
         /// <param name="availableData">Data available from the network, including a response address</param>
         /// <param name="responseChannel">Available channel for handling network response</param>
-        protected virtual void ReceivedData(NetworkData availableData, RefactorResponseChannel responseChannel)
+        protected virtual void ReceivedData(NetworkData availableData, NetworkState networkState)
         {
             //if (EventLoop.Receive != null)
             //{

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SkeFramework.NetSocket.Net.Reactor;
-using SkeFramework.NetSocket.Protocols;
-using SkeFramework.NetSocket.Topology;
-using SkeFramework.NetSocket.Topology.Nodes;
+﻿using SkeFramework.NetSerialPort.Net.Reactor;
+using SkeFramework.NetSerialPort.Protocols;
+using SkeFramework.NetSerialPort.Topology;
+using SkeFramework.NetSerialPort.Topology.Nodes;
 
-namespace SkeFramework.NetSocket.Bootstrap
+namespace SkeFramework.NetSerialPort.Bootstrap
 {
     /// <summary>
     /// Sokcet服务端工厂抽象实现

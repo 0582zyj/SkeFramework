@@ -4,10 +4,10 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Buffers;
-using SkeFramework.NetSocket.Topology;
+using SkeFramework.NetSerialPort.Buffers;
+using SkeFramework.NetSerialPort.Topology;
 
-namespace SkeFramework.NetSocket.Protocols.Configs
+namespace SkeFramework.NetSerialPort.Protocols.Configs
 {
     /// <summary>
     /// 连接参数配置

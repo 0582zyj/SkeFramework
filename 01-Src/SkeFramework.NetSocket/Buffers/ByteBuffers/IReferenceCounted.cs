@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Buffers
+namespace SkeFramework.NetSerialPort.Buffers
 {
     /// <summary>
     ///  引用计数接口

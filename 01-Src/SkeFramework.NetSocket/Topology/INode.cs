@@ -1,4 +1,4 @@
-﻿using SkeFramework.NetSocket.Net;
+﻿using SkeFramework.NetSerialPort.Net;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Topology
+namespace SkeFramework.NetSerialPort.Topology
 {
     /// <summary>
     /// 连接节点接口
@@ -42,9 +42,9 @@ namespace SkeFramework.NetSocket.Topology
         /// 链接参数
         /// </summary>
         NodeConfig nodeConfig { get; set; }
-        ///// <summary>
-        ///// 将节点信息转为监听点
-        ///// </summary>
-        //T ToEndPoint<T>();
+        /// <summary>
+        /// 将节点信息转为监听点
+        /// </summary>
+        T ToEndPoint<T>();
     }
 }

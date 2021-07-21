@@ -5,10 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Net;
-using SkeFramework.NetSocket.Protocols.Constants;
+using SkeFramework.NetSerialPort.Net;
+using SkeFramework.NetSerialPort.Topology;
+using SkeFramework.NetSerialPort.Protocols.Constants;
+using Newtonsoft.Json;
 
-namespace SkeFramework.NetSocket.Topology.Nodes
+namespace SkeFramework.NetSerialPort.Topology.Nodes
 {
     /// <summary>
     /// 服务节点信息
@@ -26,10 +28,10 @@ namespace SkeFramework.NetSocket.Topology.Nodes
             set;
         }
 
-        //public virtual T ToEndPoint<T>()
-        //{
-        //    return default;
-        //}
+        public virtual T ToEndPoint<T>()
+        {
+            return JsonConvert.DeserializeObject<T>(this.CustomData);
+        }
         /// <summary>
         /// 节点上次访问的时间戳
         /// </summary>

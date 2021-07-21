@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSerialPort.Buffers.Serialization;
-using SkeFramework.NetSerialPort.Net;
+using SkeFramework.NetSerialPort.Bootstrap;
 using SkeFramework.NetSerialPort.Net.Reactor;
-using SkeFramework.NetSerialPort.Net.SerialPorts;
 using SkeFramework.NetSerialPort.Net.Udp;
 using SkeFramework.NetSerialPort.Topology;
 
-namespace SkeFramework.NetSerialPort.Bootstrap
+namespace SkeFramework.NetSocket.Bootstrap
 {
     /// <summary>
     /// UDP服务端工厂具体实现
@@ -24,15 +22,7 @@ namespace SkeFramework.NetSerialPort.Bootstrap
 
         protected override ReactorBase NewReactorInternal(INode listenAddress)
         {
-            switch (listenAddress.reactorType)
-            {
-                case ReactorType.SerialPorts:
-                    return new SerialPortReactor(listenAddress, Encoder, Decoder, Allocator);
-                case ReactorType.Udp:
-                    return new UdpProxyReactor(listenAddress, Encoder, Decoder, Allocator);
-                default:
-                    return null;
-            }
+            return new UdpProxyReactor(listenAddress, Encoder, Decoder, Allocator);
         }
     }
 }

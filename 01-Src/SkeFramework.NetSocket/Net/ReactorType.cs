@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Net
+namespace SkeFramework.NetSerialPort.Net
 {
     /// <summary>
     /// 通信类型

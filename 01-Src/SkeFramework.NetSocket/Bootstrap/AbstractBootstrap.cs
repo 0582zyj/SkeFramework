@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Buffers;
-using SkeFramework.NetSocket.Buffers.Allocators;
-using SkeFramework.NetSocket.Buffers.Allocators.Achieves;
-using SkeFramework.NetSocket.Buffers.Serialization;
-using SkeFramework.NetSocket.Net;
-using SkeFramework.NetSocket.Protocols;
-using SkeFramework.NetSocket.Protocols.Configs;
-using SkeFramework.NetSocket.Protocols.Connections;
+using SkeFramework.NetSerialPort.Buffers;
+using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Buffers.Allocators.Achieves;
+using SkeFramework.NetSerialPort.Buffers.Serialization;
+using SkeFramework.NetSerialPort.Net;
+using SkeFramework.NetSerialPort.Protocols;
+using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Connections;
 
-namespace SkeFramework.NetSocket.Bootstrap
+namespace SkeFramework.NetSerialPort.Bootstrap
 {
     /// <summary>
     /// 引导程序抽象实现

@@ -5,13 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Buffers;
-using SkeFramework.NetSocket.Buffers.Allocators;
-using SkeFramework.NetSocket.Protocols;
-using SkeFramework.NetSocket.Protocols.Configs;
-using SkeFramework.NetSocket.Topology;
+using SkeFramework.NetSerialPort.Buffers;
+using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Protocols;
+using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Topology;
 
-namespace SkeFramework.NetSocket.Net.Reactor
+namespace SkeFramework.NetSerialPort.Net.Reactor
 {
     /// <summary>
     /// 网络连接接口
@@ -73,14 +73,12 @@ namespace SkeFramework.NetSocket.Net.Reactor
         /// 本地连接
         /// </summary>
         INode LocalEndpoint { get; }
-
-        #region 配置
         /// <summary>
         /// 连接参数配置
         /// </summary>
         /// <param name="config"></param>
         void Configure(IConnectionConfig config);
-        #endregion
+
         #region Socket发送接收数据
         ///// <summary>
         ///// 发送数据
@@ -106,12 +104,10 @@ namespace SkeFramework.NetSocket.Net.Reactor
         /// </summary>
         void Stop();
         #endregion
-        #region 释放资源
         /// <summary>
         /// 释放资源
         /// </summary>
         /// <param name="disposing"></param>
         void Dispose(bool disposing);
-        #endregion
     }
 }

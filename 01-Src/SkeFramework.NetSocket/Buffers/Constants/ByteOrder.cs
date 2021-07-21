@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Buffers.Constants
+namespace SkeFramework.NetSerialPort.Buffers.Constants
 {
     /// <summary>
     /// 字节大小端排序

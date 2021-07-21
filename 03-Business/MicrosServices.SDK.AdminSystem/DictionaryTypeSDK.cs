@@ -16,13 +16,13 @@ namespace MicrosServices.SDK.AdminSystem
 {
     public class DictionaryTypeSDK
     {
-        private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionarytype/getList";
-        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionarytype/getPageList";
-        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionarytype/getInfo";
-        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionarytype/create";
-        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionarytype/delete";
-        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionarytype/update";
-        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionarytype/getOptionValues";
+        private static readonly string GetListUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionaryType/getList";
+        private static readonly string GetPageUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionaryType/getPageList";
+        private static readonly string GetInfoUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionaryType/getInfo";
+        private static readonly string AddUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionaryType/create";
+        private static readonly string DeleteUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionaryType/delete";
+        private static readonly string UpdateUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionaryType/update";
+        private static readonly string GetOptionValueUrl = NetwordConstants.Instance().GetBaseUrl() + "/api/dictionaryType/getOptionValues";
 
         private SdkUtil sdkUtil = new SdkUtil();
         /// <summary>

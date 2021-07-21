@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.NetSocket.Protocols.Constants
+namespace SkeFramework.NetSerialPort.Protocols.Constants
 {
     /// <summary>
     /// 协议数据缓冲区

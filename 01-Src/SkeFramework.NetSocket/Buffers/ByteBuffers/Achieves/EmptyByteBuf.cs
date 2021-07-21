@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Buffers.Allocators;
-using SkeFramework.NetSocket.Buffers.Constants;
-using SkeFramework.NetSocket.Protocols.Constants;
+using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Buffers.Constants;
+using SkeFramework.NetSerialPort.Protocols.Constants;
 
-namespace SkeFramework.NetSocket.Buffers.ByteBuffers.Achieves
+namespace SkeFramework.NetSerialPort.Buffers.ByteBuffers.Achieves
 {
     public class EmptyByteBuf : IByteBuf
     {
 
         /// <summary>
-        ///     The buffer itself
+        /// The buffer itself
         /// </summary>
         private readonly byte[] _buffer;
         /// <summary>
@@ -21,7 +21,7 @@ namespace SkeFramework.NetSocket.Buffers.ByteBuffers.Achieves
         /// </summary>
         public int Capacity
         {
-            get {return _buffer.Length; }
+            get { return _buffer.Length; }
         }
         /// <summary>
         /// 大小端排序
@@ -57,17 +57,17 @@ namespace SkeFramework.NetSocket.Buffers.ByteBuffers.Achieves
             set;
         }
 
-        public  int ReadableBytes
+        public int ReadableBytes
         {
             get { return WriterIndex - ReaderIndex; }
         }
 
-        public  int WritableBytes
+        public int WritableBytes
         {
             get { return Capacity - WriterIndex; }
         }
 
-        public  int MaxWritableBytes
+        public int MaxWritableBytes
         {
             get { return MaxCapacity - WriterIndex; }
         }
@@ -79,7 +79,7 @@ namespace SkeFramework.NetSocket.Buffers.ByteBuffers.Achieves
 
         public byte[] ToArray()
         {
-            return  _buffer.Take(ReadableBytes).ToArray();
+            return _buffer.Skip(this.ReaderIndex).Take(ReadableBytes).ToArray();
         }
 
 
@@ -123,11 +123,23 @@ namespace SkeFramework.NetSocket.Buffers.ByteBuffers.Achieves
             return this;
         }
 
-   
 
-        public IByteBuf ReadBytes(IByteBuf destination)
+
+        public byte[] ReadBytes(int length)
         {
-            return Allocator.Buffer();
+            byte[] result = new byte[length];
+            if (length > this.ReadableBytes)
+                throw new IndexOutOfRangeException(
+                    string.Format("length({0}) over src.readableBytes({1}) ", length,
+                        this.ReadableBytes));
+            result = ToArray().Take(length).ToArray();
+            this.SetReaderIndex(this.ReaderIndex + length);
+            if (this.ReaderIndex >= this.Capacity || this.ReadableBytes==0)
+            {
+                this.SetReaderIndex(0);
+                this.SetWriterIndex(0);
+            }
+            return result;
         }
 
         public IByteBuf WriteBytes(byte[] buffer, int index, int length)
@@ -137,14 +149,15 @@ namespace SkeFramework.NetSocket.Buffers.ByteBuffers.Achieves
                     string.Format("length({0}) exceeds src.readableBytes({1}) where src is: {2}", length,
                         this.WritableBytes, this));
             Array.Copy(buffer, index, this._buffer, WriterIndex, length);
-            this.SetWriterIndex(this.ReaderIndex + length);
-            return this; 
+            this.SetWriterIndex(this.WriterIndex + length);
+            TimeSpan tss = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            this.ReceiveTimeSpan = Convert.ToInt64(tss.TotalMilliseconds);
+            return this;
         }
 
-        public int ReferenceCount
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public int ReferenceCount { get; }
+
+        public long ReceiveTimeSpan { get;  set; }
 
         public IReferenceCounted Retain()
         {

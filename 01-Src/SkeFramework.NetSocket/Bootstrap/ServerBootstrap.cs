@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Buffers;
-using SkeFramework.NetSocket.Buffers.Allocators;
-using SkeFramework.NetSocket.Net;
-using SkeFramework.NetSocket.Protocols;
-using SkeFramework.NetSocket.Protocols.Configs;
-using SkeFramework.NetSocket.Protocols.Connections;
-using SkeFramework.NetSocket.Protocols.Constants;
+using SkeFramework.NetSerialPort.Buffers;
+using SkeFramework.NetSerialPort.Buffers.Allocators;
+using SkeFramework.NetSerialPort.Net;
+using SkeFramework.NetSerialPort.Protocols;
+using SkeFramework.NetSerialPort.Protocols.Configs;
+using SkeFramework.NetSerialPort.Protocols.Connections;
+using SkeFramework.NetSerialPort.Protocols.Constants;
 
-namespace SkeFramework.NetSocket.Bootstrap
+namespace SkeFramework.NetSerialPort.Bootstrap
 {
     public class ServerBootstrap : AbstractBootstrap
     {
@@ -34,10 +33,6 @@ namespace SkeFramework.NetSocket.Bootstrap
             Workers = other.Workers;
         }
 
-        public object SetTransport(TransportType udp)
-        {
-            throw new NotImplementedException();
-        }
 
         protected int Workers { get; set; }
 

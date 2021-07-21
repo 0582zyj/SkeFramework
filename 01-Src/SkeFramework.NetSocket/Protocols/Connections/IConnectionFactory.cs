@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkeFramework.NetSocket.Topology;
+using SkeFramework.NetSerialPort.Topology;
 
-namespace SkeFramework.NetSocket.Protocols.Connections
+namespace SkeFramework.NetSerialPort.Protocols.Connections
 {
     /// <summary>
     /// 连接工厂接口
