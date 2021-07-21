@@ -51,7 +51,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Constants
             {
                 Buffer = data,
                 Length = bytes,
-                RemoteHost = node
+                RemoteHost = node,
+                Recieved = DateTime.Now
             };
         }
 

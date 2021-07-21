@@ -38,7 +38,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Constants
         /// <summary>
         /// 默认消息解析超时时间[秒]
         /// </summary>
-        public const long DefaultPraseTimeOut = 10;
+        public const long DefaultPraseTimeOut = 3;
         /// <summary>
         ///  默认任务重发间隔时间[毫秒]
         /// </summary>

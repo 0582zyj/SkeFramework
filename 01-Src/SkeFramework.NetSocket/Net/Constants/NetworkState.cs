@@ -24,6 +24,7 @@ namespace SkeFramework.NetSerialPort.Net.Constants
             RemoteHost = remoteHost;
             Socket = socket;
             RawBuffer = new byte[rawBufferLength];
+            TimeOutSeconds = NetworkConstants.DefaultPraseTimeOut;
         }
         /// <summary>
         /// Socket对象

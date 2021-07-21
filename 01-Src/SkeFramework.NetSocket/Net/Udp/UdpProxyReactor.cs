@@ -19,6 +19,7 @@ using SkeFramework.NetSerialPort.Protocols.Connections;
 using SkeFramework.NetSerialPort.Protocols;
 using SkeFramework.Core.NetLog;
 using SkeFramework.NetSerialPort.Protocols.DataFrame;
+using SkeFramework.NetSerialPort.Protocols.Configs.Enums;
 
 namespace SkeFramework.NetSerialPort.Net.Udp
 {
@@ -82,6 +83,8 @@ namespace SkeFramework.NetSerialPort.Net.Udp
                     config.GetOption<bool>("keepAlive"));
             if (config.HasOption<bool>("proxiesShareFiber"))
                 ProxiesShareFiber = config.GetOption<bool>("proxiesShareFiber");
+            if (config.HasOption(OptionKeyEnums.ParseTimeOut.ToString()))
+                networkState.TimeOutSeconds = Convert.ToInt64(config.GetOption(OptionKeyEnums.ParseTimeOut.ToString()));
             else
                 ProxiesShareFiber = true;
         }
@@ -91,7 +94,6 @@ namespace SkeFramework.NetSerialPort.Net.Udp
         protected override void StartInternal()
         {
             IsActive = true;
-            NetworkState receiveState = CreateNetworkState(Listener, Node.Empty());
             if (!SocketMap.ContainsKey(this.LocalEndpoint.nodeConfig.ToString()))
             {
                 RefactorRequestChannel adapter;
@@ -101,8 +103,8 @@ namespace SkeFramework.NetSerialPort.Net.Udp
             IsActive = true;
             ListenerSocket.Bind(LocalEndPoint);
             ListenerSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
-            ListenerSocket.BeginReceiveFrom(receiveState.RawBuffer, 0, receiveState.RawBuffer.Length, SocketFlags.None,
-                ref RemoteEndPoint, PortDataReceived, receiveState);
+            ListenerSocket.BeginReceiveFrom(this.networkState.RawBuffer, 0, this.networkState.RawBuffer.Length, SocketFlags.None,
+                ref RemoteEndPoint, PortDataReceived, this.networkState);
 
         }
         /// <summary>
@@ -126,21 +128,16 @@ namespace SkeFramework.NetSerialPort.Net.Udp
                 {
                     return;
                 }
-                var remoteAddress = (IPEndPoint)RemoteEndPoint;
-                receiveState.RemoteHost = remoteAddress.ToNode(ReactorType.Udp);
-                this.ReceivedData(NetworkData.Create(this.Listener, receiveState.RawBuffer, received), receiveState);
+                NetworkData networkData = NetworkData.Create(this.Listener, receiveState.RawBuffer, received);
+                this.ReceivedData(networkData);
                 //清除数据继续接收
                 receiveState.RawBuffer = new byte[this.BufferSize];
-                ListenerSocket.BeginReceiveFrom(receiveState.RawBuffer, 0, receiveState.RawBuffer.Length, SocketFlags.None,
-    ref RemoteEndPoint, PortDataReceived, receiveState);
+                ListenerSocket.BeginReceiveFrom(this.networkState.RawBuffer, 0, this.networkState.RawBuffer.Length, SocketFlags.None,
+           ref RemoteEndPoint, PortDataReceived, this.networkState);
             }
-            catch  //node disconnected
+            catch (Exception ex)
             {
-                if (SocketMap.ContainsKey(receiveState.RemoteHost.nodeConfig.ToString()))
-                {
-                    var connection = SocketMap[receiveState.RemoteHost.nodeConfig.ToString()];
-                    CloseConnection(connection);
-                }
+                LogAgent.Error(ex.ToString());
             }
         }
         /// <summary>
@@ -160,7 +157,6 @@ namespace SkeFramework.NetSerialPort.Net.Udp
                     CloseConnection(clientSocket);
                     return;
                 }
-
                 var buf = Allocator.Buffer(length);
                 buf.WriteBytes(buffer, index, length);
                 Encoder.Encode(ConnectionAdapter, buf, out List<IByteBuf> encodedMessages);
@@ -169,7 +165,7 @@ namespace SkeFramework.NetSerialPort.Net.Udp
                     var state = CreateNetworkState(clientSocket.Local, destination, message, 0);
                     ListenerSocket.BeginSendTo(message.ToArray(), 0, message.ReadableBytes, SocketFlags.None,
                       LocalEndPoint, SendCallback, state);
-                    LogAgent.Info(String.Format("发送数据[UdpSocket]-->>{0}", this.Encoder.ByteEncode(message.ToArray())));
+                    LogAgent.Info(String.Format("发送数据-Udp-->>{0}", this.Encoder.ByteEncode(message.ToArray())));
                     clientSocket.Receiving = true;
                 }
             }
@@ -191,7 +187,6 @@ namespace SkeFramework.NetSerialPort.Net.Udp
         /// <param name="remoteHost"></param>
         internal override void CloseConnection(IConnection remoteHost)
         {
-            Console.WriteLine("CloseConnection-->>" + remoteHost.ToString());
             CloseConnection(null, remoteHost);
         }
         /// <summary>
@@ -202,20 +197,11 @@ namespace SkeFramework.NetSerialPort.Net.Udp
         internal override void CloseConnection(Exception reason, IConnection remoteConnection)
         {
             Console.WriteLine("CloseConnection-->>" + reason.ToString() + remoteConnection.ToString());
-            //NO-OP (no connections in UDP)
-            //try
-            //{
-            //    NodeDisconnected(new SocketConnectionException(ExceptionType.Closed, reason), remoteConnection);
-            //}
-            //catch (Exception innerEx)
-            //{
-            //    OnErrorIfNotNull(innerEx, remoteConnection);
-            //}
-            //finally
-            //{
-            //    if (SocketMap.ContainsKey(remoteConnection.RemoteHost))
-            //        SocketMap.Remove(remoteConnection.RemoteHost);
-            //}
+            if (SocketMap.ContainsKey(remoteConnection.RemoteHost.nodeConfig.ToString()))
+            {
+                var connection = SocketMap[remoteConnection.RemoteHost.nodeConfig.ToString()];
+                CloseConnection(connection);
+            }
         }
 
         #region IDisposable Members

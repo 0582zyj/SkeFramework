@@ -14,7 +14,6 @@ using SkeFramework.NetSerialPort.Protocols;
 using SkeFramework.NetSerialPort.Protocols.Connections;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Protocols.DataFrame;
-using SkeFramework.NetSerialPort.Protocols.Requests;
 using SkeFramework.NetSerialPort.Protocols.Response;
 using SkeFramework.NetSerialPort.Topology;
 
@@ -30,6 +29,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             : base(nodeConfig, encoder, decoder, allocator, bufferSize)
         {
             BufferSize = bufferSize;
+            networkState = CreateNetworkState(Listener, this.LocalEndpoint, allocator.Buffer(bufferSize), bufferSize);
         }
 
         /// <summary>
@@ -45,37 +45,62 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         /// </summary>
         /// <param name="availableData">远程主机原始数据</param>
         /// <param name="networkState">网络请求数据</param>
-        protected override void ReceivedData(NetworkData availableData, NetworkState networkState)
+        protected override void ReceivedData(NetworkData availableData)
         {
-       
-            byte[] readableBuffer = availableData.GetReadableBuffer();
+            //检查未处理的缓冲区数据是否超时
+            networkState.CheckPraseTimeOut();
+            networkState.Buffer.WriteBytes(availableData.Buffer, 0, availableData.Length);
+            string log = String.Format("{0}:接收数据-{1}-->>{2}", DateTime.Now.ToString("hh:mm:ss"),
+                this.Listener.reactorType.ToString(), this.Encoder.ByteEncode(networkState.Buffer.ToArray()));
+            LogAgent.Info(log);
             ReactorConnectionAdapter adapter = ((ReactorConnectionAdapter)ConnectionAdapter);
-            FrameBase frame = adapter.ParsingReceivedData(readableBuffer);
-            if (frame != null)
+            while (networkState.Buffer.ReadableBytes > 0)
             {
-                //触发整条记录的处理
-                INode node = null;
-                IConnection connection = adapter.GetConnection(frame);
-                if (connection != null)
+                if (networkState.CheckPraseTimeOut())
                 {
-                    connection.RemoteHost.TaskTag = connection.ControlCode;
-                    node = connection.RemoteHost;
+                    return;
+                }
+                byte[] readableBuffer = networkState.Buffer.ToArray();
+                FrameBase frame = adapter.ParsingReceivedData(readableBuffer);
+                if (frame != null)
+                {
+                    //触发整条记录的处理
+                    IConnection connection = adapter.GetConnection(frame);
+                    if (connection != null)
+                    {
+                        connection.RemoteHost.TaskTag = connection.ControlCode;
+                        networkState.RemoteHost = connection.RemoteHost;
+                    }
+                    else
+                    {
+                        networkState.RemoteHost = this.LocalEndpoint;
+                        networkState.RemoteHost.TaskTag = "none";
+                    }
+                    if (frame.MatchOffset != 0)
+                    {//从缓冲区移除要丢弃的数据
+                        byte[] removeByte = networkState.Buffer.ReadBytes(frame.MatchOffset);
+                        log = String.Format("{0}:丢弃数据-{1}-->>{2}", DateTime.Now.ToString("hh:mm:ss"), this.Listener.reactorType, this.Encoder.ByteEncode(removeByte));
+                        LogAgent.Info(log);
+                    }
+                    if (frame.FrameBytes != null && frame.FrameBytes.Length > 0)
+                    {
+                        NetworkState state = CreateNetworkState(networkState.Socket, networkState.RemoteHost);
+                        state.RawBuffer = networkState.Buffer.ReadBytes(frame.FrameBytes.Length);
+                        this.ReceiveCallback(state);
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 else
                 {
-                    node = this.LocalEndpoint;
-                    node.TaskTag = "none";
+                    break;
                 }
-                if (networkState == null)
-                {
-                    networkState = CreateNetworkState(Listener, node);
-                }
-                networkState.RawBuffer = frame.FrameBytes;
-                this.ReceiveCallback(networkState);
             }
-            else
+            if (networkState.Buffer.WritableBytes == 0)
             {
-                string log = String.Format("{0}:丢弃数据-{1}-->>{2}", DateTime.Now.ToString("hh:mm:ss"), this.Listener.reactorType.ToString(), this.Encoder.ByteEncode(readableBuffer));
+                log = String.Format("{0}:丢弃数据-{1}-->>{2}", DateTime.Now.ToString("hh:mm:ss"), this.Listener.reactorType, this.Encoder.ByteEncode(networkState.Buffer.ToArray()));
                 LogAgent.Info(log);
             }
         }
@@ -84,25 +109,24 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         /// 接收数据回调[协议进程]
         /// </summary>
         /// <param name="receiveState"></param>
-        protected void ReceiveCallback(NetworkState receiveState, int receiveCount = 0)
+        protected void ReceiveCallback(NetworkState receiveState)
         {
             try
             {
-                var received = receiveCount == 0 ? receiveState.RawBuffer.Length : receiveCount;
-                if (received == 0)
-                {
+                if (receiveState.RemoteHost == null)
                     return;
-                }
+                var received = receiveState.RawBuffer.Length;
+                if (received == 0)
+                    return;
                 receiveState.Buffer.WriteBytes(receiveState.RawBuffer, 0, received);
-                INode node = receiveState.RemoteHost;
                 if (SocketMap.ContainsKey(receiveState.RemoteHost.nodeConfig.ToString()))
                 {
                     var connection = SocketMap[receiveState.RemoteHost.nodeConfig.ToString()];
-                    node = connection.RemoteHost;
+                    receiveState.RemoteHost = connection.RemoteHost;
                 }
                 else
                 {
-                    RefactorProxyResponseChannel adapter = new RefactorProxyResponseChannel(this, null, node);
+                    RefactorProxyResponseChannel adapter = new RefactorProxyResponseChannel(this, null, receiveState.RemoteHost);
                     SocketMap.Add(adapter.RemoteHost.nodeConfig.ToString(), adapter);
                 }
 
@@ -111,19 +135,19 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
                 foreach (var message in decoded)
                 {
                     var networkData = NetworkData.Create(receiveState.RemoteHost, message);
-                    string log = String.Format("{0}:接收数据-{1}-->>{2}", DateTime.Now.ToString("hh:mm:ss"), this.Listener.reactorType.ToString(), this.Encoder.ByteEncode(networkData.Buffer));
+                    string log = String.Format("{0}:处理数据-{1}-->>{2}", DateTime.Now.ToString("hh:mm:ss"), this.Listener.reactorType.ToString(), this.Encoder.ByteEncode(networkData.Buffer));
                     LogAgent.Info(log);
                     if (ConnectionAdapter is ReactorConnectionAdapter)
                     {
                         ((ReactorConnectionAdapter)ConnectionAdapter).networkDataDocker.AddNetworkData(networkData);
                         ((EventWaitHandle)((ReactorConnectionAdapter)ConnectionAdapter).protocolEvents[(int)ProtocolEvents.PortReceivedData]).Set();
                     }
-               
+
                 }
             }
             catch (Exception ex)
             {
-                LogAgent.Error(ex.ToString());
+                Console.WriteLine(ex.ToString());
             }
         }
     }

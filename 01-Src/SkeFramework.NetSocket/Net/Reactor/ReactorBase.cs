@@ -63,15 +63,37 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         /// 缓冲区大小
         /// </summary>
         protected int BufferSize { get; set; }
+        /// <summary>
+        /// 编码器
+        /// </summary>
         public IMessageEncoder Encoder { get; set; }
+        /// <summary>
+        /// 解码器
+        /// </summary>
         public IMessageDecoder Decoder { get; set; }
+        /// <summary>
+        /// 缓存区处理程序
+        /// </summary>
         public IByteBufAllocator Allocator { get; set; }
+        /// <summary>
+        /// 接受缓存区
+        /// </summary>
+        protected NetworkState networkState;
         /// <summary>
         /// 链接适配器
         /// </summary>
         public IConnection ConnectionAdapter { get; set; }
+        /// <summary>
+        /// 是否活跃
+        /// </summary>
         public abstract bool IsActive { get; protected set; }
+        /// <summary>
+        /// 是否解析数据
+        /// </summary>
         public abstract bool IsParsing { get; protected set; }
+        /// <summary>
+        /// 是否已释放
+        /// </summary>
         public bool WasDisposed { get; protected set; }
 
         public void Start()
@@ -115,7 +137,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         /// </summary>
         /// <param name="availableData">Data available from the network, including a response address</param>
         /// <param name="responseChannel">Available channel for handling network response</param>
-        protected virtual void ReceivedData(NetworkData availableData, NetworkState networkState)
+        protected virtual void ReceivedData(NetworkData availableData)
         {
             //if (EventLoop.Receive != null)
             //{

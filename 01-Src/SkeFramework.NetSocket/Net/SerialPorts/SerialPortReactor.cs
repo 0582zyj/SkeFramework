@@ -21,6 +21,7 @@ using SkeFramework.NetSerialPort.Protocols.Response;
 using SkeFramework.NetSerialPort.Topology;
 using SkeFramework.NetSerialPort.Topology.Nodes;
 using SkeFramework.NetSerialPort.Topology.ExtendNodes;
+using SkeFramework.NetSerialPort.Protocols.Configs.Enums;
 
 namespace SkeFramework.NetSerialPort.Net.SerialPorts
 {
@@ -66,10 +67,12 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
         /// <param name="config"></param>
         public override void Configure(IConnectionConfig config)
         {
-            if (config.HasOption<int>("ReadBufferSize"))
-                ListenerSocket.ReadBufferSize = config.GetOption<int>("ReadBufferSize");
-            if (config.HasOption<int>("WriteBufferSize"))
-                ListenerSocket.WriteBufferSize = config.GetOption<int>("WriteBufferSize");
+            if (config.HasOption(OptionKeyEnums.ReadBufferSize.ToString()))
+                ListenerSocket.ReadBufferSize = Convert.ToInt32(config.GetOption(OptionKeyEnums.ReadBufferSize.ToString()));
+            if (config.HasOption(OptionKeyEnums.WriteBufferSize.ToString()))
+                ListenerSocket.WriteBufferSize = Convert.ToInt32(config.GetOption(OptionKeyEnums.WriteBufferSize.ToString()));
+            if (config.HasOption(OptionKeyEnums.ParseTimeOut.ToString()))
+                networkState.TimeOutSeconds = Convert.ToInt64(config.GetOption(OptionKeyEnums.ParseTimeOut.ToString()));
             else
                 ProxiesShareFiber = true;
         }
@@ -113,7 +116,8 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                 int n = ListenerSocket.BytesToRead;
                 byte[] buf = new byte[n];
                 this.ListenerSocket.Read(buf, 0, n);
-                this.ReceivedData(NetworkData.Create(this.Listener, buf, n), null);
+                NetworkData networkData = NetworkData.Create(this.Listener, buf, n);
+                this.ReceivedData(networkData);
             }
             catch (Exception ex)
             {

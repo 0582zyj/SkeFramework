@@ -519,7 +519,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             IList<IConnection> connections = this.connectionDocker.BusinessCaseList.
                 Where(o => o.Receiving).OrderByDescending(o => o.Created).ToList();
-            return connections.LastOrDefault();
+            if(connections.FirstOrDefault()!=null)
+                return connections.LastOrDefault();
+            return this;
         }
         /// <summary>
         /// 原始数据解析处理
