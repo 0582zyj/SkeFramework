@@ -539,16 +539,25 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// </summary>
         protected virtual void ProcessReceivedData(NetworkData networkData)
         {
-            IConnection connection = this.connectionDocker.GetCase(networkData.RemoteHost.TaskTag);
-            if (connection != null && connection is RefactorRequestChannel)
+            string ProtocolTag = networkData.RemoteHost.TaskTag;
+            IConnection connection = this.connectionDocker.GetCase(ProtocolTag);
+            if (connection != null)
             {
                 string content = connection.Encoder.ByteEncode(networkData.Buffer);
                 string log = String.Format("{0}:协议层消息处理【{1}】：{2}",
                     DateTime.Now.ToString("hh:mm:ss"), networkData.RemoteHost.ToString(), content);
                 Console.WriteLine(log);
-                RefactorRequestChannel requestChannel = (RefactorRequestChannel)connection;
-                requestChannel.StopReceive();
+                connection.StopReceive();
             }
+        }
+        /// <summary>
+        /// 创建请求响应协议
+        /// </summary>
+        /// <param name="ProtocolTag"></param>
+        /// <returns></returns>
+        protected virtual IConnection CreateConnection(string ProtocolTag)
+        {
+            return null;
         }
         #endregion
 

@@ -22,5 +22,9 @@ namespace SkeFramework.NetSerialPort.Protocols.Configs.Enums
         ParseTimeOut,
         [Description("协议超时时间")]
         ProtocolTimeOut,
-    }
+        [Description("任务间隔时间")]
+        TaskInterval,
+        [Description("任务重发次数")]
+        TaskResend,
+}
 }

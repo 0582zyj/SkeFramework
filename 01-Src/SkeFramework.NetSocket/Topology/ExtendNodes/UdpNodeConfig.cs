@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,6 +21,10 @@ namespace SkeFramework.NetSerialPort.Topology.ExtendNodes
         /// 端口
         /// </summary>
         public int LocalPort { get; set; }
+        /// <summary>
+        /// Mac地址
+        /// </summary>
+        public string MacAddress{ get; set; }
 
         public UdpNodeConfig()
         {
@@ -32,6 +37,7 @@ namespace SkeFramework.NetSerialPort.Topology.ExtendNodes
             List<string> paraList = new List<string>();
             paraList.Add(LocalAddress);
             paraList.Add(LocalPort.ToString());
+            paraList.Add(MacAddress.ToString());
             return String.Format("{0}://{1}",Prefix, String.Join(SpitChar,paraList));
         }
     }

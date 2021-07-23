@@ -33,14 +33,6 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         }
 
         /// <summary>
-        ///  If true, proxies created for each inbound connection share the parent's thread-pool. If false, each proxy is
-        ///  allocated
-        ///     its own thread pool.
-        ///     Defaults to true.
-        /// </summary>
-        public bool ProxiesShareFiber { get; protected set; }
-
-        /// <summary>
         /// 处理接收数据[解析+分配链接]
         /// </summary>
         /// <param name="availableData">远程主机原始数据</param>
@@ -50,9 +42,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             //检查未处理的缓冲区数据是否超时
             networkState.CheckPraseTimeOut();
             networkState.Buffer.WriteBytes(availableData.Buffer, 0, availableData.Length);
-            string log = String.Format("{0}:接收数据-{1}-->>{2}", DateTime.Now.ToString("hh:mm:ss"),
-                this.Listener.reactorType.ToString(), this.Encoder.ByteEncode(networkState.Buffer.ToArray()));
-            LogAgent.Info(log);
+            LogTemplate("接收数据-{0}-->>{1}", networkState.Buffer.ToArray());
             ReactorConnectionAdapter adapter = ((ReactorConnectionAdapter)ConnectionAdapter);
             while (networkState.Buffer.ReadableBytes > 0)
             {
@@ -64,27 +54,17 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
                 FrameBase frame = adapter.ParsingReceivedData(readableBuffer);
                 if (frame != null)
                 {
-                    //触发整条记录的处理
-                    IConnection connection = adapter.GetConnection(frame);
-                    if (connection != null)
-                    {
-                        connection.RemoteHost.TaskTag = connection.ControlCode;
-                        networkState.RemoteHost = connection.RemoteHost;
-                    }
-                    else
-                    {
-                        networkState.RemoteHost = this.LocalEndpoint;
-                        networkState.RemoteHost.TaskTag = "none";
-                    }
+                    ////触发整条记录的处理
                     if (frame.MatchOffset != 0)
                     {//从缓冲区移除要丢弃的数据
                         byte[] removeByte = networkState.Buffer.ReadBytes(frame.MatchOffset);
-                        log = String.Format("{0}:丢弃数据-{1}-->>{2}", DateTime.Now.ToString("hh:mm:ss"), this.Listener.reactorType, this.Encoder.ByteEncode(removeByte));
-                        LogAgent.Info(log);
+                        LogTemplate("丢弃数据-{0}-->>{1}", removeByte);
                     }
                     if (frame.FrameBytes != null && frame.FrameBytes.Length > 0)
                     {
-                        NetworkState state = CreateNetworkState(networkState.Socket, networkState.RemoteHost);
+                        INode remoteHost = availableData.RemoteHost.Clone() as INode;
+                        remoteHost.TaskTag = frame.ControlCode;
+                        NetworkState state = CreateNetworkState(networkState.Socket, remoteHost);
                         state.RawBuffer = networkState.Buffer.ReadBytes(frame.FrameBytes.Length);
                         this.ReceiveCallback(state);
                     }
@@ -100,11 +80,9 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             }
             if (networkState.Buffer.WritableBytes == 0)
             {
-                log = String.Format("{0}:丢弃数据-{1}-->>{2}", DateTime.Now.ToString("hh:mm:ss"), this.Listener.reactorType, this.Encoder.ByteEncode(networkState.Buffer.ToArray()));
-                LogAgent.Info(log);
+                LogTemplate("丢弃数据-{0}-->>{1}", networkState.Buffer.ToArray());
             }
         }
-
         /// <summary>
         /// 接收数据回调[协议进程]
         /// </summary>
@@ -119,26 +97,14 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
                 if (received == 0)
                     return;
                 receiveState.Buffer.WriteBytes(receiveState.RawBuffer, 0, received);
-                if (SocketMap.ContainsKey(receiveState.RemoteHost.nodeConfig.ToString()))
-                {
-                    var connection = SocketMap[receiveState.RemoteHost.nodeConfig.ToString()];
-                    receiveState.RemoteHost = connection.RemoteHost;
-                }
-                else
-                {
-                    RefactorProxyResponseChannel adapter = new RefactorProxyResponseChannel(this, null, receiveState.RemoteHost);
-                    SocketMap.Add(adapter.RemoteHost.nodeConfig.ToString(), adapter);
-                }
-
                 List<IByteBuf> decoded;
                 Decoder.Decode(ConnectionAdapter, receiveState.Buffer, out decoded);
                 foreach (var message in decoded)
                 {
                     var networkData = NetworkData.Create(receiveState.RemoteHost, message);
-                    string log = String.Format("{0}:处理数据-{1}-->>{2}", DateTime.Now.ToString("hh:mm:ss"), this.Listener.reactorType.ToString(), this.Encoder.ByteEncode(networkData.Buffer));
-                    LogAgent.Info(log);
+                    LogTemplate("处理数据-{0}-->>{1}", networkData.Buffer);
                     if (ConnectionAdapter is ReactorConnectionAdapter)
-                    {
+                    {//合法消息回调到线程进行分发处理
                         ((ReactorConnectionAdapter)ConnectionAdapter).networkDataDocker.AddNetworkData(networkData);
                         ((EventWaitHandle)((ReactorConnectionAdapter)ConnectionAdapter).protocolEvents[(int)ProtocolEvents.PortReceivedData]).Set();
                     }
@@ -147,8 +113,17 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                LogAgent.Error(ex.ToString());
             }
         }
+        /// <summary>
+        /// 模板日志输出
+        /// </summary>
+        private void LogTemplate(string formactLog,byte[] data)
+        {
+            string log = String.Format(formactLog, this.Listener.reactorType.ToString(), this.Encoder.ByteEncode(data));
+            LogAgent.Info(log);
+        }
+
     }
 }

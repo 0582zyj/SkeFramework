@@ -49,12 +49,19 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             Allocator = allocator;
 
             Listener = listener;
-            //LocalEndpoint = new IPEndPoint(localAddress, localPort);      
             Backlog = NetworkConstants.DefaultBacklog;
             BufferSize = bufferSize;
             ConnectionAdapter = new ReactorConnectionAdapter(this);
         }
         #endregion
+        /// <summary>
+        /// 积压记录
+        /// </summary>
+        public int Backlog { get; set; }
+        /// <summary>
+        /// 当前节点
+        /// </summary>
+        public INode LocalEndpoint { get; set; }
         /// <summary>
         /// 监听者
         /// </summary>
@@ -124,8 +131,6 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             Send(data.Buffer, 0, data.Length, data.RemoteHost);
         }
 
-        public int Backlog { get; set; }
-        public INode LocalEndpoint { get;set; }
         public abstract void Configure(IConnectionConfig config);
         public abstract void Send(byte[] buffer, int index, int length, INode destination);
         protected abstract void StartInternal();

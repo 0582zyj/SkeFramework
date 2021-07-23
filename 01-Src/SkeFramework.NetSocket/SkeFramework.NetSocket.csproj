@@ -116,6 +116,7 @@
     <Compile Include="Topology\Nodes\Node.cs" />
     <Compile Include="Topology\Nodes\NodeConfig.cs" />
     <Compile Include="Topology\ExtendNodes\SerialNodeConfig.cs" />
+    <Compile Include="Topology\Nodes\NodeVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SkeFramework.Core.NetLog\SkeFramework.Core.NetLog.csproj">

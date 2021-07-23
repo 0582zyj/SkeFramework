@@ -9,15 +9,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
-using SkeFramework.NetSerialPort.Net.Constants;
 using SkeFramework.NetSerialPort.Net.Reactor;
 using SkeFramework.NetSerialPort.Protocols;
 using SkeFramework.NetSerialPort.Protocols.Configs;
-using SkeFramework.NetSerialPort.Protocols.Connections;
 using SkeFramework.NetSerialPort.Protocols.Constants;
-using SkeFramework.NetSerialPort.Protocols.DataFrame;
 using SkeFramework.NetSerialPort.Protocols.Requests;
-using SkeFramework.NetSerialPort.Protocols.Response;
 using SkeFramework.NetSerialPort.Topology;
 using SkeFramework.NetSerialPort.Topology.Nodes;
 using SkeFramework.NetSerialPort.Topology.ExtendNodes;
@@ -49,7 +45,7 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
             : base(listener, encoder, decoder, allocator,
                 bufferSize)
         {
-            SerialNodeConfig nodeConfig = listener.ToEndPoint<SerialNodeConfig>();
+            SerialNodeConfig nodeConfig = listener.nodeConfig as SerialNodeConfig;
             ListenerSocket = new SerialPort
             {
                 PortName = nodeConfig.PortName,
@@ -73,8 +69,6 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
                 ListenerSocket.WriteBufferSize = Convert.ToInt32(config.GetOption(OptionKeyEnums.WriteBufferSize.ToString()));
             if (config.HasOption(OptionKeyEnums.ParseTimeOut.ToString()))
                 networkState.TimeOutSeconds = Convert.ToInt64(config.GetOption(OptionKeyEnums.ParseTimeOut.ToString()));
-            else
-                ProxiesShareFiber = true;
         }
         /// <summary>
         /// 开始监听

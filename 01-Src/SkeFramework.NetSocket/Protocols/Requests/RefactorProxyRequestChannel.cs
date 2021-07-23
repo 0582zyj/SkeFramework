@@ -22,6 +22,14 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// 通信数据
         /// </summary>
         private NetworkData networkData;
+        /// <summary>
+        /// 发送间隔时间【默认】
+        /// </summary>
+        private int DefaultTaskInterval;
+        /// <summary>
+        /// 重发次数【默认】
+        /// </summary>
+        private int DefaultResendCount;
 
         public RefactorProxyRequestChannel(ReactorBase reactor, string controlCode)
             : this(reactor, reactor.LocalEndpoint, controlCode)
@@ -60,7 +68,30 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
                     this.Timeout = NetworkConstants.BackoffIntervals[ProtocolTimeOut];
                 }
             }
-            
+            if (config.HasOption(OptionKeyEnums.TaskInterval.ToString()))
+            {
+                int TaskInterval = (int)config.GetOption(OptionKeyEnums.TaskInterval.ToString());
+                if (TaskInterval > 0)
+                {
+                    this.DefaultTaskInterval = TaskInterval;
+                }
+                else
+                {
+                    this.DefaultTaskInterval = NetworkConstants.DefaultTaskInterval;
+                }
+            }
+            if (config.HasOption(OptionKeyEnums.TaskResend.ToString()))
+            {
+                int TaskResend = (int)config.GetOption(OptionKeyEnums.TaskResend.ToString());
+                if (TaskResend > 0)
+                {
+                    this.DefaultResendCount = TaskResend;
+                }
+                else
+                {
+                    this.DefaultResendCount = NetworkConstants.DefaultTaskCount;
+                }
+            }
         }
         /// <summary>
         /// 执行任务【默认重发3次3S超时】
@@ -71,7 +102,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             networkData = CreateNetworkData(connectionTask);
             if (networkData == null)
                 return;
-            CaseSendFrame(networkData, NetworkConstants.DefaultTaskInterval, NetworkConstants.DefaultTaskCount);
+            CaseSendFrame(networkData, this.DefaultTaskInterval, this.DefaultResendCount );
         }
         /// <summary>
         /// 生成发送数据

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace SkeFramework.NetSerialPort.Topology
 {
@@ -28,6 +30,21 @@ namespace SkeFramework.NetSerialPort.Topology
         public static bool IsEmpty(this INode node)
         {
             return node == Node.Empty();
+        }
+
+        public static object GetNodeConfigValue(this INode node,string PropertName)
+        {
+            JObject jObject = JObject.Parse(node.CustomData);
+            return jObject[PropertName];
+        }
+
+        public static INode SetNodeConfigValue(this INode node, string PropertName,object PropertValue)
+        {
+            JObject jObject = JObject.Parse(node.CustomData);
+            jObject[PropertName]= JToken.FromObject(PropertValue);
+            node.CustomData = JsonConvert.SerializeObject(jObject);
+            node.Host(node.reactorType);
+            return node;
         }
     }
 }

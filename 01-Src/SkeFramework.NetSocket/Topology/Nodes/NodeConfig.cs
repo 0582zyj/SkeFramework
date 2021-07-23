@@ -25,5 +25,6 @@ namespace SkeFramework.NetSerialPort.Topology
         /// 地址前缀
         /// </summary>
         public string Prefix { get; set; }
+       
     }
 }

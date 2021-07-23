@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using SkeFramework.NetSerialPort.Net;
 using SkeFramework.NetSerialPort.Topology.Nodes;
 using SkeFramework.NetSerialPort.Topology.ExtendNodes;
+using SkeFramework.NetSocket.Topology.Nodes;
 
 namespace SkeFramework.NetSerialPort.Topology
 {
@@ -20,11 +21,57 @@ namespace SkeFramework.NetSerialPort.Topology
             var n = new Node
             {
                 LastPulse = DateTime.UtcNow.Ticks,
-                nodeConfig = new NodeConfig()
+                nodeConfig = new NodeConfig(),
+                nodeVersion = new NodeVersion()
             };
             return n;
         }
 
+        #region 节点基础信息
+
+        /// <summary>
+        ///  注入机器名
+        /// </summary>
+        /// <param name="n">节点名</param>
+        /// <param name="machineName">机器名称</param>
+        public static INode MachineName(this INode n, string machineName)
+        {
+            n.nodeVersion.MachineName = machineName;
+            return n;
+        }
+
+        /// <summary>
+        /// 注入系统名称
+        /// </summary>
+        /// <param name="n">节点名</param>
+        /// <param name="osName">系统名称</param>
+        public static INode OperatingSystem(this INode n, string osName)
+        {
+            n.nodeVersion.OS = osName;
+            return n;
+        }
+
+        /// <summary>
+        /// 注入版本号
+        /// </summary>
+        /// <param name="n">节点</param>
+        /// <param name="serviceVersion">节点版本号</param>
+        public static INode WithVersion(this INode n, string serviceVersion)
+        {
+            n.nodeVersion.ServiceVersion = serviceVersion;
+            return n;
+        }
+        #endregion
+
+        #region 节点参数
+        /// <summary>
+        ///  注入传输数据
+        /// </summary>
+        public static INode WithCustomData(this INode n, string customData)
+        {
+            n.CustomData = customData;
+            return n;
+        }
         /// <summary>
         /// 注入IP地址
         /// </summary>
@@ -44,50 +91,7 @@ namespace SkeFramework.NetSerialPort.Topology
             }
             return n;
         }
-
-
-        /// <summary>
-        ///  注入机器名
-        /// </summary>
-        /// <param name="n">节点名</param>
-        /// <param name="machineName">机器名称</param>
-        public static INode MachineName(this INode n, string machineName)
-        {
-            n.MachineName = machineName;
-            return n;
-        }
-
-        /// <summary>
-        /// 注入系统名称
-        /// </summary>
-        /// <param name="n">节点名</param>
-        /// <param name="osName">系统名称</param>
-        public static INode OperatingSystem(this INode n, string osName)
-        {
-            n.OS = osName;
-            return n;
-        }
-
-        /// <summary>
-        /// 注入版本号
-        /// </summary>
-        /// <param name="n">节点</param>
-        /// <param name="serviceVersion">节点版本号</param>
-        public static INode WithVersion(this INode n, string serviceVersion)
-        {
-            n.ServiceVersion = serviceVersion;
-            return n;
-        }
-
-        /// <summary>
-        ///  注入传输数据
-        /// </summary>
-        public static INode WithCustomData(this INode n, string customData)
-        {
-            n.CustomData = customData;
-            return n;
-        }
-
+        #endregion
 
     }
 }

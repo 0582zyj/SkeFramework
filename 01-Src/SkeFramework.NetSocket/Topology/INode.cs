@@ -1,4 +1,5 @@
 ﻿using SkeFramework.NetSerialPort.Net;
+using SkeFramework.NetSocket.Topology.Nodes;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -13,19 +14,11 @@ namespace SkeFramework.NetSerialPort.Topology
     /// 连接节点接口
     /// </summary>
     public interface INode : ICloneable
-    {
+    {        
         /// <summary>
-        /// 机器名称
+        /// 节点版本信息
         /// </summary>
-        string MachineName { get; set; }
-        /// <summary>
-        /// 操作熊
-        /// </summary>
-        string OS { get; set; }
-        /// <summary>
-        /// 服务运行版本
-        /// </summary>
-        string ServiceVersion { get; set; }
+        NodeVersion nodeVersion { get; set; }
         /// <summary>
         /// Json字节数据
         /// </summary>
@@ -42,6 +35,10 @@ namespace SkeFramework.NetSerialPort.Topology
         /// 链接参数
         /// </summary>
         NodeConfig nodeConfig { get; set; }
+        /// <summary>
+        /// 终端节点
+        /// </summary>
+        object EndNodePoint { get; set; }
         /// <summary>
         /// 将节点信息转为监听点
         /// </summary>

@@ -130,7 +130,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Listenser
             {
                 ++SentTimes;
                 byte[] sendByte = frame.Buffer;
-                this.caseObj.Send(sendByte, 0, sendByte.Length, null);
+                this.caseObj.Send(sendByte, 0, sendByte.Length, frame.RemoteHost);
                 this.ResetCalculagraph();
             }
             else
