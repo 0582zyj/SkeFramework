@@ -39,6 +39,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         public RefactorProxyRequestChannel(ReactorBase reactor, INode endPoint, string controlCode)
             : base(reactor,  endPoint, controlCode)
         {
+            this.DefaultTaskInterval = NetworkConstants.DefaultTaskInterval;
+            this.DefaultResendCount = NetworkConstants.DefaultTaskCount;
         }
 
         public override void BeginReceiveInternal()
@@ -70,27 +72,14 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             }
             if (config.HasOption(OptionKeyEnums.TaskInterval.ToString()))
             {
-                int TaskInterval = (int)config.GetOption(OptionKeyEnums.TaskInterval.ToString());
-                if (TaskInterval > 0)
-                {
-                    this.DefaultTaskInterval = TaskInterval;
-                }
-                else
-                {
-                    this.DefaultTaskInterval = NetworkConstants.DefaultTaskInterval;
-                }
+                this.DefaultTaskInterval = config.GetOption<int>(OptionKeyEnums.TaskInterval.ToString());
+                this.Sender.Interval = this.DefaultTaskInterval;
+
             }
             if (config.HasOption(OptionKeyEnums.TaskResend.ToString()))
             {
-                int TaskResend = (int)config.GetOption(OptionKeyEnums.TaskResend.ToString());
-                if (TaskResend > 0)
-                {
-                    this.DefaultResendCount = TaskResend;
-                }
-                else
-                {
-                    this.DefaultResendCount = NetworkConstants.DefaultTaskCount;
-                }
+                this.DefaultResendCount = config.GetOption<int>(OptionKeyEnums.TaskResend.ToString());
+                this.Sender.TotalSendTimes = this.DefaultResendCount;
             }
         }
         /// <summary>

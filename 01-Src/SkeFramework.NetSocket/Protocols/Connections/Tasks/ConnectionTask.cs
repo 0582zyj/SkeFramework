@@ -93,6 +93,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             if (relatedConnection == null)
             {
                 Complete(TaskState.Completed);
+                this.relatedConnection.connectionStatus = ResultStatusCode.SUCCESS;
+                this.Dead = true;
             }
             else
             {
@@ -100,6 +102,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                 // 因此此时再次通知任务完成实际上是没意义的。
                 Complete(TaskState.Completed);
                 relatedConnection.StopReceive();
+                this.relatedConnection.connectionStatus = ResultStatusCode.SUCCESS;
+                this.Dead = true;
             }
         }
         /// <summary>

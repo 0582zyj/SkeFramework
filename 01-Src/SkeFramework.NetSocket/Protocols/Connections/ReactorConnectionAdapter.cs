@@ -386,22 +386,17 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                     {
                         if (taskList[i].AsyncTaskOvertime || taskList[i].Dead)
                         {
-                            taskList[i].Complete(TaskState.Completed);
-                            this.taskDocker.RemoveTask(taskList[i]);
-                            this.connectionDocker.SetCaseAsDead(taskList[i]);
-                            LogAgent.Info(String.Format("处理超时任务:{0}", taskList[i].ToString()));
-                            //break;
+                            RemoveTask(taskList[i]);
+                            continue;
+                        }
+                        //检查任务对应的协议是否超时
+                        if (taskList[i].GetRelatedProtocol().Dead)
+                        {
+                            taskList[i].Complete(TaskState.TaskOvertime);
                         }
                         else
                         {
-                            if (taskList[i].GetRelatedProtocol().Dead)
-                            {
-                                taskList[i].Complete(TaskState.Completed);
-                            }
-                            else
-                            {
-                                this.taskDocker.SetTaskTimeout(taskList[i].GetRelatedProtocol());
-                            }
+                            this.taskDocker.SetTaskTimeout(taskList[i].GetRelatedProtocol());
                         }
                     }
                 }
@@ -508,7 +503,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// <returns></returns>
         public virtual bool RemoveTask(ConnectionTask connectionTask)
         {
-           return this.taskDocker.RemoveTask(connectionTask);
+            bool result= this.taskDocker.RemoveTask(connectionTask);
+            this.connectionDocker.SetCaseAsDead(connectionTask);
+            LogAgent.Info(String.Format("处理超时任务:{0}", connectionTask.ToString()));
+            return result;
         }
         #endregion
 

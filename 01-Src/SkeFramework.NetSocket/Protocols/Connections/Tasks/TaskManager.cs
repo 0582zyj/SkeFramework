@@ -112,7 +112,6 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
                         task.SetAsOvertime();
                     }
                 }
-               
             }
         }
 
