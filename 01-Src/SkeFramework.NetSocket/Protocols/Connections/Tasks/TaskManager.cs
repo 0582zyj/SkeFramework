@@ -1,4 +1,5 @@
-﻿using SkeFramework.NetSerialPort.Protocols.Constants;
+﻿using SkeFramework.Core.NetLog;
+using SkeFramework.NetSerialPort.Protocols.Constants;
 using SkeFramework.NetSerialPort.Protocols.Requests;
 using System;
 using System.Collections.Concurrent;
@@ -10,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
 {
+    /// <summary>
+    /// 任务管理器
+    /// </summary>
     public class TaskManager:IDisposable
     {
        /// <summary>
@@ -62,7 +66,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections.Tasks
             if (result)
             {
                 string LogMsg = string.Format("协议“{0}”中“{1}”任务已结束。", task.GetRelatedProtocol().Local.ToString(), task.Name);
-                Console.WriteLine(LogMsg);
+                LogAgent.Info(LogMsg);
             }
             return result;
         }

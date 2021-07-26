@@ -5,6 +5,8 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using SkeFramework.Core.NetLog;
 using SkeFramework.NetSerialPort.Buffers;
 using SkeFramework.NetSerialPort.Buffers.Allocators;
 using SkeFramework.NetSerialPort.Net.Constants;
@@ -350,8 +352,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                 {
                     if (task.TaskState == TaskState.NewTask)
                     {
-                        string log = String.Format("{0}:处理新任务:{1}", DateTime.Now.ToString("hh:mm:ss"), task.Name);
-                        Console.WriteLine(log);
+                        string log = String.Format("处理新任务:{0}",task.ToString());
+                        LogAgent.Info(log);
                         ProcessTask(task);
                         if (!task.Dead)
                         {
@@ -367,7 +369,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             catch (Exception exception)
             {
                 var m = exception.Message;
-                Console.WriteLine("处理新任务:" + m.ToString());
+                LogAgent.Error("处理新任务:" + m.ToString());
             }
         }
         /// <summary>
@@ -387,8 +389,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                             taskList[i].Complete(TaskState.Completed);
                             this.taskDocker.RemoveTask(taskList[i]);
                             this.connectionDocker.SetCaseAsDead(taskList[i]);
-                            string log = String.Format("{0}:处理超时任务:{1}", DateTime.Now.ToString("hh:mm:ss"), taskList[i].Name);
-                            Console.WriteLine(log);
+                            LogAgent.Info(String.Format("处理超时任务:{0}", taskList[i].ToString()));
                             //break;
                         }
                         else
@@ -408,6 +409,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             catch (Exception ex)
             {
                 string msg = string.Format("ProcessAsyncTaskOvertime：{0}", ex.ToString());
+                LogAgent.Error(msg);
             }
         }
         /// <summary>
@@ -544,9 +546,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             if (connection != null)
             {
                 string content = connection.Encoder.ByteEncode(networkData.Buffer);
-                string log = String.Format("{0}:协议层消息处理【{1}】：{2}",
-                    DateTime.Now.ToString("hh:mm:ss"), networkData.RemoteHost.ToString(), content);
-                Console.WriteLine(log);
+                LogAgent.Info(String.Format("协议层消息处理【{0}】：{1}", networkData.RemoteHost.ToString(), content));
                 connection.StopReceive();
             }
         }

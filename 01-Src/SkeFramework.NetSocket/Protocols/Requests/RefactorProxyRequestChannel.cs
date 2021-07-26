@@ -21,15 +21,15 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// <summary>
         /// 通信数据
         /// </summary>
-        private NetworkData networkData;
+        protected NetworkData networkData;
         /// <summary>
         /// 发送间隔时间【默认】
         /// </summary>
-        private int DefaultTaskInterval;
+        protected int DefaultTaskInterval;
         /// <summary>
         /// 重发次数【默认】
         /// </summary>
-        private int DefaultResendCount;
+        protected int DefaultResendCount;
 
         public RefactorProxyRequestChannel(ReactorBase reactor, string controlCode)
             : this(reactor, reactor.LocalEndpoint, controlCode)
@@ -50,7 +50,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         {
             if (this.connectionStatus == ResultStatusCode.TIME_OUT)
             {
-                NetworkData networkData = NetworkData.Empty;
+                NetworkData networkData = NetworkData.Create(this.RemoteHost,new byte[0],0);
                 networkData.ResultData = new TaskResult(false, ResultStatusCode.TIME_OUT, ResultStatusCode.TIME_OUT.GetDesc(), this.networkData);
                 //超时回调通知   
                 base.OnReceive(networkData);

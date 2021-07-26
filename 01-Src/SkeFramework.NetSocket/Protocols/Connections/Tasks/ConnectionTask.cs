@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SkeFramework.NetSerialPort.Protocols.Connections.Tasks;
 using SkeFramework.NetSerialPort.Protocols.Constants;
 
@@ -37,24 +38,20 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// 任务是否过期
         /// </summary>
         public bool Dead { get; set; } = false;
-
         /// <summary>
         /// 获取或设置任务名。
         /// 注：它是对任务的描述。对于它的意义，主要看应用开发和协议开发之间的协商和业务的需要。
         /// </summary>
-        public string Name { get;private set; }
-
+        public string Name { get; private set; }
         /// <summary>
         /// 获取或设置任务参数。
         /// 注：它是object类型，用来传递数据给协议。对于它的意义，主要看应用开发和协议开发之间的协商和业务的需要。
         /// </summary>
         public object Param { get; set; }
-
         /// <summary>
         /// 获取或设置任务的执行结果。
         /// </summary>
         public TaskResult Result { get; set; }
-
         /// <summary>
         /// 获取任务状态。
         /// </summary>
@@ -63,7 +60,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// 任务运行开始时间
         /// </summary>
         public DateTime ProcessingTime { get; private set; }
-
+        [JsonIgnore]
         public CancellationToken cancellationToken { get; private set; }
         #endregion
 
@@ -101,8 +98,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             {
                 // 如果任务已经被删除，说明任务的执行时间已经超时并已经通知了应用程序，
                 // 因此此时再次通知任务完成实际上是没意义的。
-                if (((ReactorConnectionAdapter)relatedConnection).RemoveTask(this))
-                    Complete(TaskState.Completed);
+                Complete(TaskState.Completed);
+                relatedConnection.StopReceive();
             }
         }
         /// <summary>
@@ -147,7 +144,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         {
             return relatedConnection;
         }
-   
+
         /// <summary>
         /// 初始化同步对象
         /// </summary>
@@ -220,6 +217,13 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            var jSetting = new JsonSerializerSettings();
+            jSetting.NullValueHandling = NullValueHandling.Ignore;
+            return JsonConvert.SerializeObject(this, jSetting);
+        }
     }
 
     /// <summary>
