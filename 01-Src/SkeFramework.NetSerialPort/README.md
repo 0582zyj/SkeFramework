@@ -14,7 +14,7 @@ SkeFramework.NetSerialPort是创客快速开发框架里关于串口通信实现
 
 #### 使用说明
 
-1.  首先先引入SkeFramework.NetSerialPort库，目前该库暂未发布到Nuget包管理器，可通过联系本人或者下载源码编译生成，版本号目前是V1.02.01.
+1.  首先先引入SkeFramework.NetSerialPort库，可通过Nuget包管理器进行安装，版本号目前是V1.02.01.
 2.  实现ReactorConnectionAdapter的ParsingReceivedData【原始数据解析】GetConnection【返回数据链接分配】 ProcessReceivedData【协议数据处理】ProcessTask【新任务处理】
 3.  创建规约协议代理类【ProtocolProxyAgent】-利用引导程序类ServerBootstrap快速对串口及其工作线程的开启和关闭，除此还可以通过DefaultChannelPromise实现对请求监听回调的增、删和数据监听的回调处理。具体规约实现【BusinessCase】，通过继承默认请求类【RefactorProxyRequestChannel】，根据实际需求实现配置【Configure】、执行发送任务【ExecuteTaskSync】、数据组帧【CreateNetworkData】、接收处理【OnReceive】、超时处理【StopReceiveInternal】
 4.  数据帧类【DataFrame】，根据通信规约格式和通信基类【FrameBase】实现数据帧类的封装，可根据具体业务抽象对外接口层和具体协议层的数据交互实体。
