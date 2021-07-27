@@ -1,27 +1,27 @@
 # SkeFramework.NetSerialPort
 
-#### ½éÉÜ
-SkeFramework.NetSerialPortÊÇ´´¿Í¿ìËÙ¿ª·¢¿ò¼ÜÀï¹ØÓÚ´®¿ÚÍ¨ĞÅÊµÏÖµÄÍ¨ĞÅ¿â£¬¿ÉÍ¨¹ı¸Ã¿â¿ìËÙÍê³É´®¿ÚÀàµÄÍ¨ĞÅ¿ª·¢¡£
+#### ä»‹ç»
+SkeFramework.NetSerialPortæ˜¯åˆ›å®¢å¿«é€Ÿå¼€å‘æ¡†æ¶é‡Œå…³äºä¸²å£é€šä¿¡å®ç°çš„é€šä¿¡åº“ï¼Œå¯é€šè¿‡è¯¥åº“å¿«é€Ÿå®Œæˆä¸²å£ç±»çš„é€šä¿¡å¼€å‘ã€‚
 
-#### ºËĞÄÊµÏÖÁ÷³Ì
+#### æ ¸å¿ƒå®ç°æµç¨‹
 
 ![](https://p3-tt.byteimg.com/origin/pgc-image/33fc4b9c3067438a9167322003c28893?from=pc)
 
 
-#### °²×°½Ì³Ì
+#### å®‰è£…æ•™ç¨‹
 
 1.  Package Manager=>Install-Package SkeFramework.NetSerialPort -Version 1.0.2.1
 
-#### Ê¹ÓÃËµÃ÷
+#### ä½¿ç”¨è¯´æ˜
 
-1.  Ê×ÏÈÏÈÒıÈëSkeFramework.NetSerialPort¿â£¬Ä¿Ç°¸Ã¿âÔİÎ´·¢²¼µ½Nuget°ü¹ÜÀíÆ÷£¬¿ÉÍ¨¹ıÁªÏµ±¾ÈË»òÕßÏÂÔØÔ´Âë±àÒëÉú³É£¬°æ±¾ºÅÄ¿Ç°ÊÇV1.02.01.
-2.  ÊµÏÖReactorConnectionAdapterµÄParsingReceivedData¡¾Ô­Ê¼Êı¾İ½âÎö¡¿GetConnection¡¾·µ»ØÊı¾İÁ´½Ó·ÖÅä¡¿ ProcessReceivedData¡¾Ğ­ÒéÊı¾İ´¦Àí¡¿ProcessTask¡¾ĞÂÈÎÎñ´¦Àí¡¿
-3.  ´´½¨¹æÔ¼Ğ­Òé´úÀíÀà¡¾ProtocolProxyAgent¡¿-ÀûÓÃÒıµ¼³ÌĞòÀàServerBootstrap¿ìËÙ¶Ô´®¿Ú¼°Æä¹¤×÷Ïß³ÌµÄ¿ªÆôºÍ¹Ø±Õ£¬³ı´Ë»¹¿ÉÒÔÍ¨¹ıDefaultChannelPromiseÊµÏÖ¶ÔÇëÇó¼àÌı»Øµ÷µÄÔö¡¢É¾ºÍÊı¾İ¼àÌıµÄ»Øµ÷´¦Àí¡£¾ßÌå¹æÔ¼ÊµÏÖ¡¾BusinessCase¡¿£¬Í¨¹ı¼Ì³ĞÄ¬ÈÏÇëÇóÀà¡¾RefactorProxyRequestChannel¡¿£¬¸ù¾İÊµ¼ÊĞèÇóÊµÏÖÅäÖÃ¡¾Configure¡¿¡¢Ö´ĞĞ·¢ËÍÈÎÎñ¡¾ExecuteTaskSync¡¿¡¢Êı¾İ×éÖ¡¡¾CreateNetworkData¡¿¡¢½ÓÊÕ´¦Àí¡¾OnReceive¡¿¡¢³¬Ê±´¦Àí¡¾StopReceiveInternal¡¿
-4.  Êı¾İÖ¡Àà¡¾DataFrame¡¿£¬¸ù¾İÍ¨ĞÅ¹æÔ¼¸ñÊ½ºÍÍ¨ĞÅ»ùÀà¡¾FrameBase¡¿ÊµÏÖÊı¾İÖ¡ÀàµÄ·â×°£¬¿É¸ù¾İ¾ßÌåÒµÎñ³éÏó¶ÔÍâ½Ó¿Ú²ãºÍ¾ßÌåĞ­Òé²ãµÄÊı¾İ½»»¥ÊµÌå¡£
-5.  ÊµÏÖReactorConnectionAdapterµÄParsingReceivedData¡¾Ô­Ê¼Êı¾İ½âÎö¡¿GetConnection¡¾·µ»ØÊı¾İÁ´½Ó·ÖÅä¡¿ ProcessReceivedData¡¾Ğ­ÒéÊı¾İ´¦Àí¡¿ProcessTask¡¾ĞÂÈÎÎñ´¦Àí¡¿
-6.  ¶ÔÍâ½Ó¿Ú²ã¡¾DataHandle¡¿£¬¸ù¾İÊµ¼ÊÒµÎñ¼Ì³Ğ»ù´¡½Ó¿Ú¡¾IDataHandleBase¡¿ºÍ»ù´¡ÊµÏÖÀà¡¾DataHandleBase¡¿£¬´´½¨Ò»¸öĞÂÈÎÎñ£¬Í¨¹ıProtocolProxyAgentĞÂÔöÈÎÎñ´¦Àí·½Ê½´ïµ½ÇëÇó¾ßÌåĞ­ÒéµÄÍ¨ĞÅ¡£
+1.  é¦–å…ˆå…ˆå¼•å…¥SkeFramework.NetSerialPortåº“ï¼Œå¯é€šè¿‡NugetåŒ…ç®¡ç†å™¨è¿›è¡Œå®‰è£…ï¼Œç‰ˆæœ¬å·ç›®å‰æ˜¯V1.02.01.
+2.  å®ç°ReactorConnectionAdapterçš„ParsingReceivedDataã€åŸå§‹æ•°æ®è§£æã€‘GetConnectionã€è¿”å›æ•°æ®é“¾æ¥åˆ†é…ã€‘ ProcessReceivedDataã€åè®®æ•°æ®å¤„ç†ã€‘ProcessTaskã€æ–°ä»»åŠ¡å¤„ç†ã€‘
+3.  åˆ›å»ºè§„çº¦åè®®ä»£ç†ç±»ã€ProtocolProxyAgentã€‘-åˆ©ç”¨å¼•å¯¼ç¨‹åºç±»ServerBootstrapå¿«é€Ÿå¯¹ä¸²å£åŠå…¶å·¥ä½œçº¿ç¨‹çš„å¼€å¯å’Œå…³é—­ï¼Œé™¤æ­¤è¿˜å¯ä»¥é€šè¿‡DefaultChannelPromiseå®ç°å¯¹è¯·æ±‚ç›‘å¬å›è°ƒçš„å¢ã€åˆ å’Œæ•°æ®ç›‘å¬çš„å›è°ƒå¤„ç†ã€‚å…·ä½“è§„çº¦å®ç°ã€BusinessCaseã€‘ï¼Œé€šè¿‡ç»§æ‰¿é»˜è®¤è¯·æ±‚ç±»ã€RefactorProxyRequestChannelã€‘ï¼Œæ ¹æ®å®é™…éœ€æ±‚å®ç°é…ç½®ã€Configureã€‘ã€æ‰§è¡Œå‘é€ä»»åŠ¡ã€ExecuteTaskSyncã€‘ã€æ•°æ®ç»„å¸§ã€CreateNetworkDataã€‘ã€æ¥æ”¶å¤„ç†ã€OnReceiveã€‘ã€è¶…æ—¶å¤„ç†ã€StopReceiveInternalã€‘
+4.  æ•°æ®å¸§ç±»ã€DataFrameã€‘ï¼Œæ ¹æ®é€šä¿¡è§„çº¦æ ¼å¼å’Œé€šä¿¡åŸºç±»ã€FrameBaseã€‘å®ç°æ•°æ®å¸§ç±»çš„å°è£…ï¼Œå¯æ ¹æ®å…·ä½“ä¸šåŠ¡æŠ½è±¡å¯¹å¤–æ¥å£å±‚å’Œå…·ä½“åè®®å±‚çš„æ•°æ®äº¤äº’å®ä½“ã€‚
+5.  å®ç°ReactorConnectionAdapterçš„ParsingReceivedDataã€åŸå§‹æ•°æ®è§£æã€‘GetConnectionã€è¿”å›æ•°æ®é“¾æ¥åˆ†é…ã€‘ ProcessReceivedDataã€åè®®æ•°æ®å¤„ç†ã€‘ProcessTaskã€æ–°ä»»åŠ¡å¤„ç†ã€‘
+6.  å¯¹å¤–æ¥å£å±‚ã€DataHandleã€‘ï¼Œæ ¹æ®å®é™…ä¸šåŠ¡ç»§æ‰¿åŸºç¡€æ¥å£ã€IDataHandleBaseã€‘å’ŒåŸºç¡€å®ç°ç±»ã€DataHandleBaseã€‘ï¼Œåˆ›å»ºä¸€ä¸ªæ–°ä»»åŠ¡ï¼Œé€šè¿‡ProtocolProxyAgentæ–°å¢ä»»åŠ¡å¤„ç†æ–¹å¼è¾¾åˆ°è¯·æ±‚å…·ä½“åè®®çš„é€šä¿¡ã€‚
 
-#### »ù±¾Ê¹ÓÃÀı×Ó
+#### åŸºæœ¬ä½¿ç”¨ä¾‹å­
 
 ![](https://p6-tt.byteimg.com/origin/pgc-image/3b855f708ab94f4f86f85056461b9231?from=pc)
 
@@ -31,7 +31,7 @@ ProtocolUT
 public sealed class ProtocolUT : ReactorConnectionAdapter
     {
         /// <summary>
-        /// ¹æÔ¼»ùÀà£¬¾ßÌåÊµÏÖ¸ù¾İ¹¤³§·½·¨ÊµÀı»¯
+        /// è§„çº¦åŸºç±»ï¼Œå…·ä½“å®ç°æ ¹æ®å·¥å‚æ–¹æ³•å®ä¾‹åŒ–
         /// </summary>
         private IConnection commCase_Send = null;
       
@@ -42,14 +42,14 @@ public sealed class ProtocolUT : ReactorConnectionAdapter
 
         }
         /// <summary>
-        /// ³õÊ¼»¯
+        /// åˆå§‹åŒ–
         /// </summary>
         protected override void Initialize()
         {
          
         }
         /// <summary>
-        /// Ğ­ÒéÒ»ÊÕµ½ÈÎÎñ£¬´Ëº¯Êı½«±»µ÷ÓÃ¡£
+        /// åè®®ä¸€æ”¶åˆ°ä»»åŠ¡ï¼Œæ­¤å‡½æ•°å°†è¢«è°ƒç”¨ã€‚
         /// </summary>
         /// <param name="newTask"></param>
         protected override void ProcessTask(ConnectionTask task)
@@ -62,13 +62,13 @@ public sealed class ProtocolUT : ReactorConnectionAdapter
                 if (commCase_Send == null || !(commCase_Send is RefactorRequestChannel))
                 {
                     int taskname = Convert.ToInt32(task.Name);
-                    switch (taskname)//Ó¦´ğ
+                    switch (taskname)//åº”ç­”
                     {
                         case ProtocolConst.APP_BROADCAST_SEARCH_NEW_HOST:
                             commCase_Send = new BroadcastSearchRequest(this._reactor);
                             break;
                         default:
-                            string msg = String.Format("Ğ­ÒéÎ´ÊµÏÖ¡£ TaskName:{0}; ", task.Name);
+                            string msg = String.Format("åè®®æœªå®ç°ã€‚ TaskName:{0}; ", task.Name);
                             Console.WriteLine(msg);
                             task.Dead = true;
                             return;
@@ -87,19 +87,19 @@ public sealed class ProtocolUT : ReactorConnectionAdapter
             }
             catch (Exception ex)
             {
-                string msg = String.Format("Ğ­ÒéÊÕµ½ÈÎÎñ£¬´Ëº¯Êı±»µ÷ÓÃ¡£ TaskName:{0}; Message:{1}", task.Name, ex.Message);
+                string msg = String.Format("åè®®æ”¶åˆ°ä»»åŠ¡ï¼Œæ­¤å‡½æ•°è¢«è°ƒç”¨ã€‚ TaskName:{0}; Message:{1}", task.Name, ex.Message);
                 Console.WriteLine(msg);
                 task.Dead = true;
             }
         }
         /// <summary>
-        /// Ô­Ê¼Êı¾İ½âÎö
+        /// åŸå§‹æ•°æ®è§£æ
         /// </summary>
         /// <param name="OriginalBuffer"></param>
         /// <returns></returns>
         public override FrameBase ParsingReceivedData(byte[] OriginalBuffer)
         {
-            Console.WriteLine("´®¿ÚÊÕµ½Êı¾İ<<--" + this.Encoder.ByteEncode(OriginalBuffer));
+            Console.WriteLine("ä¸²å£æ”¶åˆ°æ•°æ®<<--" + this.Encoder.ByteEncode(OriginalBuffer));
             FrameBase frame = new FrameBase(OriginalBuffer,null);
             FrameBase.ResultOfParsingFrame result = frame.ParseToFrame(OriginalBuffer);
             if (result.Equals(FrameBase.ResultOfParsingFrame.ReceivingCompleted))
@@ -110,7 +110,7 @@ public sealed class ProtocolUT : ReactorConnectionAdapter
             return null;
         }
         /// <summary>
-        /// ·ÖÅäÁ´½Ó
+        /// åˆ†é…é“¾æ¥
         /// </summary>
         /// <param name="frame"></param>
         /// <returns></returns>
@@ -124,17 +124,17 @@ ProtocolProxyAgent
 
 ```
 /// <summary>
-    /// Ğ­Òé´úÀíÉÌ
+    /// åè®®ä»£ç†å•†
     /// </summary>
     public class ProtocolProxyAgent
     {
-        #region µ¥ÀıÄ£Ê½
+        #region å•ä¾‹æ¨¡å¼
         /// <summary>
-        /// Ğ­Òé¹ÜÀíÆ÷
+        /// åè®®ç®¡ç†å™¨
         /// </summary>
         private static ProtocolProxyAgent mSingleInstance;
         /// <summary>
-        /// µ¥ÀıÄ£Ê½
+        /// å•ä¾‹æ¨¡å¼
         /// </summary>
         /// <returns></returns>
         public static ProtocolProxyAgent Instance()
@@ -149,15 +149,15 @@ ProtocolProxyAgent
 
 
         /// <summary>
-        /// Í¨ĞÅ»ùÀà
+        /// é€šä¿¡åŸºç±»
         /// </summary>
         private IReactor reactor;
         /// <summary>
-        /// Ğ­ÒéÊÊÅäÀà
+        /// åè®®é€‚é…ç±»
         /// </summary>
         private IConnection connectionAdapter;
         /// <summary>
-        /// Ğ­ÒéÊÊÅäÀà
+        /// åè®®é€‚é…ç±»
         /// </summary>
         public ReactorConnectionAdapter reactorConnectionAdapter
         {
@@ -171,13 +171,13 @@ ProtocolProxyAgent
             }
         }
         /// <summary>
-        /// Ğ­Òé¼àÌıÈİÆ÷
+        /// åè®®ç›‘å¬å®¹å™¨
         /// </summary>
         private IChannelPromise channelListenser = new DefaultChannelPromise();
 
-        #region Ğ­Òé´¦Àí´úÀí
+        #region åè®®å¤„ç†ä»£ç†
         /// <summary>
-        /// ¶Ë¿ÚÊÇ·ñ´ò¿ª
+        /// ç«¯å£æ˜¯å¦æ‰“å¼€
         /// </summary>
         /// <returns></returns>
         public bool IsReactorOpen
@@ -193,7 +193,7 @@ ProtocolProxyAgent
             private set { }
         }
         /// <summary>
-        /// Æô¶¯Ò»¸öÍ¨ĞÅ
+        /// å¯åŠ¨ä¸€ä¸ªé€šä¿¡
         /// </summary>
         /// <param name="nodeConfig"></param>
         public bool StartReactor(NodeConfig nodeConfig)
@@ -218,7 +218,7 @@ ProtocolProxyAgent
             return false;
         }
         /// <summary>
-        /// Í£Ö¹
+        /// åœæ­¢
         /// </summary>
         public void StopReactor()
         {
@@ -238,7 +238,7 @@ ProtocolProxyAgent
         }
         #endregion
 
-        #region ½çÃæÏûÏ¢¼àÌı´¦Àí
+        #region ç•Œé¢æ¶ˆæ¯ç›‘å¬å¤„ç†
         public void DataPointListener_Send(NetworkData networkData, IConnection requestChannel)
         {
             string content = requestChannel.Encoder.ByteEncode(networkData.Buffer);
@@ -248,7 +248,7 @@ ProtocolProxyAgent
             channelListenser.OnReceivedDataPoint(incomingData, responseChannel.RemoteHost.TaskTag);
         }
         /// <summary>
-        /// Ìí¼ÓÒ»¸ö¼àÌıÕß
+        /// æ·»åŠ ä¸€ä¸ªç›‘å¬è€…
         /// </summary>
         /// <param name="listener"></param>
         public void AddDataPointListener(IChannelListener listener)
@@ -256,7 +256,7 @@ ProtocolProxyAgent
             channelListenser.AddDataPointListener(listener);
         }
         /// <summary>
-        /// ÒÆ³ıÒ»¸ö¼àÌıÕß
+        /// ç§»é™¤ä¸€ä¸ªç›‘å¬è€…
         /// </summary>
         /// <param name="listener"></param>
         public void RemoveDataPointListener(IChannelListener listener)
@@ -271,12 +271,12 @@ SingleRequestChannel
 
 ```
 /// <summary>
-    /// µ¥Ö¡ÇëÇóĞ­Òé
+    /// å•å¸§è¯·æ±‚åè®®
     /// </summary>
     internal class SingleRequestChannel: RefactorProxyRequestChannel
     {
         /// <summary>
-        /// ÈÎÎñ²ÎÊı
+        /// ä»»åŠ¡å‚æ•°
         /// </summary>
         protected object TaskParm;
 
@@ -299,7 +299,7 @@ SingleRequestChannel
             base.ExecuteTaskSync(connectionTask);
         }
         /// <summary>
-        /// ´´½¨·¢ËÍÖ¡
+        /// åˆ›å»ºå‘é€å¸§
         /// </summary>
         /// <param name="bodyByte"></param>
         /// <returns></returns>
@@ -311,7 +311,7 @@ SingleRequestChannel
             return frame;
         }
         /// <summary>
-        /// ´´½¨·¢ËÍÖ¡
+        /// åˆ›å»ºå‘é€å¸§
         /// </summary>
         /// <param name="bodyByte"></param>
         /// <returns></returns>
@@ -324,16 +324,16 @@ SingleRequestChannel
     }
 	
 ```
-IDataHandleBaseºÍDataHandleBase
+IDataHandleBaseå’ŒDataHandleBase
 
 ```
 /// <summary>
-    /// »ù´¡Ğ­ÒéÇëÇó½Ó¿Ú
+    /// åŸºç¡€åè®®è¯·æ±‚æ¥å£
     /// </summary>
     public interface IDataHandleBase
     {
         /// <summary>
-        /// Ö´ĞĞÒ»¸öÇëÇóÈÎÎñ
+        /// æ‰§è¡Œä¸€ä¸ªè¯·æ±‚ä»»åŠ¡
         /// </summary>
         /// <param name="functionType"></param>
         /// <param name="asyncCallback"></param>
@@ -341,7 +341,7 @@ IDataHandleBaseºÍDataHandleBase
         /// <param name="value"></param>
         void RequestReactorFunction(int functionType, object value);       
         /// <summary>
-        /// Ö´ĞĞÒ»¸öÇëÇóÈÎÎñ
+        /// æ‰§è¡Œä¸€ä¸ªè¯·æ±‚ä»»åŠ¡
         /// </summary>
         /// <param name="functionType"></param>
         /// <param name="asyncCallback"></param>
@@ -351,12 +351,12 @@ IDataHandleBaseºÍDataHandleBase
     }
 
 /// <summary>
-    /// »ù´¡Ğ­ÒéÇëÇó½Ó¿Ú
+    /// åŸºç¡€åè®®è¯·æ±‚æ¥å£
     /// </summary>
     public class DataHandleBase:IDataHandleBase
     {
         /// <summary>
-        /// Ö´ĞĞÒ»¸öÈÎÎñ
+        /// æ‰§è¡Œä¸€ä¸ªä»»åŠ¡
         /// </summary>
         /// <param name="functionType"></param>
         /// <param name="value"></param>
@@ -365,7 +365,7 @@ IDataHandleBaseºÍDataHandleBase
             RequestReactorFunction(functionType, null, NetworkConstants.WAIT_FOR_COMPLETE, value);
         }    
         /// <summary>
-        /// Ö´ĞĞÒ»¸öÇëÇóÈÎÎñ
+        /// æ‰§è¡Œä¸€ä¸ªè¯·æ±‚ä»»åŠ¡
         /// </summary>
         /// <param name="functionType"></param>
         /// <param name="asyncCallback"></param>
