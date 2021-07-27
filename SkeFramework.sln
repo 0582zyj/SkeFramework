@@ -145,6 +145,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeFramework.Push.WebSocket", "01-Src\SkeFramework.Push.WebSocket\SkeFramework.Push.WebSocket.csproj", "{5B7215EA-97F4-403E-AF9E-82BDE2A0604C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05-Nuget", "05-Nuget", "{BCBA90A6-69D7-4EFA-9831-64E8EAA8FB41}"
+	ProjectSection(SolutionItems) = preProject
+		05-Nuget\SkeFramework.NetSerialPort.1.0.2.1.nupkg = 05-Nuget\SkeFramework.NetSerialPort.1.0.2.1.nupkg
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{36081E95-AB41-4FC1-B8AF-46D636AC6767}"
 EndProject
