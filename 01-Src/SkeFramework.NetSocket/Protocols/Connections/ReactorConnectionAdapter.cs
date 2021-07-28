@@ -428,7 +428,36 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// 协议一收到任务，此函数将被调用。
         /// </summary>
         /// <param name="newTask">收到的任务。</param>
-        protected virtual void ProcessTask(ConnectionTask connectionTask) { }      
+        protected virtual void ProcessTask(ConnectionTask task)
+        {
+            task.SetAsBeProccessing();
+            try
+            {
+                string cmdByte = task.Name;
+                IConnection commCase_Send = this.connectionDocker.GetCase(cmdByte) as IConnection;
+                if (commCase_Send == null || !(commCase_Send is RefactorRequestChannel))
+                {
+                    commCase_Send = CreateConnection(task.Name);
+                }
+                if (commCase_Send != null)
+                {
+                    task.SetRelatedProtocol(commCase_Send);
+                    ((RefactorRequestChannel)commCase_Send).ExecuteTaskSync(task);
+                }
+                else
+                {
+                    string msg = String.Format("协议未实现。 TaskName:{0}; ", task.Name);
+                    Console.WriteLine(msg);
+                    task.Dead = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = String.Format("协议收到任务，此函数被调用。 TaskName:{0}; Message:{1}", task.Name, ex.Message);
+                Console.WriteLine(msg);
+                task.Dead = true;
+            }
+        }      
         #endregion
 
         #region 协议任务处理过程
