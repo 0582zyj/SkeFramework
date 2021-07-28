@@ -56,8 +56,8 @@ namespace MicrosServices.SDK.AdminSystem
             try
             {
                 RequestBase request = RequestBase.Get.Clone() as RequestBase;
-                request.SetValue("pageindex", page.PageIndex);
-                request.SetValue("pagesize", page.PageSize);
+                request.SetValue("pageIndex", page.PageIndex);
+                request.SetValue("pageSize", page.PageSize);
                 request.SetValue("keywords", keywords);
                 request.SetValue("queryNo", DictionaryNo);
                 request.Url = GetPageUrl;
@@ -148,7 +148,7 @@ namespace MicrosServices.SDK.AdminSystem
                 request.SetValue("dicKey", model.DicKey);
                 request.SetValue("dicValue", model.DicValue);
                 request.SetValue("descriptions", model.Descriptions);
-                request.SetValue("platformno", model.PlatformNo);
+                request.SetValue("platformNo", model.PlatformNo);
                 request.SetValue("enabled", model.Enabled);
                 request.SetValue("id", model.id);
                 request.Url = UpdateUrl;
