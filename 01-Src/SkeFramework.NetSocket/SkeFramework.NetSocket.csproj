@@ -79,6 +79,7 @@
     <Compile Include="Net\SerialPorts\SerialPortReactor.cs" />
     <Compile Include="Protocols\DataFrame\Abstracts\CRCFrameBase.cs" />
     <Compile Include="Protocols\DataFrame\Interfaces\IDataFrame.cs" />
+    <Compile Include="Protocols\DataFrame\PacketFrameBase.cs" />
     <Compile Include="Protocols\DataUtil\CrcCheck.cs" />
     <Compile Include="Protocols\Listenser\ChannelListensers\DefaultChannelPromise.cs" />
     <Compile Include="Protocols\Listenser\Interfaces\IChannelListener.cs" />

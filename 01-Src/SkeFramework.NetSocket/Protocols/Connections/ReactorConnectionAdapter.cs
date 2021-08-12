@@ -352,17 +352,16 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                 {
                     if (task.TaskState == TaskState.NewTask)
                     {
-                        string log = String.Format("处理新任务:{0}",task.ToString());
-                        LogAgent.Info(log);
+                        LogAgent.Info(String.Format("处理新任务:{0}", task.ToString()));
                         ProcessTask(task);
-                        if (!task.Dead)
-                        {
-                            this.connectionDocker.AddCase(task.GetRelatedProtocol());
-                        }
-                        else
+                        if (task.Dead)
                         {
                             task.Complete();
                         }
+                        //else
+                        //{
+                        //    this.connectionDocker.AddCase(task.GetRelatedProtocol());
+                        //}
                     }
                 }
             }
@@ -434,12 +433,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             try
             {
                 string cmdByte = task.Name;
-                IConnection commCase_Send = this.connectionDocker.GetCase(cmdByte) as IConnection;
-                if (commCase_Send == null || !(commCase_Send is RefactorRequestChannel))
-                {
-                    commCase_Send = CreateConnection(task.Name);
-                }
-                if (commCase_Send != null)
+                IConnection commCase_Send = GetConnection(new FrameBase(cmdByte));
+                if (commCase_Send != null && commCase_Send is RefactorRequestChannel)
                 {
                     task.SetRelatedProtocol(commCase_Send);
                     ((RefactorRequestChannel)commCase_Send).ExecuteTaskSync(task);
@@ -472,7 +467,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             //if (!this.ProtocolIsRunning)
             //    return false;
             task.InitSynchObject();
-            this.taskDocker.AddTask(task);
+            AddTask(task);
             task.WaitBeCompleted(timeout);
             if (task.TaskState != TaskState.Completed)
             {
@@ -547,9 +542,15 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         public virtual IConnection GetConnection(FrameBase frame)
         {
             IList<IConnection> connections = this.connectionDocker.BusinessCaseList.
-                Where(o => o.Receiving).OrderByDescending(o => o.Created).ToList();
+                Where(o => o.ControlCode==frame.ControlCode).OrderByDescending(o => o.Created).ToList();
             if(connections.FirstOrDefault()!=null)
                 return connections.LastOrDefault();
+            IConnection connection = CreateConnection(frame.ControlCode);
+            if(connection!=null)
+            {
+                this.connectionDocker.AddCase(connection);
+                return connection;
+            }
             return this;
         }
         /// <summary>

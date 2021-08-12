@@ -109,6 +109,15 @@ namespace SkeFramework.NetSerialPort.Protocols.DataFrame
         {
             this.MatchOffset = matchOffset;
         }
+
+        /// <summary>
+        /// 生成一个偏移地址的丢弃帧
+        /// </summary>
+        /// <param name="matchOffset"></param>
+        public FrameBase(string cmdByte) : this(new byte[0], new byte[0], 0)
+        {
+            Byte.TryParse(cmdByte,out this.cmdByte);
+        }
         /// <summary>
         /// 生成一个带同步头的偏移地址帧
         /// </summary>

@@ -46,6 +46,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         public override void BeginReceiveInternal()
         {
             this.Receiving = true;
+            this.Dead = false;
         }
 
         public override void StopReceiveInternal()
