@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.Core.Push.Interfaces;
+using SkeFramework.Push.Core.Bootstrap.Factorys.Abstracts;
 using SkeFramework.Push.Core.Configs;
 using SkeFramework.Push.Core.Constants;
 using SkeFramework.Push.Core.Interfaces;
@@ -14,16 +15,11 @@ namespace SkeFramework.Push.Core.Bootstrap.Factorys
     /// <summary>
     /// 推送基础实现
     /// </summary>
-    public abstract class PushServerFactoryBase<TNotification> : IPushServerFactory<TNotification> where TNotification:INotification
+    public abstract class PushServerFactoryBase<TRefactor,TNotification> : PushConnectionFactoryBase<TNotification>, IPushServerFactory<TNotification>
+            where TRefactor : class
+            where TNotification : INotification
     {
-        /// <summary>
-        /// 创建一个推送链接
-        /// </summary>
-        /// <returns></returns>
-        public IPushConnection<INotification> Create()
-        {
-            return NewPushConnectionInternal();
-        }
+       
         /// <summary>
         /// 创建一个服务端推送
         /// </summary>
@@ -47,13 +43,9 @@ namespace SkeFramework.Push.Core.Bootstrap.Factorys
         /// </summary>
         /// <param name="listenAddress"></param>
         /// <returns></returns>
-        protected abstract PushBroker<TNotification> NewPushBrokerInternal(IConnectionConfig connectionConfig);
-        /// <summary>
-        /// 创建推送连接具体实现
-        /// </summary>
-        /// <returns></returns>
-        protected abstract IPushConnection<INotification> NewPushConnectionInternal();
-
+        protected abstract PushBroker<TRefactor,TNotification> NewPushBrokerInternal(IConnectionConfig connectionConfig);
+       
      
+
     }
 }

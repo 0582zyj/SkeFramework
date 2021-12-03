@@ -46,5 +46,10 @@ namespace SkeFramework.Core.Push.Interfaces
         /// </summary>
         /// <param name="connectionConfig"></param>
         void SetupParamOptions(IConnectionConfig connectionConfig);
+        /// <summary>
+        /// 获取原始反应核心
+        /// </summary>
+        /// <param name="connectionConfig"></param>
+        TRefactor GetRefactorBroker<TRefactor>() where TRefactor : class;
     }
 }

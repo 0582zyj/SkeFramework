@@ -21,7 +21,7 @@ namespace SkeFramework.Push.WebSocket
     /// <summary>
     /// WebSocker服务端推送
     /// </summary>
-    public class WebSocketPushBroker : PushBroker<WebSocketNotifications>, IPushBroker<WebSocketNotifications> 
+    public class WebSocketPushBroker : PushBroker<WebSocketServer,WebSocketNotifications>, IPushBroker<WebSocketNotifications> 
     {
         /// <summary>
         /// 服务端类

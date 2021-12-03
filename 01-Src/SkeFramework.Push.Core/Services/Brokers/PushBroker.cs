@@ -18,8 +18,15 @@ namespace SkeFramework.Push.Core.Services.Brokers
     /// 服务端推送反应堆
     /// </summary>
     /// <typeparam name="TNotification"></typeparam>
-    public abstract class PushBroker<TNotification> : IPushBroker<TNotification> where TNotification : INotification
+    public abstract class PushBroker<TRefactor,TNotification> : IPushBroker< TNotification> 
+        where TRefactor : class
+        where TNotification : INotification
     {
+        /// <summary>
+        /// 服务端类
+        /// </summary>
+        protected TRefactor refactor=null;
+
         static PushBroker()
         {
             ServicePointManager.DefaultConnectionLimit = 100;
@@ -39,7 +46,7 @@ namespace SkeFramework.Push.Core.Services.Brokers
         /// <summary>
         /// 推送链接工厂
         /// </summary>
-        private IPushConnectionFactory ServiceConnectionFactory { get; set; }
+        protected IPushConnectionFactory ServiceConnectionFactory { get; set; }
         /// <summary>
         /// 推送线程容器管理
         /// </summary>
@@ -120,6 +127,14 @@ namespace SkeFramework.Push.Core.Services.Brokers
             OnConnection?.Invoke(notification);
         }
 
+        public TRefactor1 GetRefactorBroker<TRefactor1>() where TRefactor1 : class
+        {
+            if (this.refactor is TRefactor1)
+            {
+                return refactor as TRefactor1;
+            }
+            return default(TRefactor1);
+        }
         #endregion
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SkeFramework.Core.Mqtt;
+using SkeFramework.Core.Mqtt.Bootstrap;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,16 +21,21 @@ namespace UDPBroadcast
             InitializeComponent();
         }
 
+        MqttClientUtil mqttClientUtil = new MqttClientUtil();
+
+        
         private void MainForm_Load(object sender, EventArgs e)
         {
             server = new CommPortUdp();
             server.ReceiveMessageCallback += ServerHandleMessage;
             server.SendMessageCallback += ServerHandleMessage;
 
-            this.tbxlocalip.Text = this.server.LocalIP;
-            this.tbxlocalport.Text = this.server.LocalPort.ToString();
+            //this.tbxlocalip.Text = this.server.LocalIP;
+            //this.tbxlocalport.Text = this.server.LocalPort.ToString();
             this.tbxGroupIp.Text = this.server.LocalGroupIp;
             this.tbxSendToGroupIp.Text = this.server.LocalGroupIp;
+
+           
         }
 
         #region 按钮事件
@@ -40,6 +47,13 @@ namespace UDPBroadcast
                 return;
             }
             server.Send(tbxMessageSend.Text, chkbxBroadcast.Checked);
+            mqttClientUtil.ClientPublishMqttTopic("test", tbxMessageSend.Text);
+            
+        }
+
+        private  void start()
+        {         
+             mqttClientUtil.ClientStart("testDemo", "192.168.34.166", 1889, "", "");
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -58,9 +72,10 @@ namespace UDPBroadcast
         {
             chkbxJoinGtoup.Enabled = false;
             // 创建接收套接字
-            string IP = this.tbxlocalip.Text;
-            int Port = Convert.ToInt32( this.tbxlocalport.Text);
-            this.server.Receive(chkbxJoinGtoup.Checked, IP, Port);
+            //string IP = this.tbxlocalip.Text;
+            //int Port = Convert.ToInt32( this.tbxlocalport.Text);
+            //this.server.Receive(chkbxJoinGtoup.Checked, IP, Port);
+            mqttClientUtil.ClientSubscribeTopic("test");
 
         }
         #endregion
@@ -104,6 +119,7 @@ namespace UDPBroadcast
             {
                 this.tbxGroupIp.Enabled = true;
                 this.tbxGroupIp.Focus();
+                new TaskFactory().StartNew(new Action(start));
             }
         }
 

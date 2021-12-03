@@ -191,7 +191,7 @@
             this.tbxlocalport.Name = "tbxlocalport";
             this.tbxlocalport.Size = new System.Drawing.Size(60, 21);
             this.tbxlocalport.TabIndex = 2;
-            this.tbxlocalport.Text = "52441";
+            this.tbxlocalport.Text = "1889";
             // 
             // tbxlocalip
             // 
@@ -199,6 +199,7 @@
             this.tbxlocalip.Name = "tbxlocalip";
             this.tbxlocalip.Size = new System.Drawing.Size(100, 21);
             this.tbxlocalip.TabIndex = 1;
+            this.tbxlocalip.Text = "192.168.34.166";
             // 
             // label1
             // 

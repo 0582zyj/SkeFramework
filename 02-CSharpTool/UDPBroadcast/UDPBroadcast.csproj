@@ -143,6 +143,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Mqtt\SkeFramework.Core.Mqtt.csproj">
+      <Project>{C79122CE-F9B5-4AD7-9A5E-B3E1E33C00EF}</Project>
+      <Name>SkeFramework.Core.Mqtt</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\01-Src\SkeFramework.Core.Network\SkeFramework.Core.Network.csproj">
       <Project>{f30c0cc5-b760-4ee0-9603-fce8ff5206bc}</Project>
       <Name>SkeFramework.Core.Network</Name>

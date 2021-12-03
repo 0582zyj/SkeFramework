@@ -46,6 +46,13 @@ namespace SkeFramework.Push.Core.Bootstrap
             return this;
         }
         /// <summary>
+        /// 获取配置
+        /// </summary>
+        public IConnectionConfig GetConfig()
+        {
+            return this.connectionConfig;
+        }
+        /// <summary>
         /// 设置初始工作线程
         /// </summary>
         /// <param name="workerThreadCount"></param>

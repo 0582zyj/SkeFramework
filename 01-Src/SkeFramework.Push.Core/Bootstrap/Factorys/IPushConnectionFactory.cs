@@ -1,4 +1,5 @@
-﻿using SkeFramework.Push.Core.Interfaces;
+﻿using SkeFramework.Core.Push.Interfaces;
+using SkeFramework.Push.Core.Interfaces;
 using SkeFramework.Push.Core.Services;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,10 @@ namespace SkeFramework.Push.Core.Bootstrap
         /// </summary>
         /// <returns></returns>
         IPushConnection<INotification> Create();
+        /// <summary>
+        /// 关联推送反应堆
+        /// </summary>
+        /// <param name="pushBroker"></param>
+        void SetRelatedPushBroker(IPushBroker<INotification> pushBroker);
     }
 }

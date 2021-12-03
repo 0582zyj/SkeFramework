@@ -11,28 +11,25 @@ namespace SkeFramework.Push.WebSocket.PushServices.PushClients
     /// <summary>
     /// 推送客户端链接
     /// </summary>
-    public class PushClientConnection : IPushConnection<INotification>
+    public class PushClientConnection: IPushConnection<WebSocketNotifications>
     {
         /// <summary>
         /// 发送链接
         /// </summary>
         /// <param name="notification"></param>
         /// <returns></returns>
-        public Task Send(INotification notification)
+        public Task Send(WebSocketNotifications notification)
         {
             return Task.Factory.StartNew(delegate
             {
-                if(notification is WebSocketNotifications)
+                WebSocketNotifications webSocket = (WebSocketNotifications)notification;
+                if (webSocket.session != null)
                 {
-                    WebSocketNotifications webSocket = (WebSocketNotifications)notification;
-                    if (webSocket.session != null)
-                    {
-                        webSocket.session.Send(notification.Message);
-                    }
-                    else
-                    {
+                    webSocket.session.Send(notification.Message);
+                }
+                else
+                {
 
-                    }
                 }
             });
         }
