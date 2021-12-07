@@ -1,4 +1,8 @@
-﻿using SkeFramework.Push.Core.Interfaces;
+﻿using SkeFramework.Core.Push.Interfaces;
+using SkeFramework.Push.Core.Bootstrap.Factorys.Abstracts;
+using SkeFramework.Push.Core.Configs;
+using SkeFramework.Push.Core.Interfaces;
+using SkeFramework.Push.Core.Listenser.ChannelListensers;
 using SkeFramework.Push.WebSocket.DataEntities;
 using System;
 using System.Collections.Generic;
@@ -11,8 +15,13 @@ namespace SkeFramework.Push.WebSocket.PushServices.PushClients
     /// <summary>
     /// 推送客户端链接
     /// </summary>
-    public class PushClientConnection: IPushConnection<WebSocketNotifications>
+    public class PushClientConnection: DefaultChannelPromise, IPushConnection<WebSocketNotifications>
     {
+        public string GetTag()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 发送链接
         /// </summary>
@@ -33,5 +42,6 @@ namespace SkeFramework.Push.WebSocket.PushServices.PushClients
                 }
             });
         }
+
     }
 }

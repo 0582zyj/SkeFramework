@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkeFramework.Push.Core.Listenser.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace SkeFramework.Push.Core.Interfaces
     /// 推送链接接口
     /// </summary>
     /// <typeparam name="TNotification"></typeparam>
-    public interface IPushConnection<TNotification> where TNotification : INotification
+    public interface IPushConnection<TNotification>: IChannelPromise where TNotification : INotification
     {
         /// <summary>
         /// 发送接口
@@ -21,5 +22,10 @@ namespace SkeFramework.Push.Core.Interfaces
         /// <param name="notification"></param>
         /// <returns></returns>
         Task Send(TNotification notification);
+        /// <summary>
+        /// 获取连接标识
+        /// </summary>
+        /// <returns></returns>
+        string GetTag();
     }
 }

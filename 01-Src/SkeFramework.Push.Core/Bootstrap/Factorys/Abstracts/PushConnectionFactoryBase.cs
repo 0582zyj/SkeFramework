@@ -13,18 +13,18 @@ namespace SkeFramework.Push.Core.Bootstrap.Factorys.Abstracts
     /// <summary>
     /// 推送基础实现
     /// </summary>
-    public abstract class PushConnectionFactoryBase<TNotification> : IPushConnectionFactory where TNotification : INotification
+    public abstract class PushConnectionFactoryBase<TNotification> : IPushConnectionFactory<TNotification> where TNotification : INotification
     {
-        protected  IPushBroker<INotification> pushBroker;
+        protected  IPushBroker<TNotification> pushBroker;
 
-        public void SetRelatedPushBroker(IPushBroker<INotification> broker)
+        public void SetRelatedPushBroker(IPushBroker<TNotification> broker)
         {
             pushBroker = broker;
         }
 
-        public IPushConnection<INotification> Create()
+        public IPushConnection<TNotification> Create(IConnectionConfig config = null)
         {
-            return NewPushConnection(null) as IPushConnection<INotification>;
+            return NewPushConnection(config);
         }
 
 

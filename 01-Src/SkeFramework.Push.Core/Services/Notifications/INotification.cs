@@ -11,6 +11,7 @@ namespace SkeFramework.Push.Core.Interfaces
     /// </summary>
     public interface INotification
     {
+       
         /// <summary>
         /// 设备注册ID是否有效
         /// </summary>

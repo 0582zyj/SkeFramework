@@ -1,7 +1,7 @@
-﻿using SkeFramework.Core.Mqtt.Brokers;
-using SkeFramework.Core.Mqtt.DataEntities;
-using SkeFramework.Core.Mqtt.DataEntities.Constants;
-using SkeFramework.Core.Mqtt.PushFactorys;
+﻿using SkeFramework.Push.Mqtt.Brokers;
+using SkeFramework.Push.Mqtt.DataEntities;
+using SkeFramework.Push.Mqtt.DataEntities.Constants;
+using SkeFramework.Push.Mqtt.PushFactorys;
 using SkeFramework.Core.Push.Interfaces;
 using SkeFramework.Push.Core.Bootstrap;
 using SkeFramework.Push.Core.Bootstrap.Factorys;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Core.Mqtt.Bootstrap
+namespace SkeFramework.Push.Mqtt.Bootstrap
 {
     /// <summary>
     /// 推送引导程序
@@ -114,7 +114,7 @@ namespace SkeFramework.Core.Mqtt.Bootstrap
             switch (PushType)
             {
                 case MqttClientType.Client:
-                    return new MqttClientBroker(BuildPushConnectionFactory<TopicNotification>()) as IPushBroker;
+                    return new MqttClientBroker(BuildPushConnectionFactory()) as IPushBroker;
             }
             return base.GetDataHandleCommon<IPushBroker, TNotification>();
         }
@@ -123,9 +123,9 @@ namespace SkeFramework.Core.Mqtt.Bootstrap
         /// </summary>
         /// <typeparam name="TNotification"></typeparam>
         /// <returns></returns>
-        public  IPushConnectionFactory BuildPushConnectionFactory<TNotification>()
+        public  IPushConnectionFactory<TopicNotification> BuildPushConnectionFactory()
         {
-            var dataType = typeof(TNotification);
+            var dataType = typeof(TopicNotification);
             if (IsSubclassOf(typeof(TopicNotification), dataType))
             {
                 return new MqttPushFactory();

@@ -33,7 +33,7 @@ namespace SkeFramework.Push.Core.Services.Brokers
             ServicePointManager.Expect100Continue = false;
         }
 
-        public PushBroker(IPushConnectionFactory connectionFactory)
+        public PushBroker(IPushConnectionFactory<TNotification> connectionFactory)
         {
             running = false;
             ServiceConnectionFactory = connectionFactory;
@@ -46,7 +46,7 @@ namespace SkeFramework.Push.Core.Services.Brokers
         /// <summary>
         /// 推送链接工厂
         /// </summary>
-        protected IPushConnectionFactory ServiceConnectionFactory { get; set; }
+        protected IPushConnectionFactory<TNotification> ServiceConnectionFactory { get; set; }
         /// <summary>
         /// 推送线程容器管理
         /// </summary>
@@ -75,7 +75,10 @@ namespace SkeFramework.Push.Core.Services.Brokers
                 return;
             PushServerStart();
             running = true;
-            WorkDocker = new WorkDocker<TNotification>(this,ServiceConnectionFactory);
+            if (this.WorkDocker == null)
+            {
+                WorkDocker = new WorkDocker<TNotification>(this, ServiceConnectionFactory);
+            }
             WorkDocker.ChangeScale(1);
         }
         /// <summary>
@@ -127,13 +130,21 @@ namespace SkeFramework.Push.Core.Services.Brokers
             OnConnection?.Invoke(notification);
         }
 
-        public TRefactor1 GetRefactorBroker<TRefactor1>() where TRefactor1 : class
+        public virtual TRefactor1 GetRefactorBroker<TRefactor1>() where TRefactor1 : class
         {
             if (this.refactor is TRefactor1)
             {
                 return refactor as TRefactor1;
             }
             return default(TRefactor1);
+        }
+        /// <summary>
+        /// 获取默认工作线程
+        /// </summary>
+        /// <returns></returns>
+        public virtual WorkDocker<TNotification> GetDefaultWorker()
+        {
+            return WorkDocker;
         }
         #endregion
     }

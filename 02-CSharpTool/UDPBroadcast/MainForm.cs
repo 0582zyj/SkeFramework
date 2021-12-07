@@ -1,5 +1,5 @@
-﻿using SkeFramework.Core.Mqtt;
-using SkeFramework.Core.Mqtt.Bootstrap;
+﻿
+using SkeFramework.Push.Mqtt;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +21,7 @@ namespace UDPBroadcast
             InitializeComponent();
         }
 
-        MqttClientUtil mqttClientUtil = new MqttClientUtil();
+        
 
         
         private void MainForm_Load(object sender, EventArgs e)
@@ -47,13 +47,13 @@ namespace UDPBroadcast
                 return;
             }
             server.Send(tbxMessageSend.Text, chkbxBroadcast.Checked);
-            mqttClientUtil.ClientPublishMqttTopic("test", tbxMessageSend.Text);
+            MqttClientProxyAgent.Instance().ClientPublishMqttTopic("Publish", tbxMessageSend.Text);
             
         }
 
         private  void start()
-        {         
-             mqttClientUtil.ClientStart("testDemo", "192.168.34.166", 1889, "", "");
+        {
+            MqttClientProxyAgent.Instance().ClientStart("testDemo", "192.168.34.166", 1889, "", "");
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -75,7 +75,7 @@ namespace UDPBroadcast
             //string IP = this.tbxlocalip.Text;
             //int Port = Convert.ToInt32( this.tbxlocalport.Text);
             //this.server.Receive(chkbxJoinGtoup.Checked, IP, Port);
-            mqttClientUtil.ClientSubscribeTopic("test");
+            MqttClientProxyAgent.Instance().ClientSubscribeTopic("Publish");
 
         }
         #endregion

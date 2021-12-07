@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkeFramework.Core.Mqtt.DataEntities.Constants
+namespace SkeFramework.Push.Mqtt.DataEntities.Constants
 {
    public class MqttClientOptionKey
     {
+        #region MqttClient配置
         /// <summary>
         /// 
         /// </summary>
@@ -29,15 +30,30 @@ namespace SkeFramework.Core.Mqtt.DataEntities.Constants
         /// 
         /// </summary>
         public const string mqttPassword = "mqttPassword";
+        #endregion
 
         /// <summary>
-        /// 
+        /// 发布任务KET
+        /// </summary>
+        public const string TaskId = "TaskId";
+        /// <summary>
+        /// 发布任务KET
         /// </summary>
         public const string Publish = "Publish";
         /// <summary>
-        /// 
+        /// 订阅主题的KET
         /// </summary>
         public const string Subscriber = "Subscriber";
-        
+        /// <summary>
+        /// 消息内容
+        /// </summary>
+        public const string payload = "payload";
+        /// <summary>
+        /// 消息内容
+        /// </summary>
+        public const string topic = "topic";
+
+      
+
     }
 }

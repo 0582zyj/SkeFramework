@@ -19,7 +19,7 @@ namespace SkeFramework.Push.Core.Services
     public class ServiceWorkerAdapter<TNotification> where TNotification : INotification
     {
 
-        public ServiceWorkerAdapter(IPushBroker<TNotification> broker, IPushConnection<INotification> connection)
+        public ServiceWorkerAdapter(IPushBroker<TNotification> broker, IPushConnection<TNotification> connection)
         {
             Broker = broker;
             Connection = connection;
@@ -33,7 +33,7 @@ namespace SkeFramework.Push.Core.Services
         /// <summary>
         /// 推送链接
         /// </summary>
-        public IPushConnection<INotification> Connection  { get; private set; }
+        public IPushConnection<TNotification> Connection  { get; private set; }
         #region 开始和关闭推送线程
         /// <summary>
         /// 取消发送【多线程】

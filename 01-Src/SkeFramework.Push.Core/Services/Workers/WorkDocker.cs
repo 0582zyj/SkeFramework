@@ -1,6 +1,7 @@
 ﻿using SkeFramework.Core.NetLog;
 using SkeFramework.Core.Push.Interfaces;
 using SkeFramework.Push.Core.Bootstrap;
+using SkeFramework.Push.Core.Configs;
 using SkeFramework.Push.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,30 +17,33 @@ namespace SkeFramework.Push.Core.Services.Workers
     /// <typeparam name="TNotification"></typeparam>
     public class WorkDocker<TNotification> where TNotification : INotification
     {
-        private readonly IPushBroker<TNotification> PushBroker;
-        private readonly IPushConnectionFactory ConnectionFactory;
-        /// <summary>
-        /// 推送工作线程数量
-        /// </summary>
-        public int ScaleSize { get; private set; }
-        /// <summary>
-        /// 推送线程集合
-        /// </summary>
-        List<ServiceWorkerAdapter<TNotification>> workers;
         /// <summary>
         /// 线程安全锁
         /// </summary>
         private object lockWorkers;
-
-        public WorkDocker(IPushBroker<TNotification> broker, IPushConnectionFactory connectionFactory)
+        /// <summary>
+        /// 推送核心
+        /// </summary>
+        protected readonly IPushBroker<TNotification> PushBroker;
+        /// <summary>
+        /// 推送链接
+        /// </summary>
+        protected readonly IPushConnectionFactory<TNotification> ConnectionFactory;
+        /// <summary>
+        /// 推送线程集合
+        /// </summary>
+        protected List<ServiceWorkerAdapter<TNotification>> workers;
+        /// <summary>
+        /// 推送工作线程数量
+        /// </summary>
+        public int ScaleSize { get; private set; }
+        public WorkDocker(IPushBroker<TNotification> broker, IPushConnectionFactory<TNotification> connectionFactory)
         {
             PushBroker = broker;
             ConnectionFactory = connectionFactory;
             lockWorkers = new object();
             workers = new List<ServiceWorkerAdapter<TNotification>>();
-            ScaleSize = 1;
-            //AutoScale = true;
-            //AutoScaleMaxSize = 20;
+            ScaleSize = 0;
         }
        
         #region 启动和关闭工作进程
@@ -65,11 +69,12 @@ namespace SkeFramework.Push.Core.Services.Workers
                 // Scale up
                 while (workers.Count < ScaleSize)
                 {
-                    var worker = new ServiceWorkerAdapter<TNotification>(PushBroker, ConnectionFactory.Create());
-                    workers.Add(worker);
-                    worker.Start();
+                    ServiceWorkerAdapter<TNotification>  serviceWorker= AddServiceWorkerAdapter(new DefaultConnectionConfig());
+                    if (serviceWorker == null)
+                    {
+                        break;
+                    }
                 }
-
                 LogAgent.Debug("Scaled Changed to: " + workers.Count);
             }
         }
@@ -105,6 +110,39 @@ namespace SkeFramework.Push.Core.Services.Workers
             if (serviceWorker != null)
                 return serviceWorker;
             return workers.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// 获取未使用的进程
+        /// </summary>
+        /// <returns></returns>
+        public ServiceWorkerAdapter<TNotification> GetServiceWorkerAdapter(string taskId)
+        {
+            ServiceWorkerAdapter<TNotification> serviceWorker = workers.Find(o => o.Connection!=null&& o.Connection.GetTag().Equals(taskId));
+            if (serviceWorker != null)
+                return serviceWorker;
+            return null;
+        }
+        /// <summary>
+        /// 新增进程
+        /// </summary>
+        /// <param name="config"></param>
+        public virtual ServiceWorkerAdapter<TNotification> AddServiceWorkerAdapter(IConnectionConfig config)
+        {
+            IPushConnection<TNotification> connection = ConnectionFactory.Create(config);
+            if (connection == null)
+            {
+                return null;
+            }
+            var worker = new ServiceWorkerAdapter<TNotification>(PushBroker, connection);
+            if (config.HasOption(DefaultConnectionConfig.data))
+            {
+                TNotification notification = config.GetOption<TNotification>(DefaultConnectionConfig.data);
+                worker.QueueNotification(notification);
+            }
+            workers.Add(worker);
+            worker.Start();
+            return worker;
         }
 
     }

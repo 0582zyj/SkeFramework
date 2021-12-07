@@ -5,8 +5,8 @@ using MQTTnet.Core.Packets;
 using MQTTnet.Core.Protocol;
 using MQTTnet.Core.Serializer;
 using Newtonsoft.Json;
-using SkeFramework.Core.Mqtt.DataEntities;
-using SkeFramework.Core.Mqtt.DataEntities.Constants;
+using SkeFramework.Push.Mqtt.DataEntities;
+using SkeFramework.Push.Mqtt.DataEntities.Constants;
 using SkeFramework.Core.NetLog;
 using SkeFramework.Core.Push.Interfaces;
 using SkeFramework.Push.Core.Bootstrap;
@@ -18,8 +18,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.Push.Mqtt.Reactor.Managers;
+using SkeFramework.Push.Core.Services.Workers;
+using SkeFramework.Push.Core.Services;
 
-namespace SkeFramework.Core.Mqtt.Brokers
+namespace SkeFramework.Push.Mqtt.Brokers
 {
     /// <summary>
     /// Mqtt客户端实现
@@ -31,10 +34,10 @@ namespace SkeFramework.Core.Mqtt.Brokers
         /// </summary>
         private MqttClientOptions options;
 
-        public MqttClientBroker(IPushConnectionFactory connectionFactory):
+        public MqttClientBroker(IPushConnectionFactory<TopicNotification> connectionFactory) :
             base(connectionFactory)
         {
-            connectionFactory.SetRelatedPushBroker(this as IPushBroker<INotification>);
+
         }
         /// <summary>
         /// 设置参数
@@ -60,11 +63,11 @@ namespace SkeFramework.Core.Mqtt.Brokers
                 if (config.HasOption(MqttClientOptionKey.mqttPassword.ToString()))
                     mqttPassword = config.GetOption(MqttClientOptionKey.mqttPassword.ToString()).ToString();
                 var mqttFactory = new MqttClientFactory();
-                 options = new MqttClientTcpOptions
+                options = new MqttClientTcpOptions
                 {
                     ClientId = ClientId,
                     Server = tcpServer,
-                    Port = int.Parse( tcpPort),
+                    Port = int.Parse(tcpPort),
                     ProtocolVersion = MqttProtocolVersion.V311,
                     DefaultCommunicationTimeout = TimeSpan.FromSeconds(10),
                     WillMessage = new MqttApplicationMessage($"LastWill/{ClientId.Trim()}", Encoding.UTF8.GetBytes("I Lost the connection!"), MqttQualityOfServiceLevel.ExactlyOnce, true)
@@ -83,20 +86,25 @@ namespace SkeFramework.Core.Mqtt.Brokers
                 this.refactor.Connected += MqttClient_Connected;
                 this.refactor.Disconnected += MqttClient_Disconnected;
                 this.refactor.ApplicationMessageReceived += MqttClient_ApplicationMessageReceived;
-       
+
             }
             catch (Exception ex)
             {
                 LogAgent.Info($"客户端尝试连接出错.>{ex.Message}");
             }
         }
+
+        #region 开启和停止
+
         /// <summary>
         /// 启动
         /// </summary>
-        protected  override async void PushServerStart()
+        protected override async void PushServerStart()
         {
-            await this.refactor.ConnectAsync(options);
+            this.ServiceConnectionFactory.SetRelatedPushBroker(this);
+            this.WorkDocker = new PushConnectionWorkDocker(this, this.ServiceConnectionFactory);
             LogAgent.Info($"客户端[{options.ClientId}]尝试连接...");
+            await this.refactor.ConnectAsync(options);
         }
         /// <summary>
         /// 停止
@@ -111,9 +119,12 @@ namespace SkeFramework.Core.Mqtt.Brokers
             }
             catch (Exception ex)
             {
-                LogAgent.Info($"客户端[{options.ClientId}]尝试断开连接..."+ex.ToString());
+                LogAgent.Info($"客户端[{options.ClientId}]尝试断开连接..." + ex.ToString());
             }
         }
+        #endregion
+
+        #region 消息事件
         /// <summary>
         /// 接受消息事件
         /// </summary>
@@ -121,7 +132,20 @@ namespace SkeFramework.Core.Mqtt.Brokers
         /// <param name="e"></param>
         public void MqttClient_ApplicationMessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
         {
-            LogAgent.Info($"客户端[{options.ClientId}]尝试收到消息...>{JsonConvert.SerializeObject(e.ApplicationMessage)}");
+
+            string text = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+            string Topic = e.ApplicationMessage.Topic;
+            string QoS = e.ApplicationMessage.QualityOfServiceLevel.ToString();
+            string Retained = e.ApplicationMessage.Retain.ToString();
+            LogAgent.Info("客户端[{options.ClientId}]尝试收到消息...>>>Topic:" + Topic + "; QoS: " + QoS + "; Retained: " + Retained + ";Msg: " + text);
+            ServiceWorkerAdapter<TopicNotification> serviceWorker=  this.WorkDocker.GetServiceWorkerAdapter(Topic);
+            if (serviceWorker == null)
+            {
+                return;
+            }
+            string taskId = serviceWorker.Connection.GetTag();
+            TopicNotification topicNotification = new TopicNotification(taskId, Topic,text);
+            serviceWorker.Connection.OnReceivedDataPoint(topicNotification, taskId);
         }
         /// <summary>
         /// 断开连接事件
@@ -139,9 +163,11 @@ namespace SkeFramework.Core.Mqtt.Brokers
         /// <param name="e"></param>
         public void MqttClient_Connected(object sender, EventArgs e)
         {
-            LogAgent.Info($"客户端[{options.ClientId}]成功连接...>{sender.ToString()}");
+            LogAgent.Info($"客户端[{options.ClientId}]成功连接");
         }
+        #endregion
 
+        #region 发布消息
         /// <summary>
         /// 发布Topic消息
         /// </summary>
@@ -152,12 +178,12 @@ namespace SkeFramework.Core.Mqtt.Brokers
             try
             {
                 var message = new MqttApplicationMessage(topic, Encoding.UTF8.GetBytes(payload), MqttQualityOfServiceLevel.AtLeastOnce, true);
+                LogAgent.Info(string.Format("客户端[{0}]发布主题[{1}]消息[{2}]成功！", options.ClientId, topic,payload));
                 await this.refactor.PublishAsync(message);
-                LogAgent.Info(string.Format("客户端[{0}]发布主题[{1}]成功！", options.ClientId, topic));
             }
             catch (Exception ex)
             {
-                LogAgent.Info(string.Format("客户端[{0}]发布主题[{1}]异常！>{2}", options.ClientId, topic, ex.Message));
+                LogAgent.Info(string.Format("客户端[{0}]发布主题[{1}]消息[{2}]异常！>{3}", options.ClientId, topic, payload, ex.Message));
             }
         }
         /// <summary>
@@ -166,12 +192,20 @@ namespace SkeFramework.Core.Mqtt.Brokers
         /// <param name="topic"></param>
         public async Task<IList<MqttSubscribeResult>> ClientSubscribeTopic(string topic)
         {
-            List<TopicFilter> topicFilters = new List<TopicFilter>()
+            try
             {
-                new TopicFilter(topic,MqttQualityOfServiceLevel.AtLeastOnce),
-            };
-            LogAgent.Info(string.Format("客户端[{0}]订阅主题[{1}]成功！", this.options.ClientId, topic));
-            return await this.refactor.SubscribeAsync(topicFilters);
+                List<TopicFilter> topicFilters = new List<TopicFilter>()
+                {
+                    new TopicFilter(topic,MqttQualityOfServiceLevel.AtLeastOnce),
+                };
+                LogAgent.Info(string.Format("客户端[{0}]订阅主题[{1}]成功！", this.options.ClientId, topic));
+                return await this.refactor.SubscribeAsync(topicFilters);
+            }
+            catch (Exception ex)
+            {
+                LogAgent.Info(string.Format("客户端[{0}]订阅主题[{1}]异常！>{2}", this.options.ClientId, topic, ex.Message));
+            }
+            return null;
         }
         /// <summary>
         /// 取消订阅
@@ -179,9 +213,17 @@ namespace SkeFramework.Core.Mqtt.Brokers
         /// <param name="topic"></param>
         public async Task ClientUnSubscribeTopic(string topic)
         {
-            await this.refactor.UnsubscribeAsync(topic);
-            LogAgent.Info(string.Format("客户端[{0}]取消主题[{1}]成功！", this.options.ClientId, topic));
+            try
+            {
+                await this.refactor.UnsubscribeAsync(topic);
+                LogAgent.Info(string.Format("客户端[{0}]取消主题[{1}]成功！", this.options.ClientId, topic));
+            }
+            catch (Exception ex)
+            {
+                LogAgent.Info(string.Format("客户端[{0}]取消主题[{1}]异常！>{2}", options.ClientId, topic, ex.Message));
+            }
         }
+        #endregion
 
     }
 }

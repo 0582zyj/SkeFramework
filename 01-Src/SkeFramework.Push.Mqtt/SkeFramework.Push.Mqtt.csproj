@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C79122CE-F9B5-4AD7-9A5E-B3E1E33C00EF}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SkeFramework.Core.Mqtt</RootNamespace>
-    <AssemblyName>SkeFramework.Core.Mqtt</AssemblyName>
+    <RootNamespace>SkeFramework.Push.Mqtt</RootNamespace>
+    <AssemblyName>SkeFramework.Push.Mqtt</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -60,10 +60,11 @@
     <Compile Include="Reactor\Connection\SubscriberPushConnection.cs" />
     <Compile Include="DataEntities\Constants\MqttClientOptionKey.cs" />
     <Compile Include="DataEntities\TopicNotification.cs" />
-    <Compile Include="MqttClientUtil.cs" />
+    <Compile Include="MqttClientProxyAgent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PushFactorys\MqttPushFactory.cs" />
+    <Compile Include="Reactor\Managers\PushConnectionWorkDocker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

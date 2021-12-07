@@ -51,6 +51,10 @@
     <Compile Include="Constants\DefaultConfigTypeEumns.cs" />
     <Compile Include="Services\Brokers\PushBroker.cs" />
     <Compile Include="Services\Connections\PushConnectionAbstract.cs" />
+    <Compile Include="Services\Listenser\ChannelListensers\DefaultChannelPromise.cs" />
+    <Compile Include="Services\Listenser\Interfaces\IChannelListener.cs" />
+    <Compile Include="Services\Listenser\Interfaces\IChannelPromise.cs" />
+    <Compile Include="Services\Listenser\SenderListenser.cs" />
     <Compile Include="Services\Notifications\INotification.cs" />
     <Compile Include="Services\Brokers\IPushBroker.cs" />
     <Compile Include="Services\Connections\IPushConnection.cs" />
