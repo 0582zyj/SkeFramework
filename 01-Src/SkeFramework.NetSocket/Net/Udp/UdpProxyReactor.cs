@@ -29,7 +29,7 @@ namespace SkeFramework.NetSerialPort.Net.Udp
     public class UdpProxyReactor : ProxyReactorBase
     {
         /// <summary>
-        /// 
+        /// 监听Socket
         /// </summary>
         private Socket ListenerSocket;
         /// <summary>
@@ -57,7 +57,7 @@ namespace SkeFramework.NetSerialPort.Net.Udp
                 bufferSize)
         {
             UdpNodeConfig nodeConfig = listener.nodeConfig as UdpNodeConfig;
-            LocalEndPoint = new IPEndPoint(IPAddress.Parse(nodeConfig.LocalAddress), nodeConfig.LocalPort);
+            LocalEndPoint = listener.BuildEndPoint();
             RemoteEndPoint = new IPEndPoint(IPAddress.Any, nodeConfig.LocalPort);
             ListenerSocket = new Socket(LocalEndPoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
         }
@@ -90,10 +90,10 @@ namespace SkeFramework.NetSerialPort.Net.Udp
         protected override void StartInternal()
         {
             IsActive = true;
-            if (!SocketMap.ContainsKey(this.LocalEndpoint.nodeConfig.ToString()))
+            if (!SocketMap.ContainsKey(this.Local.nodeConfig.ToString()))
             {
-                RefactorRequestChannel adapter= new RefactorProxyRequestChannel(this, this.LocalEndpoint, "none");
-                SocketMap.Add(this.LocalEndpoint.nodeConfig.ToString(), ConnectionAdapter);
+                RefactorRequestChannel adapter= new RefactorProxyRequestChannel(this, this.Local, "none");
+                SocketMap.Add(this.Local.nodeConfig.ToString(), ConnectionAdapter);
             }
             IsActive = true;
             ListenerSocket.Bind(LocalEndPoint);

@@ -4,6 +4,7 @@ using SkeFramework.NetSerialPort.Net;
 using SkeFramework.NetSerialPort.Topology.Nodes;
 using SkeFramework.NetSerialPort.Topology.ExtendNodes;
 using SkeFramework.NetSocket.Topology.Nodes;
+using System.Net;
 
 namespace SkeFramework.NetSerialPort.Topology
 {
@@ -25,6 +26,16 @@ namespace SkeFramework.NetSerialPort.Topology
                 nodeVersion = new NodeVersion()
             };
             return n;
+        }
+
+        /// <summary>
+        /// 创建一个节点
+        /// </summary>
+        /// <returns>A new INode instance</returns>
+        public static EndPoint BuildEndPoint(this INode node)
+        {
+            UdpNodeConfig nodeConfig = node.nodeConfig as UdpNodeConfig;
+            return new IPEndPoint(IPAddress.Parse(nodeConfig.LocalAddress), nodeConfig.LocalPort);
         }
 
         #region 节点基础信息

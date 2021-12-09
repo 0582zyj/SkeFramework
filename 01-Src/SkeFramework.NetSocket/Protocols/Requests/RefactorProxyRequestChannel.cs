@@ -32,7 +32,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         protected int DefaultResendCount;
 
         public RefactorProxyRequestChannel(ReactorBase reactor, string controlCode)
-            : this(reactor, reactor.LocalEndpoint, controlCode)
+            : this(reactor, reactor.Local, controlCode)
         {
         }
 

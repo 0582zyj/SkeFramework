@@ -61,11 +61,11 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         /// <summary>
         /// 当前节点
         /// </summary>
-        public INode LocalEndpoint { get; set; }
+        public  INode Local { get; set; }
         /// <summary>
         /// 监听者
         /// </summary>
-        protected INode Listener;
+        public readonly INode Listener;
         /// <summary>
         /// 缓冲区大小
         /// </summary>

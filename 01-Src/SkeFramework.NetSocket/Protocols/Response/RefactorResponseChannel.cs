@@ -39,14 +39,14 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
             Decoder = _reactor.Decoder.Clone();
             Encoder = _reactor.Encoder.Clone();
             Allocator = _reactor.Allocator;
-            Local = reactor.LocalEndpoint;
+            Local = reactor.Local;
             if (node != null)
             {
                 RemoteHost = node;
             }
             else
             {
-                RemoteHost = reactor.LocalEndpoint.Clone() as INode;
+                RemoteHost = reactor.Local.Clone() as INode;
             }
             this.Timeout = NetworkConstants.BackoffIntervals[6];
             this.Created = DateTime.Now;
@@ -157,7 +157,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
         {
             if (destination == null)
             {
-                destination = this._reactor.LocalEndpoint;
+                destination = this._reactor.Local;
             }
             NetworkData data = NetworkData.Create(destination, buffer, length);
             this.Send(data);

@@ -19,7 +19,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Response
     public class RefactorProxyResponseChannel : RefactorResponseChannel
     {
         public RefactorProxyResponseChannel(ReactorBase reactor, RefactorRequestChannel request)
-            : this(reactor, request, reactor.LocalEndpoint)
+            : this(reactor, request, reactor.Local)
         {
         }
 

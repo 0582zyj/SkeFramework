@@ -20,7 +20,7 @@ namespace SkeFramework.NetSerialPort.Bootstrap
         {
             var reactor = NewReactorInternal(listenAddress);
             reactor.Configure(Config);
-            reactor.LocalEndpoint = listenAddress;
+            reactor.Local = listenAddress;
             if (ReceivedData != null)
                 reactor.OnReceive += (ReceivedDataCallback)ReceivedData.Clone();
             return reactor;
@@ -29,7 +29,7 @@ namespace SkeFramework.NetSerialPort.Bootstrap
         {
             var reactor = NewReactorInternal(listenAddress);
             reactor.Configure(Config);
-            reactor.LocalEndpoint = listenAddress;
+            reactor.Local = listenAddress;
             if (ReceivedData != null)
                 reactor.OnReceive += (ReceivedDataCallback)ReceivedData.Clone();
             reactor.ConnectionAdapter = connection;

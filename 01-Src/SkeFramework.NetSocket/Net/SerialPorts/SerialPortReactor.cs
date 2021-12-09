@@ -76,11 +76,11 @@ namespace SkeFramework.NetSerialPort.Net.SerialPorts
         protected override void StartInternal()
         {
             var receiveState = CreateNetworkState(Listener, Node.Empty());
-            if (!SocketMap.ContainsKey(this.LocalEndpoint.nodeConfig.ToString()))
+            if (!SocketMap.ContainsKey(this.Local.nodeConfig.ToString()))
             {
                 RefactorRequestChannel adapter;
-                adapter = new RefactorProxyRequestChannel(this, this.LocalEndpoint, "none");
-                SocketMap.Add(this.LocalEndpoint.nodeConfig.ToString(), adapter);
+                adapter = new RefactorProxyRequestChannel(this, this.Local, "none");
+                SocketMap.Add(this.Local.nodeConfig.ToString(), adapter);
             }
             ListenerSocket.DataReceived += new SerialDataReceivedEventHandler(PortDataReceived);
             ListenerSocket.Open();

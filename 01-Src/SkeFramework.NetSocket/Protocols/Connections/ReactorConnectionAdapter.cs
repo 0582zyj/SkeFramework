@@ -51,7 +51,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
             connectionDocker = new ConnectionDocker();
             taskDocker = new TaskManager(this);
             networkDataDocker = new NetworkDataDocker();
-            RemoteHost = reactor.LocalEndpoint; 
+            RemoteHost = reactor.Local; 
             this.protocolEvents = new WaitHandle[3];
             this.protocolEvents[(int)ProtocolEvents.ProtocolExit] = new ManualResetEvent(false);
             this.protocolEvents[(int)ProtocolEvents.PortReceivedData] = new AutoResetEvent(false);
@@ -92,7 +92,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
         /// </summary>
         public INode Local
         {
-            get { return _reactor.LocalEndpoint; }
+            get { return _reactor.Local; }
         }
         /// <summary>
         /// 过期时间
@@ -246,14 +246,14 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
 
         public void Send(byte[] buffer, int index, int length)
         {
-            this.Send(buffer, index, length, _reactor.LocalEndpoint);
+            this.Send(buffer, index, length, _reactor.Local);
         }
 
         public void Send(byte[] buffer, int index, int length, INode destination)
         {
             if (destination == null)
             {
-                destination = this._reactor.LocalEndpoint;
+                destination = this._reactor.Local;
             }
             _reactor.Send(buffer, index, length, destination);
         }

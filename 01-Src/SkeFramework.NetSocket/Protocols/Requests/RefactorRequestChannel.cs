@@ -46,7 +46,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// <summary>
         /// 通信基类
         /// </summary>
-        private readonly ReactorBase _reactor;
+        protected readonly ReactorBase _reactor;
         /// <summary>
         /// 协议发送监听器
         /// </summary>
@@ -61,7 +61,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         protected DateTime LastActiveTime;
         #region 构造函数
         protected RefactorRequestChannel(ReactorBase reactor, string controlCode)
-            : this(reactor, reactor.LocalEndpoint, controlCode)
+            : this(reactor, reactor.Local, controlCode)
         {
         }
         protected RefactorRequestChannel(ReactorBase reactor, INode node,string controlCode)
@@ -70,8 +70,8 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             Decoder = _reactor.Decoder.Clone();
             Encoder = _reactor.Encoder.Clone();
             Allocator = _reactor.Allocator;
-            Local = reactor.LocalEndpoint;
-            RemoteHost = node == null ? reactor.LocalEndpoint.Clone() as INode : node;
+            Local = reactor.Local;
+            RemoteHost = node == null ? reactor.Local.Clone() as INode : node;
             this.Created = DateTime.Now;
             this.LastActiveTime = DateTime.Now;
             Dead = false;
@@ -234,7 +234,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         {
             if (destination == null)
             {
-                destination = this._reactor.LocalEndpoint;
+                destination = this._reactor.Local;
             }
             NetworkData data = NetworkData.Create(destination, buffer, length);
             this.Send(data);

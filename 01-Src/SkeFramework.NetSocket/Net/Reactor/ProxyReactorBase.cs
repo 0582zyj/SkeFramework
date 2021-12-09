@@ -29,7 +29,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
             : base(nodeConfig, encoder, decoder, allocator, bufferSize)
         {
             BufferSize = bufferSize;
-            networkState = CreateNetworkState(Listener, this.LocalEndpoint, allocator.Buffer(bufferSize), bufferSize);
+            networkState = CreateNetworkState(Listener, this.Local, allocator.Buffer(bufferSize), bufferSize);
         }
 
         /// <summary>

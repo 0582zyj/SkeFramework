@@ -72,7 +72,7 @@ namespace SkeFramework.NetSerialPort.Net.Reactor
         /// <summary>
         /// 本地连接
         /// </summary>
-        INode LocalEndpoint { get; }
+        INode Local { get; }
         /// <summary>
         /// 连接参数配置
         /// </summary>
