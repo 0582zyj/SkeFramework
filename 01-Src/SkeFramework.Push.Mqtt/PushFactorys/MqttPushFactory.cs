@@ -11,14 +11,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.Core.NetLog;
+using SkeFramework.Push.Core.Bootstrap.Factorys;
+using SkeFramework.Push.Mqtt.Brokers;
+using SkeFramework.Push.Core.Services.Brokers;
+using MQTTnet.Core.Client;
 
 namespace SkeFramework.Push.Mqtt.PushFactorys
 {
     /// <summary>
     /// MQTT客户端推送链接工厂
     /// </summary>
-    public class MqttPushFactory : PushConnectionFactoryBase<TopicNotification>
+    public class MqttPushFactory : PushServerFactoryBase<MqttClient, TopicNotification>
     {
+        /// <summary>
+        /// 创建一个反应堆
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        protected override PushBroker<MqttClient, TopicNotification> NewPushBrokerInternal(IConnectionConfig config)
+        {
+            return new MqttClientBroker(this);
+        }
         /// <summary>
         /// 创建一个推送链接
         /// </summary>

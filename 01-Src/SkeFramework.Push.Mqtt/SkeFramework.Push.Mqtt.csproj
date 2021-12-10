@@ -56,8 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrap\PushBootstrap.cs" />
+    <Compile Include="Bootstrap\MqttPushBootstrap.cs" />
     <Compile Include="DataEntities\Constants\MqttClientType.cs" />
+    <Compile Include="DataEntities\Constants\MqttQualityLevel.cs" />
     <Compile Include="Reactor\Brokers\MqttClientBroker.cs" />
     <Compile Include="Reactor\Connection\PublishPushConnection.cs" />
     <Compile Include="Reactor\Connection\SubscriberPushConnection.cs" />

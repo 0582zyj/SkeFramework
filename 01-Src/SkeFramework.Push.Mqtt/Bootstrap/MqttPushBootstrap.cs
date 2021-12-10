@@ -19,7 +19,7 @@ namespace SkeFramework.Push.Mqtt.Bootstrap
     /// <summary>
     /// 推送引导程序
     /// </summary>
-    public class PushBootstrap: AbstractBootstrap 
+    public class MqttPushBootstrap : AbstractBootstrap
     {
 
         /// <summary>
@@ -27,9 +27,9 @@ namespace SkeFramework.Push.Mqtt.Bootstrap
         /// </summary>
         private MqttClientType PushType = MqttClientType.None;
 
-        public PushBootstrap()
+        public MqttPushBootstrap()
         {
-            this.connectionConfig = new DefaultConnectionConfig();
+            this.config = new DefaultConnectionConfig();
         }
 
         #region 引导程序参数设置
@@ -38,7 +38,7 @@ namespace SkeFramework.Push.Mqtt.Bootstrap
         /// </summary>
         /// <param name="pushType"></param>
         /// <returns></returns>
-        public PushBootstrap SetPushType(MqttClientType mqttClientType)
+        public MqttPushBootstrap SetPushType(MqttClientType mqttClientType)
         {
             PushType = mqttClientType;
             return this;
@@ -48,48 +48,48 @@ namespace SkeFramework.Push.Mqtt.Bootstrap
         /// 设置客户端ID
         /// </summary>
         /// <returns></returns>
-        public PushBootstrap SetClientId(string ClientId)
+        public MqttPushBootstrap SetClientId(string ClientId)
         {
-            this.connectionConfig.SetOption(MqttClientOptionKey.ClientId, ClientId);
+            this.config.SetOption(MqttClientOptionKey.ClientId, ClientId);
             return this;
         }
         /// <summary>
         /// 设置服务器地址
         /// </summary>
         /// <returns></returns>
-        public PushBootstrap SetTcpServer(string tcpServer)
+        public MqttPushBootstrap SetTcpServer(string tcpServer)
         {
-            this.connectionConfig.SetOption(MqttClientOptionKey.tcpServer, tcpServer);
+            this.config.SetOption(MqttClientOptionKey.tcpServer, tcpServer);
             return this;
         }
         /// <summary>
         /// 设置端口
         /// </summary>
         /// <returns></returns>
-        public PushBootstrap SetTcpPort(string tcpPort)
+        public MqttPushBootstrap SetTcpPort(string tcpPort)
         {
-            this.connectionConfig.SetOption(MqttClientOptionKey.tcpPort, tcpPort);
+            this.config.SetOption(MqttClientOptionKey.tcpPort, tcpPort);
             return this;
         }
         /// <summary>
         /// 设置用户名
         /// </summary>
         /// <returns></returns>
-        public PushBootstrap SetMqttUser(string mqttUser)
+        public MqttPushBootstrap SetMqttUser(string mqttUser)
         {
-            this.connectionConfig.SetOption(MqttClientOptionKey.mqttUser, mqttUser);
+            this.config.SetOption(MqttClientOptionKey.mqttUser, mqttUser);
             return this;
         }
         /// <summary>
         /// 设置密码
         /// </summary>
         /// <returns></returns>
-        public PushBootstrap SetMqttPassword(string mqttPassword)
+        public MqttPushBootstrap SetMqttPassword(string mqttPassword)
         {
-            this.connectionConfig.SetOption(MqttClientOptionKey.mqttPassword, mqttPassword);
+            this.config.SetOption(MqttClientOptionKey.mqttPassword, mqttPassword);
             return this;
         }
-        
+
         #endregion
 
         #region 服务端和链接设置
@@ -104,38 +104,18 @@ namespace SkeFramework.Push.Mqtt.Bootstrap
             }
         }
         /// <summary>
-        /// 创建服务端具体实现
-        /// </summary>
-        /// <typeparam name="IPushBroker"></typeparam>
-        /// <typeparam name="TNotification"></typeparam>
-        /// <returns></returns>
-        protected override IPushBroker GetDataHandleCommon<IPushBroker, TNotification>()
-        {
-            switch (PushType)
-            {
-                case MqttClientType.Client:
-                    return new MqttClientBroker(BuildPushConnectionFactory()) as IPushBroker;
-            }
-            return base.GetDataHandleCommon<IPushBroker, TNotification>();
-        }
-        /// <summary>
         /// 创建服务端链接
         /// </summary>
         /// <typeparam name="TNotification"></typeparam>
         /// <returns></returns>
-        public  IPushConnectionFactory<TopicNotification> BuildPushConnectionFactory()
+        public override IPushServerFactory<TopicNotification> BuildPushServerFactory<TopicNotification>()
         {
-            var dataType = typeof(TopicNotification);
-            if (IsSubclassOf(typeof(TopicNotification), dataType))
+            var dataType = typeof(DataEntities.TopicNotification);
+            if (IsSubclassOf(typeof(DataEntities.TopicNotification), dataType))
             {
-                return new MqttPushFactory();
+                return new MqttPushFactory() as IPushServerFactory<TopicNotification>;
             }
             return null;
-        }
-
-        public override IPushServerFactory<TData> BuildPushServerFactory<TData>()
-        {
-            throw new NotImplementedException();
         }
         #endregion
 

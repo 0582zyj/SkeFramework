@@ -26,7 +26,7 @@ namespace SkeFramework.Push.WebSocket.PushServices.Bootstrap
 
         public PushBootstrap()
         {
-            this.connectionConfig = new DefaultConnectionConfig();
+            this.config = new DefaultConnectionConfig();
         }
 
         #region 引导程序参数设置
@@ -53,21 +53,21 @@ namespace SkeFramework.Push.WebSocket.PushServices.Bootstrap
                 throw new ArgumentException("Can't be none", "PushType");
             }
         }
-        /// <summary>
-        /// 创建服务端具体实现
-        /// </summary>
-        /// <typeparam name="IPushBroker"></typeparam>
-        /// <typeparam name="TNotification"></typeparam>
-        /// <returns></returns>
-        protected override IPushBroker GetDataHandleCommon<IPushBroker, TNotification>()
-        {
-            switch (PushType)
-            {
-                case PushTypeEumns.WebSocket:
-                    return new WebSocketPushBroker(BuildPushServerFactory<WebSocketNotifications>()) as IPushBroker;
-            }
-            return base.GetDataHandleCommon<IPushBroker, TNotification>();
-        }
+        ///// <summary>
+        ///// 创建服务端具体实现
+        ///// </summary>
+        ///// <typeparam name="IPushBroker"></typeparam>
+        ///// <typeparam name="TNotification"></typeparam>
+        ///// <returns></returns>
+        //protected override IPushBroker GetDataHandleCommon<IPushBroker, TNotification>()
+        //{
+        //    switch (PushType)
+        //    {
+        //        case PushTypeEumns.WebSocket:
+        //            return new WebSocketPushBroker(BuildPushServerFactory<WebSocketNotifications>()) as IPushBroker;
+        //    }
+        //    return base.GetDataHandleCommon<IPushBroker, TNotification>();
+        //}
         /// <summary>
         /// 创建服务端链接
         /// </summary>

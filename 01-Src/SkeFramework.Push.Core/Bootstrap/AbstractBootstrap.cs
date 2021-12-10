@@ -18,9 +18,9 @@ namespace SkeFramework.Push.Core.Bootstrap
         /// <summary>
         /// 数据工厂实例延迟绑定，由应用层进行操作
         /// </summary>
-        private static AbstractBootstrap _staticInstance = null;
+        private static IPushServerFactory<INotification> _staticInstance = null;
 
-        public static void SetDataHandleFactory(AbstractBootstrap factory)
+        public static void SetDataHandleFactory(IPushServerFactory<INotification> factory)
         {
             _staticInstance = factory;
         }
@@ -32,7 +32,7 @@ namespace SkeFramework.Push.Core.Bootstrap
         /// <summary>
         /// 连接配置
         /// </summary>
-        protected IConnectionConfig connectionConfig;
+        protected IConnectionConfig config;
 
         #region 引导程序参数设置
         /// <summary>
@@ -42,7 +42,7 @@ namespace SkeFramework.Push.Core.Bootstrap
         /// <returns></returns>
         public AbstractBootstrap SetConfig(IConnectionConfig config)
         {
-            connectionConfig = config;
+            this.config = config;
             return this;
         }
         /// <summary>
@@ -50,7 +50,7 @@ namespace SkeFramework.Push.Core.Bootstrap
         /// </summary>
         public IConnectionConfig GetConfig()
         {
-            return this.connectionConfig;
+            return this.config;
         }
         /// <summary>
         /// 设置初始工作线程
@@ -61,7 +61,7 @@ namespace SkeFramework.Push.Core.Bootstrap
         {
             if (workerThreadCount < 1) throw new ArgumentException("Can't be below 1", "workerThreadCount");
             Workers = workerThreadCount;
-            connectionConfig.SetOption(DefaultConfigTypeEumns.Workers.ToString(), Workers);
+            config.SetOption(DefaultConfigTypeEumns.Workers.ToString(), Workers);
             return this;
         }
         #endregion
@@ -79,19 +79,11 @@ namespace SkeFramework.Push.Core.Bootstrap
             where TData : INotification, new()
         {
             Validate();
-            return GetDataHandleCommon<THandle, TData>();
-        }
-        /// <summary>
-        /// 服务端生成由应用层实现
-        /// </summary>
-        /// <typeparam name="THandle"></typeparam>
-        /// <typeparam name="TData"></typeparam>
-        /// <returns></returns>
-        protected virtual THandle GetDataHandleCommon<THandle, TData>()
-            where THandle : class, IPushBroker<TData>
-            where TData : INotification, new()
-        {
-            return default(THandle);
+            if (_staticInstance != null)
+            {
+              return  _staticInstance.NewPushBroker(this.config) as THandle;
+            }
+            return BuildPushServerFactory<TData>().NewPushBroker(this.config) as THandle;
         }
 
         protected bool IsSubclassOf(Type parentType, Type childType)
@@ -106,17 +98,8 @@ namespace SkeFramework.Push.Core.Bootstrap
         /// 数据工厂生成接口
         /// </summary>
         /// <typeparam name="TData"></typeparam>
-        /// <param name="tableName"></param>
-        /// <param name="controlerManager"></param>
         /// <returns></returns>
         public abstract IPushServerFactory<TData> BuildPushServerFactory<TData>() where TData : INotification, new();
         #endregion
-
-
-            
-
-
-        
-      
     }
 }

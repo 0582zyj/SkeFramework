@@ -34,12 +34,12 @@ namespace SkeFramework.Push.Mqtt
         /// <summary>
         /// 协议管理器
         /// </summary>
-        private static MqttClientProxyAgent mSingleInstance;
+        protected static MqttClientProxyAgent mSingleInstance;
         /// <summary>
         /// 单例模式
         /// </summary>
         /// <returns></returns>
-        public static MqttClientProxyAgent Instance()
+        public  static MqttClientProxyAgent Instance()
         {
             if (null == mSingleInstance)
             {
@@ -63,12 +63,19 @@ namespace SkeFramework.Push.Mqtt
         private IChannelPromise channelListenser = new DefaultChannelPromise();
 
         #region 开启和停止
-
-        public void ClientStart(string ClientId, string tcpServer, int tcpPort, string mqttUser, string mqttPassword)
+        /// <summary>
+        /// 启动客户端连接
+        /// </summary>
+        /// <param name="ClientId"></param>
+        /// <param name="tcpServer"></param>
+        /// <param name="tcpPort"></param>
+        /// <param name="mqttUser"></param>
+        /// <param name="mqttPassword"></param>
+        public virtual void ClientStart(string ClientId, string tcpServer, int tcpPort, string mqttUser, string mqttPassword)
         {
             try
             {
-                PushBootstrap bootstrap = new PushBootstrap()
+                MqttPushBootstrap bootstrap = new MqttPushBootstrap()
                     .SetPushType(MqttClientType.Client)
                     .SetClientId(ClientId)
                     .SetTcpServer(tcpServer)
@@ -85,7 +92,10 @@ namespace SkeFramework.Push.Mqtt
                 LogAgent.Error($"客户端建立连接...>{ex.ToString()}");
             }
         }
-        public void ClientStop()
+        /// <summary>
+        /// 关闭客户端
+        /// </summary>
+        public virtual void ClientStop()
         {
             try
             {
@@ -106,18 +116,18 @@ namespace SkeFramework.Push.Mqtt
         /// </summary>
         /// <param name="topic"></param>
         /// <param name="payload"></param>
-        public void ClientPublishMqttTopic(string topic, string payload)
+        public void ClientPublishMqttTopic(string topic, string payload, MqttQualityLevel serviceLevel = MqttQualityLevel.AtLeastOnce, bool retain=true)
         {
-            TopicNotification topicNotification = new TopicNotification(MqttClientOptionKey.Publish, topic, payload);
+            TopicNotification topicNotification = new TopicNotification(MqttClientOptionKey.Publish, topic, payload, serviceLevel,retain);
             defaultWorkDocker.OnReceivedDataPoint(topicNotification, topic);
         }
         /// <summary>
         /// 订阅主题消息
         /// </summary>
         /// <param name="topic"></param>
-        public void ClientSubscribeTopic(string topic)
+        public void ClientSubscribeTopic(string topic, MqttQualityLevel serviceLevel= MqttQualityLevel.AtLeastOnce)
         {
-            TopicNotification topicNotification = new TopicNotification(MqttClientOptionKey.Subscriber, topic, "");
+            TopicNotification topicNotification = new TopicNotification(MqttClientOptionKey.Subscriber, topic, "",  serviceLevel);
             defaultWorkDocker.OnReceivedDataPoint(topicNotification, MqttClientOptionKey.Subscriber);
         }
         /// <summary>
@@ -137,7 +147,7 @@ namespace SkeFramework.Push.Mqtt
         /// </summary>
         /// <param name="networkData"></param>
         /// <param name="requestChannel"></param>
-        public void DataPointListener_Send(TopicNotification networkData, PushConnectionAbstract<TopicNotification> requestChannel)
+        public virtual void DataPointListener_Send(TopicNotification networkData, PushConnectionAbstract<TopicNotification> requestChannel)
         {
          
         }
@@ -146,7 +156,7 @@ namespace SkeFramework.Push.Mqtt
         /// </summary>
         /// <param name="incomingData"></param>
         /// <param name="responseChannel"></param>
-        public void DataPointListener_Receive(TopicNotification incomingData, PushConnectionAbstract<TopicNotification> responseChannel)
+        public virtual void DataPointListener_Receive(TopicNotification incomingData, PushConnectionAbstract<TopicNotification> responseChannel)
         {
             channelListenser.OnReceivedDataPoint(incomingData, "");
         }
@@ -154,7 +164,7 @@ namespace SkeFramework.Push.Mqtt
         /// 添加一个监听者
         /// </summary>
         /// <param name="listener"></param>
-        public void AddDataPointListener(IChannelListener listener)
+        public virtual void AddDataPointListener(IChannelListener listener)
         {
             channelListenser.AddDataPointListener(listener);
         }
@@ -162,7 +172,7 @@ namespace SkeFramework.Push.Mqtt
         /// 移除一个监听者
         /// </summary>
         /// <param name="listener"></param>
-        public void RemoveDataPointListener(IChannelListener listener)
+        public virtual void RemoveDataPointListener(IChannelListener listener)
         {
             channelListenser.RemoveDataPointListener(listener);
         }

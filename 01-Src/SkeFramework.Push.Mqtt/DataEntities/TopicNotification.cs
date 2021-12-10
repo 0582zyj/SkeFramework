@@ -1,6 +1,7 @@
 ﻿using MQTTnet.Core;
 using MQTTnet.Core.Protocol;
 using SkeFramework.Push.Core.Interfaces;
+using SkeFramework.Push.Mqtt.DataEntities.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace SkeFramework.Push.Mqtt.DataEntities
         /// <summary>
         /// 消息质量级别
         /// </summary>
-        public MqttQualityOfServiceLevel QualityOfServiceLevel { get; set; }
+        public MqttQualityLevel QualityOfServiceLevel { get; set; }
         /// <summary>
         /// 是否保留
         /// </summary>
@@ -52,12 +53,16 @@ namespace SkeFramework.Push.Mqtt.DataEntities
         }
 
         public TopicNotification(string tag, string topic, string message)
-            :this( tag,  topic,  message, MqttQualityOfServiceLevel.AtLeastOnce,true)
+            :this( tag,  topic,  message, MqttQualityLevel.AtLeastOnce,true)
         {
          
         }
+        public TopicNotification(string tag, string topic, string message, MqttQualityLevel serviceLevel)
+          : this(tag, topic, message, serviceLevel, true)
+        {
 
-        public TopicNotification(string tag ,string topic, string message,MqttQualityOfServiceLevel serviceLevel,bool retain)
+        }
+        public TopicNotification(string tag ,string topic, string message, MqttQualityLevel serviceLevel,bool retain)
         {
             this.Tag = tag;
             this.Topic = topic;

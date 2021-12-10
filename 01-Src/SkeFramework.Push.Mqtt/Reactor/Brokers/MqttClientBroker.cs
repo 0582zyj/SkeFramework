@@ -173,11 +173,12 @@ namespace SkeFramework.Push.Mqtt.Brokers
         /// </summary>
         /// <param name="topic"></param>
         /// <param name="payload"></param>
-        public async Task ClientPublishMqttTopic(string topic, string payload, MqttQualityOfServiceLevel serviceLevel, bool retain)
+        public async Task ClientPublishMqttTopic(string topic, string payload, MqttQualityLevel serviceLevel, bool retain)
         {
             try
             {
-                var message = new MqttApplicationMessage(topic, Encoding.UTF8.GetBytes(payload), serviceLevel, retain);
+                MqttQualityOfServiceLevel mqttQualityOfServiceLevel = (MqttQualityOfServiceLevel)Enum.ToObject(typeof(MqttQualityOfServiceLevel), (int)serviceLevel);
+                var message = new MqttApplicationMessage(topic, Encoding.UTF8.GetBytes(payload), mqttQualityOfServiceLevel, retain);
                 LogAgent.Info(string.Format("客户端[{0}]发布主题[{1}]消息[{2}]成功！", options.ClientId, topic,payload));
                 await this.refactor.PublishAsync(message);
             }
@@ -190,13 +191,14 @@ namespace SkeFramework.Push.Mqtt.Brokers
         /// 订阅Topic
         /// </summary>
         /// <param name="topic"></param>
-        public async Task<IList<MqttSubscribeResult>> ClientSubscribeTopic(string topic, MqttQualityOfServiceLevel serviceLevel)
+        public async Task<IList<MqttSubscribeResult>> ClientSubscribeTopic(string topic, MqttQualityLevel serviceLevel)
         {
             try
             {
+                MqttQualityOfServiceLevel mqttQualityOfServiceLevel = (MqttQualityOfServiceLevel)Enum.ToObject(typeof(MqttQualityOfServiceLevel), (int)serviceLevel);
                 List<TopicFilter> topicFilters = new List<TopicFilter>()
                 {
-                    new TopicFilter(topic,serviceLevel),
+                    new TopicFilter(topic,mqttQualityOfServiceLevel),
                 };
                 LogAgent.Info(string.Format("客户端[{0}]订阅主题[{1}]成功！", this.options.ClientId, topic));
                 return await this.refactor.SubscribeAsync(topicFilters);

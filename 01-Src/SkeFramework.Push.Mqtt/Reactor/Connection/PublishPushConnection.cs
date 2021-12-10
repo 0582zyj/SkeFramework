@@ -35,7 +35,7 @@ namespace SkeFramework.Push.Mqtt.Connection
         {
             string topic = notification.Tag.ToString();
             string payload = notification.Message.ToString();
-            MqttQualityOfServiceLevel serviceLevel = notification.QualityOfServiceLevel;
+            MqttQualityLevel serviceLevel = notification.QualityOfServiceLevel;
             bool retain = notification.Retain;
             return ((MqttClientBroker)innerPushBroker).ClientPublishMqttTopic(topic, payload, serviceLevel, retain);
         }
