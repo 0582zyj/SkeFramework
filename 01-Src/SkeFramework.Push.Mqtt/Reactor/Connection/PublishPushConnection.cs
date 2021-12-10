@@ -18,7 +18,7 @@ namespace SkeFramework.Push.Mqtt.Connection
 {
 
     /// <summary>
-    /// 发布
+    /// 发布推送链接
     /// </summary>
     public class PublishPushConnection : PushConnectionAbstract<TopicNotification>, IPushConnection<TopicNotification>
     {
@@ -26,14 +26,24 @@ namespace SkeFramework.Push.Mqtt.Connection
         {
         }
 
-
+        /// <summary>
+        /// 发布消息
+        /// </summary>
+        /// <param name="notification"></param>
+        /// <returns></returns>
         public override Task Send(TopicNotification notification)
         {
             string topic = notification.Tag.ToString();
             string payload = notification.Message.ToString();
-            return ((MqttClientBroker)innerPushBroker).ClientPublishMqttTopic(topic, payload);
+            MqttQualityOfServiceLevel serviceLevel = notification.QualityOfServiceLevel;
+            bool retain = notification.Retain;
+            return ((MqttClientBroker)innerPushBroker).ClientPublishMqttTopic(topic, payload, serviceLevel, retain);
         }
-
+        /// <summary>
+        /// 接受消息处理
+        /// </summary>
+        /// <param name="datas"></param>
+        /// <param name="controlerId"></param>
         public override void OnReceivedDataPoint(INotification datas, string controlerId)
         {
             base.OnReceivedDataPoint(datas, controlerId);

@@ -173,11 +173,11 @@ namespace SkeFramework.Push.Mqtt.Brokers
         /// </summary>
         /// <param name="topic"></param>
         /// <param name="payload"></param>
-        public async Task ClientPublishMqttTopic(string topic, string payload)
+        public async Task ClientPublishMqttTopic(string topic, string payload, MqttQualityOfServiceLevel serviceLevel, bool retain)
         {
             try
             {
-                var message = new MqttApplicationMessage(topic, Encoding.UTF8.GetBytes(payload), MqttQualityOfServiceLevel.AtLeastOnce, true);
+                var message = new MqttApplicationMessage(topic, Encoding.UTF8.GetBytes(payload), serviceLevel, retain);
                 LogAgent.Info(string.Format("客户端[{0}]发布主题[{1}]消息[{2}]成功！", options.ClientId, topic,payload));
                 await this.refactor.PublishAsync(message);
             }
@@ -190,13 +190,13 @@ namespace SkeFramework.Push.Mqtt.Brokers
         /// 订阅Topic
         /// </summary>
         /// <param name="topic"></param>
-        public async Task<IList<MqttSubscribeResult>> ClientSubscribeTopic(string topic)
+        public async Task<IList<MqttSubscribeResult>> ClientSubscribeTopic(string topic, MqttQualityOfServiceLevel serviceLevel)
         {
             try
             {
                 List<TopicFilter> topicFilters = new List<TopicFilter>()
                 {
-                    new TopicFilter(topic,MqttQualityOfServiceLevel.AtLeastOnce),
+                    new TopicFilter(topic,serviceLevel),
                 };
                 LogAgent.Info(string.Format("客户端[{0}]订阅主题[{1}]成功！", this.options.ClientId, topic));
                 return await this.refactor.SubscribeAsync(topicFilters);

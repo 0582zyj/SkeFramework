@@ -101,18 +101,29 @@ namespace SkeFramework.Push.Mqtt
         #endregion
 
         #region 发布和订阅
+        /// <summary>
+        /// 发布主题
+        /// </summary>
+        /// <param name="topic"></param>
+        /// <param name="payload"></param>
         public void ClientPublishMqttTopic(string topic, string payload)
         {
             TopicNotification topicNotification = new TopicNotification(MqttClientOptionKey.Publish, topic, payload);
             defaultWorkDocker.OnReceivedDataPoint(topicNotification, topic);
         }
-
+        /// <summary>
+        /// 订阅主题消息
+        /// </summary>
+        /// <param name="topic"></param>
         public void ClientSubscribeTopic(string topic)
         {
             TopicNotification topicNotification = new TopicNotification(MqttClientOptionKey.Subscriber, topic, "");
             defaultWorkDocker.OnReceivedDataPoint(topicNotification, MqttClientOptionKey.Subscriber);
         }
-
+        /// <summary>
+        /// 取消主题订阅
+        /// </summary>
+        /// <param name="topic"></param>
         public async void ClientUnSubscribeTopic(string topic)
         {
             await pushBroker.ClientUnSubscribeTopic(topic);
@@ -120,12 +131,21 @@ namespace SkeFramework.Push.Mqtt
         #endregion
 
 
-
         #region 界面消息监听处理
+        /// <summary>
+        /// 发送数据监听器
+        /// </summary>
+        /// <param name="networkData"></param>
+        /// <param name="requestChannel"></param>
         public void DataPointListener_Send(TopicNotification networkData, PushConnectionAbstract<TopicNotification> requestChannel)
         {
          
         }
+        /// <summary>
+        /// 接收数据监听器
+        /// </summary>
+        /// <param name="incomingData"></param>
+        /// <param name="responseChannel"></param>
         public void DataPointListener_Receive(TopicNotification incomingData, PushConnectionAbstract<TopicNotification> responseChannel)
         {
             channelListenser.OnReceivedDataPoint(incomingData, "");

@@ -1,4 +1,5 @@
 ﻿using MQTTnet.Core;
+using MQTTnet.Core.Protocol;
 using SkeFramework.Push.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,14 @@ namespace SkeFramework.Push.Mqtt.DataEntities
         /// 主题
         /// </summary>
         public string Topic { get; set; }
+        /// <summary>
+        /// 消息质量级别
+        /// </summary>
+        public MqttQualityOfServiceLevel QualityOfServiceLevel { get; set; }
+        /// <summary>
+        /// 是否保留
+        /// </summary>
+        public bool Retain { get; set; }
 
 
         public bool IsDeviceRegistrationIdValid()
@@ -42,11 +51,19 @@ namespace SkeFramework.Push.Mqtt.DataEntities
             mqttApplicationMessage = mqttMessage;
         }
 
-        public TopicNotification(string tag ,string topic, string message)
+        public TopicNotification(string tag, string topic, string message)
+            :this( tag,  topic,  message, MqttQualityOfServiceLevel.AtLeastOnce,true)
+        {
+         
+        }
+
+        public TopicNotification(string tag ,string topic, string message,MqttQualityOfServiceLevel serviceLevel,bool retain)
         {
             this.Tag = tag;
             this.Topic = topic;
             this.Message = message;
+            this.QualityOfServiceLevel = serviceLevel;
+            this.Retain = retain;
         }
     }
 }

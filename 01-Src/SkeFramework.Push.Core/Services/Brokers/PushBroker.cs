@@ -129,7 +129,11 @@ namespace SkeFramework.Push.Core.Services.Brokers
         {
             OnConnection?.Invoke(notification);
         }
-
+        /// <summary>
+        /// 获取推送反应堆
+        /// </summary>
+        /// <typeparam name="TRefactor1"></typeparam>
+        /// <returns></returns>
         public virtual TRefactor1 GetRefactorBroker<TRefactor1>() where TRefactor1 : class
         {
             if (this.refactor is TRefactor1)

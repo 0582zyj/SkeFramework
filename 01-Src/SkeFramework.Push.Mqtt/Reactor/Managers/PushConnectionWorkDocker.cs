@@ -50,7 +50,6 @@ namespace SkeFramework.Push.Mqtt.Reactor.Managers
             config.SetOption(MqttClientOptionKey.TaskId, taskId);
             config.SetOption(DefaultConnectionConfig.data, datas);
             this.AddServiceWorkerAdapter(config);
-           
         }
     }
 }
