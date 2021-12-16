@@ -12,7 +12,8 @@ namespace SkeFramework.Push.Core.Bootstrap
     /// <summary>
     /// 推送服务端
     /// </summary>
-    public interface IPushServerFactory<TNotification> : IPushConnectionFactory<TNotification> where TNotification:INotification
+    public interface IPushServerFactory<TNotification> : IPushConnectionFactory<TNotification> 
+        where TNotification:INotification
     {
         /// <summary>
         /// 对象生成器

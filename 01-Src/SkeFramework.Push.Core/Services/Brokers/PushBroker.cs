@@ -52,6 +52,10 @@ namespace SkeFramework.Push.Core.Services.Brokers
         /// </summary>
         protected WorkDocker<TNotification> WorkDocker;
         /// <summary>
+        /// 默认链接处理标识
+        /// </summary>
+        protected IConnectionConfig defaultConfig;
+        /// <summary>
         /// 是否运行
         /// </summary>
         private bool running;
@@ -59,6 +63,11 @@ namespace SkeFramework.Push.Core.Services.Brokers
         /// 默认工作线程数
         /// </summary>
         public int DefaultWorks;
+        /// <summary>
+        /// 推送端标识
+        /// </summary>
+        public string brokerId { get; protected set; }
+     
 
         #region 启动和关闭
         /// <summary>
@@ -77,7 +86,7 @@ namespace SkeFramework.Push.Core.Services.Brokers
             running = true;
             if (this.WorkDocker == null)
             {
-                WorkDocker = new WorkDocker<TNotification>(this, ServiceConnectionFactory);
+                WorkDocker = new WorkDocker<TNotification>(this, ServiceConnectionFactory, defaultConfig);
             }
             WorkDocker.ChangeScale(1);
         }

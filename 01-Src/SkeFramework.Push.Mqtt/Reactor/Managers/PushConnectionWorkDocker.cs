@@ -2,6 +2,7 @@
 using SkeFramework.Core.Push.Interfaces;
 using SkeFramework.Push.Core.Bootstrap;
 using SkeFramework.Push.Core.Configs;
+using SkeFramework.Push.Core.Constants;
 using SkeFramework.Push.Core.Interfaces;
 using SkeFramework.Push.Core.Listenser.ChannelListensers;
 using SkeFramework.Push.Core.Listenser.Interfaces;
@@ -23,8 +24,8 @@ namespace SkeFramework.Push.Mqtt.Reactor.Managers
     public class PushConnectionWorkDocker : WorkDocker<TopicNotification>, IChannelListener
     {
 
-        public PushConnectionWorkDocker(IPushBroker<TopicNotification> broker, IPushConnectionFactory<TopicNotification> connectionFactory)
-            : base(broker, connectionFactory)
+        public PushConnectionWorkDocker(IPushBroker<TopicNotification> broker, IPushConnectionFactory<TopicNotification> connectionFactory, IConnectionConfig defaultConfig)
+            : base(broker, connectionFactory, defaultConfig)
         {
         }
 
@@ -47,8 +48,8 @@ namespace SkeFramework.Push.Mqtt.Reactor.Managers
             }
             TopicNotification topic = (TopicNotification)datas;
             IConnectionConfig config = new DefaultConnectionConfig();
-            config.SetOption(MqttClientOptionKey.TaskId, taskId);
-            config.SetOption(DefaultConnectionConfig.data, datas);
+            config.SetOption(DefaultConfigTypeEumns.ConnectionTag.ToString(), taskId);
+            config.SetOption(DefaultConfigTypeEumns.ResultData.ToString(), datas);
             this.AddServiceWorkerAdapter(config);
         }
     }

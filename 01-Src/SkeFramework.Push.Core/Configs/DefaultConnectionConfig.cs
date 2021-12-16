@@ -12,10 +12,6 @@ namespace SkeFramework.Push.Core.Configs
     public class DefaultConnectionConfig : IConnectionConfig
     {
         /// <summary>
-        /// 内容key
-        /// </summary>
-        public const string data = "data";
-        /// <summary>
         /// 值列表
         /// </summary>
         private readonly Dictionary<string, object> _options = new Dictionary<string, object>();

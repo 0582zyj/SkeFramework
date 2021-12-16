@@ -22,6 +22,10 @@ namespace SkeFramework.Push.Mqtt.Connection
     /// </summary>
     public class PublishPushConnection : PushConnectionAbstract<TopicNotification>, IPushConnection<TopicNotification>
     {
+
+        public PublishPushConnection(IPushBroker<TopicNotification> pushBroker,string connectionTag) : base(pushBroker, connectionTag)
+        {
+        }
         public PublishPushConnection(IPushBroker<TopicNotification> pushBroker):base(pushBroker, MqttClientOptionKey.Publish)
         {
         }

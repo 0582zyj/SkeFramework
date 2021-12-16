@@ -15,6 +15,7 @@ using SkeFramework.Push.Core.Bootstrap.Factorys;
 using SkeFramework.Push.Mqtt.Brokers;
 using SkeFramework.Push.Core.Services.Brokers;
 using MQTTnet.Core.Client;
+using SkeFramework.Push.Core.Constants;
 
 namespace SkeFramework.Push.Mqtt.PushFactorys
 {
@@ -40,9 +41,10 @@ namespace SkeFramework.Push.Mqtt.PushFactorys
         /// <returns></returns>
         protected override IPushConnection<TopicNotification> NewPushConnectionInternal(IPushBroker<TopicNotification> pushBroker, IConnectionConfig config)
         {
-            if (config==null|| !config.HasOption(MqttClientOptionKey.TaskId.ToString()))
+            string tag = DefaultConfigTypeEumns.ConnectionTag.ToString();
+            if (config==null|| !config.HasOption(tag))
                 return null;
-            string taskId = config.GetOption<string>(MqttClientOptionKey.TaskId);
+            string taskId = config.GetOption<string>(tag);
             switch (taskId)
             {
                 case MqttClientOptionKey.Publish:

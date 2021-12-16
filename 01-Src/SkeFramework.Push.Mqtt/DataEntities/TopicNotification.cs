@@ -1,5 +1,6 @@
 ﻿using MQTTnet.Core;
 using MQTTnet.Core.Protocol;
+using Newtonsoft.Json;
 using SkeFramework.Push.Core.Interfaces;
 using SkeFramework.Push.Mqtt.DataEntities.Constants;
 using System;
@@ -52,6 +53,12 @@ namespace SkeFramework.Push.Mqtt.DataEntities
             mqttApplicationMessage = mqttMessage;
         }
 
+        public TopicNotification(string tag)
+           : this(tag, tag, "", MqttQualityLevel.AtLeastOnce, true)
+        {
+
+        }
+
         public TopicNotification(string tag, string topic, string message)
             :this( tag,  topic,  message, MqttQualityLevel.AtLeastOnce,true)
         {
@@ -69,6 +76,11 @@ namespace SkeFramework.Push.Mqtt.DataEntities
             this.Message = message;
             this.QualityOfServiceLevel = serviceLevel;
             this.Retain = retain;
+        }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

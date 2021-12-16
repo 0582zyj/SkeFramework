@@ -2,6 +2,7 @@
 using SkeFramework.Core.Push.Interfaces;
 using SkeFramework.Push.Core.Bootstrap;
 using SkeFramework.Push.Core.Configs;
+using SkeFramework.Push.Core.Constants;
 using SkeFramework.Push.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -37,10 +38,16 @@ namespace SkeFramework.Push.Core.Services.Workers
         /// 推送工作线程数量
         /// </summary>
         public int ScaleSize { get; private set; }
-        public WorkDocker(IPushBroker<TNotification> broker, IPushConnectionFactory<TNotification> connectionFactory)
+        /// <summary>
+        /// 默认链接处理标识
+        /// </summary>
+        private readonly IConnectionConfig defaultConfig;
+
+        public WorkDocker(IPushBroker<TNotification> broker, IPushConnectionFactory<TNotification> connectionFactory, IConnectionConfig defaultConfig)
         {
             PushBroker = broker;
             ConnectionFactory = connectionFactory;
+            this.defaultConfig = defaultConfig;
             lockWorkers = new object();
             workers = new List<ServiceWorkerAdapter<TNotification>>();
             ScaleSize = 0;
@@ -69,7 +76,7 @@ namespace SkeFramework.Push.Core.Services.Workers
                 // Scale up
                 while (workers.Count < ScaleSize)
                 {
-                    ServiceWorkerAdapter<TNotification>  serviceWorker= AddServiceWorkerAdapter(new DefaultConnectionConfig());
+                    ServiceWorkerAdapter<TNotification>  serviceWorker= AddServiceWorkerAdapter(defaultConfig);
                     if (serviceWorker == null)
                     {
                         break;
@@ -106,7 +113,12 @@ namespace SkeFramework.Push.Core.Services.Workers
         /// <returns></returns>
         public ServiceWorkerAdapter<TNotification> GetServiceWorkerAdapter()
         {
-            ServiceWorkerAdapter<TNotification> serviceWorker= workers.Find(o => o.IsCompleted == true);
+            if (defaultConfig==null||!defaultConfig.HasOption(DefaultConfigTypeEumns.ConnectionTag.ToString()))
+            {
+                return null;
+            }
+            string tag = defaultConfig.GetOption(DefaultConfigTypeEumns.ConnectionTag.ToString()).ToString();
+            ServiceWorkerAdapter<TNotification> serviceWorker= workers.Find(o => o.Connection != null && o.Connection.GetTag().Equals(tag)); ;
             if (serviceWorker != null)
                 return serviceWorker;
             return workers.FirstOrDefault();
@@ -121,7 +133,7 @@ namespace SkeFramework.Push.Core.Services.Workers
             ServiceWorkerAdapter<TNotification> serviceWorker = workers.Find(o => o.Connection!=null&& o.Connection.GetTag().Equals(taskId));
             if (serviceWorker != null)
                 return serviceWorker;
-            return null;
+            return null ;
         }
         /// <summary>
         /// 新增进程
@@ -135,9 +147,10 @@ namespace SkeFramework.Push.Core.Services.Workers
                 return null;
             }
             var worker = new ServiceWorkerAdapter<TNotification>(PushBroker, connection);
-            if (config.HasOption(DefaultConnectionConfig.data))
+            string ResultDataKey = DefaultConfigTypeEumns.ResultData.ToString();
+            if (config.HasOption(ResultDataKey))
             {
-                TNotification notification = config.GetOption<TNotification>(DefaultConnectionConfig.data);
+                TNotification notification = config.GetOption<TNotification>(ResultDataKey);
                 worker.QueueNotification(notification);
             }
             workers.Add(worker);

@@ -14,5 +14,10 @@ namespace SkeFramework.Push.Core.Constants
     {
         [Description("初始推送线程数")]
         Workers=1,
+        [Description("默认链接标识")]
+        ConnectionTag = 2,
+        [Description("推送消息体")]
+        ResultData = 3,
+        
     }
 }

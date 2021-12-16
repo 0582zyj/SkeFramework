@@ -62,6 +62,14 @@ namespace SkeFramework.Push.Mqtt.Brokers
                     mqttUser = config.GetOption(MqttClientOptionKey.mqttUser.ToString()).ToString();
                 if (config.HasOption(MqttClientOptionKey.mqttPassword.ToString()))
                     mqttPassword = config.GetOption(MqttClientOptionKey.mqttPassword.ToString()).ToString();
+                if (config.HasOption(MqttClientOptionKey.DefaultSubscriberConfig.ToString()))
+                {
+                    this.defaultConfig = config.GetOption<IConnectionConfig>(MqttClientOptionKey.DefaultSubscriberConfig.ToString());
+                }
+                else
+                {
+                    this.defaultConfig = new DefaultConnectionConfig();
+                }
                 var mqttFactory = new MqttClientFactory();
                 options = new MqttClientTcpOptions
                 {
@@ -86,13 +94,15 @@ namespace SkeFramework.Push.Mqtt.Brokers
                 this.refactor.Connected += MqttClient_Connected;
                 this.refactor.Disconnected += MqttClient_Disconnected;
                 this.refactor.ApplicationMessageReceived += MqttClient_ApplicationMessageReceived;
-
+                this.brokerId = ClientId;
             }
             catch (Exception ex)
             {
                 LogAgent.Info($"客户端尝试连接出错.>{ex.Message}");
             }
         }
+
+       
 
         #region 开启和停止
 
@@ -102,7 +112,7 @@ namespace SkeFramework.Push.Mqtt.Brokers
         protected override async void PushServerStart()
         {
             this.ServiceConnectionFactory.SetRelatedPushBroker(this);
-            this.WorkDocker = new PushConnectionWorkDocker(this, this.ServiceConnectionFactory);
+            this.WorkDocker = new PushConnectionWorkDocker(this, this.ServiceConnectionFactory,this.defaultConfig);
             LogAgent.Info($"客户端[{options.ClientId}]尝试连接...");
             await this.refactor.ConnectAsync(options);
         }
@@ -132,7 +142,6 @@ namespace SkeFramework.Push.Mqtt.Brokers
         /// <param name="e"></param>
         public void MqttClient_ApplicationMessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
         {
-
             string text = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
             string Topic = e.ApplicationMessage.Topic;
             string QoS = e.ApplicationMessage.QualityOfServiceLevel.ToString();
@@ -140,12 +149,16 @@ namespace SkeFramework.Push.Mqtt.Brokers
             LogAgent.Info("客户端[{options.ClientId}]尝试收到消息...>>>Topic:" + Topic + "; QoS: " + QoS + "; Retained: " + Retained + ";Msg: " + text);
             ServiceWorkerAdapter<TopicNotification> serviceWorker=  this.WorkDocker.GetServiceWorkerAdapter(Topic);
             if (serviceWorker == null)
-            {
-                return;
+            {//没有就交给默认订阅链接处理
+                serviceWorker = this.WorkDocker.GetServiceWorkerAdapter();
+                if (serviceWorker == null)
+                {
+                    return;
+                }
             }
-            string taskId = serviceWorker.Connection.GetTag();
-            TopicNotification topicNotification = new TopicNotification(taskId, Topic,text);
-            serviceWorker.Connection.OnReceivedDataPoint(topicNotification, taskId);
+            string connectionTag = serviceWorker.Connection.GetTag();
+            TopicNotification topicNotification = new TopicNotification(connectionTag, Topic,text);
+            serviceWorker.Connection.OnReceivedDataPoint(topicNotification, connectionTag);
         }
         /// <summary>
         /// 断开连接事件
@@ -164,6 +177,11 @@ namespace SkeFramework.Push.Mqtt.Brokers
         public void MqttClient_Connected(object sender, EventArgs e)
         {
             LogAgent.Info($"客户端[{options.ClientId}]成功连接");
+            TopicNotification topicNotification = new TopicNotification()
+            {
+                Tag = options.ClientId
+            };
+            this.RaiseNewConnection(topicNotification);
         }
         #endregion
 

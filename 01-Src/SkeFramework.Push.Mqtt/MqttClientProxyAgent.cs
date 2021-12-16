@@ -52,15 +52,15 @@ namespace SkeFramework.Push.Mqtt
         /// <summary>
         /// 通信基类
         /// </summary>
-        private MqttClientBroker pushBroker = null;
+        protected MqttClientBroker pushBroker = null;
         /// <summary>
         /// 默认工作线程
         /// </summary>
-        private PushConnectionWorkDocker defaultWorkDocker;
+        protected PushConnectionWorkDocker defaultWorkDocker;
         /// <summary>
         /// 协议监听容器
         /// </summary>
-        private IChannelPromise channelListenser = new DefaultChannelPromise();
+        protected IChannelPromise channelListenser = new DefaultChannelPromise();
 
         #region 开启和停止
         /// <summary>
@@ -81,7 +81,8 @@ namespace SkeFramework.Push.Mqtt
                     .SetTcpServer(tcpServer)
                     .SetTcpPort(tcpPort.ToString())
                     .SetMqttUser(mqttUser)
-                    .SetMqttPassword(mqttPassword);
+                    .SetMqttPassword(mqttPassword)
+                    .SetDefaultSubscriber();
                 this.pushBroker = bootstrap.BuildPushBroker<MqttClientBroker, TopicNotification>();
                 this.pushBroker.SetupParamOptions(bootstrap.GetConfig());
                 this.pushBroker.Start();
@@ -116,18 +117,20 @@ namespace SkeFramework.Push.Mqtt
         /// </summary>
         /// <param name="topic"></param>
         /// <param name="payload"></param>
-        public void ClientPublishMqttTopic(string topic, string payload, MqttQualityLevel serviceLevel = MqttQualityLevel.AtLeastOnce, bool retain=true)
+        public virtual void ClientPublishMqttTopic(string topic, string payload, MqttQualityLevel serviceLevel = MqttQualityLevel.AtLeastOnce, bool retain=true, bool isDefine = true)
         {
-            TopicNotification topicNotification = new TopicNotification(MqttClientOptionKey.Publish, topic, payload, serviceLevel,retain);
+            string connectionTag = isDefine ? MqttClientOptionKey.Publish : topic;
+            TopicNotification topicNotification = new TopicNotification(connectionTag, topic, payload, serviceLevel,retain);
             defaultWorkDocker.OnReceivedDataPoint(topicNotification, topic);
         }
         /// <summary>
         /// 订阅主题消息
         /// </summary>
         /// <param name="topic"></param>
-        public void ClientSubscribeTopic(string topic, MqttQualityLevel serviceLevel= MqttQualityLevel.AtLeastOnce)
+        public virtual void ClientSubscribeTopic(string topic, MqttQualityLevel serviceLevel= MqttQualityLevel.AtLeastOnce,bool isDefine=true)
         {
-            TopicNotification topicNotification = new TopicNotification(MqttClientOptionKey.Subscriber, topic, "",  serviceLevel);
+            string connectionTag = isDefine ? MqttClientOptionKey.Subscriber : topic;
+            TopicNotification topicNotification = new TopicNotification(connectionTag, topic, "",  serviceLevel);
             defaultWorkDocker.OnReceivedDataPoint(topicNotification, MqttClientOptionKey.Subscriber);
         }
         /// <summary>

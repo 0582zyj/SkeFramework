@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkeFramework.Push.Core.Constants;
 
 namespace SkeFramework.Push.Mqtt.Bootstrap
 {
@@ -90,6 +91,18 @@ namespace SkeFramework.Push.Mqtt.Bootstrap
             return this;
         }
 
+        /// <summary>
+        /// 设置默认订阅链接
+        /// </summary>
+        /// <returns></returns>
+        public MqttPushBootstrap SetDefaultSubscriber()
+        {
+            IConnectionConfig config = new DefaultConnectionConfig();
+            config.SetOption(DefaultConfigTypeEumns.ConnectionTag.ToString(), MqttClientOptionKey.Subscriber);
+            config.SetOption(DefaultConfigTypeEumns.ResultData.ToString(),new TopicNotification(MqttClientOptionKey.Subscriber.ToString()));
+            this.config.SetOption(MqttClientOptionKey.DefaultSubscriberConfig.ToString(), config);
+            return this;
+        }
         #endregion
 
         #region 服务端和链接设置

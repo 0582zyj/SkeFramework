@@ -33,9 +33,9 @@ namespace SkeFramework.Push.Mqtt.DataEntities.Constants
         #endregion
 
         /// <summary>
-        /// 发布任务KET
+        /// 默认订阅处理链接
         /// </summary>
-        public const string TaskId = "TaskId";
+        public const string DefaultSubscriberConfig = "DefaultSubscriberConfig";
         /// <summary>
         /// 发布任务KET
         /// </summary>
