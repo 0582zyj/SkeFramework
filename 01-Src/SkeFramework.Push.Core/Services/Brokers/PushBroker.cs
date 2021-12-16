@@ -66,8 +66,7 @@ namespace SkeFramework.Push.Core.Services.Brokers
         /// <summary>
         /// 推送端标识
         /// </summary>
-        public string brokerId { get; protected set; }
-     
+        protected string brokerId { get;  set; }
 
         #region 启动和关闭
         /// <summary>
@@ -158,6 +157,15 @@ namespace SkeFramework.Push.Core.Services.Brokers
         public virtual WorkDocker<TNotification> GetDefaultWorker()
         {
             return WorkDocker;
+        }
+
+        /// <summary>
+        /// 获取推送反应堆唯一标识
+        /// </summary>
+        /// <returns></returns>
+        public string GetPushBrokerId()
+        {
+            return this.brokerId;
         }
         #endregion
     }

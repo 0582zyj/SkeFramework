@@ -121,7 +121,7 @@ namespace SkeFramework.Push.Mqtt
         {
             string connectionTag = isDefine ? MqttClientOptionKey.Publish : topic;
             TopicNotification topicNotification = new TopicNotification(connectionTag, topic, payload, serviceLevel,retain);
-            defaultWorkDocker.OnReceivedDataPoint(topicNotification, topic);
+            defaultWorkDocker.OnReceivedDataPoint(topicNotification, connectionTag);
         }
         /// <summary>
         /// 订阅主题消息
@@ -131,7 +131,7 @@ namespace SkeFramework.Push.Mqtt
         {
             string connectionTag = isDefine ? MqttClientOptionKey.Subscriber : topic;
             TopicNotification topicNotification = new TopicNotification(connectionTag, topic, "",  serviceLevel);
-            defaultWorkDocker.OnReceivedDataPoint(topicNotification, MqttClientOptionKey.Subscriber);
+            defaultWorkDocker.OnReceivedDataPoint(topicNotification, connectionTag);
         }
         /// <summary>
         /// 取消主题订阅

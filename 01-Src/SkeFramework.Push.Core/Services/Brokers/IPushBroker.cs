@@ -51,7 +51,11 @@ namespace SkeFramework.Core.Push.Interfaces
         /// </summary>
         /// <param name="connectionConfig"></param>
         TRefactor GetRefactorBroker<TRefactor>() where TRefactor : class;
-
+        /// <summary>
+        /// 获取推送反应堆唯一标识
+        /// </summary>
+        /// <returns></returns>
+        string GetPushBrokerId();
 
     }
 }
