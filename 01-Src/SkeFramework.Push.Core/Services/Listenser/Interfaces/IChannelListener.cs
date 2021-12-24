@@ -16,6 +16,6 @@ namespace SkeFramework.Push.Core.Listenser.Interfaces
         /// </summary>
         /// <param name="datas"></param>
         /// <param name="taskId"></param>
-        void OnReceivedDataPoint(INotification datas, string taskId);
+        bool OnReceivedDataPoint(INotification datas, string taskId);
     }
 }

@@ -13,13 +13,14 @@ using System.Text;
 using System.Threading.Tasks;
 using SkeFramework.Push.Mqtt.DataEntities.Constants;
 using SkeFramework.Push.Mqtt.Brokers;
+using SkeFramework.Push.Mqtt.Reactor.Connection.Abstracts;
 
 namespace SkeFramework.Push.Mqtt.Connection
 {
     /// <summary>
     /// 订阅推送链接
     /// </summary>
-    public class SubscriberPushConnection : PushConnectionAbstract<TopicNotification>, IPushConnection<TopicNotification>
+    public class SubscriberPushConnection : PushConnectionProxy, IPushConnection<TopicNotification>
     {
 
         public SubscriberPushConnection(IPushBroker<TopicNotification> pushBroker,string connectionTag) : base(pushBroker, connectionTag)
@@ -38,14 +39,6 @@ namespace SkeFramework.Push.Mqtt.Connection
             string topic = notification.Topic.ToString();
             return ((MqttClientBroker)innerPushBroker).ClientSubscribeTopic(topic, notification.QualityOfServiceLevel);
         }
-        /// <summary>
-        /// 订阅消息处理
-        /// </summary>
-        /// <param name="datas"></param>
-        /// <param name="controlerId"></param>
-        public override void OnReceivedDataPoint(INotification datas, string controlerId)
-        {
-            base.OnReceivedDataPoint(datas, controlerId);
-        }
+      
     }
 }

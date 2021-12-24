@@ -58,17 +58,20 @@ namespace SkeFramework.Push.Core.Services
                         foreach (var n in this.TakeMany())
                         {
                             var t = Connection.Send(n);
-                            // Keep the continuation
-                            var cont = t.ContinueWith(ct => {
-                                var cn = n;
-                                var ex = t.Exception;
-                                if (ex == null)
-                                    Broker.RaiseNotificationSucceeded(cn);
-                                else
-                                    Broker.RaiseNotificationFailed(cn, ex);
-                            });
-                            // Let's wait for the continuation not the task itself
-                            toSend.Add(cont);
+                            if (t != null)
+                            {
+                                // Keep the continuation
+                                var cont = t.ContinueWith(ct => {
+                                    var cn = n;
+                                    var ex = t.Exception;
+                                    if (ex == null)
+                                        Broker.RaiseNotificationSucceeded(cn);
+                                    else
+                                        Broker.RaiseNotificationFailed(cn, ex);
+                                });
+                                // Let's wait for the continuation not the task itself
+                                toSend.Add(cont);
+                            }
                         }
 
                         if (toSend.Count <= 0)

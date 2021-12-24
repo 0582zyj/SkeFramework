@@ -142,23 +142,34 @@ namespace SkeFramework.Push.Mqtt.Brokers
         /// <param name="e"></param>
         public void MqttClient_ApplicationMessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
         {
-            string text = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-            string Topic = e.ApplicationMessage.Topic;
-            string QoS = e.ApplicationMessage.QualityOfServiceLevel.ToString();
-            string Retained = e.ApplicationMessage.Retain.ToString();
-            LogAgent.Info("客户端[{options.ClientId}]尝试收到消息...>>>Topic:" + Topic + "; QoS: " + QoS + "; Retained: " + Retained + ";Msg: " + text);
-            ServiceWorkerAdapter<TopicNotification> serviceWorker=  this.WorkDocker.GetServiceWorkerAdapter(Topic);
-            if (serviceWorker == null)
-            {//没有就交给默认订阅链接处理
-                serviceWorker = this.WorkDocker.GetServiceWorkerAdapter();
+            try
+            {
+                string text = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+                string Topic = e.ApplicationMessage.Topic;
+                string QoS = e.ApplicationMessage.QualityOfServiceLevel.ToString();
+                string Retained = e.ApplicationMessage.Retain.ToString();
+                LogAgent.Info("客户端[{options.ClientId}]尝试收到消息...>>>Topic:" + Topic + "; QoS: " + QoS + "; Retained: " + Retained + ";Msg: " + ByteEncode(e.ApplicationMessage.Payload));
+                ServiceWorkerAdapter<TopicNotification> serviceWorker = this.WorkDocker.GetServiceWorkerAdapter(Topic);
                 if (serviceWorker == null)
-                {
-                    return;
+                {//没有就交给默认订阅链接处理
+                    serviceWorker = this.WorkDocker.GetServiceWorkerAdapter();
+                    if (serviceWorker == null)
+                    {
+                        LogAgent.Error("找不到对应的处理程序"+Topic);
+                        return;
+                    }
                 }
+                string connectionTag = serviceWorker.Connection.GetTag();
+                TopicNotification topicNotification = new TopicNotification(connectionTag, Topic, text);
+                topicNotification.payload = e.ApplicationMessage.Payload;
+                serviceWorker.Connection.OnReceivedDataPoint(topicNotification, connectionTag);
             }
-            string connectionTag = serviceWorker.Connection.GetTag();
-            TopicNotification topicNotification = new TopicNotification(connectionTag, Topic,text);
-            serviceWorker.Connection.OnReceivedDataPoint(topicNotification, connectionTag);
+            catch (Exception ex)
+            {
+
+                LogAgent.Error(ex.ToString());
+            }
+           
         }
         /// <summary>
         /// 断开连接事件
@@ -191,18 +202,18 @@ namespace SkeFramework.Push.Mqtt.Brokers
         /// </summary>
         /// <param name="topic"></param>
         /// <param name="payload"></param>
-        public async Task ClientPublishMqttTopic(string topic, string payload, MqttQualityLevel serviceLevel, bool retain)
+        public async Task ClientPublishMqttTopic(string topic, byte[] payload, MqttQualityLevel serviceLevel, bool retain)
         {
             try
             {
                 MqttQualityOfServiceLevel mqttQualityOfServiceLevel = (MqttQualityOfServiceLevel)Enum.ToObject(typeof(MqttQualityOfServiceLevel), (int)serviceLevel);
-                var message = new MqttApplicationMessage(topic, Encoding.UTF8.GetBytes(payload), mqttQualityOfServiceLevel, retain);
-                LogAgent.Info(string.Format("客户端[{0}]发布主题[{1}]消息[{2}]成功！", options.ClientId, topic,payload));
+                var message = new MqttApplicationMessage(topic, payload, mqttQualityOfServiceLevel, retain);
+                LogAgent.Info(string.Format("客户端[{0}]发布主题[{1}]消息[{2}]成功！", options.ClientId, topic, ByteEncode(payload)));
                 await this.refactor.PublishAsync(message);
             }
             catch (Exception ex)
             {
-                LogAgent.Info(string.Format("客户端[{0}]发布主题[{1}]消息[{2}]异常！>{3}", options.ClientId, topic, payload, ex.Message));
+                LogAgent.Info(string.Format("客户端[{0}]发布主题[{1}]消息[{2}]异常！>{3}", options.ClientId, topic, ByteEncode(payload), ex.Message));
             }
         }
         /// <summary>
@@ -245,5 +256,22 @@ namespace SkeFramework.Push.Mqtt.Brokers
         }
         #endregion
 
+
+        public string ByteEncode(byte[] buffer, int offset = 0, int size = 0)
+        {
+            if (size == 0)
+            {
+                size = buffer.Length;
+            }
+            StringBuilder ret = new StringBuilder();
+            string tmp = "";
+            for (int i = offset; i < size; ++i)
+            {
+                tmp = "0" + buffer[i].ToString("X");
+                ret.Append(tmp.Substring(tmp.Length - 2, 2));
+                ret.Append(" ");
+            }
+            return ret.ToString();
+        }
     }
 }

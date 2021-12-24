@@ -155,6 +155,7 @@ namespace SkeFramework.Push.Core.Services.Workers
             }
             workers.Add(worker);
             worker.Start();
+            LogAgent.Debug("新增工作线程：" + worker.Connection.GetTag());
             return worker;
         }
 

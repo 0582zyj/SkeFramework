@@ -28,7 +28,7 @@ namespace SkeFramework.Push.Mqtt
     /// <summary>
     /// Mqtt客户端工具类
     /// </summary>
-    public class MqttClientProxyAgent
+    public class MqttClientProxyAgent: DefaultChannelPromise,IChannelPromise
     {
         #region 单例模式
         /// <summary>
@@ -57,10 +57,10 @@ namespace SkeFramework.Push.Mqtt
         /// 默认工作线程
         /// </summary>
         protected PushConnectionWorkDocker defaultWorkDocker;
-        /// <summary>
-        /// 协议监听容器
-        /// </summary>
-        protected IChannelPromise channelListenser = new DefaultChannelPromise();
+        ///// <summary>
+        ///// 协议监听容器
+        ///// </summary>
+        //protected IChannelPromise channelListenser = new DefaultChannelPromise();
 
         #region 开启和停止
         /// <summary>
@@ -161,23 +161,6 @@ namespace SkeFramework.Push.Mqtt
         /// <param name="responseChannel"></param>
         public virtual void DataPointListener_Receive(TopicNotification incomingData, PushConnectionAbstract<TopicNotification> responseChannel)
         {
-            channelListenser.OnReceivedDataPoint(incomingData, "");
-        }
-        /// <summary>
-        /// 添加一个监听者
-        /// </summary>
-        /// <param name="listener"></param>
-        public virtual void AddDataPointListener(IChannelListener listener)
-        {
-            channelListenser.AddDataPointListener(listener);
-        }
-        /// <summary>
-        /// 移除一个监听者
-        /// </summary>
-        /// <param name="listener"></param>
-        public virtual void RemoveDataPointListener(IChannelListener listener)
-        {
-            channelListenser.RemoveDataPointListener(listener);
         }
         #endregion
     }

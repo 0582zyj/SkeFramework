@@ -34,23 +34,24 @@ namespace SkeFramework.Push.Mqtt.Reactor.Managers
         /// </summary>
         /// <param name="datas">任务数据</param>
         /// <param name="connectionTag">任务id</param>
-        public void OnReceivedDataPoint(INotification datas, string connectionTag)
+        public bool OnReceivedDataPoint(INotification datas, string connectionTag)
         {
             ServiceWorkerAdapter<TopicNotification> AvailableWorker = this.GetServiceWorkerAdapter(connectionTag);
             if (AvailableWorker != null && AvailableWorker.Connection != null)
             {
                 AvailableWorker.QueueNotification(datas as TopicNotification);
-                return;
+                return true;
             }
             if(!(datas is TopicNotification))
             {
-                return;
+                return false;
             }
             TopicNotification topic = (TopicNotification)datas;
             IConnectionConfig config = new DefaultConnectionConfig();
             config.SetOption(DefaultConfigTypeEumns.ConnectionTag.ToString(), connectionTag);
             config.SetOption(DefaultConfigTypeEumns.ResultData.ToString(), datas);
             this.AddServiceWorkerAdapter(config);
+            return true;
         }
     }
 }

@@ -60,15 +60,15 @@ namespace SkeFramework.Push.Core.Listenser.ChannelListensers
         /// </summary>
         /// <param name="datas"></param>
         /// <param name="taskId"></param>
-        public virtual void OnReceivedDataPoint(INotification datas, string taskId)
+        public virtual bool OnReceivedDataPoint(INotification datas, string taskId)
         {
-            this.notifyListeners0(datas, taskId);
+          return  this.notifyListeners0(datas, taskId);
         }
         /// <summary>
         /// 通知全部监听者
         /// </summary>
         /// <param name="listener"></param>
-        protected void notifyListeners0(INotification datas, string taskId)
+        protected bool notifyListeners0(INotification datas, string taskId)
         {
             try
             {
@@ -76,13 +76,19 @@ namespace SkeFramework.Push.Core.Listenser.ChannelListensers
                 int size = a.Length;
                 for (int i = 0; i < size; ++i)
                 {
-                    notifyListener0( a[i],  datas,  taskId);
+                   bool result= notifyListener0( a[i],  datas,  taskId);
+                    if (result)
+                    {
+                        return true;
+                    }
                 }
+                return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
+            return false;
         }
         /// <summary>
         /// 通知某个监听者
@@ -90,16 +96,17 @@ namespace SkeFramework.Push.Core.Listenser.ChannelListensers
         /// <param name="l"></param>
         /// <param name="datas"></param>
         /// <param name="taskId"></param>
-        protected void notifyListener0(IChannelListener channelListener, INotification datas, string taskId)
+        protected bool notifyListener0(IChannelListener channelListener, INotification datas, string taskId)
         {
             try
             {
-                channelListener.OnReceivedDataPoint( datas,  taskId);
+               return channelListener.OnReceivedDataPoint( datas,  taskId);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
+            return false;
         }
     }
 }

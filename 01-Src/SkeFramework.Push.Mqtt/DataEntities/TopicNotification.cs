@@ -37,7 +37,18 @@ namespace SkeFramework.Push.Mqtt.DataEntities
         /// 是否保留
         /// </summary>
         public bool Retain { get; set; }
-
+        /// <summary>
+        /// 发送字节数组
+        /// </summary>
+        public byte[] payload { get; set; }
+        /// <summary>
+        /// 参数
+        /// </summary>
+        public object Param { get; set; }
+        /// <summary>
+        /// 结果
+        /// </summary>
+        public object Result { get; set; }
 
         public bool IsDeviceRegistrationIdValid()
         {
