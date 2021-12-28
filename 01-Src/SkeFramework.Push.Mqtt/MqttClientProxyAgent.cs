@@ -22,6 +22,7 @@ using SkeFramework.Push.Core.Listenser.ChannelListensers;
 using SkeFramework.Push.Core.Services.Connections;
 using SkeFramework.Push.Core.Configs;
 using SkeFramework.Push.Mqtt.Reactor.Managers;
+using SkeFramework.Push.Core.Interfaces;
 
 namespace SkeFramework.Push.Mqtt
 {
@@ -150,17 +151,18 @@ namespace SkeFramework.Push.Mqtt
         /// </summary>
         /// <param name="networkData"></param>
         /// <param name="requestChannel"></param>
-        public virtual void DataPointListener_Send(TopicNotification networkData, PushConnectionAbstract<TopicNotification> requestChannel)
+        public virtual void DataPointListener_Send(TopicNotification networkData, IPushConnection<TopicNotification> requestChannel)
         {
-         
+            this.OnReceivedDataPoint(networkData, requestChannel.GetTag());
         }
         /// <summary>
         /// 接收数据监听器
         /// </summary>
         /// <param name="incomingData"></param>
         /// <param name="responseChannel"></param>
-        public virtual void DataPointListener_Receive(TopicNotification incomingData, PushConnectionAbstract<TopicNotification> responseChannel)
+        public virtual void DataPointListener_Receive(TopicNotification incomingData, IPushConnection<TopicNotification> responseChannel)
         {
+            this.OnReceivedDataPoint(incomingData, responseChannel.GetTag());
         }
         #endregion
     }
