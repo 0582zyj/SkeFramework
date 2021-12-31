@@ -78,6 +78,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
             ControlCode = controlCode;
             Timeout = NetworkConstants.BackoffIntervals[3];
             this.Sender = new SenderListenser(this);
+            Reset = false;
         }
         #endregion
       
@@ -154,6 +155,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// 链接状态
         /// </summary>
         public ResultStatusCode connectionStatus { get; set; }
+        /// <summary>
+        /// 重置发送监听器
+        /// </summary>
+        public bool Reset { get; set; }
         #endregion
 
         public int MessagesInSendQueue

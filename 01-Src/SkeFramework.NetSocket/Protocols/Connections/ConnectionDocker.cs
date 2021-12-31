@@ -202,17 +202,16 @@ namespace SkeFramework.NetSerialPort.Protocols.Connections
                     {
                         if (cases.Dead != true)
                         {
-                            //if (cases.Reset)
-                            //{
-                            //    cases.Sender.FrameBeSent = cases.CreateFrame();
-                            //    cases.Sender.FrameBeSent.SetCheckBytes();
-                            //    cases.Reset = false;
-                            //}
-                            //cases.InternalPolling();
                             // 此行会导致业务对象cs被从列表中删除（在cs等待帧回复超时的情况下）。
-                            if (cases is RefactorRequestChannel)
+                            if (cases is RefactorProxyRequestChannel)
                             {
-                                ((RefactorRequestChannel)cases).Sender.Send();
+                                RefactorProxyRequestChannel requestChannel = ((RefactorProxyRequestChannel)cases);
+                                if (requestChannel.Reset && requestChannel.RuningTask!=null)
+                                {
+                                    requestChannel.ExecuteTaskSync(requestChannel.RuningTask);
+                                    requestChannel.Reset = false;
+                                }
+                                requestChannel.Sender.Send();
                             }
                             // cs还在列表中，说明它还活着。cs为死亡说明它已被从列表中删除（删除是上面的Send()函数导致的），所以i--。
                         }

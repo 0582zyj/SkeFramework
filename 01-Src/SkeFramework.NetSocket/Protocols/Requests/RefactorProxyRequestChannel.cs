@@ -30,6 +30,10 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// 重发次数【默认】
         /// </summary>
         protected int DefaultResendCount;
+        /// <summary>
+        /// 正在执行的任务
+        /// </summary>
+        public ConnectionTask RuningTask;
 
         public RefactorProxyRequestChannel(ReactorBase reactor, string controlCode)
             : this(reactor, reactor.Local, controlCode)
@@ -101,6 +105,7 @@ namespace SkeFramework.NetSerialPort.Protocols.Requests
         /// <returns></returns>
         protected virtual NetworkData CreateNetworkData(ConnectionTask connectionTask)
         {
+            RuningTask = connectionTask;
             return null;
         }
     }
