@@ -49,11 +49,14 @@ namespace SkeFramework.Push.Mqtt.DataEntities.Constants
         /// </summary>
         public const string payload = "payload";
         /// <summary>
-        /// 消息内容
+        /// 消息主题
         /// </summary>
         public const string topic = "topic";
+        /// <summary>
+        /// 消息内容
+        /// </summary>
+        public const string willMessage = "willMessage";
 
-      
 
     }
 }

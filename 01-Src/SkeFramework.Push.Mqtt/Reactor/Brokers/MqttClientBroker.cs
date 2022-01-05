@@ -33,11 +33,15 @@ namespace SkeFramework.Push.Mqtt.Brokers
         /// 客户端连接参数
         /// </summary>
         private MqttClientOptions options;
+        /// <summary>
+        /// 消息工厂
+        /// </summary>
+        private MqttApplicationMessageFactory MessageFactory;
 
         public MqttClientBroker(IPushConnectionFactory<TopicNotification> connectionFactory) :
             base(connectionFactory)
         {
-
+            MessageFactory = new MqttApplicationMessageFactory();
         }
         /// <summary>
         /// 设置参数
@@ -70,6 +74,12 @@ namespace SkeFramework.Push.Mqtt.Brokers
                 {
                     this.defaultConfig = new DefaultConnectionConfig();
                 }
+                MqttApplicationMessage message = null;
+                if (config.HasOption(MqttClientOptionKey.willMessage.ToString()))
+                {
+                    TopicNotification topicNotification = config.GetOption<TopicNotification>(MqttClientOptionKey.willMessage.ToString());
+                    message = CreateMqttApplicationMessage(topicNotification);
+                }
                 var mqttFactory = new MqttClientFactory();
                 options = new MqttClientTcpOptions
                 {
@@ -78,9 +88,8 @@ namespace SkeFramework.Push.Mqtt.Brokers
                     Port = int.Parse(tcpPort),
                     ProtocolVersion = MqttProtocolVersion.V311,
                     DefaultCommunicationTimeout = TimeSpan.FromSeconds(10),
-                    WillMessage = new MqttApplicationMessage($"LastWill/{ClientId.Trim()}", Encoding.UTF8.GetBytes("I Lost the connection!"), MqttQualityOfServiceLevel.ExactlyOnce, true)
+                    WillMessage = message
                 };
-
                 if (!string.IsNullOrEmpty(mqttUser))
                 {
                     options.UserName = mqttUser;
@@ -101,8 +110,9 @@ namespace SkeFramework.Push.Mqtt.Brokers
                 LogAgent.Info($"客户端尝试连接出错.>{ex.Message}");
             }
         }
+  
 
-       
+
 
         #region 开启和停止
 
@@ -207,7 +217,7 @@ namespace SkeFramework.Push.Mqtt.Brokers
             try
             {
                 MqttQualityOfServiceLevel mqttQualityOfServiceLevel = (MqttQualityOfServiceLevel)Enum.ToObject(typeof(MqttQualityOfServiceLevel), (int)serviceLevel);
-                var message = new MqttApplicationMessage(topic, payload, mqttQualityOfServiceLevel, retain);
+                var message = MessageFactory.CreateApplicationMessage(topic, payload, mqttQualityOfServiceLevel, retain);
                 LogAgent.Debug(string.Format("客户端[{0}]发布主题[{1}]消息[{2}]成功！", options.ClientId, topic, ByteEncode(payload)));
                 await this.refactor.PublishAsync(message);
             }
@@ -256,7 +266,16 @@ namespace SkeFramework.Push.Mqtt.Brokers
         }
         #endregion
 
-
+        /// <summary>
+        /// 创建发送消息
+        /// </summary>
+        /// <param name="topicNotification"></param>
+        /// <returns></returns>
+        private MqttApplicationMessage CreateMqttApplicationMessage(TopicNotification topicNotification)
+        {
+            MqttQualityOfServiceLevel mqttQualityOfServiceLevel = (MqttQualityOfServiceLevel)Enum.ToObject(typeof(MqttQualityOfServiceLevel), (int)topicNotification.QualityOfServiceLevel);
+            return MessageFactory.CreateApplicationMessage(topicNotification.Topic, topicNotification.payload, mqttQualityOfServiceLevel, true);
+        }
         public string ByteEncode(byte[] buffer, int offset = 0, int size = 0)
         {
             if (size == 0)

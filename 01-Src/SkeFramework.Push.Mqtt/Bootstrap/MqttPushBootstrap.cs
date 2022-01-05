@@ -103,6 +103,21 @@ namespace SkeFramework.Push.Mqtt.Bootstrap
             this.config.SetOption(MqttClientOptionKey.DefaultSubscriberConfig.ToString(), config);
             return this;
         }
+        /// <summary>
+        /// 设置遗嘱消息
+        /// </summary>
+        /// <param name="topic"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public MqttPushBootstrap SetWillMessageTopic(string topic,byte[] payload)
+        {
+            TopicNotification topicNotification = new TopicNotification(topic)
+            {
+                payload = payload
+            };
+            this.config.SetOption(MqttClientOptionKey.willMessage, topicNotification);
+            return this;
+        }
         #endregion
 
         #region 服务端和链接设置
