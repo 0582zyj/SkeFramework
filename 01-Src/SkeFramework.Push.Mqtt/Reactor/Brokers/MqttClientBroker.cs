@@ -303,6 +303,8 @@ namespace SkeFramework.Push.Mqtt.Brokers
         }
         public string ByteEncode(byte[] buffer, int offset = 0, int size = 0)
         {
+            if (buffer == null)
+                return "";
             if (size == 0)
             {
                 size = buffer.Length;

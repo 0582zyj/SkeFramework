@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,7 +85,9 @@ namespace SkeFramework.Core.Network.Responses
             {
                 return new List<T>();
             }
-            return JsonConvert.DeserializeObject<List<T>>(JsonConvert.SerializeObject(data));
+            var format = "yyyy-MM-dd hh:mm:ss.fff"; // your datetime format
+            var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = format };
+            return JsonConvert.DeserializeObject<List<T>>(JsonConvert.SerializeObject(data, dateTimeConverter),dateTimeConverter);
         }
         /// <summary>
         /// 克隆

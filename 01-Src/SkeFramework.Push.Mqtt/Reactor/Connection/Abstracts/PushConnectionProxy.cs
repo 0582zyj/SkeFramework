@@ -25,7 +25,11 @@ namespace SkeFramework.Push.Mqtt.Reactor.Connection.Abstracts
         }
 
 
-
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="notification"></param>
+        /// <returns></returns>
         public override Task Send(TopicNotification notification)
         {
             return null;

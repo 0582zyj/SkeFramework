@@ -62,7 +62,9 @@
     <Compile Include="Services\ServiceWorkerAdapter.cs" />
     <Compile Include="Services\Workers\WorkDocker.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Buffers\Serialization\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SkeFramework.Core.NetLog\SkeFramework.Core.NetLog.csproj">
       <Project>{b62bb163-9e25-40d5-be5e-8d515e5bfe16}</Project>

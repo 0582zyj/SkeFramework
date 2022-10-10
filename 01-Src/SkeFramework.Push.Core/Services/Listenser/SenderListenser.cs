@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using SkeFramework.Core.NetLog;
 using SkeFramework.Push.Core.Interfaces;
 using SkeFramework.Push.Core.Services.Brokers;
 
@@ -25,11 +27,12 @@ namespace SkeFramework.Push.Core.Listenser
 
         /// <summary> 实例化帧发送器。</summary>
         /// <param name="protocol">要使用此协议对象发送数据。</param>
-        internal SenderListenser(IPushConnection<TNotification> caseObj)
+        public SenderListenser(IPushConnection<TNotification> caseObj)
         {
             this.caseObj = caseObj;
             timeCounter = new TimeCounter();
             this.SentTimes = 0;
+            this.CancelTokenSource = new CancellationTokenSource();
         }
 
         /// <summary>
@@ -53,7 +56,7 @@ namespace SkeFramework.Push.Core.Listenser
             get { return timeCounter.Timeout; }
             set { timeCounter.Timeout = value > 0 ? value : 0; }
         }
-     
+
         /// <summary>
         /// 获取或设置已经发送的次数。
         /// </summary>
@@ -72,16 +75,73 @@ namespace SkeFramework.Push.Core.Listenser
         /// </summary>
         public int TimeoutMS { get { return this.Interval * this.totalSendTimes; } }
 
-        #region 发送数据
-        /// <summary> 
-        /// 开始发送帧数据。
+
+        /// <summary>
+        /// 取消发送【多线程】
         /// </summary>
-        public bool BeginSend()
+        public CancellationTokenSource CancelTokenSource { get; private set; }
+        /// <summary>
+        /// 工作任务
+        /// </summary>
+        public Task WorkerTask { get; private set; }
+        /// <summary>
+        /// 开始任务
+        /// </summary>
+        public void Start()
         {
             SentTimes = 0;
             whetherSend = true;
-            return SendFrame();
+            //发送任务列表
+            WorkerTask = Task.Factory.StartNew(async delegate
+            {
+                var toSend = new List<Task>();
+
+                while (!CancelTokenSource.IsCancellationRequested&& whetherSend)
+                {
+                    try
+                    {
+                        Thread.Sleep(100);
+                        if (timeCounter.Over|| SentTimes==0)
+                        {
+                            if (SentTimes < totalSendTimes || totalSendTimes == -1)
+                            {
+                                //发送任务列表
+                                toSend.Add(SendFrame());
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    LogAgent.Info("Waiting on all tasks {0}", toSend.Count());
+                                    await Task.WhenAll(toSend).ConfigureAwait(false);
+                                    LogAgent.Info("All Tasks Finished");
+                                }
+                                catch (Exception ex)
+                                {
+                                    LogAgent.Error("Waiting on all tasks Failed: {0}", ex);
+                                }
+                                caseObj.StopReceive();
+                                break;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogAgent.Error("Broker.Take: {0}", ex);
+                    }
+                    if (CancelTokenSource.IsCancellationRequested)
+                        LogAgent.Info("Cancellation was requested");
+                    if (SentTimes < totalSendTimes)
+                        continue;
+                  
+                }
+            }, CancelTokenSource.Token, TaskCreationOptions.LongRunning
+            | TaskCreationOptions.DenyChildAttach, TaskScheduler.Default).Unwrap();
+
         }
+
+
+        #region 发送数据
         /// <summary>
         /// 结束帧数据的发送。
         /// </summary>
@@ -99,43 +159,18 @@ namespace SkeFramework.Push.Core.Listenser
             this.caseObj.Send(frame);
             return true;
         }
-
-        /// <summary>
-        /// 在协议类的轮询中将执行此函数。
-        /// </summary>
-        internal void Send()
-        {
-            if (whetherSend && timeCounter.Over)
-            {
-                if (SentTimes < totalSendTimes || totalSendTimes == -1)
-                {
-                    SendFrame();
-                }
-                else
-                {
-                    //caseObj.connectionStatus = 400;
-                    //caseObj.StopReceive();
-                }
-            }
-        }
         /// <summary>
         /// 发送数据
         /// </summary>
         /// <returns></returns>
-        private bool SendFrame()
+        private Task SendFrame()
         {
-            bool ret = false;
-            if (frame != null)
-            {
-                ++SentTimes;
-                this.caseObj.Send((TNotification)frame);
-                this.ResetCalculagraph();
-            }
-            else
-            {
-                SentTimes = totalSendTimes;
-            }
-            return ret;
+            if (frame == null)
+                return null;
+            ++SentTimes;
+            Task task = this.caseObj.Send((TNotification)frame);
+            this.ResetCalculagraph();
+            return task;
         }
         /// <summary>
         /// 将当前的发送计时器设置为重新开始计时。
@@ -146,6 +181,7 @@ namespace SkeFramework.Push.Core.Listenser
             timeCounter.Start();
         }
         #endregion
+
 
     }
 

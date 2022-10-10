@@ -18,14 +18,14 @@ namespace SkeFramework.Push.Core.Services.Brokers
     /// 服务端推送反应堆
     /// </summary>
     /// <typeparam name="TNotification"></typeparam>
-    public abstract class PushBroker<TRefactor,TNotification> : IPushBroker< TNotification> 
+    public abstract class PushBroker<TRefactor, TNotification> : IPushBroker<TNotification>
         where TRefactor : class
         where TNotification : INotification
     {
         /// <summary>
         /// 服务端类
         /// </summary>
-        protected TRefactor refactor=null;
+        protected TRefactor refactor = null;
 
         static PushBroker()
         {
@@ -66,8 +66,11 @@ namespace SkeFramework.Push.Core.Services.Brokers
         /// <summary>
         /// 推送端标识
         /// </summary>
-        protected string brokerId { get;  set; }
-
+        protected string brokerId { get; set; }
+        /// <summary>
+        /// 是否在线
+        /// </summary>
+        public bool active { get; set; }
         #region 启动和关闭
         /// <summary>
         /// 参数设置
@@ -83,6 +86,7 @@ namespace SkeFramework.Push.Core.Services.Brokers
                 return;
             PushServerStart();
             running = true;
+            active = true;
             if (this.WorkDocker == null)
             {
                 WorkDocker = new WorkDocker<TNotification>(this, ServiceConnectionFactory, defaultConfig);
@@ -98,6 +102,7 @@ namespace SkeFramework.Push.Core.Services.Brokers
             if (!running)
                 throw new OperationCanceledException("ServiceBroker has already been signaled to Stop");
             running = false;
+            active = false;
             WorkDocker.StopWorker(immediately);
             PushServerStop();
         }
@@ -110,7 +115,7 @@ namespace SkeFramework.Push.Core.Services.Brokers
         /// </summary>
         protected abstract void PushServerStop();
         #endregion
-   
+
         #region 推送通知
         /// <summary>
         /// 推送成功通知
@@ -149,6 +154,21 @@ namespace SkeFramework.Push.Core.Services.Brokers
                 return refactor as TRefactor1;
             }
             return default(TRefactor1);
+        }
+
+        /// <summary>
+        /// 获取推送链接
+        /// </summary>
+        /// <param name="connectionTag"></param>
+        /// <returns></returns>
+        public virtual IPushConnection<TNotification> GetPushConnection(string connectionTag)
+        {
+            ServiceWorkerAdapter<TNotification> serviceWorker = GetDefaultWorker().GetServiceWorkerAdapter(connectionTag);
+            if (serviceWorker != null)
+            {
+                return serviceWorker.Connection;
+            }
+            return null;
         }
         /// <summary>
         /// 获取默认工作线程

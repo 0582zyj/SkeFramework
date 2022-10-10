@@ -57,7 +57,7 @@ namespace SkeFramework.Push.Core.Services
                         var toSend = new List<Task>();
                         foreach (var n in this.TakeMany())
                         {
-                            var t = Connection.Send(n);
+                            var t = Connection.ExecuteTaskSync(n);
                             if (t != null)
                             {
                                 // Keep the continuation

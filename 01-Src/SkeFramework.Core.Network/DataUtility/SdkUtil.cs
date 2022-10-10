@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using SkeFramework.Core.Common.Collections;
 using SkeFramework.Core.NetLog;
@@ -60,7 +61,9 @@ namespace SkeFramework.Core.Network.DataUtility
             string result = post(request);
             if (String.IsNullOrEmpty(result))
                 return JsonResponses.Failed;
-            return JsonConvert.DeserializeObject<JsonResponses>(result);
+            var format = "yyyy-MM-dd hh:mm:ss.fff"; // your datetime format
+            var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = format };
+            return JsonConvert.DeserializeObject<JsonResponses>(result, dateTimeConverter);
         }
         /// <summary>
         /// 发送请求

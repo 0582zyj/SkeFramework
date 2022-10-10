@@ -20,7 +20,7 @@ namespace SkeFramework.Push.Mqtt.Connection
     /// <summary>
     /// 订阅推送链接
     /// </summary>
-    public class SubscriberPushConnection : PushConnectionProxy, IPushConnection<TopicNotification>
+    public class SubscriberPushConnection : PublishPushConnection, IPushConnection<TopicNotification>
     {
 
         public SubscriberPushConnection(IPushBroker<TopicNotification> pushBroker,string connectionTag) : base(pushBroker, connectionTag)

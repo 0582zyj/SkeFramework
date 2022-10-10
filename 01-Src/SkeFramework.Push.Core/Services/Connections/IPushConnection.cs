@@ -22,11 +22,21 @@ namespace SkeFramework.Push.Core.Interfaces
     {
         event ReceivedDataCallback<TNotification> OnReceivedDataCallback;
         /// <summary>
+        /// 执行任务
+        /// </summary>
+        /// <param name="notification"></param>
+        /// <returns></returns>
+        Task ExecuteTaskSync(TNotification notification);
+        /// <summary>
         /// 发送接口
         /// </summary>
         /// <param name="notification"></param>
         /// <returns></returns>
         Task Send(TNotification notification);
+        /// <summary>
+        /// 超时停止接收
+        /// </summary>
+        void StopReceive();
         /// <summary>
         /// 获取连接标识
         /// </summary>

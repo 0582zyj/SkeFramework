@@ -6,6 +6,7 @@ using SkeFramework.Push.Core.Constants;
 using SkeFramework.Push.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -118,7 +119,7 @@ namespace SkeFramework.Push.Core.Services.Workers
                 return null;
             }
             string tag = defaultConfig.GetOption(DefaultConfigTypeEumns.ConnectionTag.ToString()).ToString();
-            ServiceWorkerAdapter<TNotification> serviceWorker= workers.Find(o => o.Connection != null && o.Connection.GetTag().Equals(tag)); ;
+            ServiceWorkerAdapter<TNotification> serviceWorker= workers.Find(o => this.MatchSubprotocol(o.Connection, tag)); 
             if (serviceWorker != null)
                 return serviceWorker;
             return workers.FirstOrDefault();
@@ -130,7 +131,7 @@ namespace SkeFramework.Push.Core.Services.Workers
         /// <returns></returns>
         public ServiceWorkerAdapter<TNotification> GetServiceWorkerAdapter(string taskId)
         {
-            ServiceWorkerAdapter<TNotification> serviceWorker = workers.Find(o => o.Connection!=null&& o.Connection.GetTag().Equals(taskId));
+            ServiceWorkerAdapter<TNotification> serviceWorker = workers.Find(o =>this.MatchSubprotocol(o.Connection,taskId));
             if (serviceWorker != null)
                 return serviceWorker;
             return null ;
@@ -159,5 +160,42 @@ namespace SkeFramework.Push.Core.Services.Workers
             return worker;
         }
 
+        /// <summary>
+        /// 链接标识匹配
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
+        protected virtual bool MatchSubprotocol(IPushConnection<TNotification> connection,string taskId)
+        {
+            if (connection == null && connection.GetTag().Length == 0)
+            {
+                return false;
+            }
+            string requestTag = connection.GetTag();
+            bool isMatch = requestTag.Equals(taskId);
+            if (isMatch)
+                return true;
+            if (requestTag.Contains("+") || requestTag.Contains("*"))
+            {
+                string[] requestedSubprotocolArray = requestTag.Split('/');
+                string[] responseSubprotocolArray = taskId.Split('/');
+                if (requestedSubprotocolArray.Length != responseSubprotocolArray.Length)
+                    return false;
+                int var4 = requestedSubprotocolArray.Length;
+                int var9 = responseSubprotocolArray.Length;
+                for (int var5 = 0; var5 < var4; ++var5)
+                {
+                    string requestedSubprotocol = requestedSubprotocolArray[var5];
+                    string supportedSubprotocol = responseSubprotocolArray[var5];
+                    if (!("+".Equals(requestedSubprotocol) || "*".Equals(requestedSubprotocol) || requestedSubprotocol.Equals(supportedSubprotocol)))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
     }
 }

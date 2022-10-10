@@ -13,7 +13,7 @@ namespace MicrosServices.SDK.UserCenter
     {
         public const string BASE_URL_USERCENTER = "http://localhost/UserCenterApi";
         public const string BASE_URL_PERMISSION = "https://localhost:5001";
-        public const string BASE_URL_REMOTE = "http://8.129.235.184:9089";
+        public const string BASE_URL_REMOTE = "http://106.13.0.168:9089";
         public const string BASE_URL_REMOTE_LOCAL = "http://127.0.0.1:9089";
 
         #region 单例模式
@@ -34,7 +34,7 @@ namespace MicrosServices.SDK.UserCenter
             return mSingleInstance;
         }
         #endregion
-        private string config = "remote_local";
+        private string config = "remote";
         public string GetBaseUrl()
         {
             switch (config)

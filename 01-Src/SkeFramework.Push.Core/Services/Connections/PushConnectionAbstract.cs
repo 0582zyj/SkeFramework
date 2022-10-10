@@ -33,13 +33,28 @@ namespace SkeFramework.Push.Core.Services.Connections
             innerPushBroker = pushBroker;
             innerConnectionTag = connectionTag;
         }
-
+        /// <summary>
+        /// 执行任务
+        /// </summary>
+        /// <param name="notification"></param>
+        /// <returns></returns>
+        public virtual Task ExecuteTaskSync(TNotification notification)
+        {
+           return Send( notification);
+        }
         /// <summary>
         /// 数据发送
         /// </summary>
         /// <param name="notification"></param>
         /// <returns></returns>
         public abstract Task Send(TNotification notification);
+        /// <summary>
+        /// 超时接收
+        /// </summary>
+        public virtual void StopReceive()
+        {
+
+        }
         /// <summary>
         /// 接受数据
         /// </summary>
@@ -75,5 +90,7 @@ namespace SkeFramework.Push.Core.Services.Connections
         /// 结束接受
         /// </summary>
         public abstract bool StopReceiveInternal(INotification datas, string taskId);
+
+        
     }
 }
